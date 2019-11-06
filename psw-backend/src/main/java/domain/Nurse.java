@@ -5,19 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.lang.NonNull;
 
 @Entity
-public class Patient {
-
+public class Nurse {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
 	
 	@Column(name = "username")
 	@NonNull
@@ -38,25 +36,18 @@ public class Patient {
 	@Column(name = "email")
 	private String email;
 	
-	@OneToMany
-	private Iterable<Appointment> appointments;
-	
 	@OneToOne
-	private MedicalRecord medicalRecord;
+	private Clinic clinic;
 	
-	@ManyToMany
-	private Iterable<Doctor> doctors;
+	@OneToMany
+    private Iterable<Prescription> prescriptions;
 	
-	@ManyToMany
-	private Iterable<Nurse> nurses;
-	
-	public Patient() {
+	public Nurse() {
 		super();
 	}
 
-	public Patient(Long id, String username, String password, String firstName, String lastName, String email,
-			Iterable<Appointment> appointments, MedicalRecord medicalRecord, Iterable<Doctor> doctors,
-			Iterable<Nurse> nurses) {
+	public Nurse(long id, String username, String password, String firstName, String lastName, String email,
+			Clinic clinic, Iterable<Prescription> prescriptions) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -64,17 +55,15 @@ public class Patient {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.appointments = appointments;
-		this.medicalRecord = medicalRecord;
-		this.doctors = doctors;
-		this.nurses = nurses;
+		this.clinic = clinic;
+		this.prescriptions = prescriptions;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -118,36 +107,20 @@ public class Patient {
 		this.email = email;
 	}
 
-	public Iterable<Appointment> getAppointments() {
-		return appointments;
+	public Clinic getClinic() {
+		return clinic;
 	}
 
-	public void setAppointments(Iterable<Appointment> appointments) {
-		this.appointments = appointments;
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
 	}
 
-	public MedicalRecord getMedicalRecord() {
-		return medicalRecord;
+	public Iterable<Prescription> getPrescriptions() {
+		return prescriptions;
 	}
 
-	public void setMedicalRecord(MedicalRecord medicalRecord) {
-		this.medicalRecord = medicalRecord;
-	}
-
-	public Iterable<Doctor> getDoctors() {
-		return doctors;
-	}
-
-	public void setDoctors(Iterable<Doctor> doctors) {
-		this.doctors = doctors;
-	}
-
-	public Iterable<Nurse> getNurses() {
-		return nurses;
-	}
-
-	public void setNurses(Iterable<Nurse> nurses) {
-		this.nurses = nurses;
+	public void setPrescriptions(Iterable<Prescription> prescriptions) {
+		this.prescriptions = prescriptions;
 	}
 	
 	
