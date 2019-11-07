@@ -1,12 +1,6 @@
 package domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.springframework.lang.NonNull;
 
@@ -25,10 +19,10 @@ public class ClinicCenter {
 	@NonNull
 	private String adress;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Clinic> clinics;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<CCAdmin> ccAdmins;
 	
 	public ClinicCenter() {

@@ -1,12 +1,6 @@
 package domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class BusinessReport {
@@ -15,7 +9,7 @@ public class BusinessReport {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 	
 	@Column(name = "avgClinicScore")
@@ -24,7 +18,7 @@ public class BusinessReport {
 	@Column(name = "avgDoctorScore")
 	private Double avgDoctorScore;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Appointment> appointments;
 	
 	public BusinessReport() {

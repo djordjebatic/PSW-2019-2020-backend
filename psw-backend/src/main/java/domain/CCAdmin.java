@@ -1,11 +1,6 @@
 package domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.springframework.lang.NonNull;
 
@@ -32,7 +27,7 @@ public class CCAdmin {
 	@NonNull
 	private String lastName;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<ClinicCenter> clinicCenters;
 
 	public CCAdmin() {
