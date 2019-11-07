@@ -1,6 +1,8 @@
 package domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -15,18 +17,18 @@ public class MedicalRecord {
 	@OneToOne
 	private Patient patient;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Diagnosis> diagnosis;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Drug> drugs;
 	
 	//svaki karton ima vise doktora
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Doctor> doctors;
 	
 	//svaki karton ima vise pregleda
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Appointment> apointmentHistory;
 	
 	public MedicalRecord() {
