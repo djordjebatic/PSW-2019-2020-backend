@@ -16,10 +16,6 @@ function Register() {
                 <div className="col-8 login">
                     <form>
                         <div className="form-group">
-                            <label>Username</label>
-                            <input type="text" className="form-control" aria-describedby="emailHelp" placeholder="Username"/>
-                        </div>
-                        <div className="form-group">
                             <label>E-mail address</label>
                             <input type="email" className="form-control" aria-describedby="emailHelp" placeholder="E-mail address"/>
                         </div>
@@ -30,6 +26,34 @@ function Register() {
                         <div className="form-group">
                             <label>Confirm Password</label>
                             <input type="password" className="form-control" placeholder="Confirm Password"/>
+                        </div>
+                        <div className="form-group">
+                            <label>First name</label>
+                            <input type="text" className="form-control" placeholder="First name"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Last name</label>
+                            <input type="text" className="form-control" placeholder="Last name"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Medical number</label>
+                            <input type="password" className="form-control" placeholder="Medical number"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Address</label>
+                            <input type="text" className="form-control" placeholder="Address"/>
+                        </div>
+                        <div className="form-group">
+                            <label>City</label>
+                            <input type="text" className="form-control" placeholder="City"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Country</label>
+                            <input type="text" className="form-control" placeholder="Country"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Phone number</label>
+                            <input type="text" className="form-control" placeholder="Phone number"/>
                         </div>
                         <a className="btn">Sign Up</a>
                     </form>
