@@ -8,7 +8,7 @@ public class Codebook {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Diagnosis> diagnosis;
 	
