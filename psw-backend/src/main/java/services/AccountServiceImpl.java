@@ -12,15 +12,9 @@ import repositories.AccountRepository;
 
 @Service
 public class AccountServiceImpl implements services.AccountService {
-
+	
     @Autowired
     private AccountRepository accountRepo;
-
-	@Autowired
-	private AccountRepository accountRepo;
-	
-    public Account loginUser(UserLoginDTO loginDTO){
-
 
         Account foundAccount = accountRepo.findOne(loginDTO.getEmailAddress());
 
@@ -31,7 +25,7 @@ public class AccountServiceImpl implements services.AccountService {
         return foundAccount;
         
     }
-    
+
     public Patient signUpUser(UserSignUpDTO signUpDTO) {
     	
     	Account foundAccount = accountRepo.findOne(signUpDTO.getEmail());
@@ -47,10 +41,7 @@ public class AccountServiceImpl implements services.AccountService {
     	newPatient.setCountry(signUpDTO.getCountry());
     	newPatient.setPhoneNumber(signUpDTO.getPhoneNumber());
     	newPatient.setMedicalNumber(signUpDTO.getMedicalNumber());
-    	
-    	
-   
-    	
+
     	
     	return null;
     }
