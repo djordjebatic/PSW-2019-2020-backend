@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import domain.Account;
+import domain.Patient;
 import dto.UserLoginDTO;
 import dto.UserSignUpDTO;
 import repositories.AccountRepository;
@@ -15,6 +16,9 @@ public class AccountServiceImpl implements services.AccountService {
     @Autowired
     private AccountRepository accountRepo;
 
+	@Autowired
+	private AccountRepository accountRepo;
+	
     public Account loginUser(UserLoginDTO loginDTO){
 
 
@@ -25,9 +29,28 @@ public class AccountServiceImpl implements services.AccountService {
         }
 
         return foundAccount;
+        
     }
     
-    public Account signUpUser(UserSignUpDTO signUpDTO) {
+    public Patient signUpUser(UserSignUpDTO signUpDTO) {
+    	
+    	Account foundAccount = accountRepo.findOne(signUpDTO.getEmail());
+    	
+    	Patient newPatient= new Patient();
+   
+    	newPatient.setEmail(signUpDTO.getEmail());
+    	newPatient.setPassword(signUpDTO.getPassword());
+    	newPatient.setFirstName(signUpDTO.getFirstName());
+    	newPatient.setLastName(signUpDTO.getLastName());
+    	newPatient.setAddress(signUpDTO.getAddress());
+    	newPatient.setCity(signUpDTO.getCity());
+    	newPatient.setCountry(signUpDTO.getCountry());
+    	newPatient.setPhoneNumber(signUpDTO.getPhoneNumber());
+    	newPatient.setMedicalNumber(signUpDTO.getMedicalNumber());
+    	
+    	
+   
+    	
     	
     	return null;
     }

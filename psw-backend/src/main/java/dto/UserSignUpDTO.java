@@ -4,6 +4,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.lang.NonNull;
 
+import domain.Country;
+
 public class UserSignUpDTO {
 	
 	@NonNull
@@ -21,6 +23,10 @@ public class UserSignUpDTO {
 	@NonNull
 	@NotEmpty
 	private String lastName;
+	
+	@NonNull
+	@NotEmpty
+	private String medicalNumber;
 	
 	@NonNull
 	@NotEmpty
@@ -102,5 +108,13 @@ public class UserSignUpDTO {
 		this.phoneNumber = phoneNumber;
 	}
 		
+	public String getMedicalNumber() {
+		return medicalNumber;
+	}
+
+	public void setMedicalNumber(String medicalNumber) {
+		this.medicalNumber = medicalNumber;
+	}
+
 
 }
