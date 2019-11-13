@@ -11,10 +11,13 @@ import repositories.AccountRepository;
 
 
 @Service
-public class AccountServiceImpl implements services.AccountService {
+public class AccountServiceImpl implements AccountService {
 	
     @Autowired
     private AccountRepository accountRepo;
+
+    
+    public Account loginUser(UserLoginDTO loginDTO){
 
         Account foundAccount = accountRepo.findOne(loginDTO.getEmailAddress());
 
