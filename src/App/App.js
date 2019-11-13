@@ -9,7 +9,7 @@ import Nurse from './Content/Nurse/Nurse'
 function App() {
   return (
     <div className="App">
-      <Register />
+      <Nurse />
     </div>
   );
 }

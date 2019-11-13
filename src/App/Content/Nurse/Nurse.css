@@ -1,0 +1,76 @@
+.container {
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    color: white;
+}
+
+.navbar {
+    background-color: #008B8B;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+
+.welcome {
+    background-color: darkcyan;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+}
+
+.logo {
+    display: inline-block;
+    margin-top: 80px;
+}
+
+.row {
+    margin: 0;
+}
+
+form {
+    background-color: silver;
+    padding: 30px;
+    margin: 30px;
+}
+
+form .btn {
+    background-color: darkcyan;
+}
+
+form a {
+    color: darkcyan;
+}
+
+.nav-link {
+    color : black
+}
+
+.naslov {
+    font-size: large;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    font-weight: bold;
+    padding-left: 0.5em;
+}
+
+.page-footer {
+    padding: 0.8em;
+    background-color: #323232;
+    color: white;
+}
+
+.presc {
+    margin-bottom: 3em;
+}
+
+.rtable {
+    margin-left: 8em;
+    margin-right: 8em;
+}
+
+#button {
+    text-align: center;
+}

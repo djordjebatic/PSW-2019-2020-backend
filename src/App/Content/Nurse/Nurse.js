@@ -7,7 +7,7 @@ import Footer from '../Footer';
 
 function Nurse() {
   const auth = [{
-    code: 'HSCV1235-12',
+    code: 'HSCV1235-1',
     name: 'Pentaksilin',
     patient: 'Katic Kata',
     doctor: 'Marko Stojic',
@@ -104,6 +104,7 @@ function Nurse() {
         />
         </div> 
       <Footer/>
+
     </div>
   );
 }
