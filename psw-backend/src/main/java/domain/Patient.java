@@ -18,6 +18,7 @@ public class Patient extends Account {
 	@NonNull
 	private String medicalNumber;
 	
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Iterable<Appointment> appointments;
 	
@@ -76,6 +77,13 @@ public class Patient extends Account {
 		this.nurses = nurses;
 	}
 	
+	public String getMedicalNumber() {
+		return medicalNumber;
+	}
+
+	public void setMedicalNumber(String medicalNumber) {
+		this.medicalNumber = medicalNumber;
+	}
 	
 	
 
