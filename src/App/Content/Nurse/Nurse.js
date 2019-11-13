@@ -104,7 +104,6 @@ function Nurse() {
         />
         </div> 
       <Footer/>
-        
     </div>
   );
 }
