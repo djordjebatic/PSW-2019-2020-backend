@@ -1,9 +1,12 @@
 package services;
 
+import org.springframework.stereotype.Service;
+
 import domain.Account;
 import dto.UserLoginDTO;
-import org.springframework.stereotype.Service;
+import dto.UserSignUpDTO;
 import repositories.AccountRepository;
+
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -13,5 +16,10 @@ public class AccountServiceImpl implements AccountService {
         Account foundAccount = AccountRepository.findOne(loginDTO.getEmailAddress());
 
         return null;
+    }
+    
+    public Account signUpUser(UserSignUpDTO signUpDTO) {
+    	
+    	return null;
     }
 }
