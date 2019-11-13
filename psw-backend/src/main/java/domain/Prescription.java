@@ -1,13 +1,6 @@
 package domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Prescription {
@@ -15,19 +8,19 @@ public class Prescription {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Drug drug;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Nurse nurse;
-	
+	private domain.Nurse nurse;
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
-	
+
 	public Prescription() {
 		super();
 	}
@@ -80,6 +73,6 @@ public class Prescription {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-	
-	
+
+
 }

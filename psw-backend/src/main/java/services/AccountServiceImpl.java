@@ -1,39 +1,31 @@
 package services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import domain.Account;
+import domain.Patient;
 import dto.UserLoginDTO;
 import dto.UserSignUpDTO;
 import repositories.AccountRepository;
 
 
 @Service
-public class AccountServiceImpl implements AccountService {
-
-<<<<<<< Updated upstream
-    public Account loginUser(UserLoginDTO loginDTO){
-
-        Account foundAccount = AccountRepository.findOne(loginDTO.getEmailAddress());
-=======
+public class AccountServiceImpl implements services.AccountService {
+	
     @Autowired
     private AccountRepository accountRepo;
-	
-    public Account loginUser(UserLoginDTO loginDTO){
 
         Account foundAccount = accountRepo.findOne(loginDTO.getEmailAddress());
->>>>>>> Stashed changes
 
         if (foundAccount.getPassword() != loginDTO.getPassword()){
             return null;
         }
 
         return foundAccount;
+        
     }
-    
-<<<<<<< Updated upstream
-    public Account signUpUser(UserSignUpDTO signUpDTO) {
-=======
+
     public Patient signUpUser(UserSignUpDTO signUpDTO) {
     	
     	Account foundAccount = accountRepo.findOne(signUpDTO.getEmail());
@@ -49,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     	newPatient.setCountry(signUpDTO.getCountry());
     	newPatient.setPhoneNumber(signUpDTO.getPhoneNumber());
     	newPatient.setMedicalNumber(signUpDTO.getMedicalNumber());
->>>>>>> Stashed changes
+
     	
     	return null;
     }
