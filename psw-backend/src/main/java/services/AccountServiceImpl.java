@@ -9,8 +9,9 @@ import repositories.AccountRepository;
 public class AccountServiceImpl implements AccountService {
 
     public Account loginUser(UserLoginDTO loginDTO){
-        // login
-        // AccountRepository.findOne(loginDTO.getEmailAddress());
+
+        Account foundAccount = AccountRepository.findOne(loginDTO.getEmailAddress());
+
         return null;
     }
 }
