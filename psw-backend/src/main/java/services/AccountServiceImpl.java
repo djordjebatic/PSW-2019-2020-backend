@@ -33,8 +33,13 @@ public class AccountServiceImpl implements AccountService {
     	
     	Account foundAccount = accountRepo.findOne(signUpDTO.getEmail());
     	
+    	
+    	if(foundAccount!= null) {
+    	  
+    		return null;	
+	    }
+    	
     	Patient newPatient= new Patient();
-   
     	newPatient.setEmail(signUpDTO.getEmail());
     	newPatient.setPassword(signUpDTO.getPassword());
     	newPatient.setFirstName(signUpDTO.getFirstName());
@@ -44,8 +49,10 @@ public class AccountServiceImpl implements AccountService {
     	newPatient.setCountry(signUpDTO.getCountry());
     	newPatient.setPhoneNumber(signUpDTO.getPhoneNumber());
     	newPatient.setMedicalNumber(signUpDTO.getMedicalNumber());
-
     	
-    	return null;
+    	accountRepo.saveNew(newPatient);
+    	
+    	
+    	return newPatient;
     }
 }
