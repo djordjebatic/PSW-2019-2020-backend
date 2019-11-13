@@ -15,7 +15,11 @@ public class AccountServiceImpl implements AccountService {
 
         Account foundAccount = AccountRepository.findOne(loginDTO.getEmailAddress());
 
-        return null;
+        if (foundAccount.getPassword() != loginDTO.getPassword()){
+            return null;
+        }
+
+        return foundAccount;
     }
     
     public Account signUpUser(UserSignUpDTO signUpDTO) {
