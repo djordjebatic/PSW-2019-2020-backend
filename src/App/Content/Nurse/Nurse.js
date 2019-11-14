@@ -2,8 +2,8 @@ import React from 'react';
 import './Nurse.css'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import Header from '../Header';
-import Footer from '../Footer';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 class Nurse extends React.Component {
   render() {

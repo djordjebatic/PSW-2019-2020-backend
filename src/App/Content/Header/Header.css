@@ -1,0 +1,17 @@
+.clinic-center-nav {
+    background-color: darkcyan;
+    color: white;
+    height: 80px;
+}
+
+.logo-header {
+    margin-right: 30px;
+}
+
+.link-header {
+    color: white;
+}
+
+.link-header:hover {
+    color: silver;
+}

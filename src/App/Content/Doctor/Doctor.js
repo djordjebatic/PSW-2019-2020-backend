@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import Header from '../Header';
-import Footer from '../Footer';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 import './Doctor.css'
 
 import logo from '../../../images/med128.png'
