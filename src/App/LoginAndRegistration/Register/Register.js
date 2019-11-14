@@ -2,8 +2,9 @@ import React from 'react';
 import './Register.css'
 import logo from '../../../images/med128.png'
 
-function Register() {
-  return (
+class Register extends React.Component {
+  render() {
+      return (
     <div className="Register">
       <div className="container">
             <div className="row">
@@ -61,7 +62,7 @@ function Register() {
             </div>
       </div>
     </div>
-  );
+  );}
 }
 
 export default Register;

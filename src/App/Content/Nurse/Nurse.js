@@ -5,8 +5,9 @@ import "react-table/react-table.css";
 import Header from '../Header';
 import Footer from '../Footer';
 
-function Nurse() {
-  const auth = [{
+class Nurse extends React.Component {
+  render() {
+    const auth = [{
     code: 'HSCV1235-1',
     name: 'Pentaksilin',
     patient: 'Katic Kata',
@@ -107,6 +108,7 @@ function Nurse() {
 
     </div>
   );
+  }
 }
 
 export default Nurse;
