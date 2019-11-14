@@ -6,6 +6,8 @@ import Register from './LoginAndRegistration/Register/Register'
 import Login from './LoginAndRegistration/Login/Login'
 import Nurse from './Content/Nurse/Nurse'
 import Doctor from './Content/Doctor/Doctor'
+import PatientsList from './Content/PatientsList/PatientsList'
+import AbsenceRequest from './Content/Doctor/AbsenceRequest/AbsenceRequest';
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
           </Route>
           <Route path="/doctor">
             <Doctor />
+          </Route>
+          <Route path="/patients">
+            <PatientsList />
+          </Route>
+          <Route path="/absence-request">
+            <AbsenceRequest />
           </Route>
         </Switch>
       </BrowserRouter>

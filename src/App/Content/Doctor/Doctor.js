@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTable from "react-table";
+import { Link } from 'react-router-dom'
 import "react-table/react-table.css";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -25,7 +25,7 @@ class Doctor extends React.Component {
                 <div className="col link">
                     <h4>All Patients</h4>
                     <p>Look at the list of all patients in your clinic.</p>
-                    <a class="btn link-btn-doctor">View List</a>
+                    <Link to="/patients" class="btn link-btn-doctor">View List</Link>
                 </div>
                 <div className="col link">
                     <h4>Create New Appointment</h4>
@@ -35,7 +35,7 @@ class Doctor extends React.Component {
                 <div className="col link">
                     <h4>Create Absence/Vacation Request</h4>
                     <p>Choose start and end date.</p>
-                    <a class="btn link-btn-doctor">Create</a>
+                    <Link to="absence-request" class="btn link-btn-doctor">Create</Link>
                 </div>
             </div>
         </div>
