@@ -33,7 +33,9 @@ class Doctor extends React.Component {
                     <a class="btn link-btn-doctor">Create</a>
                 </div>
                 <div className="col link">
-                Create Absence/Vacation Request
+                    <h4>Create Absence/Vacation Request</h4>
+                    <p>Choose start and end date.</p>
+                    <a class="btn link-btn-doctor">Create</a>
                 </div>
             </div>
         </div>
