@@ -40,3 +40,7 @@
     color: white;
     background-color: darkcyan;
 }
+
+.link-btn-doctor:hover {
+    color: silver;
+}
