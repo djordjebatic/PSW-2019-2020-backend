@@ -1,4 +1,7 @@
 import React from 'react';
+
+import {Link} from 'react-router-dom'
+
 import './Header.css'
 
 import logo from '../../../images/med.png'
@@ -13,13 +16,13 @@ function Header() {
             </div>
             <ul class="nav">
               <li class="nav-item">
-                <a class="nav-link link-header" href="#">Profile</a>
+                <Link to="/my-profile" class="nav-link link-header" href="#">Profile</Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link link-header" href="#">Work Calendar</a>
+                <Link to="work-calendar" class="nav-link link-header" href="#">Work Calendar</Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link link-header" href="#">Ask To Leave</a>
+                <a class="nav-link link-header" href="#">Log Out</a>
               </li>
             </ul>
           </nav>

@@ -30,12 +30,12 @@ class Doctor extends React.Component {
                 <div className="col link">
                     <h4>Create New Appointment</h4>
                     <p>Choose date, ordination and type of the appointment.</p>
-                    <a class="btn link-btn-doctor">Create</a>
+                    <Link to="/new-appointment-doctor" class="btn link-btn-doctor">Create</Link>
                 </div>
                 <div className="col link">
                     <h4>Create Absence/Vacation Request</h4>
                     <p>Choose start and end date.</p>
-                    <Link to="absence-request" class="btn link-btn-doctor">Create</Link>
+                    <Link to="/absence-request" class="btn link-btn-doctor">Create</Link>
                 </div>
             </div>
         </div>

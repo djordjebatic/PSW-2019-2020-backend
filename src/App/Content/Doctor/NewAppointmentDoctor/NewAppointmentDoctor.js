@@ -1,17 +1,16 @@
 import React from 'react';
-import "react-table/react-table.css";
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 
 
-class AbsenceRequest extends React.Component {
+class NewAppointmentDoctor extends React.Component {
   render() {
     
   return (
-    <div className="AbsenceRequest">
+    <div className="NewAppointmentDoctor">
       <Header/>
       <br/>
-      <h3>Absence Request Page</h3>
+      <h3>New Appointment Doctor Page</h3>
       <br/>
       <Footer/>
 
@@ -20,4 +19,4 @@ class AbsenceRequest extends React.Component {
   }
 }
 
-export default AbsenceRequest;
+export default NewAppointmentDoctor;
