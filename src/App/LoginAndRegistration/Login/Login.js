@@ -7,7 +7,7 @@ class Login extends React.Component {
   render(){
       return (
         <div className="Login">
-        <div className="container">
+        <div className="">
                 <div className="row">
                     <div className="col-4 welcome">
                         <div className="logo">

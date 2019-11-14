@@ -11,7 +11,7 @@ class Doctor extends React.Component {
         <div className="Doctor">
         <Header/>
         <div className="">
-            <div className="row welcome">
+            <div className="row welcome-doctor">
                 <div className="col">
                 Welcome
                 </div>
