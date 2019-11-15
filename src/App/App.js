@@ -11,6 +11,10 @@ import AbsenceRequest from './Content/Doctor/AbsenceRequest/AbsenceRequest';
 import NewAppointmentDoctor from './Content/Doctor/NewAppointmentDoctor/NewAppointmentDoctor';
 import PersonalProfile from './Content/PersonalProfile/PersonalProfile';
 import WorkCalendar from './Content/WorkCalendar/WorkCalendar';
+import Patient from './Content/Patient/Patient';
+import ClinicsList from './Content/ClinicsList/ClinicsList';
+import AppointmentHistory from './Content/AppointmentHistory/AppointmentHistory';
+import MedicalRecord from './Content/MedicalRecord/MedicalRecord';
 
 function App() {
   return (
@@ -43,6 +47,18 @@ function App() {
           </Route>
           <Route path="/work-calendar">
             <WorkCalendar />
+          </Route>
+          <Route path="/patient">
+            <Patient />
+          </Route>
+          <Route path="/clinics">
+            <ClinicsList />
+          </Route>
+          <Route path="/appointment-history">
+            <AppointmentHistory />
+          </Route>
+          <Route path="/medical-record">
+            <MedicalRecord />
           </Route>
         </Switch>
       </BrowserRouter>
