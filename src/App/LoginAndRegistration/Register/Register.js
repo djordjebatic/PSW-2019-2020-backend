@@ -56,7 +56,7 @@ class Register extends React.Component {
                             <label>Phone number</label>
                             <input type="text" className="form-control" placeholder="Phone number"/>
                         </div>
-                        <a className="btn">Sign Up</a>
+                        <a href="#" className="btn">Sign Up</a>
                     </form>
                 </div>
             </div>
