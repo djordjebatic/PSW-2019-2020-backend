@@ -14,6 +14,8 @@ class MedicalRecord extends React.Component{
                 <Header/>
                 <div>
 
+                <div className="medical-record-title">Medical record</div>
+
                 </div>
                 <Footer/>
             </div>
