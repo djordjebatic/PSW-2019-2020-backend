@@ -3,7 +3,6 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-
 import './ClinicsList.css'
 
 class ClinicsList extends React.Component{
