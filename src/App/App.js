@@ -16,6 +16,7 @@ import ClinicsList from './Content/ClinicsList/ClinicsList';
 import AppointmentHistory from './Content/AppointmentHistory/AppointmentHistory';
 import MedicalRecord from './Content/MedicalRecord/MedicalRecord';
 
+
 function App() {
   return (
     <div className="App">

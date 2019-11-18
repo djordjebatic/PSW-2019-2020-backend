@@ -1,69 +1,46 @@
-.container {
-    margin: 0;
-    padding: 0;
+.welcome-nurse {
+    height: 400px;
+    background-image: url("https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80");
+    background-size: cover;
+    border-bottom: 2px solid darkcyan;
+    padding-top: 100px;
 }
 
-.title {
-    color: white;
-}
-
-.welcome {
-    background-color: darkcyan;
-    height: 100vh;
-    width: 100%;
-    text-align: center;
-}
-
-.logo {
-    display: inline-block;
-    margin-top: 80px;
-}
-
-.row {
-    margin: 0;
-}
-
-form {
+.logo-nurse {
     background-color: silver;
-    padding: 30px;
-    margin: 30px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    text-align: center;
+    padding-top: 30px;
+    margin-left: 70px;
+    display: inline-block;
 }
 
-form .btn {
+.welcome-and-logo {
+    display: inline;
+    margin-left: 30px;
+}
+
+.links {
+    height: 300px;
+    background-color: silver;
+    margin: 30px;
+    border-radius: 10px;
+}
+
+.link {
+    margin: 25px;
+    background-color: snow;
+    border-radius: 0 25px 0 25px;
+    padding: 30px;
+}
+
+.link-btn-doctor {
+    color: white;
     background-color: darkcyan;
 }
 
-form a {
-    color: darkcyan;
-}
-
-.nav-link {
-    color : black
-}
-
-.naslov {
-    font-size: large;
-    padding-top: 2em;
-    padding-bottom: 1em;
-    font-weight: bold;
-    padding-left: 0.5em;
-}
-
-.page-footer {
-    padding: 0.8em;
-    background-color: #323232;
-    color: white;
-}
-
-.presc {
-    margin-bottom: 3em;
-}
-
-.rtable {
-    margin-left: 8em;
-    margin-right: 8em;
-}
-
-#button {
-    text-align: center;
+.link-btn-doctor:hover {
+    color: silver;
 }
