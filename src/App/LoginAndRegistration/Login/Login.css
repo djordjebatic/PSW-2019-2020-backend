@@ -40,6 +40,11 @@ form {
 
 form .btn {
     background-color: darkcyan;
+    color: white;
+}
+
+form .btn:hover {
+    color: silver;
 }
 
 form a {

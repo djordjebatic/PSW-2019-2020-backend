@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import './Login.css'
 
 import logo from '../../../images/med128.png'
@@ -24,7 +25,7 @@ class Login extends React.Component {
                             <div className="form-group">
                                 <label>Password</label>
                                 <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
-                                <small id="emailHelp" className="form-text text-muted"><a href="#">Forgot password?</a></small>
+                                <small id="emailHelp" className="form-text text-muted"><Link to="/register">Doesn't have an account?</Link></small>
                             </div>
                             <a href="#" className="btn">Log In</a>
                         </form>
