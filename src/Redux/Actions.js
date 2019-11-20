@@ -7,7 +7,7 @@ export const login = (email, password) => {
     return dispatch => {
       axios.put("https://localhost:44302/api/editTask?emailAddress=" + email) // SREDITI URL
       .then(response => {
-        // srediti state!
+        dispatch({type: LOG_IN, account: response.data});
       });
     };
 };
