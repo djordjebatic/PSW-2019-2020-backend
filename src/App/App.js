@@ -13,7 +13,7 @@ import PersonalProfile from './Content/PersonalProfile/PersonalProfile';
 import WorkCalendar from './Content/WorkCalendar/WorkCalendar';
 import Patient from './Content/Patient/Patient';
 import ClinicsList from './Content/ClinicsList/ClinicsList';
-import AppointmentHistory from './Content/AppointmentHistory/AppointmentHistory';
+import AppointmentHistory from './Content/MedicalRecord/AppointmentHistory/AppointmentHistory';
 import MedicalRecord from './Content/MedicalRecord/MedicalRecord';
 
 

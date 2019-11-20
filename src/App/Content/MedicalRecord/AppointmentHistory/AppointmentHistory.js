@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import "react-table/react-table.css";
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+import Header from '../../Header/Header';
+import Footer from '../../Footer/Footer';
 import ReactTable from "react-table";
 import './AppointmentHistory.css'
 
