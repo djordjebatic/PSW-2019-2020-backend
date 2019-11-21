@@ -24,10 +24,10 @@ public class LoginController {
     LoginRepository loginRepository;
 
     @PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Account> login(@RequestBody LoginDTO account) {
+    public ResponseEntity<Account> login(@RequestBody Account account) {
         //Account account = loginService.findByEmail(loginDTO.getEmailAddress());
 
-        Account acc = this.loginRepository.findByEmail(account.getEmailAddress());
+        Account acc = this.loginRepository.findByEmail(account.getEmail());
 
         if (acc == null){
             System.out.println("Wrong password or email");
