@@ -1,8 +1,11 @@
 package com.example.pswbackend.controllers;
 
+import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
 import com.example.pswbackend.enums.Status;
+import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,9 @@ public class CCAdminController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    ClinicService clinicService;
 
     @GetMapping(value="/all-registration-requests")
     public ResponseEntity<List<RegisterApprovalDTO>> getAllRegistrationRequests() {
@@ -46,5 +52,15 @@ public class CCAdminController {
         else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping(value="/register-clinic")
+    public ResponseEntity<Clinic> registerClinic(@RequestBody ClinicDTO clinicDTO){
+        Clinic clinic = clinicService.register(clinicDTO);
+        if (clinic == null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(clinic, HttpStatus.OK);
     }
 }
