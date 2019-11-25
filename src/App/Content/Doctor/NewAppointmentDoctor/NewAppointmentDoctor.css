@@ -1,0 +1,21 @@
+.new-appointment-form {
+    background-color: silver;
+    padding: 15px;
+    margin: 30px;
+}
+
+.new-appointment-header {
+    margin: 30px 30px 0 30px;
+}
+
+.create-appointment-btn {
+    background-color: darkcyan;
+    border-color: darkcyan;
+    color: white;
+}
+
+.create-appointment-btn:hover {
+    background-color: darkcyan;
+    border-color: darkcyan;
+    color: silver;
+}
