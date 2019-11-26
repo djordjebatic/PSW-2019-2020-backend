@@ -1,11 +1,56 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import './Login.css'
+import Swal from 'sweetalert2';
+import { Button} from 'react-bootstrap';
+import withReactContent from 'sweetalert2-react-content';
+import axios from 'axios'
 
 import logo from '../../../images/med128.png'
 
+const LoginAlert = withReactContent(Swal)
+
 class Login extends React.Component {
-  render(){
+
+    constructor(props){
+        super(props);
+  
+        this.handleChange = this.handleChange.bind(this);
+        this.SendLoginRequest = this.SendLoginRequest.bind(this);
+  
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+
+    SendLoginRequest = event => {
+        event.preventDefault();
+          console.log(this.state);
+        axios.post("http://localhost:8080/api/accounts/login", this.state)
+        .then((resp) => this.onSuccessHandler(resp))
+        .catch((error) => this.onFailureHandler(error))
+    }
+  
+    onSuccessHandler(resp){
+        LoginAlert.fire({
+            title: "Logged in successfully",
+            text: ""
+        })
+    }
+
+    onFailureHandler(error){
+        LoginAlert.fire({
+            title: "Log In failed",
+            text: error
+        })
+    }
+
+    handleChange(e) {
+        this.setState({...this.state, [e.target.name]: e.target.value});
+    }
+
+    render(){
       return (
         <div className="Login">
         <div className="">
@@ -17,17 +62,32 @@ class Login extends React.Component {
                         </div>
                     </div>
                     <div className="col-8 login">
-                        <form>
+                        <form onSubmit={this.SendLoginRequest}>
                             <div className="form-group">
-                                <label>Username</label>
-                                <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username"/>
+                                <label>E-mail address</label>
+                                <input 
+                                    required
+                                    type="text" 
+                                    className="form-control" 
+                                    id="email" 
+                                    name="email"
+                                    aria-describedby="emailHelp"
+                                    onChange={this.handleChange} 
+                                    placeholder="E-mail address"/>
                             </div>
                             <div className="form-group">
                                 <label>Password</label>
-                                <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
-                                <small id="emailHelp" className="form-text text-muted"><Link to="/register">Doesn't have an account?</Link></small>
+                                <input 
+                                    required
+                                    type="password" 
+                                    className="form-control" 
+                                    id="password" 
+                                    name="password"
+                                    onChange={this.handleChange}
+                                    placeholder="Password"/>
+                                <small id="newAccount" className="form-text text-muted"><Link to="/register">Doesn't have an account?</Link></small>
                             </div>
-                            <a href="#" className="btn">Log In</a>
+                            <Button type="submit" className="btn">Log In</Button>
                         </form>
                     </div>
                 </div>
