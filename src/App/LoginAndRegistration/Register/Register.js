@@ -5,7 +5,6 @@ import { Button} from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios';
-import Header from '../../Content/Header/Header';
 
 const PatientRegisterAlert = withReactContent(Swal)
 
@@ -54,7 +53,6 @@ class Register extends React.Component {
     <div className="Register">
       <div className="">
             <div className="row">
-                <Header></Header>
                 <div className="col-12 login">
                 <form onSubmit={this.SendRegisterRequest}>
                             <div className="form-group">
