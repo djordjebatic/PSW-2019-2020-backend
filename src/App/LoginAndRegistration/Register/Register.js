@@ -17,24 +17,32 @@ class Register extends React.Component {
       this.SendRegisterRequest = this.SendRegisterRequest.bind(this);
 
       this.state = {
-          email: '',
-          password: '',
-          firstName: '',
-          lastName: '',
-          address: '',
-          city: '',
-          country: '',
-          phoneNumber: null
+          podaci_za_slanje: {
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            address: '',
+            city: '',
+            country: '',
+            phoneNumber: null
+        },
+            passwordConfirm:''
       }
-  }
+   }
 
   SendRegisterRequest = event => {
       event.preventDefault();
-        console.log(this.state);
-      axios.post("http://localhost:8080/patient/register", this.state).then(
-          (resp) => this.onSuccessHandler(resp)
+        console.log(this.state);  
+        const { password, passwordConfirm } = this.state;
+        if (password !== passwordConfirm) {
+            alert("Passwords don't match");
+        } else {
+        axios.post("http://localhost:8080/patient/register", this.state.podaci_za_slanje).then(
+            (resp) => this.onSuccessHandler(resp)
       )
   }
+}
 
   onSuccessHandler(resp){
       PatientRegisterAlert.fire({
@@ -73,6 +81,16 @@ class Register extends React.Component {
                                     name="password"
                                     onChange={this.handleChange}
                                     placeholder="Enter Password"
+                                    required
+                                />
+                                <br/>
+                                <label htmlFor="passwordConfirm">Confirm Password</label>
+                                <input type="password"
+                                    className="form-control form-control-sm"
+                                    id="passwordConfirm"
+                                    name="passwordConfirm"
+                                    onChange={this.handleChange}
+                                    placeholder="Confirm Password"
                                     required
                                 />
                                 <br/>
