@@ -22,6 +22,7 @@ class Register extends React.Component {
             password: '',
             firstName: '',
             lastName: '',
+            medicalNumber:'',
             address: '',
             city: '',
             country: '',
@@ -61,7 +62,13 @@ class Register extends React.Component {
     <div className="Register">
       <div className="">
             <div className="row">
-                <div className="col-12 login">
+            <div className="col-4 welcome">
+                        <div className="logo">
+                            <img alt="logo" src={logo} />
+                            <h1 className="title">Clinic Center</h1>
+                        </div>
+                    </div>
+                <div className="col-8 login">
                 <form onSubmit={this.SendRegisterRequest}>
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
@@ -111,6 +118,16 @@ class Register extends React.Component {
                                     name="lastName"
                                     onChange={this.handleChange}
                                     placeholder="Enter Surname"
+                                    required
+                                />
+                                <br/>
+                                <label htmlFor="medicalNumber">Medical number</label>
+                                <input type="text"
+                                    className="form-control form-control-sm"
+                                    id="medicalNumber"
+                                    name="medicalNumber"
+                                    onChange={this.handleChange}
+                                    placeholder="Enter medical number"
                                     required
                                 />
                                 <br/>
