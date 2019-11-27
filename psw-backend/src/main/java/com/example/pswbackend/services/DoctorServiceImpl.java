@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
-    EmailService emailService;
+    private EmailService emailService;
+
+    @Autowired
+    private ClinicAdminService clinicAdminService;
 
     @Override
     public boolean sheduleAppointment(AppointmentDoctorDTO dto) {
@@ -18,7 +21,7 @@ public class DoctorServiceImpl implements DoctorService {
                 "\nTime: " + dto.getTime() +
                 "-----------------------------------";
 
-        // zahtev klinickom adminu
+        clinicAdminService.receiveAppointmentRequest(dto);
 
         emailService.sendEmail("jelenadostic2@gmail.com", "Sheduling Appointment", message);
 
