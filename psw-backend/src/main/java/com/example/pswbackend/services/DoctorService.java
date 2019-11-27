@@ -1,9 +1,9 @@
 package com.example.pswbackend.services;
 
-import com.example.pswbackend.dto.DoctorAppointmentDto;
+import com.example.pswbackend.dto.AppointmentDoctorDTO;
 
 public interface DoctorService {
 
-    boolean sheduleAppointment(DoctorAppointmentDto dto);
+    boolean sheduleAppointment(AppointmentDoctorDTO dto);
 
 }
