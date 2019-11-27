@@ -22,6 +22,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
+        <Route exact path="/">
+            <Login />
+          </Route>
           <Route path="/login">
             <Login />
           </Route>
