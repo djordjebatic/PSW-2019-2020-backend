@@ -3,6 +3,10 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
 import com.example.pswbackend.enums.Status;
+import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.ClinicAdmin;
+import com.example.pswbackend.dto.ClinicAdminDTO;
+import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +22,12 @@ public class CCAdminController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    ClinicService clinicService;
+
+    @Autowired
+    ClinicAdminService clinicAdminService;
 
     @GetMapping(value="/all-registration-requests")
     public ResponseEntity<List<RegisterApprovalDTO>> getAllRegistrationRequests() {
@@ -46,5 +56,25 @@ public class CCAdminController {
         else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping(value="/register-clinic")
+    public ResponseEntity<Clinic> registerClinic(@RequestBody ClinicDTO clinicDTO){
+        Clinic clinic = clinicService.register(clinicDTO);
+        if (clinic == null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(clinic, HttpStatus.OK);
+    }
+
+    @PostMapping(value="/register-clinic-admin")
+    public ResponseEntity<ClinicAdmin> registerClinic(@RequestBody ClinicAdminDTO clinicAdminDTO){
+        ClinicAdmin newClinicAdmin = clinicAdminService.register(clinicAdminDTO);
+        if (newClinicAdmin == null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(newClinicAdmin, HttpStatus.OK);
     }
 }
