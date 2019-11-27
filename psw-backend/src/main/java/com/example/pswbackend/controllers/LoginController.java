@@ -20,21 +20,18 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @Autowired
-    LoginRepository loginRepository;
 
     @PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Account> login(@RequestBody Account account) {
-        //Account account = loginService.findByEmail(loginDTO.getEmailAddress());
+    public ResponseEntity<Account> login(@RequestBody LoginDTO dto) {
 
-        Account acc = this.loginRepository.findByEmail(account.getEmail());
+        Account acc = this.loginService.findByEmail(dto.getEmailAddress());
 
         if (acc == null){
             System.out.println("Wrong password or email");
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
-        if (account.getPassword().equals(acc.getPassword())) {
+        if (dto.getPassword().equals(acc.getPassword())) {
             System.out.println("Login successful");
             return new ResponseEntity<>(acc, HttpStatus.OK);
         }
