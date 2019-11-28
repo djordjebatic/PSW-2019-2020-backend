@@ -57,10 +57,18 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         return clinicAdminRepository.save(clinicAdmin);
 
     }
+  
+    @Override
+    public boolean receiveAppointmentRequest(AppointmentDoctorDTO dto) {
+
+        // proverava da li moze da zakaze
+
+        return false;
 
     //TODO
     @Override
     public List<ClinicAdmin> findAll() {
         return null;
+
     }
 }

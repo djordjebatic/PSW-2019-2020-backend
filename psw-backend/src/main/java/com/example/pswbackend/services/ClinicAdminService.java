@@ -11,4 +11,7 @@ public interface ClinicAdminService {
     ClinicAdmin register(ClinicAdminDTO clinicAdminDTO);
 
     List<ClinicAdmin> findAll();
+  
+    boolean receiveAppointmentRequest(AppointmentDoctorDTO dto);
+
 }

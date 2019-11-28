@@ -52,7 +52,18 @@ public class Clinic {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Doctor> clinicAdmins = new HashSet<>();
-	
+
+	public Clinic(String name, String description, String address, String city) {
+		this.name = name;
+		this.description = description;
+		this.address = address;
+		this.city = city;
+		this.doctors = new HashSet<>();
+		this.nurses = new HashSet<>();
+		this.ordinations = new HashSet<>();
+		this.clinicAdmins = new HashSet<>();
+	}
+
 	public Clinic() {
 		super();
 	}
