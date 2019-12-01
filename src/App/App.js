@@ -15,6 +15,7 @@ import Patient from './Content/Patient/Patient';
 import ClinicsList from './Content/ClinicsList/ClinicsList';
 import AppointmentHistory from './Content/MedicalRecord/AppointmentHistory/AppointmentHistory';
 import MedicalRecord from './Content/MedicalRecord/MedicalRecord';
+import CCAdmin from './Content/ClinicAdmin/CCAdmin';
 
 
 function App() {
@@ -63,6 +64,9 @@ function App() {
           </Route>
           <Route path="/medical-record">
             <MedicalRecord />
+          </Route>
+          <Route path="/ccadmin">
+            <CCAdmin />
           </Route>
         </Switch>
       </BrowserRouter>
