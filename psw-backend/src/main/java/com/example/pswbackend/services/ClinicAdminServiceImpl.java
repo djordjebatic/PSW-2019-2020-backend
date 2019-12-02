@@ -1,6 +1,7 @@
 package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.ClinicAdmin;
+import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.ClinicAdminRepository;
@@ -64,6 +65,8 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         // proverava da li moze da zakaze
 
         return false;
+
+    }
 
     //TODO
     @Override
