@@ -17,7 +17,6 @@ class Register extends React.Component {
       this.SendRegisterRequest = this.SendRegisterRequest.bind(this);
 
       this.state = {
-          podaci_za_slanje: {
             email: '',
             password: '',
             firstName: '',
@@ -26,8 +25,7 @@ class Register extends React.Component {
             address: '',
             city: '',
             country: '',
-            phoneNumber: null
-        },
+            phoneNumber: null,
             passwordConfirm:''
       }
    }
@@ -39,9 +37,19 @@ class Register extends React.Component {
         if (password !== passwordConfirm) {
             alert("Passwords don't match");
         } else {
-        axios.post("http://localhost:8080/patient/register", this.state.podaci_za_slanje).then(
-            (resp) => this.onSuccessHandler(resp)
-      )
+        axios.post("http://localhost:8080/patient/register", {
+            email: this.state.email,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            medicalNumber: this.state.medicalNumber,
+            address: this.state.address,
+            city: this.state.city,
+            country: this.state.country,
+            phoneNumber: this.state.phoneNumber
+
+        }).then((resp) => this.onSuccessHandler(resp))
+        .catch((error)=> this.onFailureHandler(error))
   }
 }
 
@@ -50,6 +58,12 @@ class Register extends React.Component {
           title: "Patient registered successfully",
           text: "",
           type: "success",
+      })
+  }
+  onFailureHandler(error){
+      PatientRegisterAlert.fire({
+          title: "Sign up failed",
+          text: error
       })
   }
 
