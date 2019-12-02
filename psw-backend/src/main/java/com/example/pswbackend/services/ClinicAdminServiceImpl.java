@@ -67,6 +67,8 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         return false;
     }
 
+    }
+
     //TODO
     @Override
     public List<ClinicAdmin> findAll() {
