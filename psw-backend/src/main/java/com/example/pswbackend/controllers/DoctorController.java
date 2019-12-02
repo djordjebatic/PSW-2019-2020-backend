@@ -15,13 +15,13 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("/api/doctor")
+@RequestMapping("/api")
 public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
 
-    @PostMapping(value="/shedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/doctor/shedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Account> sheduleAppointment(AppointmentDoctorDTO dto){
 
         if (doctorService.sheduleAppointment(dto)){
