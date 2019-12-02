@@ -15,7 +15,9 @@ import Patient from './Content/Patient/Patient';
 import ClinicsList from './Content/ClinicsList/ClinicsList';
 import AppointmentHistory from './Content/MedicalRecord/AppointmentHistory/AppointmentHistory';
 import MedicalRecord from './Content/MedicalRecord/MedicalRecord';
-import CCAdmin from './Content/ClinicAdmin/CCAdmin';
+import CCAdmin from './Content/CCAdmin/CCAdmin';
+import ClinicAdmin from './Content/ClinicAdmin/ClinicAdmin';
+import QuickReservation from './Content/ClinicAdmin/QuickReservation/QuickReservation';
 
 
 function App() {
@@ -67,6 +69,12 @@ function App() {
           </Route>
           <Route path="/ccadmin">
             <CCAdmin />
+          </Route>
+          <Route path="/clinic-admin">
+            <ClinicAdmin />
+          </Route>
+          <Route path="/quick-reservation">
+            <QuickReservation />
           </Route>
         </Switch>
       </BrowserRouter>
