@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -39,7 +40,7 @@ public class PatientController {
         return patientRepository.findById(id).get();
     }
 
-    @GetMapping("/patients")
+    @GetMapping(value="/patients", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Patient> getPatients() {
 
         return patientRepository.findAll();
