@@ -26,7 +26,8 @@ class QuickReservation extends React.Component {
         ordination: '',
         doctor: '',
         price: 0.0,
-        doctors: []
+        doctors: [],
+        ordinations: []
     }
   }
 
@@ -65,7 +66,7 @@ class QuickReservation extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8080/api/doctor/doctors")  
+    axios.get("http://localhost:8080/api/doctors")  
       .then(response => {
           let tmpArray = []
           for (var i = 0; i < response.data.length; i++) {
@@ -74,6 +75,19 @@ class QuickReservation extends React.Component {
 
           this.setState({
               doctors: tmpArray
+          })
+      })
+    .catch((error) => this.onFailureHandler(error))
+
+    axios.get("http://localhost:8080/api/ordinations")  
+      .then(response => {
+          let tmpArray = []
+          for (var i = 0; i < response.data.length; i++) {
+              tmpArray.push(response.data[i])
+          }
+
+          this.setState({
+              ordinations: tmpArray
           })
       })
     .catch((error) => this.onFailureHandler(error))
@@ -109,9 +123,9 @@ class QuickReservation extends React.Component {
                 <div className="col-sm-10">
                 <select className="custom-select mr-sm-2" name="ordination" id="inlineFormCustomSelect2" onChange={this.handleChange} >
                   <option defaultValue="0" >Choose...</option>
-                  <option value="1">102</option>
-                  <option value="2">103</option>
-                  <option value="3">104</option>
+                  {this.state.ordinations.map((ord, index) => (
+                       <option key={ord.id} value={ord.id}>{ord.number}</option>
+                    ))}
                 </select>
                 </div>
               </div>
