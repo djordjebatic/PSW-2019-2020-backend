@@ -25,14 +25,23 @@ class QuickReservation extends React.Component {
         duration: '',
         ordination: '',
         doctor: '',
-        price: 0.0
+        price: 0.0,
+        doctors: []
     }
   }
 
   SendQuickReservationRequest = event => {
     event.preventDefault();
       console.log(this.state);
-    axios.post("http://localhost:8080/api/clinic-admin/quick-reservation", this.state)  
+    axios.post("http://localhost:8080/api/clinic-admin/quick-reservation", {
+        date: this.state.date,
+        time: this.state.time,
+        type: this.state.type,
+        duration: this.state.duration,
+        ordination: this.state.ordination,
+        doctor: this.state.doctor,
+        price: this.state.price
+    })  
     .then((resp) => this.onSuccessHandler(resp))
     .catch((error) => this.onFailureHandler(error))
   }
@@ -55,6 +64,21 @@ class QuickReservation extends React.Component {
     this.setState({...this.state, [e.target.name]: String(e.target.value)});
   }
 
+  componentDidMount() {
+    axios.get("http://localhost:8080/api/doctor/doctors")  
+      .then(response => {
+          let tmpArray = []
+          for (var i = 0; i < response.data.length; i++) {
+              tmpArray.push(response.data[i])
+          }
+
+          this.setState({
+              doctors: tmpArray
+          })
+      })
+    .catch((error) => this.onFailureHandler(error))
+  }
+
   render() {
     
   return (
@@ -74,9 +98,9 @@ class QuickReservation extends React.Component {
                 <div className="col-sm-10">
                 <select required className="custom-select mr-sm-2" name="doctor" id="inlineFormCustomSelect" onChange={this.handleChange} >
                   <option defaultValue="0" >Choose...</option>
-                  <option value="1">Doctor 1</option>
-                  <option value="2">Doctor 2</option>
-                  <option value="3">Doctor 3</option>
+                  {this.state.doctors.map((doctor, index) => (
+                       <option key={doctor.id} value={doctor.id}>{doctor.firstName} {doctor.lastName}</option>
+                    ))}
                 </select>
                 </div>
               </div>
