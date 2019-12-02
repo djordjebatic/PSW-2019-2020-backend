@@ -14,15 +14,15 @@ function Header() {
               <img src={logo} width="30" height="30" className="d-inline-block align-top logo-header" alt="logo"/>
               Clinic Center
             </div>
-            <ul class="nav">
-              <li class="nav-item">
-                <Link to="/my-profile" class="nav-link link-header" href="#">Profile</Link>
+            <ul className="nav">
+              <li className="nav-item">
+                <Link to="/my-profile" className="nav-link link-header" href="#">Profile</Link>
               </li>
-              <li class="nav-item">
-                <Link to="work-calendar" class="nav-link link-header" href="#">Work Calendar</Link>
+              <li className="nav-item">
+                <Link to="work-calendar" className="nav-link link-header" href="#">Work Calendar</Link>
               </li>
-              <li class="nav-item">
-                <a class="nav-link link-header" href="#">Log Out</a>
+              <li className="nav-item">
+                <a className="nav-link link-header" href="#">Log Out</a>
               </li>
             </ul>
           </nav>

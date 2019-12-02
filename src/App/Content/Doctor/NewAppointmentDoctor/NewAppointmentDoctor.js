@@ -35,14 +35,14 @@ class NewAppointmentDoctor extends React.Component {
 
   onSuccessHandler(resp){
     SheduleAlert.fire({
-        title: "Logged in successfully",
+        title: "Scheduled successfully",
         text: ""
     })
   }
 
   onFailureHandler(error){
     SheduleAlert.fire({
-          title: "Log In failed",
+          title: "Scheduling failed",
           text: error
       })
   }
