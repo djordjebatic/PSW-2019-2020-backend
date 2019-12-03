@@ -3,6 +3,7 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.AccountRequest;
 import com.example.pswbackend.domain.AccountTokenState;
+import com.example.pswbackend.exception.ResourceConflictException;
 import com.example.pswbackend.security.TokenUtils;
 import com.example.pswbackend.security.auth.JwtAuthenticationRequest;
 import com.example.pswbackend.services.AccountService;
