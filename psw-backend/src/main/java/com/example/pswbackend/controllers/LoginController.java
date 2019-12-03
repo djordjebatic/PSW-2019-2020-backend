@@ -2,7 +2,6 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.dto.LoginDTO;
-import com.example.pswbackend.repositories.LoginRepository;
 import com.example.pswbackend.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.Account;
-import com.example.pswbackend.repositories.LoginRepository;
+import com.example.pswbackend.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class LoginServiceImpl implements LoginService{
 
     @Autowired
-    LoginRepository loginRepo;
+    AccountRepository loginRepo;
 
     public Account findByEmail(String emailAddress){
         return loginRepo.findByEmail(emailAddress);
