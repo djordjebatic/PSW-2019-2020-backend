@@ -32,7 +32,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         if (authToken != null) {
             // uzmi username iz tokena
-            email = tokenUtils.getUsernameFromToken(authToken);
+            email = tokenUtils.getEmailFromToken(authToken);
 
             if (email != null) {
                 // uzmi user-a na osnovu username-a
