@@ -1,6 +1,6 @@
 package com.example.pswbackend.domain;
 
-public class UserRequest {
+public class AccountRequest {
 
     private Long id;
 
