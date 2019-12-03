@@ -2,7 +2,7 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.dto.LoginDTO;
-import com.example.pswbackend.services.LoginService;
+import com.example.pswbackend.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     @Autowired
-    LoginService loginService;
+    AccountService loginService;
 
 
     @PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

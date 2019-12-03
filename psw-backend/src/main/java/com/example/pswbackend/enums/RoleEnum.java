@@ -5,5 +5,6 @@ public enum RoleEnum {
     CLINIC_ADMIN,
     DOCTOR,
     NURSE,
-    PATIENT
+    PATIENT,
+    ACCOUNT
 }
