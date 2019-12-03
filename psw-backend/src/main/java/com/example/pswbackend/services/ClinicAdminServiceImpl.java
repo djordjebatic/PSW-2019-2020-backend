@@ -47,7 +47,7 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         clinicAdmin.setPassword(clinicAdminDTO.getPassword());
         clinicAdmin.setClinic(clinicRepository.findOneById(clinicAdminDTO.getClinicId()));
         clinicAdmin.setStatus(UserStatus.NEVER_LOGGED_IN);
-        if (clinicAdminRepository.findByEmail(clinicAdmin.getEmail()) != null){
+        if (clinicAdminRepository.findByEmail(clinicAdmin.getUsername()) != null){
             System.out.println("Vec postoji");
             return null;
         }
@@ -65,8 +65,6 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         // proverava da li moze da zakaze
 
         return false;
-    }
-
     }
 
     //TODO
