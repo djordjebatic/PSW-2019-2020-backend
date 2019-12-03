@@ -1,8 +1,8 @@
 package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.Account;
+import com.example.pswbackend.domain.AccountRequest;
 import com.example.pswbackend.domain.Role;
-import com.example.pswbackend.domain.UserRequest;
 import com.example.pswbackend.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
