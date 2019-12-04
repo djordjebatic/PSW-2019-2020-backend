@@ -3,10 +3,12 @@ package com.example.pswbackend.services;
 import com.example.pswbackend.domain.Role;
 import com.example.pswbackend.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
