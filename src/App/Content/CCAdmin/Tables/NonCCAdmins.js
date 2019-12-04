@@ -50,7 +50,7 @@ class NonCCAdmins extends React.Component{
 
       onSuccessHandler(resp){
         AdminSuccess.fire({
-            title: resp.data.firstName + "Clinic center admin assigned succesfully!",
+            title: "Clinic center admin assigned succesfully!",
             text: "",
             type: "success",
         })
