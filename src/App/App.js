@@ -20,6 +20,7 @@ import ClinicAdmin from './Content/ClinicAdmin/ClinicAdmin';
 import QuickReservation from './Content/ClinicAdmin/QuickReservation/QuickReservation';
 import EditPersonalProfile from './Content/PersonalProfile/EditPersonalProfile';
 import NonCCAdmins from './Content/CCAdmin/Tables/NonCCAdmins'
+import ChangePassword from './LoginAndRegistration/ChangePassword/ChangePassword';
 
 
 function App() {
@@ -83,6 +84,9 @@ function App() {
           </Route>
           <Route path="/assign-ccadmin">
             <NonCCAdmins />
+          </Route>
+          <Route path="/change-password">
+            <ChangePassword />
           </Route>
         </Switch>
       </BrowserRouter>
