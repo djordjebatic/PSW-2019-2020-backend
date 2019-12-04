@@ -113,6 +113,23 @@ public class CCAdminController {
         return new ResponseEntity<>(newCCAdmin, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/change-ccadmin-password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CCAdmin> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+
+        CCAdmin ccAdmin = ccAdminRepository.findByEmail(changePasswordDTO.getEmail());
+
+        ccAdmin.setPassword(changePasswordDTO.getNewPassword());
+
+        if (ccAdmin == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        ccAdmin.setUserStatus(UserStatus.ACTIVE);
+        this.ccAdminRepository.save(ccAdmin);
+
+        return new ResponseEntity<>(ccAdmin, HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/all-ccadmins")
     public List<CCAdmin> getCCAdmins() {
         return ccAdminRepository.findAll();
