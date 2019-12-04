@@ -2,21 +2,22 @@ package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.RoleEnum;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
-    @Column(name = "role")
+    @Column(name = "name")
     @NonNull
-    private RoleEnum role;
+    private RoleEnum name;
 
     @ManyToMany
     private Set<Account> account;
@@ -32,12 +33,12 @@ public class Role {
         this.id = id;
     }
 
-    public RoleEnum getRole() {
-        return role;
+    public String getName() {
+        return name.name();
     }
 
-    public void setRole(RoleEnum role) {
-        this.role = role;
+    public void setName(RoleEnum name) {
+        this.name = name;
     }
 
     public Set<Account> getAccount() {
@@ -46,5 +47,10 @@ public class Role {
 
     public void setAccount(Set<Account> account) {
         this.account = account;
+    }
+
+    @Override
+    public String getAuthority() {
+        return name.name();
     }
 }

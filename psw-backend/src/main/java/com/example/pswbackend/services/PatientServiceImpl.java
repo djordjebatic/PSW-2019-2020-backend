@@ -37,7 +37,7 @@ public class PatientServiceImpl implements PatientService{
         regApproveDTO.setId(p.getId());
         regApproveDTO.setFirstName(p.getFirstName());
         regApproveDTO.setLastName(p.getLastName());
-        regApproveDTO.setEmail(p.getEmail());
+        regApproveDTO.setEmail(p.getUsername());
 
         return regApproveDTO;
     }
@@ -58,7 +58,7 @@ public class PatientServiceImpl implements PatientService{
         patient.setMedicalRecord(medicalRecord);
 
         String s = "Registration request has been approved by the Administrator! You can now log in to the Clinical Centre System";
-        emailService.sendEmail(patient.getEmail(), "Registration Request Response", s);
+        emailService.sendEmail(patient.getUsername(), "Registration Request Response", s);
 
         return patientRepository.save(patient);
     }
@@ -77,7 +77,7 @@ public class PatientServiceImpl implements PatientService{
         sb.append(message);
         String ret= sb.toString();
 
-        emailService.sendEmail(patient.getEmail(), "Registration Request Response", ret);
+        emailService.sendEmail(patient.getUsername(), "Registration Request Response", ret);
 
         patientRepository.deleteById(id);
 

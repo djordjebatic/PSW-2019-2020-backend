@@ -18,6 +18,9 @@ public class ClinicAdmin extends Account{
     @OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<>();
 
+	@OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<Appointment> predefinedAppointments = new HashSet<>();
+
 	@Enumerated(EnumType.STRING)
 	private UserStatus userStatus;
 
@@ -46,5 +49,13 @@ public class ClinicAdmin extends Account{
 
 	public void setStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public Set<Appointment> getPredefinedAppointments() {
+		return predefinedAppointments;
+	}
+
+	public void setPredefinedAppointments(Set<Appointment> predefinedAppointments) {
+		this.predefinedAppointments = predefinedAppointments;
 	}
 }

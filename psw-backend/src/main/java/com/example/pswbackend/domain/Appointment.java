@@ -38,21 +38,31 @@ public class Appointment {
 	private String time;
 	
 	@Column(nullable = false)
-    private Double price;
+    private float price;
+
+	@Column(nullable = false)
+	private int duration;
 	
-	public Double getPrice() {
+	public float getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
+
+	public int getDuration() { return duration; }
+
+	public void setDuration(int duration) { this.duration = duration; }
 
 	@Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Ordination ordination;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Doctor doctor;
 	
 	@ManyToMany
     @JoinTable(name = "examining", joinColumns = @JoinColumn(name = "examination_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
@@ -132,6 +142,14 @@ public class Appointment {
 
 	public void setOrdination(Ordination ordination) {
 		this.ordination = ordination;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 
 	public Set<Doctor> getDoctors() {
