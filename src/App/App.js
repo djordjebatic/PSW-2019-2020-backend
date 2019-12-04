@@ -18,6 +18,7 @@ import MedicalRecord from './Content/MedicalRecord/MedicalRecord';
 import CCAdmin from './Content/CCAdmin/CCAdmin';
 import ClinicAdmin from './Content/ClinicAdmin/ClinicAdmin';
 import QuickReservation from './Content/ClinicAdmin/QuickReservation/QuickReservation';
+import EditPersonalProfile from './Content/PersonalProfile/EditPersonalProfile';
 
 
 function App() {
@@ -75,6 +76,9 @@ function App() {
           </Route>
           <Route path="/quick-reservation">
             <QuickReservation />
+          </Route>
+          <Route path="/edit-personal-page">
+            <EditPersonalProfile />
           </Route>
         </Switch>
       </BrowserRouter>
