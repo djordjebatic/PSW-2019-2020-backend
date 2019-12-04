@@ -60,6 +60,9 @@ public class Appointment {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Ordination ordination;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Doctor doctor;
 	
 	@ManyToMany
     @JoinTable(name = "examining", joinColumns = @JoinColumn(name = "examination_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
@@ -139,6 +142,14 @@ public class Appointment {
 
 	public void setOrdination(Ordination ordination) {
 		this.ordination = ordination;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 
 	public Set<Doctor> getDoctors() {
