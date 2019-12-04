@@ -1,12 +1,12 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Clinic;
-import com.example.pswbackend.domain.Patient;
-import com.example.pswbackend.dto.ClinicDTO;
-import com.example.pswbackend.dto.RegisterApprovalDTO;
+import com.example.pswbackend.domain.*;
+import com.example.pswbackend.dto.*;
 import com.example.pswbackend.enums.Status;
-import com.example.pswbackend.domain.ClinicAdmin;
-import com.example.pswbackend.dto.ClinicAdminDTO;
+import com.example.pswbackend.enums.UserStatus;
+import com.example.pswbackend.repositories.AccountRepository;
+import com.example.pswbackend.repositories.CCAdminRepository;
+import com.example.pswbackend.services.CCAdminService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.PatientService;
@@ -16,8 +16,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/api/cc-admin")
 public class CCAdminController {
@@ -30,6 +33,15 @@ public class CCAdminController {
 
     @Autowired
     ClinicAdminService clinicAdminService;
+
+    @Autowired
+    CCAdminService ccAdminService;
+
+    @Autowired
+    CCAdminRepository ccAdminRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @GetMapping(value="/all-registration-requests")
     public ResponseEntity<List<RegisterApprovalDTO>> getAllRegistrationRequests() {
@@ -71,12 +83,54 @@ public class CCAdminController {
     }
 
     @PostMapping(value="/register-clinic-admin")
-    public ResponseEntity<ClinicAdmin> registerClinic(@RequestBody ClinicAdminDTO clinicAdminDTO){
+    public ResponseEntity<ClinicAdmin> registerClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO){
         ClinicAdmin newClinicAdmin = clinicAdminService.register(clinicAdminDTO);
         if (newClinicAdmin == null){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         return new ResponseEntity<>(newClinicAdmin, HttpStatus.OK);
+    }
+
+    @PostMapping(value="/assign-cc-admin/{id}")
+    public ResponseEntity<CCAdmin> assignCCAdmin(@PathVariable Long id){
+        CCAdmin newCCAdmin = ccAdminService.assign(id);
+
+        if (newCCAdmin == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for (CCAdmin ccadmin : ccAdminRepository.findAll()){
+            if (ccadmin.getEmail() == newCCAdmin.getEmail()){
+                return new ResponseEntity<>(newCCAdmin, HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        newCCAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
+
+        this.ccAdminRepository.save(newCCAdmin);
+
+        return new ResponseEntity<>(newCCAdmin, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/all-ccadmins")
+    public List<CCAdmin> getCCAdmins() {
+        return ccAdminRepository.findAll();
+    }
+
+    @GetMapping(value = "/all-non-ccadmin-accounts")
+    public List<Account> getAccounts() {
+
+        List<Account> accounts = accountRepository.findAll();
+        List<Account> ret = accountRepository.findAll();;
+        for (CCAdmin ccadmin : ccAdminRepository.findAll()){
+            for (Account account: accounts){
+                if (ccadmin.getEmail().equals(account.getEmail())) {
+                    System.out.println(account.getEmail());
+                    ret.remove(account);
+                }
+            }
+        }
+        return ret;
     }
 }
