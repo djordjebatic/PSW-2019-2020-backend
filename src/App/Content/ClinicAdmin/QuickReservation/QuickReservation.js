@@ -77,7 +77,7 @@ class QuickReservation extends React.Component {
               doctors: tmpArray
           })
       })
-    .catch((error) => this.onFailureHandler(error))
+    .catch((error) => console.log(error))
 
     axios.get("http://localhost:8080/api/ordinations")  
       .then(response => {
@@ -90,7 +90,7 @@ class QuickReservation extends React.Component {
               ordinations: tmpArray
           })
       })
-    .catch((error) => this.onFailureHandler(error))
+    .catch((error) => console.log(error))
   }
 
   render() {
@@ -98,70 +98,92 @@ class QuickReservation extends React.Component {
   return (
     <div className="QuickReservation">
       <Header/>
-        <div className="">
-        <div className="row">
-            <div className="col-sm new-appointment-header">
-              <h3>Quick Reservation</h3>
-            </div>
+          <div className="">
+              <div className="row">
+                    <div className="col-sm quick-res-header">
+                      <h3>Quick Reservation</h3>
+                    </div>
+              </div>
+              <div className="row quick-res-form">
+                    <div className="col-sm">
+                    <form onSubmit={this.SendQuickReservationRequest}>
+                        <div className="form-row">
+                            <div className="form-group col-md-6">
+                                <label htmlFor="inputEmail4">Doctor</label>
+                                <select required className="custom-select mr-sm-2" name="doctor" id="inlineFormCustomSelect" onChange={this.handleChange} >
+                                  <option defaultValue="0" >Choose...</option>
+                                  {this.state.doctors.map((doctor, index) => (
+                                      <option key={doctor.id} value={doctor.id}>{doctor.firstName} {doctor.lastName}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group col-md-6">
+                                <label htmlFor="inputPassword4">Ordination</label>
+                                <select className="custom-select mr-sm-2" name="ordination" id="inlineFormCustomSelect2" onChange={this.handleChange} >
+                                  <option defaultValue="0" >Choose...</option>
+                                  {this.state.ordinations.map((ord, index) => (
+                                      <option key={ord.id} value={ord.id}>{ord.number}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>           
+                        <div className="form-row">
+                            <div className="form-group col-md-6">
+                                <label htmlFor="colFormLabel">Date</label>
+                                <input required type="date" className="form-control" name="date" id="date" placeholder="Choose date"
+                                  onChange={this.handleChange}/>
+                            </div>
+                            <div className="form-group col-md-6">
+                            <label htmlFor="colFormLabel">Time</label>
+                            <input required type="time" className="form-control" name="time" id="time" placeholder="Choose time"
+                              onChange={this.handleChange}/>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="colFormLabel">Type</label>
+                            <div className="form-check form-check">
+                                <input onChange={this.handleChange} className="form-check-input" type="radio" name="type" id="inlineRadio1" value="examination"/>
+                                <label className="form-check-label" htmlFor="inlineRadio1">Medical Examination</label>
+                            </div>
+                            <div className="form-check form-check">
+                                <input onChange={this.handleChange} className="form-check-input" type="radio" name="type" id="inlineRadio2" value="surgery"/>
+                                <label className="form-check-label" htmlFor="inlineRadio2">Surgery</label>
+                            </div>
+                        </div>
+                        <div className="form-row">
+                            <div className="form-group col-md-5">
+                                <label htmlFor="colFormLabel">Duration</label>
+                                <select className="custom-select mr-sm-2" name="duration" id="duration" onChange={this.handleChange} >
+                                  <option defaultValue="0" >0</option>
+                                  <option defaultValue="10" >10</option>
+                                  <option defaultValue="15" >15</option>
+                                  <option defaultValue="20" >20</option>
+                                  <option defaultValue="30" >30</option>
+                                  <option defaultValue="45" >45</option>
+                                  <option defaultValue="60" >60</option>
+                                </select>
+                            </div>
+                            <div className="form-group col-md-1">
+                                <label htmlFor="colFormLabel">Min / Hour</label>
+                                <input required disabled type="text" className="form-control" name="minutes" id="minutes" placeholder="minutes"
+                                  value="minutes"/>
+                            </div>
+                            <div className="form-group col-md-5">
+                                <label htmlFor="colFormLabel">Price</label>
+                                <input required type="number" className="form-control" name="price" id="price" placeholder="00.0"
+                                  onChange={this.handleChange}/>
+                            </div>
+                            <div className="form-group col-md-1">
+                                <label htmlFor="colFormLabel">Currency</label>
+                                <input required disabled type="text" className="form-control" name="valuta" id="valuta" placeholder="€"
+                                  value="€"/>
+                            </div>
+                        </div>
+                        <Button type="submit" className="btn quick-res-btn">Shedule</Button>
+                    </form>
+                    </div>
+              </div>
           </div>
-          <div className="row new-appointment-form">
-            <div className="col-sm">
-            <form onSubmit={this.SendQuickReservationRequest}>
-              <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Doctor:</label>
-                <div className="col-sm-10">
-                <select required className="custom-select mr-sm-2" name="doctor" id="inlineFormCustomSelect" onChange={this.handleChange} >
-                  <option defaultValue="0" >Choose...</option>
-                  {this.state.doctors.map((doctor, index) => (
-                       <option key={doctor.id} value={doctor.id}>{doctor.firstName} {doctor.lastName}</option>
-                    ))}
-                </select>
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Ordination:</label>
-                <div className="col-sm-10">
-                <select className="custom-select mr-sm-2" name="ordination" id="inlineFormCustomSelect2" onChange={this.handleChange} >
-                  <option defaultValue="0" >Choose...</option>
-                  {this.state.ordinations.map((ord, index) => (
-                       <option key={ord.id} value={ord.id}>{ord.number}</option>
-                    ))}
-                </select>
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Date:</label>
-                <div className="col-sm-10">
-                  <input required type="date" className="form-control" name="date" id="date" placeholder="Choose date"
-                    onChange={this.handleChange}/>
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Time:</label>
-                <div className="col-sm-10">
-                  <input required type="time" className="form-control" name="time" id="time" placeholder="Choose time"
-                    onChange={this.handleChange}/>
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Type:</label>
-                <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                    <label className="form-check-label" htmlFor="inlineRadio1">Medical Examination</label>
-                </div>
-                <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"/>
-                    <label className="form-check-label" htmlFor="inlineRadio2">Surgery</label>
-                </div>
-              </div>
-              <div className="col-sm">
-              <Button type="submit" className="btn create-appointment-btn">Shedule</Button>
-              </div>
-            </form>
-            </div>
-            
-          </div>
-        </div>
       <Footer/>
 
     </div>
