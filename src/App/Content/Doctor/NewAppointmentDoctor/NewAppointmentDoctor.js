@@ -68,7 +68,7 @@ class NewAppointmentDoctor extends React.Component {
               patients: tmpArray
           })
       })
-    .catch((error) => this.onFailureHandler(error))
+    .catch((error) => console.log(error))
   }
 
   render() {
@@ -85,9 +85,9 @@ class NewAppointmentDoctor extends React.Component {
             <div className="col-sm">
             <form onSubmit={this.SendAppointmentRequest}>
               <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Patient:</label>
+                <label htmlFor="patient" className="col-sm-2 col-form-label">Patient:</label>
                 <div className="col-sm-10">
-                <select className="custom-select mr-sm-2" name="patient" id="inlineFormCustomSelect" onChange={this.handleChange} >
+                <select className="custom-select mr-sm-2" name="patient" id="patient" onChange={this.handleChange} >
                   <option defaultValue="0" >Choose...</option>
                     {this.state.patients.map((patient, index) => (
                        <option key={patient.id} value={patient.id}>{patient.firstName} {patient.lastName}</option>
@@ -96,14 +96,14 @@ class NewAppointmentDoctor extends React.Component {
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Date:</label>
+                <label htmlFor="date" className="col-sm-2 col-form-label">Date:</label>
                 <div className="col-sm-10">
                   <input required type="date" className="form-control" name="date" id="date" placeholder="Choose date"
                     onChange={this.handleChange}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">Time:</label>
+                <label htmlFor="time" className="col-sm-2 col-form-label">Time:</label>
                 <div className="col-sm-10">
                   <input required type="time" className="form-control" name="time" id="time" placeholder="Choose time"
                     onChange={this.handleChange}/>
