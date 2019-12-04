@@ -10,8 +10,8 @@ import'./EditPersonalProfile.css'
 const UpdateInfoAlert = withReactContent(Swal)
 class EditPersonalProfile extends React.Component {
  
-    construct(props){
-        //super(props);
+    constructor(props){
+        super(props);
 
     
         this.handleChange = this.handleChange.bind(this);
@@ -26,8 +26,29 @@ class EditPersonalProfile extends React.Component {
                 country: '',
                 phoneNumber: null,
                 passwordConfirm:''
+
         }
     }
+
+    componentDidMount(){
+        axios.get("http://localhost:8080/patients/" + '6') //za sve usere
+        .then(response=>{
+          
+           this.setState({
+             password: response.data.password,
+             firstName: response.data.firstName,
+             lastName: response.data.lastName,
+             address: response.data.address,
+             city: response.data.city,
+             country: response.data.country, 
+             phoneNumber: response.data.phoneNumber,
+             passwordConfirm: response.data.password
+     
+     
+           })
+        }
+         )
+      }
 
     UpdateInfoRequest = event => {
         event.preventDefault();
@@ -36,7 +57,7 @@ class EditPersonalProfile extends React.Component {
           if (password !== passwordConfirm) {
               alert("Passwords don't match");
           } else {
-          axios.post("http://localhost:8080/patient/edit-personal-page", {
+          axios.put("http://localhost:8080/patients/6", {
 
             password: this.state.password,
             firstName: this.state.firstName,
@@ -81,7 +102,8 @@ class EditPersonalProfile extends React.Component {
                         id="firstName"
                         name="firstName"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter first name"
+                        defaultValue={this.state.firstName}
                     />
                     <br/>      
                     <label htmlFor="lastName">Last Name</label>
@@ -90,7 +112,8 @@ class EditPersonalProfile extends React.Component {
                         id="lastName"
                         name="lastName"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter last name"
+                        defaultValue={this.state.lastName}
                     />
                     <br/>
                     <label htmlFor="password">Password</label>
@@ -99,7 +122,8 @@ class EditPersonalProfile extends React.Component {
                         id="password"
                         name="password"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter password"
+                        defaultValue={this.state.password}
                     />
                     <br/>
                     <label htmlFor="passwordConfirm">Confirm Password</label>
@@ -108,7 +132,8 @@ class EditPersonalProfile extends React.Component {
                         id="passwordConfirm"
                         name="passwordConfirm"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter password"
+                        defaultValue={this.state.passwordConfirm}
                     />
                     <br/>
                     <label htmlFor="address">Address</label>
@@ -117,7 +142,8 @@ class EditPersonalProfile extends React.Component {
                         id="address"
                         name="address"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter address"
+                        defaultValue={this.state.address}
                     />
                     <br/>
                     <label htmlFor="city">City</label>
@@ -126,7 +152,8 @@ class EditPersonalProfile extends React.Component {
                         id="city"
                         name="city"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter city"
+                        defaultValue={this.state.city}
                     />
                     <br/>
                     <label htmlFor="country">Country</label>
@@ -135,7 +162,8 @@ class EditPersonalProfile extends React.Component {
                         id="country"
                         name="country"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter country"
+                        defaultValue={this.state.country}
                     />
                     <br/>
                     <label htmlFor="phoneNumber">Phone Number</label>
@@ -144,7 +172,8 @@ class EditPersonalProfile extends React.Component {
                         id="phoneNumber"
                         name="phoneNumber"
                         onChange={this.handleChange}
-                        placeholder=""
+                        placeholder="Enter phone number"
+                        defaultValue={this.state.phoneNumber}
                     />
                 </div>
                 <hr/>

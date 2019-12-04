@@ -8,13 +8,40 @@ import'./PersonalProfile.css'
 
 class PersonalProfile extends React.Component {
  
- construct(props){
-   
-   this.state={
+ constructor(props){
+   super(props); 
 
+   this.state={
+      firstName: '',
+      lastName:'',
+      email:'',
+      medicalNumber:'',
+      address:'',
+      city:'',
+      country:'',
+      phoneNumber:null
    }
  }
  
+ componentDidMount(){
+   axios.get("http://localhost:8080/patients/" + '6') //za sve usere
+   .then(response=>{
+     
+      this.setState({
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        email: response.data.email,
+        medicalNumber: response.data.medicalNumber,
+        address: response.data.address,
+        city: response.data.city,
+        country: response.data.country, 
+        phoneNumber: response.data.phoneNumber
+
+
+      })
+   }
+    )
+ }
  
   render() {
     
@@ -26,42 +53,42 @@ class PersonalProfile extends React.Component {
       <br/>
         <div className="info">
           <div className="form-group">
-            <label>First name: </label>
+            <label>First name:{this.state.fistName} </label>
 
 
           </div>
           <div className="form-group">
-            <label>Last name: </label>
+            <label>Last name:{this.state.lastName} </label>
 
 
           </div>
           <div className="form-group">
-            <label>Email: </label>
+            <label>Email:{this.state.email} </label>
 
 
           </div>
           <div className="form-group">
-            <label>Medical number: </label>
+            <label>Medical number: {this.state.medicalNumber}</label>
 
 
           </div>
           <div className="form-group">
-            <label>Address: </label>
+            <label>Address: {this.state.address} </label>
 
 
           </div>
           <div className="form-group">
-            <label>City: </label>
+            <label>City: {this.state.city} </label>
 
 
           </div>
           <div className="form-group">
-            <label>Country: </label>
+            <label>Country:{this.state.country} </label>
 
 
           </div>
           <div className="form-group">
-            <label>Phone number: </label>
+            <label>Phone number: {this.state.phoneNumber} </label>
 
 
           </div>
