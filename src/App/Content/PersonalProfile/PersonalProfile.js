@@ -33,11 +33,6 @@ class PersonalProfile extends React.Component {
 
           </div>
           <div className="form-group">
-            <label>First name: </label>
-
-
-          </div>
-          <div className="form-group">
             <label>Medical number: </label>
 
 
