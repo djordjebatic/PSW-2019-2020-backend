@@ -84,14 +84,6 @@ public class Clinic {
 		this.name = name;
 	}
 
-	public String getAdress() {
-		return address;
-	}
-
-	public void setAdress(String address) {
-		this.address = address;
-	}
-
 	public int getStars() {
 		return stars;
 	}
