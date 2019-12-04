@@ -1,5 +1,6 @@
 package com.example.pswbackend.domain;
 
+import com.example.pswbackend.enums.RoleEnum;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -15,7 +16,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
+    private String role;
+
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -27,7 +31,7 @@ public class Account {
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String lastName;
 
-    @Column(columnDefinition = "VARCHAR(11)", unique = true, nullable = false)
+    @Column(columnDefinition = "VARCHAR(11)", nullable = false)
     @Pattern(regexp = "0[0-9]+")
     private String phoneNumber;
 
@@ -122,5 +126,13 @@ public class Account {
 
     public void setAccountRoles(Set<Role> accountRoles) {
         this.accountRoles = accountRoles;
+    }
+
+    public String getRole() {
+        return this.role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
