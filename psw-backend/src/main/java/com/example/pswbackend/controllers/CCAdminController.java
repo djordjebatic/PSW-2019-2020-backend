@@ -2,6 +2,7 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
+import com.example.pswbackend.enums.RoleEnum;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AccountRepository;
@@ -16,8 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -89,7 +91,25 @@ public class CCAdminController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
+        newClinicAdmin.setRole("CLINIC_ADMIN");
         return new ResponseEntity<>(newClinicAdmin, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/change-ccadmin-password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CCAdmin> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+
+        CCAdmin ccAdmin = ccAdminRepository.findByEmail(changePasswordDTO.getEmail());
+
+        ccAdmin.setPassword(changePasswordDTO.getNewPassword());
+
+        if (ccAdmin == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        ccAdmin.setUserStatus(UserStatus.ACTIVE);
+        this.ccAdminRepository.save(ccAdmin);
+
+        return new ResponseEntity<>(ccAdmin, HttpStatus.CREATED);
     }
 
     @PostMapping(value="/assign-cc-admin/{id}")
@@ -107,6 +127,7 @@ public class CCAdminController {
         }
 
         newCCAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
+        newCCAdmin.setRole("CC_ADMIN");
 
         this.ccAdminRepository.save(newCCAdmin);
 
@@ -122,15 +143,20 @@ public class CCAdminController {
     public List<Account> getAccounts() {
 
         List<Account> accounts = accountRepository.findAll();
-        List<Account> ret = accountRepository.findAll();;
-        for (CCAdmin ccadmin : ccAdminRepository.findAll()){
-            for (Account account: accounts){
-                if (ccadmin.getEmail().equals(account.getEmail())) {
-                    System.out.println(account.getEmail());
-                    ret.remove(account);
+        List<Account> ret = accountRepository.findAll();
+
+        // checks if account has a ccadmin role and then removes accounts with same email
+        for (Account account : accounts){
+            if (account.getRole().equals("CC_ADMIN")){
+                for (Account potentialOther : accounts){
+                    if (potentialOther.getEmail().equals(account.getEmail()) && !potentialOther.getRole().equals("CC_ADMIN") ){
+                        ret.remove(potentialOther);
+                    }
                 }
+                ret.remove(account);
             }
         }
+
         return ret;
     }
 }
