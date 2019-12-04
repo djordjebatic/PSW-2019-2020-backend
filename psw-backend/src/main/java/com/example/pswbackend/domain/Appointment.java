@@ -38,15 +38,22 @@ public class Appointment {
 	private String time;
 	
 	@Column(nullable = false)
-    private Double price;
+    private float price;
+
+	@Column(nullable = false)
+	private int duration;
 	
-	public Double getPrice() {
+	public float getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
+
+	public int getDuration() { return duration; }
+
+	public void setDuration(int duration) { this.duration = duration; }
 
 	@Enumerated(EnumType.STRING)
     private AppointmentStatus status;
