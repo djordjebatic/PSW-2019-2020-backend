@@ -19,6 +19,7 @@ import CCAdmin from './Content/CCAdmin/CCAdmin';
 import ClinicAdmin from './Content/ClinicAdmin/ClinicAdmin';
 import QuickReservation from './Content/ClinicAdmin/QuickReservation/QuickReservation';
 import EditPersonalProfile from './Content/PersonalProfile/EditPersonalProfile';
+import NonCCAdmins from './Content/CCAdmin/Tables/NonCCAdmins'
 
 
 function App() {
@@ -79,6 +80,9 @@ function App() {
           </Route>
           <Route path="/edit-personal-page">
             <EditPersonalProfile />
+          </Route>
+          <Route path="/assign-ccadmin">
+            <NonCCAdmins />
           </Route>
         </Switch>
       </BrowserRouter>
