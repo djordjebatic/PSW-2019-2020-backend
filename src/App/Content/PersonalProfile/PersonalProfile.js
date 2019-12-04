@@ -1,7 +1,10 @@
 import React from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import { Link } from 'react-router-dom'
+import axios from 'axios';
 import'./PersonalProfile.css'
+
 
 class PersonalProfile extends React.Component {
  
@@ -33,6 +36,11 @@ class PersonalProfile extends React.Component {
 
           </div>
           <div className="form-group">
+            <label>Email: </label>
+
+
+          </div>
+          <div className="form-group">
             <label>Medical number: </label>
 
 
@@ -58,6 +66,7 @@ class PersonalProfile extends React.Component {
 
           </div>
       </div>
+      <Link to="/edit-personal-page" class="btn link-btn-patient edit-button">Edit personal info</Link>
       <br/>
       <Footer/>
 
