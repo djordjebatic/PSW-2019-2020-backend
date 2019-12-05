@@ -31,7 +31,7 @@ class ChangePassword extends React.Component {
     SendLoginRequest = event => {
         event.preventDefault();
         console.log(this.state);
-        switch (userType){
+        switch (this.state.userType){
             case "ULOGA 1":
                 return // prebaci na pocetnu stranicu uloge 1
             case "ULOGA 2":
@@ -89,6 +89,7 @@ class ChangePassword extends React.Component {
                                     name="newPassword"
                                     onChange={this.handleChange}
                                     placeholder="Enter New Password"/>
+                                <br/>
                                 <input 
                                     required
                                     type="password" 
