@@ -23,7 +23,8 @@ class ChangePassword extends React.Component {
         this.state = {
             email: '',
             newPassword: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            userType: ''
         }
     }
 
