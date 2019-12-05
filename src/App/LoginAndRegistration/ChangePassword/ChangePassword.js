@@ -21,8 +21,9 @@ class ChangePassword extends React.Component {
         this.SendLoginRequest = this.SendLoginRequest.bind(this);
   
         this.state = {
-            email: 'admin@gmail.com',
-            newPassword: ''
+            email: '',
+            newPassword: '',
+            confirmPassword: ''
         }
     }
 
