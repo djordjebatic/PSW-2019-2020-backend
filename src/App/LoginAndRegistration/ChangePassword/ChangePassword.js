@@ -72,7 +72,7 @@ class ChangePassword extends React.Component {
                                 <label>You have logged in as the Clinic Center Administrator for the first time. <br></br>Please change your password.</label>
                                 <input 
                                     required
-                                    type="text" 
+                                    type="password" 
                                     className="form-control" 
                                     id="newPassword" 
                                     name="newPassword"
@@ -80,7 +80,7 @@ class ChangePassword extends React.Component {
                                     placeholder="Enter New Password"/>
                                 <input 
                                     required
-                                    type="text" 
+                                    type="password" 
                                     className="form-control" 
                                     id="confirmPassword" 
                                     name="confirmPassword"
