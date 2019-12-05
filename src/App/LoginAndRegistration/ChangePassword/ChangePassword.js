@@ -78,6 +78,14 @@ class ChangePassword extends React.Component {
                                     name="newPassword"
                                     onChange={this.handleChange}
                                     placeholder="Enter New Password"/>
+                                <input 
+                                    required
+                                    type="text" 
+                                    className="form-control" 
+                                    id="confirmPassword" 
+                                    name="confirmPassword"
+                                    onChange={this.handleChange}
+                                    placeholder="Confirm New Password"/>
                             </div>
                             <Button type="submit" className="btn">Change Password</Button>
                         </form>
