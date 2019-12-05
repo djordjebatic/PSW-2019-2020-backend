@@ -1,0 +1,11 @@
+.nonccadmins-title {
+    font-size: large;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    font-weight: bold;
+    padding-left: 0.5em;
+}
+
+.rtable {
+    margin: 20px 40px 40px 40px;
+}

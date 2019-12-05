@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer';
 
 
 import logo from '../../../images/med128.png'
+import NonCCAdmins from './Tables/NonCCAdmins';
 
 class CCAdmin extends React.Component {
   render() {
@@ -32,6 +33,11 @@ class CCAdmin extends React.Component {
                 <div className="col link">
                     <h4>Create a new Clinic or Clinic Admin</h4>
                     <a href="#" class="btn link-btn-doctor">Create</a>
+                </div>
+                <div className="col link">
+                    <h4>Assign new Clinic Center Admin</h4>
+                    <p>Look at the list of all non clinic admin users.</p>
+                    <Link to="/assign-ccadmin" class="btn link-btn-doctor">View List</Link>
                 </div>
             </div>
         </div>

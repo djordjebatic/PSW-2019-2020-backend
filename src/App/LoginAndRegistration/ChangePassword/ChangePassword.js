@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import './Login.css'
+import '../Login/Login.css'
 import Swal from 'sweetalert2';
 import { Button} from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
@@ -12,7 +12,7 @@ import logo from '../../../images/med128.png'
 
 const LoginAlert = withReactContent(Swal)
 
-class Login extends React.Component {
+class ChangePassword extends React.Component {
 
     constructor(props){
         super(props);
@@ -21,34 +21,32 @@ class Login extends React.Component {
         this.SendLoginRequest = this.SendLoginRequest.bind(this);
   
         this.state = {
-            email: '',
-            password: ''
+            email: 'admin@gmail.com',
+            newPassword: ''
         }
     }
 
     SendLoginRequest = event => {
         event.preventDefault();
           console.log(this.state);
-        axios.post("http://localhost:8080/api/accounts/login", this.state)
+        axios.put("http://localhost:8080/api/cc-admin/change-ccadmin-password", this.state)
         .then((resp) => {this.onSuccessHandler(resp);
-            if (resp.data.email == "admin@gmail.com" && resp.data.userStatus == "NEVER_LOGGED_IN"){
-                this.props.history.push('/change-password');
+                this.props.history.push('/ccadmin/');
             }
-        }
         )
         .catch((error) => this.onFailureHandler(error))
     }
   
     onSuccessHandler(resp){
         LoginAlert.fire({
-            title: "Logged in successfully",
+            title: "Password changed successfully",
             text: ""
         })
     }
 
     onFailureHandler(error){
         LoginAlert.fire({
-            title: "Log In failed",
+            title: "Password change failed",
             text: error
         })
     }
@@ -71,30 +69,17 @@ class Login extends React.Component {
                     <div className="col-8 login">
                         <form onSubmit={this.SendLoginRequest}>
                             <div className="form-group">
-                                <label>E-mail address</label>
+                                <label>You have logged in as the Clinic Center Administrator for the first time. <br></br>Please change your password.</label>
                                 <input 
                                     required
                                     type="text" 
                                     className="form-control" 
-                                    id="email" 
-                                    name="email"
-                                    aria-describedby="emailHelp"
-                                    onChange={this.handleChange} 
-                                    placeholder="E-mail address"/>
-                            </div>
-                            <div className="form-group">
-                                <label>Password</label>
-                                <input 
-                                    required
-                                    type="password" 
-                                    className="form-control" 
-                                    id="password" 
-                                    name="password"
+                                    id="newPassword" 
+                                    name="newPassword"
                                     onChange={this.handleChange}
-                                    placeholder="Password"/>
-                                <small id="newAccount" className="form-text text-muted"><Link to="/register">Doesn't have an account?</Link></small>
+                                    placeholder="Enter New Password"/>
                             </div>
-                            <Button type="submit" className="btn">Log In</Button>
+                            <Button type="submit" className="btn">Change Password</Button>
                         </form>
                     </div>
                 </div>
@@ -104,4 +89,4 @@ class Login extends React.Component {
     }
 }
 
-export default withRouter (Login);
+export default withRouter (ChangePassword);
