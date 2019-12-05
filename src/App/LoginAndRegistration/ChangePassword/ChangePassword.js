@@ -29,14 +29,23 @@ class ChangePassword extends React.Component {
     }
 
     SendLoginRequest = event => {
-        event.preventDefault();
-          console.log(this.state);
-        axios.put("http://localhost:8080/api/cc-admin/change-ccadmin-password", this.state)
-        .then((resp) => {this.onSuccessHandler(resp);
-                this.props.history.push('/ccadmin/');
-            }
-        )
-        .catch((error) => this.onFailureHandler(error))
+        switch (userType){
+            case "ULOGA 1":
+                return // prebaci na pocetnu stranicu uloge 1
+            case "ULOGA 2":
+                return // prebaci na pocetnu stranicu uloge 2
+            default: // u default je za sada samo za klinickog admina
+                event.preventDefault();
+                console.log(this.state);
+                axios.put("http://localhost:8080/api/cc-admin/change-ccadmin-password", this.state)
+                .then((resp) => {this.onSuccessHandler(resp);
+                        this.props.history.push('/ccadmin/');
+                    }
+                )
+                .catch((error) => this.onFailureHandler(error))
+            // dodati konkretne uloge
+        }
+        
     }
   
     onSuccessHandler(resp){
