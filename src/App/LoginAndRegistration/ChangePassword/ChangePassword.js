@@ -69,7 +69,7 @@ class ChangePassword extends React.Component {
                     <div className="col-8 login">
                         <form onSubmit={this.SendLoginRequest}>
                             <div className="form-group">
-                                <label>You have logged in as the Clinic Center Administrator for the first time. <br></br>Please change your password.</label>
+                                <label>You have logged in for the first time. <br></br>Please change your password.</label>
                                 <input 
                                     required
                                     type="password" 
