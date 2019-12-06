@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Role implements GrantedAuthority {
+public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Role implements GrantedAuthority {
     @ManyToMany
     private Set<Account> account;
 
-    public Role() {
+    public Authority() {
     }
 
     public Long getId() {

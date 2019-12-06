@@ -11,7 +11,6 @@ import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -53,7 +52,7 @@ public class Account implements UserDetails {
     @Column(name = "authorities")
     @NonNull
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Role> authorities;
+    private List<Authority> authorities;
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -134,7 +133,7 @@ public class Account implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setAuthorities(List<Role> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 

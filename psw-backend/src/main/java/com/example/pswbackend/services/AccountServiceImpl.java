@@ -2,7 +2,7 @@ package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.AccountRequest;
-import com.example.pswbackend.domain.Role;
+import com.example.pswbackend.domain.Authority;
 import com.example.pswbackend.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
         account.setPhoneNumber(accountRequest.getPhoneNumber());
         account.setEnabled(true);
 
-        List<Role> auth = authService.findByName("PATIENT");
+        List<Authority> auth = authService.findByName("PATIENT");
         account.setAuthorities(auth);
 
         account = this.accountRepository.save(account);
