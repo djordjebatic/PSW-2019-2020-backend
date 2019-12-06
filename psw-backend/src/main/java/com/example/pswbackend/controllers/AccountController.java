@@ -23,19 +23,19 @@ public class AccountController {
     private AccountService accountService;
 
     @RequestMapping(method = GET, value = "/account/{accountId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Account loadById(@PathVariable Long accountId) {
         return this.accountService.findById(accountId);
     }
 
     @RequestMapping(method = GET, value = "/account/all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Account> loadAll() {
         return this.accountService.findAll();
     }
 
     @RequestMapping("/whoami")
-    @PreAuthorize("hasRole('ACCOUNT')")
+    @PreAuthorize("hasAuthority('ACCOUNT')")
     public Account account(Principal account) {
         return this.accountService.findByEmail(account.getName());
     }
