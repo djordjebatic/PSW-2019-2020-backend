@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="discriminator", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name="account_type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "ACCOUNT")
 public class Account implements UserDetails {
 
