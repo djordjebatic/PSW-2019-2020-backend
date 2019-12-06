@@ -20,8 +20,13 @@ values ('NURSE', 'sestra@gmail.com', '280510556', 'Sima', 'Simic', '065256155', 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
 values ('PATIENT', 'patijent@gmail.com', 'patijent', 'Pata', 'Patic', '065256165', 'Zeleznicka ulica 69','Ndzamena','Chad','901204931212','APPROVED');
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
-values ('Patient', 'patijent2@gmail.com', 'patijent', 'Pera', 'Peric', '064123466', 'Veselina Maslese 3','Beograd','Srbija','1234567890123','AWAITING_APPROVAL');
+values ('PATIENT', 'patijent2@gmail.com', 'patijent', 'Pera', 'Peric', '064123466', 'Veselina Maslese 3','Beograd','Srbija','1234567890123','AWAITING_APPROVAL');
 
-/* TODO Add worktime for doctors and nurses in classes and specialization for admin ? */
+INSERT INTO authority (id, name) values (1, 'PATIENT');
+INSERT INTO authority (id, name) values (2, 'DOCTOR');
+INSERT INTO authority (id, name) values (3, 'NURSE');
+INSERT INTO authority (id, name) values (4, 'CLINIC_ADMIN');
+INSERT INTO authority (id, name) values (5, 'CC_ADMIN');
+
 
 
