@@ -8,7 +8,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("ClinicAdmin")
+@DiscriminatorValue(value="CLINIC_ADMIN")
 public class ClinicAdmin extends Account{
     
     //FetchType must be EAGER because of editing ClinicAdministrator
