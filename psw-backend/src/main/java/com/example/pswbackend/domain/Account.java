@@ -67,7 +67,6 @@ public class Account implements UserDetails {
         return id;
     }
 
-    // ------------------------ zove se username ali vraca email zbog nasledjivanja
     @Override
     public String getUsername() {
         return email;
