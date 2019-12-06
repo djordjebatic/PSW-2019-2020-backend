@@ -28,5 +28,12 @@ INSERT INTO authority (id, name) values (3, 'NURSE');
 INSERT INTO authority (id, name) values (4, 'CLINIC_ADMIN');
 INSERT INTO authority (id, name) values (5, 'CC_ADMIN');
 
+INSERT INTO account_authority (account_id, authority_id) values  (1, 5);
+INSERT INTO account_authority (account_id, authority_id) values  (2, 4);
+INSERT INTO account_authority (account_id, authority_id) values  (3, 2);
+INSERT INTO account_authority (account_id, authority_id) values  (4, 2);
+INSERT INTO account_authority (account_id, authority_id) values  (5, 3);
+INSERT INTO account_authority (account_id, authority_id) values  (6, 1);
+INSERT INTO account_authority (account_id, authority_id) values  (7, 1);
 
 
