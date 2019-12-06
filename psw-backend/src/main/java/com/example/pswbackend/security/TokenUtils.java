@@ -57,7 +57,6 @@ public class TokenUtils {
         return new Date(timeProvider.now().getTime() + EXPIRES_IN);
     }
 
-    // Funkcija za refresh JWT tokena
     public String refreshToken(String token) {
         String refreshedToken;
         try {
@@ -79,7 +78,6 @@ public class TokenUtils {
                 && (!(this.isTokenExpired(token)) || this.ignoreTokenExpiration(token)));
     }
 
-    // Funkcija za validaciju JWT tokena
     public Boolean validateToken(String token, UserDetails userDetails) {
         Account account = (Account) userDetails;
         final String email = getEmailFromToken(token);
@@ -137,7 +135,6 @@ public class TokenUtils {
         return EXPIRES_IN;
     }
 
-    // Funkcija za preuzimanje JWT tokena iz zahteva
     public String getToken(HttpServletRequest request) {
         String authHeader = getAuthHeaderFromHeader(request);
 
@@ -166,7 +163,6 @@ public class TokenUtils {
         return (audience.equals(AUDIENCE_TABLET) || audience.equals(AUDIENCE_MOBILE));
     }
 
-    // Funkcija za citanje svih podataka iz JWT tokena
     private Claims getAllClaimsFromToken(String token) {
         Claims claims;
         try {
