@@ -48,8 +48,6 @@ public class Account implements UserDetails {
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String country;
 
-    @Column(name = "enabled")
-    private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "account_authority",
@@ -146,11 +144,7 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+        return true;
     }
 
     public Timestamp getLastPasswordResetDate() {
