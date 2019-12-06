@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-@DiscriminatorValue("Doctor")
+@DiscriminatorValue(value="DOCTOR")
 public class Doctor extends Account {
     
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
