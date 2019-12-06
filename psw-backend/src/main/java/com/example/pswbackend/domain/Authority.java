@@ -20,8 +20,8 @@ public class Authority implements GrantedAuthority {
     @NonNull
     private String name;
 
-    @ManyToMany
-    private Set<Account> account;
+    //@ManyToMany
+    //private Set<Account> account;
 
     public Authority() {
     }
@@ -35,20 +35,20 @@ public class Authority implements GrantedAuthority {
     }
 
     public String getName() {
-        return name.name();
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public Set<Account> getAccount() {
-        return account;
-    }
+    //public Set<Account> getAccount() {
+    //    return account;
+    //}
 
-    public void setAccount(Set<Account> account) {
-        this.account = account;
-    }
+    //public void setAccount(Set<Account> account) {
+    //    this.account = account;
+    //}
 
     @Override
     public String getAuthority() {
