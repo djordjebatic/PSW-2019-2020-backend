@@ -48,9 +48,9 @@ public class AccountServiceImpl implements AccountService {
         account.setCity(accountRequest.getCity());
         account.setCountry(accountRequest.getCountry());
         account.setPhoneNumber(accountRequest.getPhoneNumber());
-        account.setEnabled(true);
+        //account.setEnabled(true);
 
-        List<Authority> auth = authService.findByName("PATIENT");
+        List<Authority> auth = authService.findByName("CC_ADMIN");
         account.setAuthorities(auth);
 
         account = this.accountRepository.save(account);
