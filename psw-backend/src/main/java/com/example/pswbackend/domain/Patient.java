@@ -10,7 +10,7 @@ import com.example.pswbackend.enums.Status;
 import java.util.Set;
 
 @Entity
-@DiscriminatorValue("Patient")
+@DiscriminatorValue(value="PATIENT")
 public class Patient extends Account{
 	
 	// TODO generate radnom number

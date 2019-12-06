@@ -5,7 +5,7 @@ import com.example.pswbackend.enums.UserStatus;
 import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("CCAdmin")
+@DiscriminatorValue(value="CC_ADMIN")
 public class CCAdmin extends Account{
 
 	@Enumerated(EnumType.STRING)

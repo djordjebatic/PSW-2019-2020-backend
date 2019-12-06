@@ -8,21 +8,22 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Role implements GrantedAuthority {
+public class Authority implements GrantedAuthority {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
     @Column(name = "name")
     @NonNull
-    private RoleEnum name;
+    private String name;
 
-    @ManyToMany
-    private Set<Account> account;
+    //@ManyToMany
+    //private Set<Account> account;
 
-    public Role() {
+    public Authority() {
     }
 
     public Long getId() {
@@ -34,23 +35,23 @@ public class Role implements GrantedAuthority {
     }
 
     public String getName() {
-        return name.name();
+        return name;
     }
 
-    public void setName(RoleEnum name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Set<Account> getAccount() {
-        return account;
-    }
+    //public Set<Account> getAccount() {
+    //    return account;
+    //}
 
-    public void setAccount(Set<Account> account) {
-        this.account = account;
-    }
+    //public void setAccount(Set<Account> account) {
+    //    this.account = account;
+    //}
 
     @Override
     public String getAuthority() {
-        return name.name();
+        return name;
     }
 }

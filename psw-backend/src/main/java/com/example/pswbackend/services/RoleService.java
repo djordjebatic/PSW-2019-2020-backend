@@ -1,11 +1,11 @@
 package com.example.pswbackend.services;
 
-import com.example.pswbackend.domain.Role;
+import com.example.pswbackend.domain.Authority;
 
 import java.util.List;
 
 public interface RoleService {
 
-    List<Role> findById(Long id);
-    List<Role> findByName(String name);
+    List<Authority> findById(Long id);
+    List<Authority> findByName(String name);
 }
