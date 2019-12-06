@@ -11,6 +11,7 @@ import java.util.Set;
 public class Authority implements GrantedAuthority {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
