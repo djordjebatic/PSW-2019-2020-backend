@@ -18,7 +18,7 @@ public class Authority implements GrantedAuthority {
 
     @Column(name = "name")
     @NonNull
-    private RoleEnum name;
+    private String name;
 
     @ManyToMany
     private Set<Account> account;
@@ -38,7 +38,7 @@ public class Authority implements GrantedAuthority {
         return name.name();
     }
 
-    public void setName(RoleEnum name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -52,6 +52,6 @@ public class Authority implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return name.name();
+        return name;
     }
 }
