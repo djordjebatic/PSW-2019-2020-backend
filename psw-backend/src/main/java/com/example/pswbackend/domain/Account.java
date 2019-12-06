@@ -51,9 +51,10 @@ public class Account implements UserDetails {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "account_authority",
-            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authority_id"))
+            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
 
     @Column(name = "last_password_reset_date")
