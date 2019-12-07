@@ -31,6 +31,14 @@ class Login extends React.Component {
           console.log(this.state);
         axios.post("http://localhost:8080/api/accounts/login", this.state)
         .then((resp) => {this.onSuccessHandler(resp);
+            if(resp.data.userStatus == "NEVER_LOGGED_IN"){
+                if(resp.data.email == "dok@gmail.com"){           // umesto mejla ce biti tip (vise provera) clinicAdmin, Nurse, Doctor
+                    this.props.history.push("/change-password"); 
+                }
+                /*if(resp.data.authorities.contains("DOCTOR") ili CLINIC_ADMIN ili NURSE){           
+                     this.props.history.push("/change-password"); 
+                }*/
+            }
             if (resp.data.email == "admin@gmail.com" && resp.data.userStatus == "NEVER_LOGGED_IN"){
                 this.props.history.push('/change-password');
             }
