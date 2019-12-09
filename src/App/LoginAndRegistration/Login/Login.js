@@ -13,7 +13,7 @@ import logo from '../../../images/med128.png'
 const LoginAlert = withReactContent(Swal)
 
 class Login extends React.Component {
-
+    
     constructor(props){
         super(props);
   
@@ -29,11 +29,15 @@ class Login extends React.Component {
     SendLoginRequest = event => {
         event.preventDefault();
           console.log(this.state);
-        axios.post("http://localhost:8080/api/accounts/login", this.state)
+        axios.post("http://localhost:8080/auth/login", this.state)
         .then((resp) => {this.onSuccessHandler(resp);
-            if (resp.data.email == "admin@gmail.com" && resp.data.userStatus == "NEVER_LOGGED_IN"){
-                this.props.history.push('/change-password');
-            }
+            localStorage.setItem('token', resp.data.accessToken)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.accessToken}`;
+            axios.get("http://localhost:8080/auth/getMyUser").then((resp) => {
+                if (resp.data.username == "admin@gmail.com" && resp.data.userStatus == "NEVER_LOGGED_IN"){
+                    this.props.history.push('/change-password');
+                }
+             })
         }
         )
         .catch((error) => this.onFailureHandler(error))
