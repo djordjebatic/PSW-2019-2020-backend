@@ -99,6 +99,16 @@ public class AuthenticationController {
         }
     }
 
+    @RequestMapping(value = "/getMyUser", method = RequestMethod.GET)
+    public ResponseEntity<?> getMyUser(HttpServletRequest request) {
+
+        String token = tokenUtils.getToken(request);
+        String username = this.tokenUtils.getEmailFromToken(token);
+        Account account = (Account) this.accountDetailsService.loadUserByUsername(username);
+        return new ResponseEntity<>(account, HttpStatus.OK);
+
+    }
+
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
