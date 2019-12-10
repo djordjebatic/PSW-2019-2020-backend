@@ -21,6 +21,15 @@ public class Diagnosis {
 	@OneToMany(mappedBy = "diagnosis", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<ExaminationReport> examinationReports = new HashSet<>();
 
+	public Diagnosis(){
+
+	}
+
+	public Diagnosis(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
+
 	public Long getId() {
 		return id;
 	}
