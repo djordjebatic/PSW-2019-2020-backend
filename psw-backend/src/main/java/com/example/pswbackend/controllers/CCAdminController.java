@@ -180,6 +180,18 @@ public class CCAdminController {
         return new ResponseEntity<>(drug, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/delete-drug/{id}")
+    @PreAuthorize("hasRole('CC_ADMIN')")
+    public ResponseEntity<Drug> deleteDrug(@PathVariable Long id){
 
+        Drug drug = drugRepository.findOneById(id);
+
+        if (drug == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        drugRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
