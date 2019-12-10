@@ -121,5 +121,17 @@ public class CCAdminController {
 
     }
 
+    @PutMapping(value = "/delete-diagnosis/{id}")
+    public ResponseEntity<Diagnosis> deleteDiagnosis(@PathVariable Long id){
+
+        Diagnosis diagnosis = diagnosisRepository.findOneById(id);
+
+        if (diagnosis == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        diagnosisRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
