@@ -1,12 +1,14 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.Diagnosis;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.domain.ClinicAdmin;
 import com.example.pswbackend.dto.ClinicAdminDTO;
+import com.example.pswbackend.repositories.DiagnosisRepository;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.PatientService;
@@ -30,6 +32,9 @@ public class CCAdminController {
 
     @Autowired
     ClinicAdminService clinicAdminService;
+
+    @Autowired
+    DiagnosisRepository diagnosisRepository;
 
     @GetMapping(value="/all-registration-requests")
     public ResponseEntity<List<RegisterApprovalDTO>> getAllRegistrationRequests() {
@@ -79,4 +84,12 @@ public class CCAdminController {
 
         return new ResponseEntity<>(newClinicAdmin, HttpStatus.OK);
     }
+
+    @GetMapping(value="/all-diagnosis")
+    public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
+        return new ResponseEntity<>(diagnosisRepository.findAll(), HttpStatus.OK);
+    }
+
+
+
 }
