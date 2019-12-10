@@ -1,15 +1,13 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Clinic;
-import com.example.pswbackend.domain.Diagnosis;
-import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.DiagnosisDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
 import com.example.pswbackend.enums.Status;
-import com.example.pswbackend.domain.ClinicAdmin;
 import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.repositories.DiagnosisRepository;
+import com.example.pswbackend.repositories.DrugRepository;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.PatientService;
@@ -37,6 +35,9 @@ public class CCAdminController {
 
     @Autowired
     DiagnosisRepository diagnosisRepository;
+
+    @Autowired
+    DrugRepository drugRepository;
 
     @GetMapping(value="/all-registration-requests")
     @PreAuthorize("hasRole('CC_ADMIN')")
@@ -144,4 +145,9 @@ public class CCAdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value="/get-all-drugs")
+    @PreAuthorize("hasRole('CC_ADMIN')")
+    public ResponseEntity<List<Drug>> getAllDrugs() {
+        return new ResponseEntity<>(drugRepository.findAll(), HttpStatus.OK);
+    }
 }
