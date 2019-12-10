@@ -21,7 +21,7 @@ import QuickReservation from './Content/ClinicAdmin/QuickReservation/QuickReserv
 import EditPersonalProfile from './Content/PersonalProfile/EditPersonalProfile';
 import NonCCAdmins from './Content/CCAdmin/Tables/NonCCAdmins'
 import ChangePassword from './LoginAndRegistration/ChangePassword/ChangePassword';
-
+import ClinicPage from './Content/Clinic/ClinicPage'
 
 function App() {
   return (
@@ -87,6 +87,9 @@ function App() {
           </Route>
           <Route path="/change-password">
             <ChangePassword />
+          </Route>
+          <Route path="/clinic-page">
+            <ClinicPage />
           </Route>
         </Switch>
       </BrowserRouter>
