@@ -48,3 +48,16 @@ INSERT INTO account_authority (account_id, authority_id) values  (7, 1);
 
 ------------------------------------------------------------------------------
 
+--Diagnosis
+insert into diagnosis (name, description)
+values ('Streptococcus pneumoniae', 'Acute bacterial rhinosinusitis');
+insert into diagnosis (name, description)
+values ('Babesia microti', 'Babesiosis ');
+insert into diagnosis (name, description)
+values ('Candidiasis', 'Candida infection');
+insert into diagnosis (name, description)
+values ('Staphylococcus aureus', 'Dacryocytitis');
+insert into diagnosis (name, description)
+values ('Ebola ', 'Ebola virus (Filovirus)');
+insert into diagnosis (name, description)
+values ('Clostridium perfringens', 'Gas gangrene');
