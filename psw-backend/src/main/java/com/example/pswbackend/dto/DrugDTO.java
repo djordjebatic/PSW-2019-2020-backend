@@ -9,6 +9,10 @@ public class DrugDTO {
 
     private String description;
 
+    public DrugDTO(){
+        super();
+    }
+
     public DrugDTO(String name, String ingredient, String description) {
         this.name = name;
         this.ingredient = ingredient;
