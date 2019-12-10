@@ -162,5 +162,24 @@ public class CCAdminController {
         }
     }
 
-    
+    @PutMapping(value = "/update-drug/{id}")
+    @PreAuthorize("hasRole('CC_ADMIN')")
+    public ResponseEntity<Drug> updateDrug(@PathVariable Long id, @RequestBody DrugDTO drugDTO){
+
+        Drug drug = drugRepository.findOneById(id);
+
+        if (drug == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        drug.setName(drugDTO.getName());
+        drug.setDescription(drugDTO.getDescription());
+        drug.setIngredient(drugDTO.getIngredient());
+
+        drugRepository.save(drug);
+        return new ResponseEntity<>(drug, HttpStatus.OK);
+    }
+
+
+
 }
