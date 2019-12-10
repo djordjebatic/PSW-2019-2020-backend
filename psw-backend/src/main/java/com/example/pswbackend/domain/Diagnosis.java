@@ -13,11 +13,11 @@ public class Diagnosis {
     private Long id;
 	
 	@Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
-	private String code;
-	
-	@Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
 	private String name;
-	
+
+	@Column(columnDefinition = "VARCHAR", nullable = false)
+	private String description;
+
 	@OneToMany(mappedBy = "diagnosis", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<ExaminationReport> examinationReports = new HashSet<>();
 
@@ -29,12 +29,12 @@ public class Diagnosis {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getName() {
@@ -52,7 +52,4 @@ public class Diagnosis {
 	public void setExaminationReports(Set<ExaminationReport> examinationReports) {
 		this.examinationReports = examinationReports;
 	}
-
-	
-	
 }
