@@ -11,7 +11,7 @@ public class Drug {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, unique = true, columnDefinition = "VARCHAR(30)")
 	private String name;
 
@@ -23,6 +23,16 @@ public class Drug {
 	
 	@OneToMany(mappedBy = "drug", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
+
+	public Drug() {
+
+	}
+
+	public Drug(String name, String ingredient, String description) {
+		this.name = name;
+		this.ingredient = ingredient;
+		this.description = description;
+	}
 
 	public Long getId() {
 		return id;
