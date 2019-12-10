@@ -104,6 +104,22 @@ public class CCAdminController {
         }
     }
 
+    @PutMapping(value = "/update-diagnosis/{id}")
+    public ResponseEntity<Diagnosis> updateDiagnosis(@PathVariable Long id, @RequestBody DiagnosisDTO diagnosisDTO){
+
+        Diagnosis diagnosis = diagnosisRepository.findOneById(id);
+
+        if (diagnosis == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        diagnosis.setName(diagnosisDTO.getName());
+        diagnosis.setDescription(diagnosisDTO.getDescription());
+        diagnosisRepository.save(diagnosis);
+
+        return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+
+    }
 
 
 }
