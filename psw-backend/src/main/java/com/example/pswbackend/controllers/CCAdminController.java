@@ -1,11 +1,8 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.ClinicDTO;
-import com.example.pswbackend.dto.DiagnosisDTO;
-import com.example.pswbackend.dto.RegisterApprovalDTO;
+import com.example.pswbackend.dto.*;
 import com.example.pswbackend.enums.Status;
-import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.repositories.DiagnosisRepository;
 import com.example.pswbackend.repositories.DrugRepository;
 import com.example.pswbackend.services.ClinicAdminService;
@@ -150,4 +147,20 @@ public class CCAdminController {
     public ResponseEntity<List<Drug>> getAllDrugs() {
         return new ResponseEntity<>(drugRepository.findAll(), HttpStatus.OK);
     }
+
+    @PostMapping(value = "/add-drug")
+    @PreAuthorize("hasRole('CC_ADMIN')")
+    public ResponseEntity<Drug> addDrug(@RequestBody DrugDTO drugDTO){
+        Drug drug = new Drug(drugDTO.getName(), drugDTO.getIngredient(), drugDTO.getDescription());
+
+        if (drugRepository.findByName(drug.getName()) == null) {
+            drugRepository.save(drug);
+            return new ResponseEntity<>(drug, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    
 }
