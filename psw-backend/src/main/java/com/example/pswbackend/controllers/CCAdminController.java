@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.Diagnosis;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.dto.DiagnosisDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.domain.ClinicAdmin;
@@ -88,6 +89,19 @@ public class CCAdminController {
     @GetMapping(value="/all-diagnosis")
     public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
         return new ResponseEntity<>(diagnosisRepository.findAll(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add-diagnosis")
+    public ResponseEntity<Diagnosis> addDiagnosis(@RequestBody DiagnosisDTO diagnosisDTO){
+        Diagnosis diagnosis = new Diagnosis(diagnosisDTO.getName(), diagnosisDTO.getDescription());
+
+        if (diagnosisRepository.findByName(diagnosis.getName()) == null) {
+            diagnosisRepository.save(diagnosis);
+            return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
