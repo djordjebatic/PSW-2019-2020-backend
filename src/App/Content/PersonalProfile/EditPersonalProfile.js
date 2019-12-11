@@ -24,30 +24,28 @@ class EditPersonalProfile extends React.Component {
                 address: '',
                 city: '',
                 country: '',
-                phoneNumber: null,
+                phoneNumber: '',
                 passwordConfirm:''
 
         }
     }
 
     componentDidMount(){
-        axios.get("http://localhost:8080/patients/" + '6') //za sve usere
-        .then(response=>{
-          
-           this.setState({
-             password: response.data.password,
-             firstName: response.data.firstName,
-             lastName: response.data.lastName,
-             address: response.data.address,
-             city: response.data.city,
-             country: response.data.country, 
-             phoneNumber: response.data.phoneNumber,
-             passwordConfirm: response.data.password
-     
-     
-           })
-        }
-         )
+        var token = localStorage.getItem('token');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.get("http://localhost:8080/auth/getMyUser")  
+        .then(response => {
+            this.setState({
+                firstName: response.data.firstName,
+                lastName: response.data.lastName,
+                email: response.data.username,
+                address: response.data.address,
+                city: response.data.city,
+                country: response.data.country,
+                phoneNumber: response.data.phoneNumber
+            })
+        })
+        .catch((error) => console.log(error))
       }
 
     UpdateInfoRequest = event => {
@@ -91,95 +89,102 @@ class EditPersonalProfile extends React.Component {
         return (
           <div className="EditPersonalProfile">
             <Header/>
-            <br/>
-             <h3 >Edit personal page</h3>
-
-            <form onSubmit={this.UpdateInfoRequest}>
-                <div className="form-group">
-                    <label htmlFor="firstName">First Name</label>
-                    <input type="text"
-                        className="form-control form-control-sm"
-                        id="firstName"
-                        name="firstName"
-                        onChange={this.handleChange}
-                        placeholder="Enter first name"
-                        defaultValue={this.state.firstName}
-                    />
-                    <br/>      
-                    <label htmlFor="lastName">Last Name</label>
-                    <input type="text"
-                        className="form-control form-control-sm"
-                        id="lastName"
-                        name="lastName"
-                        onChange={this.handleChange}
-                        placeholder="Enter last name"
-                        defaultValue={this.state.lastName}
-                    />
+            <div className="">
+            <div className="row">
+                <div className="col-10">
                     <br/>
-                    <label htmlFor="password">Password</label>
-                    <input type="password"
-                        className="form-control form-control-sm"
-                        id="password"
-                        name="password"
-                        onChange={this.handleChange}
-                        placeholder="Enter password"
-                        defaultValue={this.state.password}
-                    />
+                    <h3 >Edit Personal Information</h3>
+                    <form onSubmit={this.UpdateInfoRequest}>
+                        <div className="form-group edit-info">
+                            <label htmlFor="firstName">First Name</label>
+                            <input type="text"
+                                className="form-control form-control-sm"
+                                id="firstName"
+                                name="firstName"
+                                onChange={this.handleChange}
+                                placeholder="Enter first name"
+                                defaultValue={this.state.firstName}
+                            />
+                            <br/>      
+                            <label htmlFor="lastName">Last Name</label>
+                            <input type="text"
+                                className="form-control form-control-sm"
+                                id="lastName"
+                                name="lastName"
+                                onChange={this.handleChange}
+                                placeholder="Enter last name"
+                                defaultValue={this.state.lastName}
+                            />
+                            <br/>
+                            <label htmlFor="password">Password</label>
+                            <input type="password"
+                                className="form-control form-control-sm"
+                                id="password"
+                                name="password"
+                                onChange={this.handleChange}
+                                placeholder="Enter password"
+                                defaultValue={this.state.password}
+                            />
+                            <br/>
+                            <label htmlFor="passwordConfirm">Confirm Password</label>
+                            <input type="password"
+                                className="form-control form-control-sm"
+                                id="passwordConfirm"
+                                name="passwordConfirm"
+                                onChange={this.handleChange}
+                                placeholder="Enter password"
+                                defaultValue={this.state.passwordConfirm}
+                            />
+                            <br/>
+                            <label htmlFor="address">Address</label>
+                            <input type="text"
+                                className="form-control form-control-sm"
+                                id="address"
+                                name="address"
+                                onChange={this.handleChange}
+                                placeholder="Enter address"
+                                defaultValue={this.state.address}
+                            />
+                            <br/>
+                            <label htmlFor="city">City</label>
+                            <input type="text"
+                                className="form-control form-control-sm"
+                                id="city"
+                                name="city"
+                                onChange={this.handleChange}
+                                placeholder="Enter city"
+                                defaultValue={this.state.city}
+                            />
+                            <br/>
+                            <label htmlFor="country">Country</label>
+                            <input type="text"
+                                className="form-control form-control-sm"
+                                id="country"
+                                name="country"
+                                onChange={this.handleChange}
+                                placeholder="Enter country"
+                                defaultValue={this.state.country}
+                            />
+                            <br/>
+                            <label htmlFor="phoneNumber">Phone Number</label>
+                            <input type="number"
+                                className="form-control form-control-sm"
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                onChange={this.handleChange}
+                                placeholder="Enter phone number"
+                                defaultValue={this.state.phoneNumber}
+                            />
+                        </div>
+                        <hr/>
+                        <Button type="submit">Update</Button>
+                    </form>
                     <br/>
-                    <label htmlFor="passwordConfirm">Confirm Password</label>
-                    <input type="password"
-                        className="form-control form-control-sm"
-                        id="passwordConfirm"
-                        name="passwordConfirm"
-                        onChange={this.handleChange}
-                        placeholder="Enter password"
-                        defaultValue={this.state.passwordConfirm}
-                    />
-                    <br/>
-                    <label htmlFor="address">Address</label>
-                    <input type="text"
-                        className="form-control form-control-sm"
-                        id="address"
-                        name="address"
-                        onChange={this.handleChange}
-                        placeholder="Enter address"
-                        defaultValue={this.state.address}
-                    />
-                    <br/>
-                    <label htmlFor="city">City</label>
-                    <input type="text"
-                        className="form-control form-control-sm"
-                        id="city"
-                        name="city"
-                        onChange={this.handleChange}
-                        placeholder="Enter city"
-                        defaultValue={this.state.city}
-                    />
-                    <br/>
-                    <label htmlFor="country">Country</label>
-                    <input type="text"
-                        className="form-control form-control-sm"
-                        id="country"
-                        name="country"
-                        onChange={this.handleChange}
-                        placeholder="Enter country"
-                        defaultValue={this.state.country}
-                    />
-                    <br/>
-                    <label htmlFor="phoneNumber">Phone Number</label>
-                    <input type="number"
-                        className="form-control form-control-sm"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        onChange={this.handleChange}
-                        placeholder="Enter phone number"
-                        defaultValue={this.state.phoneNumber}
-                    />
                 </div>
-                <hr/>
-                <Button type="submit">Update</Button>
-            </form>
-            <br/>
+                <div className="col-2 edit-personal-profile-image">
+                </div>
+            </div>
+        </div>
         <Footer/>
     </div>
   );
