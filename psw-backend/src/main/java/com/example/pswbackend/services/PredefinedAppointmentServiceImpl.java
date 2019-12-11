@@ -16,22 +16,13 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
     private PredefinedAppointmentRepository predAppointRepo;
 
     @Override
-    public Appointment findById(Long id){
-
-        return predAppointRepo.findOneById(id);
-    }
+    public Appointment findById(Long id){ return predAppointRepo.findOneById(id); }
 
     @Override
-    public List<Appointment> findAll(){
-
-        return predAppointRepo.findAll();
-    }
+    public List<Appointment> findAll(){ return predAppointRepo.findAll(); }
 
     @Override
-    public List<Appointment> findByClinicId(Long id){
-
-        return predAppointRepo.findByClinicId(id);
-    }
+    public List<Appointment> findByClinicId(Long id){ return predAppointRepo.findByClinicId(id); }
 
     @Override
     public Appointment schedulePredefinedAppointment(Patient patient, Appointment appointment ){
@@ -43,7 +34,6 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
             appointment.setStatus(AppointmentStatus.PREDEF_BOOKED);
 
             return appointment;
-
 
     }
 
