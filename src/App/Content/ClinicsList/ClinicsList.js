@@ -5,6 +5,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import './ClinicsList.css'
 import Select from "react-select";
+import axios from 'axios'
 
 class ClinicsList extends React.Component{
    
@@ -12,11 +13,30 @@ class ClinicsList extends React.Component{
         super();
 
         this.state={
-            data: [],
+
+            clinics: [{
+              id:'',
+              name :'',
+              description:'',
+              address:'',
+              city:'',
+              stars:'',
+              num_votes:''
+            }],
+            data:[],
             filtered:[],
             selected: undefined
         };
     }
+
+    componentDidMount() {
+      axios.get("http://localhost:8080/api/clinics", {
+        responseType: 'json'
+    }).then(response => {
+        this.setState({ clinics: response.data });
+    });
+}  
+       
 
     onFilteredChangeCustom = (value, accessor) => {
         let filtered = this.state.filtered;
@@ -41,32 +61,34 @@ class ClinicsList extends React.Component{
       
 
     render(){
-
-        const columns=[{
-            Header:'Name',
-            id: 'name',
-            accessor: d => d.name
+        
+        let { clinics } = this.state;
+        const columns=[
+          {
+            Header:'Id',
+            id: 'id',
+            accessor: d => d.id
+        },{
+          Header:'Name',
+          accessor: 'name'
         },{
             Header:'Address',
             accessor: 'address'
         },{
-            Header:'Score',
-            accessor: 'score'
+            Header:'Stars',
+            accessor: 'stars'
         }]
 
-        const data=[{
-            name:'ST MEDICINA',
-            address:'Bulevar oslobodjenja 79',
-            score:'3,2'
-        },{
+        /*const data=[
+          {
             name:'Klinika Perinatal',
             address:'Ilije Ognjenovica 79',
-            score:'4,5' 
+            stars:'4,5' 
         },{
             name:'Eliksir',
             address:'Marodiceva 12',
-            score:'4,5' 
-        }]
+            stars:'4,5' 
+        }]*/
 
         return (
             <div className="ClinicsList">
@@ -75,28 +97,9 @@ class ClinicsList extends React.Component{
               <div className="clinics-title">Clinic list</div>
                 <br/>
                 <br/>
-              <div className="clinic-filter">  
-              <label >Filter clinics by address: </label> 
-              <Select
-                onChange={entry => {
-                    this.setState({ selected: entry });
-                    this.onFilteredChangeCustom(
-                    entry.map(o => {
-                        return o.value;
-                    }),
-                    "address"
-                    );
-                }}
-                value={this.state.selected}
-                multi={true}
-                options={this.state.data.map((o, i) => {
-                    return { id: i, value: o.address, label: o.address };
-                })}
-             />
-             </div>
                 <div className='clinics rtable'>
                 <ReactTable 
-                  data={data}
+                  data={clinics}
                   filterable
                   filtered={this.state.filtered}
                   onFilteredChange={(filtered, column, value) => {
