@@ -24,7 +24,7 @@ class EditPersonalProfile extends React.Component {
                 address: '',
                 city: '',
                 country: '',
-                phoneNumber: null,
+                phoneNumber: '',
                 passwordConfirm:''
 
         }
