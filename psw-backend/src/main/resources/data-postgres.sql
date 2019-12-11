@@ -74,3 +74,17 @@ values ('Sterapred', 'Prednisone', 'Prednisone is a corticosteroid. It prevents 
 insert into drug (name, ingredient, description)
 values ('Ativan', 'Lorazepam', 'Lorazepam belongs to a group of drugs called benzodiazepines. It affects chemicals in the brain that may be unbalanced in people with anxiety');
 
+--Ordination
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '1', '1');
+
+--Medical record
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'None', 'A', '170', '6', '70');
+
+--Predefined appointment
+
+insert into appointment(type, date, time, price, duration, status, ordination_id, doctor_id, patient_id, nurse_id, medical_record_id, clinic_admin_id, clinic_id, discount, doctor_rating, clinic_rating)
+values('EXAMINATION', '12.04.2019.', '18.30', '1000', '1', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '1', '3', '4');
+
+
