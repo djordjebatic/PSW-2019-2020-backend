@@ -40,10 +40,13 @@ form {
 
 form .btn {
     background-color: darkcyan;
+    border-color: darkcyan;
     color: white;
 }
 
 form .btn:hover {
+    background-color: darkcyan;
+    border-color: darkcyan;
     color: silver;
 }
 
