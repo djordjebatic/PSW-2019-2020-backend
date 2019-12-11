@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DoctorService {
 
-    boolean sheduleAppointment(AppointmentDoctorDTO dto);
+    boolean scheduleAppointment(AppointmentDoctorDTO dto);
 
     Doctor findById(long id);
 
