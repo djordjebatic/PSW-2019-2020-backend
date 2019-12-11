@@ -50,6 +50,9 @@ class Login extends React.Component {
                         if (resp.data.authorities[0].name == "ROLE_CLINIC_ADMIN"){
                             this.props.history.push('/clinic-admin')
                         }
+                        if (resp.data.authorities[0].name == "ROLE_PATIENT"){
+                            this.props.history.push('/patient')
+                        }
                     }
 
                 })
