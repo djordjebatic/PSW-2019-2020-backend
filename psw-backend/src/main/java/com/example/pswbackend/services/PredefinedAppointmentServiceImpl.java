@@ -12,9 +12,6 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
     @Autowired
     private PredefinedAppointmentRepository predAppointRepo;
 
-    @Autowired
-    private ClinicRepository clinicRepository;
-
     @Override
     public Appointment findById(Long id){
 
@@ -26,6 +23,7 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
 
         return predAppointRepo.findAll();
     }
+
 
 
 
