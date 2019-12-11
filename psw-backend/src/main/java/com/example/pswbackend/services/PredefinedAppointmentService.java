@@ -9,5 +9,6 @@ import java.util.List;
 public interface PredefinedAppointmentService{
 
     Appointment findById(Long id);
+    List<Appointment> findByClinicId(Long id);
     List<Appointment> findAll();
 }

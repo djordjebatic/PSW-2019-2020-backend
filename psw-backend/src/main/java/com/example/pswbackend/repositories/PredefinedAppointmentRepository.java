@@ -9,6 +9,7 @@ public interface PredefinedAppointmentRepository extends JpaRepository<Appointme
 
     Appointment findOneById(Long id);
     List<Appointment> findAll();
+    List<Appointment> findByClinicId(Long id);
 
 }
 

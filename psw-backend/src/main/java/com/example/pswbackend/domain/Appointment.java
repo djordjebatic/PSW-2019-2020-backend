@@ -83,7 +83,7 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private ClinicAdmin clinicAdmin;
 
-	@ManyToOne(fetch =FetchType.EAGER)
+	@ManyToOne(fetch =FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
 	@Column
