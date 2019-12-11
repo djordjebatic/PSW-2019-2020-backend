@@ -47,11 +47,11 @@ public class Nurse extends Account{
 		this.prescriptions = prescriptions;
 	}
 
-	public UserStatus getStatus() {
+	public UserStatus getUserStatus() {
 		return userStatus;
 	}
 
-	public void setStatus(UserStatus userStatus) {
+	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
 	}
 }
