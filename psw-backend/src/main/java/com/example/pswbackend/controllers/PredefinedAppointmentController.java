@@ -10,10 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -21,6 +20,9 @@ public class PredefinedAppointmentController {
 
     @Autowired
     PredefinedAppointmentService predefinedAppointmentService;
+
+    @Autowired
+    PredefinedAppointmentRepository predefinedAppointmentRepository;
 
     @PostMapping(value = "/schedule-predefined-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Appointment> schedulePredefinedAppointment(Patient patient, Appointment appointment) {
@@ -33,5 +35,12 @@ public class PredefinedAppointmentController {
         }
 
         return new ResponseEntity<>(appointment, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/all-predefined-appointments")
+    public ResponseEntity<List<Appointment>> getPredefinedAppointments() {
+
+        //samo od te klinike
+        return new ResponseEntity<>(predefinedAppointmentRepository.findAll(), HttpStatus.OK);
     }
 }
