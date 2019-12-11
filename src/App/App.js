@@ -23,6 +23,8 @@ import NonCCAdmins from './Content/CCAdmin/Tables/NonCCAdmins'
 import ChangePassword from './LoginAndRegistration/ChangePassword/ChangePassword';
 import ClinicPage from './Content/Clinic/ClinicPage'
 import PredefinedExaminations from './Content/Clinic/PredefinedExaminations/PredefinedExaminations'
+import Drug from './Content/Codebook/Drug/Drug';
+import Diagnosis from './Content/Codebook/Diagnosis/Diagnosis';
 
 function App() {
   return (
@@ -94,6 +96,12 @@ function App() {
           </Route>
           <Route path="/predefined-examinations">
             <PredefinedExaminations />
+          </Route>
+          <Route path="/drugs">
+            <Drug />
+          </Route>
+          <Route path="/diagnosis">
+            <Diagnosis />
           </Route>
         </Switch>
       </BrowserRouter>
