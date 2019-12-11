@@ -1,10 +1,13 @@
 package com.example.pswbackend.services;
 import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.PredefinedAppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentService{
@@ -30,6 +33,19 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
         return predAppointRepo.findByClinicId(id);
     }
 
+    @Override
+    public Appointment schedulePredefinedAppointment(Patient patient, Appointment appointment ){
+
+            Set<Appointment> appointments= patient.getAppointments();
+            appointments.add(appointment);
+            patient.setAppointments(appointments);
+
+            appointment.setStatus(AppointmentStatus.PREDEF_BOOKED);
+
+            return appointment;
+
+
+    }
 
 
 }
