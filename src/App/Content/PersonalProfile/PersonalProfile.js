@@ -50,6 +50,42 @@ class PersonalProfile extends React.Component {
  }
  
   render() {
+
+    var additionalInfo;
+    if (this.state.role === "ROLE_CLINIC_ADMIN"){
+      additionalInfo = (
+        <div className="col-6">
+            <h3>Clinic Admin Information</h3>
+            <hr/>
+            <div className="form-group">
+              <label><strong>Medical number:</strong> {this.state.medicalNumber}</label>
+            </div>
+        </div>
+      )
+    } else if (this.state.role === "ROLE_PATIENT"){
+      additionalInfo = (
+        <div className="col-6">
+            <h3>Patient Information</h3>
+            <hr/>
+            <div className="form-group">
+              <label><strong>Medical number:</strong> {this.state.medicalNumber}</label>
+            </div>
+        </div>
+      )
+    } else if (this.state.role === "ROLE_DOCTOR"){
+      additionalInfo = (
+        <div className="col-6">
+            <h3>Doctor Information</h3>
+            <hr/>
+            <div className="form-group">
+              <label><strong>Number of Stars:</strong> {this.state.doctorStars}</label>
+            </div>
+            <div className="form-group">
+              <label><strong>Number of Votes:</strong> {this.state.doctorVotes}</label>
+            </div>
+        </div>
+      )
+    } 
     
   return (
     <div className="PersonalProfile">
