@@ -28,16 +28,31 @@ class Login extends React.Component {
 
     SendLoginRequest = event => {
         event.preventDefault();
-          console.log(this.state);
         axios.post("http://localhost:8080/auth/login", this.state)
         .then((resp) => {this.onSuccessHandler(resp);
             localStorage.setItem('token', resp.data.accessToken)
             axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.accessToken}`;
-            axios.get("http://localhost:8080/auth/getMyUser").then((resp) => {
-                if (resp.data.username == "admin@gmail.com" && resp.data.userStatus == "NEVER_LOGGED_IN"){
-                    this.props.history.push('/change-password');
-                }
-             })
+            axios.get("http://localhost:8080/auth/getMyUser")
+                .then((resp) => {
+                    if ((resp.data.authorities[0].name == "ROLE_DOCTOR" 
+                        || resp.data.authorities[0].name == "ROLE_NURSE" 
+                        || resp.data.authorities[0].name == "ROLE_CLINIC_ADMIN"
+                        || resp.data.authorities[0].name == "ROLE_CC_ADMIN")
+                         && resp.data.userStatus == "NEVER_LOGGED_IN"){
+                        this.props.history.push('/change-password');
+                    } else {
+                        if (resp.data.authorities[0].name == "ROLE_DOCTOR"){
+                            this.props.history.push('/doctor')
+                        }
+                        if (resp.data.authorities[0].name == "ROLE_NURSE"){
+                            this.props.history.push('/nurse')
+                        }
+                        if (resp.data.authorities[0].name == "ROLE_CLINIC_ADMIN"){
+                            this.props.history.push('/clinic-admin')
+                        }
+                    }
+
+                })
         }
         )
         .catch((error) => this.onFailureHandler(error))
