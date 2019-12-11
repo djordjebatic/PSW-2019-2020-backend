@@ -1,9 +1,11 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Account;
+import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
+import com.example.pswbackend.dto.ChangePasswordDTO;
 import com.example.pswbackend.services.CustomAccountDetailsService;
 import com.example.pswbackend.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,14 @@ public class DoctorController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // izmeniti tip statusa
         }
+    }
+
+    @PutMapping(value="/doctor/change-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Appointment> changePassword(ChangePasswordDTO dto){
+
+        //TODO implement changing password (Doctor)
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(value="/doctors/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
