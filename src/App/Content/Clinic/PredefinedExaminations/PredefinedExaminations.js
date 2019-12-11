@@ -93,7 +93,8 @@ class PredefinedExaminations extends React.Component {
             Header:'Discount',
             accessor:'discount'
         },{
-            Header:'Schedule'
+            Header:'Schedule',
+            Cell: <Button>Schedule</Button>
         }
     ]
 
