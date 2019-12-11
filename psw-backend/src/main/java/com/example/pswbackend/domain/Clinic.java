@@ -53,9 +53,6 @@ public class Clinic {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Doctor> clinicAdmins = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> predefinedAppointments = new HashSet<>();
-
 	public Clinic(String name, String description, String address, String city) {
 		this.name = name;
 		this.description = description;
@@ -65,7 +62,6 @@ public class Clinic {
 		this.nurses = new HashSet<>();
 		this.ordinations = new HashSet<>();
 		this.clinicAdmins = new HashSet<>();
-		this.predefinedAppointments=new HashSet<>();
 	}
 
 	public Clinic() {
@@ -167,12 +163,5 @@ public class Clinic {
 	public void setClinicAdmins(Set<Doctor> clinicAdmins) {
 		this.clinicAdmins = clinicAdmins;
 	}
-
-	public Set<Appointment> getPredefinedAppointments() {
-		return predefinedAppointments;
-	}
-
-	public void setPredefinedAppointments(Set<Appointment> predefinedAppointments) {
-		this.predefinedAppointments = predefinedAppointments;
-	}
+	
 }

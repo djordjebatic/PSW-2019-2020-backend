@@ -1,5 +1,6 @@
 package com.example.pswbackend.services;
 import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.repositories.PredefinedAppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,6 +11,9 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
 
     @Autowired
     private PredefinedAppointmentRepository predAppointRepo;
+
+    @Autowired
+    private ClinicRepository clinicRepository;
 
     @Override
     public Appointment findById(Long id){
@@ -22,6 +26,7 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
 
         return predAppointRepo.findAll();
     }
+
 
 
 }
