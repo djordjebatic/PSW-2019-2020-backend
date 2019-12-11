@@ -8,7 +8,7 @@ import javax.persistence.*;
 import com.example.pswbackend.enums.UserStatus;
 
 @Entity
-@DiscriminatorValue("Nurse")
+@DiscriminatorValue(value="NURSE")
 public class Nurse extends Account{
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -47,11 +47,11 @@ public class Nurse extends Account{
 		this.prescriptions = prescriptions;
 	}
 
-	public UserStatus getStatus() {
+	public UserStatus getUserStatus() {
 		return userStatus;
 	}
 
-	public void setStatus(UserStatus userStatus) {
+	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
 	}
 }

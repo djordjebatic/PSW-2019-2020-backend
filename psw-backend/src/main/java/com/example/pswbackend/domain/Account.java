@@ -11,15 +11,16 @@ import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="AccountType")
+@DiscriminatorColumn(name="account_type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue(value = "ACCOUNT")
 public class Account implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
     private long id;
 
     @Column(unique = true, nullable = false)
@@ -47,13 +48,12 @@ public class Account implements UserDetails {
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String country;
 
-    @Column(name = "enabled")
-    private boolean enabled;
 
-    @Column(name = "authorities")
-    @NonNull
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Role> authorities;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "account_authority",
+            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -66,7 +66,6 @@ public class Account implements UserDetails {
         return id;
     }
 
-    // ------------------------ zove se username ali vraca email zbog nasledjivanja
     @Override
     public String getUsername() {
         return email;
@@ -134,7 +133,7 @@ public class Account implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setAuthorities(List<Role> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 
@@ -145,11 +144,7 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+        return true;
     }
 
     public Timestamp getLastPasswordResetDate() {

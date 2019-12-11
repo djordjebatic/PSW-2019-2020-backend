@@ -1,6 +1,7 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +13,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-@DiscriminatorValue("Doctor")
+@DiscriminatorValue(value="DOCTOR")
 public class Doctor extends Account {
-    
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 	
@@ -65,11 +67,11 @@ public class Doctor extends Account {
 		this.appointments = appointments;
 	}
 
-	public UserStatus getStatus() {
+	public UserStatus getUserStatus() {
 		return userStatus;
 	}
 
-	public void setStatus(UserStatus userStatus) {
+	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
 	}
 }

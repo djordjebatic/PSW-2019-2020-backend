@@ -23,7 +23,7 @@ public class TokenUtils {
     @Value("somesecret")
     public String SECRET;
 
-    @Value("300000")
+    @Value("300000000")
     private int EXPIRES_IN;
 
     @Value("Authorization")
@@ -39,29 +39,17 @@ public class TokenUtils {
 
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
-    // Funkcija za generisanje JWT token
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         return Jwts.builder()
                 .setIssuer(APP_NAME)
-                .setSubject(username)
+                .setSubject(email)
                 .setAudience(generateAudience())
                 .setIssuedAt(timeProvider.now())
                 .setExpiration(generateExpirationDate())
-                // .claim("role", role) //postavljanje proizvoljnih podataka u telo JWT tokena
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
     }
 
     private String generateAudience() {
-//		Moze se iskoristiti org.springframework.mobile.device.Device objekat za odredjivanje tipa uredjaja sa kojeg je zahtev stigao.
-
-//		String audience = AUDIENCE_UNKNOWN;
-//		if (device.isNormal()) {
-//			audience = AUDIENCE_WEB;
-//		} else if (device.isTablet()) {
-//			audience = AUDIENCE_TABLET;
-//		} else if (device.isMobile()) {
-//			audience = AUDIENCE_MOBILE;
-//		}
         return AUDIENCE_WEB;
     }
 
@@ -69,7 +57,6 @@ public class TokenUtils {
         return new Date(timeProvider.now().getTime() + EXPIRES_IN);
     }
 
-    // Funkcija za refresh JWT tokena
     public String refreshToken(String token) {
         String refreshedToken;
         try {
@@ -91,7 +78,6 @@ public class TokenUtils {
                 && (!(this.isTokenExpired(token)) || this.ignoreTokenExpiration(token)));
     }
 
-    // Funkcija za validaciju JWT tokena
     public Boolean validateToken(String token, UserDetails userDetails) {
         Account account = (Account) userDetails;
         final String email = getEmailFromToken(token);
@@ -149,7 +135,6 @@ public class TokenUtils {
         return EXPIRES_IN;
     }
 
-    // Funkcija za preuzimanje JWT tokena iz zahteva
     public String getToken(HttpServletRequest request) {
         String authHeader = getAuthHeaderFromHeader(request);
 
@@ -178,7 +163,6 @@ public class TokenUtils {
         return (audience.equals(AUDIENCE_TABLET) || audience.equals(AUDIENCE_MOBILE));
     }
 
-    // Funkcija za citanje svih podataka iz JWT tokena
     private Claims getAllClaimsFromToken(String token) {
         Claims claims;
         try {

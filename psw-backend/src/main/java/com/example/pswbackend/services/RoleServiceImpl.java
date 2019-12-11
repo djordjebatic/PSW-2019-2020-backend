@@ -1,6 +1,6 @@
 package com.example.pswbackend.services;
 
-import com.example.pswbackend.domain.Role;
+import com.example.pswbackend.domain.Authority;
 import com.example.pswbackend.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +15,17 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
 
     @Override
-    public List<Role> findById(Long id) {
-        Role auth = this.roleRepository.getOne(id);
-        List<Role> auths = new ArrayList<>();
+    public List<Authority> findById(Long id) {
+        Authority auth = this.roleRepository.getOne(id);
+        List<Authority> auths = new ArrayList<>();
         auths.add(auth);
         return auths;
     }
 
     @Override
-    public List<Role> findByName(String name) {
-        Role auth = this.roleRepository.findByName(name);
-        List<Role> auths = new ArrayList<>();
+    public List<Authority> findByName(String name) {
+        Authority auth = this.roleRepository.findByName(name);
+        List<Authority> auths = new ArrayList<>();
         auths.add(auth);
         return auths;
     }
