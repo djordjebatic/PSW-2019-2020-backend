@@ -1,0 +1,16 @@
+.clinic-page-title {
+    font-size: larger;
+    padding-top: 2em;
+    padding-bottom: 1.5em;
+    font-weight: bold;
+    padding-left: 1em;
+    text-align: left;
+}
+
+.link-btn-patient:hover {
+    color: silver;
+}
+
+.btn-predefined-exam{
+    margin: 30px 30px 30px 30px;
+}
