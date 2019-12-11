@@ -27,23 +27,26 @@ class PersonalProfile extends React.Component {
  }
  
  componentDidMount(){
-   axios.get("http://localhost:8080/patients/" + '6') //za sve usere
-   .then(response=>{
-     
-      this.setState({
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
-        email: response.data.email,
-        medicalNumber: response.data.medicalNumber,
-        address: response.data.address,
-        city: response.data.city,
-        country: response.data.country, 
-        phoneNumber: response.data.phoneNumber
-
-
+    var token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.get("http://localhost:8080/auth/getMyUser")  
+      .then(response => {
+          console.log(response.data);
+          this.setState({
+              firstName: response.data.firstName,
+              lastName: response.data.lastName,
+              email: response.data.username,
+              address: response.data.address,
+              city: response.data.city,
+              country: response.data.country,
+              phoneNumber: response.data.phoneNumber,
+              role: response.data.authorities[0].name,
+              medicalNumber: response.data.medicalNumber,
+              doctorStars: response.data.stars,
+              doctorVotes: response.data.num_votes
+          })
       })
-   }
-    )
+    .catch((error) => console.log(error))
  }
  
   render() {
