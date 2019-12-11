@@ -22,6 +22,7 @@ import EditPersonalProfile from './Content/PersonalProfile/EditPersonalProfile';
 import NonCCAdmins from './Content/CCAdmin/Tables/NonCCAdmins'
 import ChangePassword from './LoginAndRegistration/ChangePassword/ChangePassword';
 import ClinicPage from './Content/Clinic/ClinicPage'
+import PredefinedExaminations from './Content/Clinic/PredefinedExaminations/PredefinedExaminations'
 
 function App() {
   return (
@@ -90,6 +91,9 @@ function App() {
           </Route>
           <Route path="/clinic-page">
             <ClinicPage />
+          </Route>
+          <Route path="/predefined-examinations">
+            <PredefinedExaminations />
           </Route>
         </Switch>
       </BrowserRouter>
