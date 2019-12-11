@@ -29,11 +29,11 @@ class NewAppointmentDoctor extends React.Component {
   SendAppointmentRequest = event => {
     event.preventDefault();
       console.log(this.state);
-    axios.post("http://localhost:8080/api/doctor/shedule-appointment", {
-      patient: this.state.patient,
-      date: this.state.date,
-      time: this.state.time
-    })  
+      axios.post("http://localhost:8080/api/doctor/shedule-appointment", {
+        patient: this.state.patient,
+        date: this.state.date,
+        time: this.state.time
+      })  
     .then((resp) => this.onSuccessHandler(resp))
     .catch((error) => this.onFailureHandler(error))
   }
@@ -57,6 +57,8 @@ class NewAppointmentDoctor extends React.Component {
   }
 
   componentDidMount() {
+    var token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios.get("http://localhost:8080/patients")  
       .then(response => {
           let tmpArray = []
