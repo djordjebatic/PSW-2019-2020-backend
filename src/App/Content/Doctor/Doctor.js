@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import "react-table/react-table.css";
+import axios from 'axios';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import './Doctor.css'
@@ -8,6 +9,30 @@ import './Doctor.css'
 import logo from '../../../images/med128.png'
 
 class Doctor extends React.Component {
+
+    constructor(props){
+        super(props); 
+    
+        this.state = {
+            firstName: '',
+            lastName: ''
+        }
+    }
+
+    componentDidMount(){
+    var token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.get("http://localhost:8080/auth/getMyUser")  
+        .then(response => {
+            console.log(response.data);
+            this.setState({
+                firstName: response.data.firstName,
+                lastName: response.data.lastName
+            })
+        })
+    .catch((error) => console.log(error))
+    }
+
   render() {
       return (
         <div className="Doctor">
@@ -18,7 +43,7 @@ class Doctor extends React.Component {
                         <div className="logo-doctor">
                             <img src={logo} alt="logo" />
                         </div>
-                        <h3 className="welcome-and-logo">Welcome, Doctor</h3>
+                        <h3 className="welcome-and-logo">Welcome, {this.state.firstName} {this.state.lastName}</h3>
                 </div>
             </div>
             <div className="row links">
