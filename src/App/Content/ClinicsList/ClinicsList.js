@@ -30,6 +30,8 @@ class ClinicsList extends React.Component{
     }
 
     componentDidMount() {
+      var token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       axios.get("http://localhost:8080/api/clinics", {
         responseType: 'json'
     }).then(response => {
