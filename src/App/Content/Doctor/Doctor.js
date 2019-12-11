@@ -25,12 +25,12 @@ class Doctor extends React.Component {
                 <div className="col link">
                     <h4>All Patients</h4>
                     <p>Look at the list of all patients in your clinic.</p>
-                    <Link to="/patients" class="btn link-btn-doctor">View List</Link>
+                    <Link to="/patients" className="btn link-btn-doctor">View List</Link>
                 </div>
                 <div className="col link">
                     <h4>Create New Appointment</h4>
                     <p>Choose date, ordination and type of the appointment.</p>
-                    <Link to="/new-appointment-doctor" class="btn link-btn-doctor">Create</Link>
+                    <Link to="/new-appointment-doctor" className="btn link-btn-doctor">Create</Link>
                 </div>
                 <div className="col link">
                     <h4>Create Absence/Vacation Request</h4>
