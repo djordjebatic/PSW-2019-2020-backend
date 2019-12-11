@@ -1,6 +1,7 @@
 import React from 'react';
-import './ClinicAdmin.css'
-import {Link} from 'react-router-dom'
+import './ClinicAdmin.css';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
@@ -8,6 +9,30 @@ import Footer from '../Footer/Footer';
 import logo from '../../../images/med128.png'
 
 class ClinicAdmin extends React.Component {
+
+    constructor(props){
+        super(props); 
+    
+        this.state = {
+            firstName: '',
+            lastName: ''
+        }
+    }
+
+    componentDidMount(){
+    var token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.get("http://localhost:8080/auth/getMyUser")  
+        .then(response => {
+            console.log(response.data);
+            this.setState({
+                firstName: response.data.firstName,
+                lastName: response.data.lastName
+            })
+        })
+    .catch((error) => console.log(error))
+    }
+
   render() {
     
   return (
@@ -19,7 +44,7 @@ class ClinicAdmin extends React.Component {
                         <div className="logo-admin">
                             <img src={logo} alt="logo" />
                         </div>
-                        <h3 className="welcome-and-logo">Welcome, Clinic Admin</h3>
+                        <h3 className="welcome-and-logo">Welcome, {this.state.firstName} {this.state.lastName}</h3>
                 </div>
             </div>
             <div className="row links">
