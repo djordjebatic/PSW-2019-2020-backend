@@ -163,5 +163,5 @@ public class Clinic {
 	public void setClinicAdmins(Set<Doctor> clinicAdmins) {
 		this.clinicAdmins = clinicAdmins;
 	}
-
+	
 }

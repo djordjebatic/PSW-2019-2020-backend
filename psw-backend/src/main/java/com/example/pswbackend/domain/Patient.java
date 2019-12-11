@@ -38,7 +38,7 @@ public class Patient extends Account{
 		this.medicalNumber = medicalNumber;
 	}
 
-	public Iterable<Appointment> getAppointments() {
+	public Set<Appointment> getAppointments() {
 		return appointments;
 	}
 

@@ -83,6 +83,9 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private ClinicAdmin clinicAdmin;
 
+	@ManyToOne(fetch =FetchType.EAGER, cascade = CascadeType.ALL)
+	private Clinic clinic;
+
 	@Column
     private Integer discount;
 	
@@ -223,5 +226,8 @@ public class Appointment {
 	public void setClinicAdmin(ClinicAdmin clinicAdmin) {
 		clinicAdmin = clinicAdmin;
 	}
-	
+
+	public Clinic getClinic() { return clinic; }
+
+	public void setClinic(Clinic clinic) { this.clinic = clinic; }
 }
