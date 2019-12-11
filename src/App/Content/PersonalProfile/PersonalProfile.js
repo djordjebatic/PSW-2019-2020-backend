@@ -90,53 +90,51 @@ class PersonalProfile extends React.Component {
   return (
     <div className="PersonalProfile">
       <Header/>
-      <br/>
-      <h3 >Personal page</h3>
-      <br/>
-        <div className="info">
-          <div className="form-group">
-            <label>First name:{this.state.fistName} </label>
-
-
-          </div>
-          <div className="form-group">
-            <label>Last name:{this.state.lastName} </label>
-
-
-          </div>
-          <div className="form-group">
-            <label>Email:{this.state.email} </label>
-
-
-          </div>
-          <div className="form-group">
-            <label>Medical number: {this.state.medicalNumber}</label>
-
-
-          </div>
-          <div className="form-group">
-            <label>Address: {this.state.address} </label>
-
-
-          </div>
-          <div className="form-group">
-            <label>City: {this.state.city} </label>
-
-
-          </div>
-          <div className="form-group">
-            <label>Country:{this.state.country} </label>
-
-
-          </div>
-          <div className="form-group">
-            <label>Phone number: {this.state.phoneNumber} </label>
-
-
+      <div className="">
+          <div className="row">
+            <div className="col-10">
+            <br/>
+            <h3 >My Profile</h3> 
+            <h5>({this.state.firstName} {this.state.lastName})</h5>
+            <br/>
+              <div className="info">
+              <div className="">
+                <div className="row">
+                  <div className="col-6">
+                      <h3>Personal Information</h3>
+                      <hr/>
+                      <div className="form-group">
+                        <label><strong>First name:</strong> {this.state.firstName} </label>
+                      </div>
+                      <div className="form-group">
+                        <label><strong>Last name:</strong> {this.state.lastName} </label>
+                      </div>
+                      <div className="form-group">
+                        <label><strong>Email:</strong> {this.state.email} </label>
+                      </div>
+                      <div className="form-group">
+                        <label><strong>Address:</strong> {this.state.address} </label>
+                      </div>
+                      <div className="form-group">
+                        <label><strong>City:</strong> {this.state.city} </label>
+                      </div>
+                      <div className="form-group">
+                        <label><strong>Country:</strong> {this.state.country} </label>
+                      </div>
+                      <div className="form-group">
+                        <label><strong>Phone number:</strong> {this.state.phoneNumber} </label>
+                      </div>
+                      <Link to="/edit-personal-page" className="btn link-btn-patient edit-button">Edit personal info</Link>
+                  </div>
+                  {additionalInfo}
+                </div>
+              </div>
+            </div>
+            </div>
+            <div className="col-2 personal-profile-image">
+            </div>
           </div>
       </div>
-      <Link to="/edit-personal-page" class="btn link-btn-patient edit-button">Edit personal info</Link>
-      <br/>
       <Footer/>
 
     </div>
