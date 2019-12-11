@@ -32,7 +32,7 @@ public class DoctorController {
     @PostMapping(value="/doctor/shedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Account> sheduleAppointment(AppointmentDoctorDTO dto){
 
-        if (doctorService.sheduleAppointment(dto)){
+        if (doctorService.scheduleAppointment(dto)){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // izmeniti tip statusa
