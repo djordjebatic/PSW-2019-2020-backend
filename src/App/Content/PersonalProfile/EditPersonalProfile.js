@@ -31,23 +31,21 @@ class EditPersonalProfile extends React.Component {
     }
 
     componentDidMount(){
-        axios.get("http://localhost:8080/patients/" + '6') //za sve usere
-        .then(response=>{
-          
-           this.setState({
-             password: response.data.password,
-             firstName: response.data.firstName,
-             lastName: response.data.lastName,
-             address: response.data.address,
-             city: response.data.city,
-             country: response.data.country, 
-             phoneNumber: response.data.phoneNumber,
-             passwordConfirm: response.data.password
-     
-     
-           })
-        }
-         )
+        var token = localStorage.getItem('token');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.get("http://localhost:8080/auth/getMyUser")  
+        .then(response => {
+            this.setState({
+                firstName: response.data.firstName,
+                lastName: response.data.lastName,
+                email: response.data.username,
+                address: response.data.address,
+                city: response.data.city,
+                country: response.data.country,
+                phoneNumber: response.data.phoneNumber
+            })
+        })
+        .catch((error) => console.log(error))
       }
 
     UpdateInfoRequest = event => {
