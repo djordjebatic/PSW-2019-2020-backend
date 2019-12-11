@@ -19,7 +19,10 @@ class PersonalProfile extends React.Component {
       address:'',
       city:'',
       country:'',
-      phoneNumber:null
+      phoneNumber: '',
+      role: '',
+      doctorStars: '',
+      doctorVotes: ''
    }
  }
  
