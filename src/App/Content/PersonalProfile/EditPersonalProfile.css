@@ -1,0 +1,11 @@
+.edit-info {
+    padding: 20px 20px;
+    margin: 0 20px;
+    margin-bottom: 40px;
+    background-color: silver;
+}
+
+.edit-personal-profile-image {
+    background-image: url("https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80");
+    background-size: cover;
+}
