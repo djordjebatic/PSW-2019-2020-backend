@@ -43,11 +43,11 @@ public class ClinicAdmin extends Account{
 		this.appointments = appointments;
 	}
 
-	public UserStatus getStatus() {
+	public UserStatus getUserStatus() {
 		return userStatus;
 	}
 
-	public void setStatus(UserStatus userStatus) {
+	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
 	}
 

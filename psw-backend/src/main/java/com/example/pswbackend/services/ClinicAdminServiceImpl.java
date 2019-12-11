@@ -57,7 +57,7 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         clinicAdmin.setCountry(clinicAdminDTO.getCountry());
         clinicAdmin.setPassword(clinicAdminDTO.getPassword());
         clinicAdmin.setClinic(clinicRepository.findOneById(clinicAdminDTO.getClinicId()));
-        clinicAdmin.setStatus(UserStatus.NEVER_LOGGED_IN);
+        clinicAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
         if (clinicAdminRepository.findByEmail(clinicAdmin.getUsername()) != null){
             System.out.println("Vec postoji");
             return null;
