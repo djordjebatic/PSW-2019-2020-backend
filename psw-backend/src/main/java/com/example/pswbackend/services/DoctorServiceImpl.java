@@ -21,7 +21,7 @@ public class DoctorServiceImpl implements DoctorService {
     private DoctorRepository doctorRepo;
 
     @Override
-    public boolean sheduleAppointment(AppointmentDoctorDTO dto) {
+    public boolean scheduleAppointment(AppointmentDoctorDTO dto) {
 
         String message = "-----------------------------------" +
                 "Date: " + dto.getDate() +

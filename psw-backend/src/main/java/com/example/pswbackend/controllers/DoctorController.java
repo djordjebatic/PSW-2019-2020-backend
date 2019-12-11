@@ -33,19 +33,11 @@ public class DoctorController {
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<Account> sheduleAppointment(AppointmentDoctorDTO dto){
 
-        if (doctorService.sheduleAppointment(dto)){
+        if (doctorService.scheduleAppointment(dto)){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // izmeniti tip statusa
         }
-    }
-
-    @PutMapping(value="/doctor/change-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Appointment> changePassword(ChangePasswordDTO dto){
-
-        //TODO implement changing password (Doctor)
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(value="/doctors/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
