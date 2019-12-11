@@ -57,9 +57,6 @@ class PersonalProfile extends React.Component {
         <div className="col-6">
             <h3>Clinic Admin Information</h3>
             <hr/>
-            <div className="form-group">
-              <label><strong>Medical number:</strong> {this.state.medicalNumber}</label>
-            </div>
         </div>
       )
     } else if (this.state.role === "ROLE_PATIENT"){
@@ -83,6 +80,13 @@ class PersonalProfile extends React.Component {
             <div className="form-group">
               <label><strong>Number of Votes:</strong> {this.state.doctorVotes}</label>
             </div>
+        </div>
+      )
+    } else if (this.state.role === "ROLE_CC_ADMIN"){
+      additionalInfo = (
+        <div className="col-6">
+            <h3>Clinic Center Admin Information</h3>
+            <hr/>
         </div>
       )
     } 
