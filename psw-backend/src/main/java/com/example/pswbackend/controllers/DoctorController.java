@@ -39,14 +39,6 @@ public class DoctorController {
         }
     }
 
-    @PutMapping(value="/doctor/change-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Appointment> changePassword(ChangePasswordDTO dto){
-
-        //TODO implement changing password (Doctor)
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @GetMapping(value="/doctors/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Doctor getDoctor(@PathVariable long id) {
 
