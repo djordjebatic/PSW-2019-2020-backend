@@ -30,6 +30,7 @@ public class DoctorController {
     private CustomAccountDetailsService accountDetailsService;
 
     @PostMapping(value="/doctor/shedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<Account> sheduleAppointment(AppointmentDoctorDTO dto){
 
         if (doctorService.sheduleAppointment(dto)){
@@ -60,7 +61,7 @@ public class DoctorController {
     }
 
     @RequestMapping(value = "/doctor/change-password", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('DOCTOR')")
+    @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<Account> changePassword(@RequestBody AuthenticationController.PasswordChanger passwordChanger) {
         accountDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 
