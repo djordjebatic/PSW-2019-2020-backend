@@ -48,3 +48,29 @@ INSERT INTO account_authority (account_id, authority_id) values  (7, 1);
 
 ------------------------------------------------------------------------------
 
+--Diagnosis
+insert into diagnosis (name, description)
+values ('Streptococcus pneumoniae', 'Acute bacterial rhinosinusitis');
+insert into diagnosis (name, description)
+values ('Babesia microti', 'Babesiosis ');
+insert into diagnosis (name, description)
+values ('Candidiasis', 'Candida infection');
+insert into diagnosis (name, description)
+values ('Staphylococcus aureus', 'Dacryocytitis');
+insert into diagnosis (name, description)
+values ('Ebola ', 'Ebola virus (Filovirus)');
+insert into diagnosis (name, description)
+values ('Clostridium perfringens', 'Gas gangrene');
+
+--Drug
+insert into drug (name, ingredient, description)
+values ('Tylenol', 'Acetaminophen', 'Acetaminophen is a pain reliever and a fever reducer');
+insert into drug (name, ingredient, description)
+values ('Vivlodex', 'Meloxicam', 'Meloxicam is a nonsteroidal anti-inflammatory drug (NSAID)');
+insert into drug (name, ingredient, description)
+values ('Adoxa Pak', 'Doxycycline', 'Doxycycline is a tetracycline antibiotic that fights bacteria in the body');
+insert into drug (name, ingredient, description)
+values ('Sterapred', 'Prednisone', 'Prednisone is a corticosteroid. It prevents the release of substances in the body that cause inflammation. It also suppresses the immune system');
+insert into drug (name, ingredient, description)
+values ('Ativan', 'Lorazepam', 'Lorazepam belongs to a group of drugs called benzodiazepines. It affects chemicals in the brain that may be unbalanced in people with anxiety');
+
