@@ -35,9 +35,8 @@ class PredefinedExaminations extends React.Component {
     componentDidMount() {
         var token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        axios.get("http://localhost:8080/api/all-predefined-appointments", {
-          responseType: 'json'
-      }).then(response => {
+        axios.get("http://localhost:8080/api/all-predefined-appointments").then(response => {
+          console.log(response.data);
           this.setState({ examinations: response.data });
       });
   }  
@@ -65,7 +64,7 @@ class PredefinedExaminations extends React.Component {
 
     render() {
 
-        let{examinations}=this.state;
+        let{examinations}=this.state.examinations;
         const columns=[{
             Header: 'Id',
             id: 'id',
