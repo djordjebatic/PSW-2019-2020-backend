@@ -3,6 +3,7 @@ package com.example.pswbackend.domain;
 import com.example.pswbackend.enums.AppointmentEnum;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,7 +32,7 @@ public class Ordination {
     private AppointmentEnum type;
 	
     @OneToMany(mappedBy = "ordination", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<Appointment> appointments = new HashSet<>();
+    private List<Appointment> appointments;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic ;
@@ -60,11 +61,11 @@ public class Ordination {
 		this.type = type;
 	}
 
-	public Set<Appointment> getAppointments() {
+	public List<Appointment> getAppointments() {
 		return appointments;
 	}
 
-	public void setAppointments(Set<Appointment> appointments) {
+	public void setAppointments(List<Appointment> appointments) {
 		this.appointments = appointments;
 	}
 
