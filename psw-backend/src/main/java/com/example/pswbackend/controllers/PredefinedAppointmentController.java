@@ -3,13 +3,14 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.enums.AppointmentStatus;
-import com.example.pswbackend.repositories.PredefinedAppointmentRepository;
+import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.services.PredefinedAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class PredefinedAppointmentController {
     PredefinedAppointmentService predefinedAppointmentService;
 
     @Autowired
-    PredefinedAppointmentRepository predefinedAppointmentRepository;
+    AppointmentRepository predefinedAppointmentRepository;
 
     @PostMapping(value = "/schedule-predefined-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Appointment> schedulePredefinedAppointment(Patient patient, Appointment appointment) {
@@ -38,9 +39,11 @@ public class PredefinedAppointmentController {
     }
 
     @GetMapping(value="/all-predefined-appointments")
+    @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<Appointment>> getPredefinedAppointments() {
 
         //samo od te klinike
+
         return new ResponseEntity<>(predefinedAppointmentRepository.findAll(), HttpStatus.OK);
     }
 }
