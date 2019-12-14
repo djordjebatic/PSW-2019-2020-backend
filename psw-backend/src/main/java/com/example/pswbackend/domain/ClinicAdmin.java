@@ -15,7 +15,8 @@ public class ClinicAdmin extends Account{
     //FetchType must be EAGER because of editing ClinicAdministrator
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Clinic clinic;
-    
+
+	@JsonManagedReference
     @OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<>();
 
@@ -23,6 +24,7 @@ public class ClinicAdmin extends Account{
 	@OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<AppointmentRequest> appointmentRequests = new HashSet<>();
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<Appointment> predefinedAppointments = new HashSet<>();
 
