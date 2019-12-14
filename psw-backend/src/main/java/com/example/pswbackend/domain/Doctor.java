@@ -23,6 +23,9 @@ public class Doctor extends Account {
 	@ManyToMany(mappedBy = "doctors")
     private Set<Appointment> appointments = new HashSet<Appointment>();
 
+	@OneToOne
+	private AppointmentRequest appointmentRequest;
+
 	@Enumerated(EnumType.STRING)
 	private UserStatus userStatus;
 
@@ -73,5 +76,13 @@ public class Doctor extends Account {
 
 	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public AppointmentRequest getAppointmentRequest() {
+		return appointmentRequest;
+	}
+
+	public void setAppointmentRequest(AppointmentRequest appointmentRequest) {
+		this.appointmentRequest = appointmentRequest;
 	}
 }
