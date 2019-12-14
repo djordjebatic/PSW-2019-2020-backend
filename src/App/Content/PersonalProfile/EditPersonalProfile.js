@@ -18,6 +18,7 @@ class EditPersonalProfile extends React.Component {
         this.UpdateInfoRequest = this.UpdateInfoRequest.bind(this);
         
         this.state={
+                accountId: '',
                 password: '',
                 firstName: '',
                 lastName: '',
@@ -36,6 +37,7 @@ class EditPersonalProfile extends React.Component {
         axios.get("http://localhost:8080/auth/getMyUser")  
         .then(response => {
             this.setState({
+                accountId: response.data.id,
                 firstName: response.data.firstName,
                 lastName: response.data.lastName,
                 email: response.data.username,
@@ -49,22 +51,22 @@ class EditPersonalProfile extends React.Component {
       }
 
     UpdateInfoRequest = event => {
-        event.preventDefault();
-          console.log(this.state);  
+        event.preventDefault();  
           const { password, passwordConfirm } = this.state;
           if (password !== passwordConfirm) {
               alert("Passwords don't match");
           } else {
-          axios.put("http://localhost:8080/patients/6", {
-
-            password: this.state.password,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            address: this.state.address,
-            city: this.state.city,
-            country: this.state.country,
-            phoneNumber: this.state.phoneNumber
-
+            var token = localStorage.getItem('token');
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            axios.put("http://localhost:8080/api/update-personal-info/" + this.state.accountId, {
+                password: this.state.password,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                address: this.state.address,
+                city: this.state.city,
+                country: this.state.country,
+                phoneNumber: this.state.phoneNumber,
+                medicalNumber: '234'
           }).then(
               (resp) => this.onSuccessHandler(resp)
         )
@@ -89,92 +91,129 @@ class EditPersonalProfile extends React.Component {
         return (
           <div className="EditPersonalProfile">
             <Header/>
-            <div className="">
             <div className="row">
                 <div className="col-10">
                     <br/>
                     <h3 >Edit Personal Information</h3>
-                    <form onSubmit={this.UpdateInfoRequest}>
-                        <div className="form-group edit-info">
-                            <label htmlFor="firstName">First Name</label>
-                            <input type="text"
-                                className="form-control form-control-sm"
-                                id="firstName"
-                                name="firstName"
-                                onChange={this.handleChange}
-                                placeholder="Enter first name"
-                                defaultValue={this.state.firstName}
-                            />
-                            <br/>      
-                            <label htmlFor="lastName">Last Name</label>
-                            <input type="text"
-                                className="form-control form-control-sm"
-                                id="lastName"
-                                name="lastName"
-                                onChange={this.handleChange}
-                                placeholder="Enter last name"
-                                defaultValue={this.state.lastName}
-                            />
-                            <br/>
-                            <label htmlFor="password">Password</label>
-                            <input type="password"
-                                className="form-control form-control-sm"
-                                id="password"
-                                name="password"
-                                onChange={this.handleChange}
-                                placeholder="Enter password"
-                                defaultValue={this.state.password}
-                            />
-                            <br/>
-                            <label htmlFor="passwordConfirm">Confirm Password</label>
-                            <input type="password"
-                                className="form-control form-control-sm"
-                                id="passwordConfirm"
-                                name="passwordConfirm"
-                                onChange={this.handleChange}
-                                placeholder="Enter password"
-                                defaultValue={this.state.passwordConfirm}
-                            />
-                            <br/>
-                            <label htmlFor="address">Address</label>
-                            <input type="text"
-                                className="form-control form-control-sm"
-                                id="address"
-                                name="address"
-                                onChange={this.handleChange}
-                                placeholder="Enter address"
-                                defaultValue={this.state.address}
-                            />
-                            <br/>
-                            <label htmlFor="city">City</label>
-                            <input type="text"
-                                className="form-control form-control-sm"
-                                id="city"
-                                name="city"
-                                onChange={this.handleChange}
-                                placeholder="Enter city"
-                                defaultValue={this.state.city}
-                            />
-                            <br/>
-                            <label htmlFor="country">Country</label>
-                            <input type="text"
-                                className="form-control form-control-sm"
-                                id="country"
-                                name="country"
-                                onChange={this.handleChange}
-                                placeholder="Enter country"
-                                defaultValue={this.state.country}
-                            />
-                            <br/>
-                            <label htmlFor="phoneNumber">Phone Number</label>
-                            <input type="number"
-                                className="form-control form-control-sm"
-                                id="phoneNumber"
-                                name="phoneNumber"
-                                onChange={this.handleChange}
-                                placeholder="Enter phone number"
-                                defaultValue={this.state.phoneNumber}
-                            />
+                    <br/>
+                    <form onSubmit={this.UpdateInfoRequest} className="edit-info">
+                        <div className="form-row">
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="firstName">First Name</label>
+                                    <input type="text"
+                                        className="form-control form-control"
+                                        id="firstName"
+                                        name="firstName"
+                                        onChange={this.handleChange}
+                                        placeholder="Enter first name"
+                                        defaultValue={this.state.firstName}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="lastName">Last Name</label>
+                                    <input type="text"
+                                        className="form-control form-control"
+                                        id="lastName"
+                                        name="lastName"
+                                        onChange={this.handleChange}
+                                        placeholder="Enter last name"
+                                        defaultValue={this.state.lastName}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-row">
+                            <div className="col-6">
+                                <div className="form-group">
+                                <label htmlFor="emailAddress">Email Address</label>
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="phoneNumber">Phone Number</label>
+                                    <input type="number"
+                                        className="form-control form-control"
+                                        id="phoneNumber"
+                                        name="phoneNumber"
+                                        onChange={this.handleChange}
+                                        placeholder="Enter phone number"
+                                        defaultValue={this.state.phoneNumber}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-row">
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label>
+                                    <input type="password"
+                                        className="form-control form-control"
+                                        id="password"
+                                        name="password"
+                                        onChange={this.handleChange}
+                                        placeholder="Enter password"
+                                        defaultValue={this.state.password}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="passwordConfirm">Confirm Password</label>
+                                        <input type="password"
+                                            className="form-control form-control"
+                                            id="passwordConfirm"
+                                            name="passwordConfirm"
+                                            onChange={this.handleChange}
+                                            placeholder="Enter password"
+                                            defaultValue={this.state.passwordConfirm}
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div className="form-row">
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="country">Country</label>
+                                    <input type="text"
+                                        className="form-control form-control"
+                                        id="country"
+                                        name="country"
+                                        onChange={this.handleChange}
+                                        placeholder="Enter country"
+                                        defaultValue={this.state.country}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="city">City</label>
+                                    <input type="text"
+                                        className="form-control form-control"
+                                        id="city"
+                                        name="city"
+                                        onChange={this.handleChange}
+                                        placeholder="Enter city"
+                                        defaultValue={this.state.city}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="address">Address</label>
+                                    <input type="text"
+                                        className="form-control form-control"
+                                        id="address"
+                                        name="address"
+                                        onChange={this.handleChange}
+                                        placeholder="Enter address"
+                                        defaultValue={this.state.address}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <hr/>
                         <Button type="submit">Update</Button>
@@ -184,7 +223,6 @@ class EditPersonalProfile extends React.Component {
                 <div className="col-2 edit-personal-profile-image">
                 </div>
             </div>
-        </div>
         <Footer/>
     </div>
   );
