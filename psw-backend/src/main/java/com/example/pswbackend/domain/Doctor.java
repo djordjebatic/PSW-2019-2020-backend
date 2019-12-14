@@ -1,6 +1,7 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size;
 @DiscriminatorValue(value="DOCTOR")
 public class Doctor extends Account {
 
-	@JsonIgnore
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 	
