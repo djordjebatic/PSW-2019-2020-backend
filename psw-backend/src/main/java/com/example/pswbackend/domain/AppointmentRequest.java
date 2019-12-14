@@ -22,7 +22,8 @@ public class AppointmentRequest {
     @Column(nullable = false)
     private String time;
 
-    @OneToOne
+    @JsonBackReference
+    @ManyToOne
     private Doctor doctor;
 
     @JsonBackReference
