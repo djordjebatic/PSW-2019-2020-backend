@@ -25,7 +25,7 @@ public class Ordination {
 	private long id;
 	
     @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
-	private int number;
+	private String number;
 	
     @Enumerated(EnumType.STRING)
     private AppointmentEnum type;
@@ -44,11 +44,11 @@ public class Ordination {
 		this.id = id;
 	}
 
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 
