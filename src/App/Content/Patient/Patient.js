@@ -4,10 +4,35 @@ import "react-table/react-table.css";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import './Patient.css'
+import axios from 'axios';
 
 import logo from '../../../images/med128.png'
 
 class Patient extends React.Component {
+
+    constructor(props){
+        super(props); 
+    
+        this.state = {
+            firstName: '',
+            lastName: ''
+        }
+    }
+
+    componentDidMount(){
+        var token = localStorage.getItem('token');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.get("http://localhost:8080/auth/getMyUser")  
+            .then(response => {
+                console.log(response.data);
+                this.setState({
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName
+                })
+            })
+        .catch((error) => console.log(error))
+        }
+
     render() {
         return(
             <div className="Patient">
@@ -18,7 +43,7 @@ class Patient extends React.Component {
                                 <div className="logo-patient">
                                     <img src={logo} alt="logo" />
                                 </div>
-                                <h3 className="welcome-and-logo-patient">Welcome, (patient)!</h3>
+                                <h3 className="welcome-and-logo-patient">Welcome, {this.state.firstName} {this.state.lastName} </h3>
                         </div>
                     </div> 
 
