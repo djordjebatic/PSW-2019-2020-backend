@@ -1,7 +1,6 @@
 package com.example.pswbackend.services;
 
-import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.ClinicAdmin;
+import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.dto.QuickReservationDTO;
@@ -30,6 +29,9 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
 
     @Autowired
     OrdinationRepository ordinationRepository;
+
+    @Autowired
+    AppointmentRequestService appointmentRequestService;
 
     @Autowired
     EmailService emailService;
@@ -74,9 +76,10 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
     @Override
     public boolean receiveAppointmentRequest(AppointmentDoctorDTO dto) {
 
-        // proverava da li moze da zakaze
+        ClinicAdmin ca = clinicAdminRepository.findAll().get(0);
+        appointmentRequestService.saveRequest(dto, ca);
 
-        return false;
+        return true;
     }
 
     //TODO
@@ -92,19 +95,20 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         // provere..............
 
         Appointment predefinedAppointment = new Appointment();
-        int type = Integer.parseInt(dto.getType());
 
         AppointmentEnum appType;
-        if (type == 0){
+        if (dto.getType() == "0"){
             appType = AppointmentEnum.EXAMINATION;
         } else {
             appType = AppointmentEnum.OPERATION;
         }
 
+        System.out.println("-------------------- ORDINATION: " + dto.getDoctor());
+
         predefinedAppointment.setDate(dto.getDate());
         predefinedAppointment.setTime(dto.getTime());
-        predefinedAppointment.setOrdination(ordinationRepository.findById(dto.getOrdination()).get());
-        predefinedAppointment.setDoctor(doctorRepository.findById(dto.getDoctor()).get());
+        predefinedAppointment.setOrdination(ordinationRepository.findById(Long.parseLong(dto.getOrdination())).get());
+        predefinedAppointment.setDoctor(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
         predefinedAppointment.setDuration(dto.getDuration());
         predefinedAppointment.setPrice(dto.getPrice());
         predefinedAppointment.setType(appType);
@@ -112,6 +116,6 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
         //TODO dodati u listu predefinisanih appointmenta
         /// dto.getClinicAdmin().getPredefinedAppointmetns().push/add/saveNew...
 
-        return null;
+        return predefinedAppointment;
     }
 }
