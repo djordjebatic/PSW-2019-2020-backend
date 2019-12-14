@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Appointment {
@@ -57,32 +58,39 @@ public class Appointment {
 
 	@Enumerated(EnumType.STRING)
     private AppointmentStatus status;
-	
+
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Ordination ordination;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
 	
 	@ManyToMany
     @JoinTable(name = "examining", joinColumns = @JoinColumn(name = "examination_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
     private Set<Doctor> doctors = new HashSet<Doctor>();
-	
+
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
-	
+
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
 	
 	@OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	private ClinicAdmin clinicAdmin;
 
+	@JsonBackReference
 	@ManyToOne(fetch =FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
