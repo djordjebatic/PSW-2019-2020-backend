@@ -1,6 +1,8 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.AppointmentEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,10 +31,12 @@ public class Ordination {
 	
     @Enumerated(EnumType.STRING)
     private AppointmentEnum type;
-	
+
+	@JsonManagedReference
     @OneToMany(mappedBy = "ordination", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<>();
-	
+
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic ;
 
