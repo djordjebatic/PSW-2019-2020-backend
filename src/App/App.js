@@ -25,6 +25,7 @@ import ClinicPage from './Content/Clinic/ClinicPage'
 import PredefinedExaminations from './Content/Clinic/PredefinedExaminations/PredefinedExaminations'
 import Drug from './Content/Codebook/Drug/Drug';
 import Diagnosis from './Content/Codebook/Diagnosis/Diagnosis';
+import RegistrationRequests from './Content/ClinicAdmin/RegistrationRequests/RegistrationRequests';
 
 // React Notification
 import 'react-notifications/lib/notifications.css';
