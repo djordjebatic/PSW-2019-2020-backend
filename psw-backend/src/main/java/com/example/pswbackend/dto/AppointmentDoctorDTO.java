@@ -2,12 +2,13 @@ package com.example.pswbackend.dto;
 
 public class AppointmentDoctorDTO {
 
-    private Long patientId;
+    private String patient;
+    private String doctor;
     private String date;
     private String time;
 
-    public Long getPatientId() {
-        return patientId;
+    public String getPatient() {
+        return patient;
     }
 
     public String getDate() {
@@ -16,5 +17,9 @@ public class AppointmentDoctorDTO {
 
     public String getTime() {
         return time;
+    }
+
+    public String getDoctor() {
+        return doctor;
     }
 }

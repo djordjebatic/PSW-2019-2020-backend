@@ -1,8 +1,11 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.AppointmentEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -24,15 +27,17 @@ public class Ordination {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-    @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
-	private int number;
+  @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
+  private String number;
+
+  @Enumerated(EnumType.STRING)
+  private AppointmentEnum type;
+
+  @JsonManagedReference
+  @OneToMany(mappedBy = "ordination", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+  private List<Appointment> appointments;
 	
-    @Enumerated(EnumType.STRING)
-    private AppointmentEnum type;
-	
-    @OneToMany(mappedBy = "ordination", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<Appointment> appointments = new HashSet<>();
-	
+  @JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic ;
 
@@ -44,11 +49,11 @@ public class Ordination {
 		this.id = id;
 	}
 
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 
@@ -60,11 +65,11 @@ public class Ordination {
 		this.type = type;
 	}
 
-	public Set<Appointment> getAppointments() {
+	public List<Appointment> getAppointments() {
 		return appointments;
 	}
 
-	public void setAppointments(Set<Appointment> appointments) {
+	public void setAppointments(List<Appointment> appointments) {
 		this.appointments = appointments;
 	}
 
