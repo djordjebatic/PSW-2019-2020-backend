@@ -7,9 +7,15 @@ INSERT INTO authority (name) values ('ROLE_CC_ADMIN');
 
 --Clinic
 insert into clinic (address, city, description, name, stars, num_votes)
-values ('1300 Kaplara', 'Beograd', 'Ocna bolnica', 'Sveto oko', 30, 9);
+values ('1300 Kaplara', 'Beograd', 'Ocna bolnica', 'Sveto oko', 4, 9);
 insert into clinic (address, city, description, name, stars, num_votes)
-values ('Trg slobode', 'Novi Sad', 'Klinicki centar Vojvodine (Novi Sad)', 'Klinicki centar Vojvodine', 47, 10);
+values ('Trg slobode', 'Novi Sad', 'Klinicki centar Vojvodine (Novi Sad)', 'Klinicki centar Vojvodine', 5, 10);
+insert into clinic (address, city, description, name, stars, num_votes)
+values ('Bulevar umetnosti 29', 'Beograd', 'Bolnicki centar', 'Euromedic', 3, 10);
+insert into clinic (address, city, description, name, stars, num_votes)
+values ('Bulevar oslobodjenja 10', 'Novi Sad', 'Bolnicki centar', 'Consilium', 3, 10);
+insert into clinic (address, city, description, name, stars, num_votes)
+values ('Fruskogorska 16', 'Novi Sad', 'Specijalisticka bolnica opste hirurgije', 'Global care surgery', 5, 10);
 
 -----------------------------------USERS----------------------------------------
 
