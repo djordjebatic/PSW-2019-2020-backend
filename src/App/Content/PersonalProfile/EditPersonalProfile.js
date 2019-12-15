@@ -128,7 +128,6 @@ class EditPersonalProfile extends React.Component {
                         <div className="form-row">
                             <div className="col-6">
                                 <div className="form-group">
-                                <label htmlFor="emailAddress">Email Address</label>
                                 </div>
                             </div>
                             <div className="col">
