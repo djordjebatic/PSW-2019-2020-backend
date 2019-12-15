@@ -35,7 +35,7 @@ class Header extends React.Component{
       var homePageLink;
       if (this.state.role === "ROLE_CC_ADMIN"){
         homePageLink = (
-          <Link to="/cc-admin" className="nav-link link-header" href="#">Clinic Center</Link>
+          <Link to="/ccadmin" className="nav-link link-header" href="#">Clinic Center</Link>
         )
       } else if (this.state.role === "ROLE_CLINIC_ADMIN"){
         homePageLink = (
