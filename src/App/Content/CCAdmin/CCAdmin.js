@@ -7,7 +7,6 @@ import Footer from '../Footer/Footer';
 
 
 import logo from '../../../images/med128.png'
-import NonCCAdmins from './Tables/NonCCAdmins';
 
 class CCAdmin extends React.Component {
   render() {
