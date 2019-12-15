@@ -27,7 +27,7 @@ class CCAdmin extends React.Component {
                 <div className="col link">
                     <h4>Registration Requests</h4>
                     <p>Look at the list of all patient registration requests.</p>
-                    <Link to="/registration-requests" class="btn link-btn-doctor">View List</Link>
+                    <Link to="/ccadmin-registration-requests" class="btn link-btn-doctor">View List</Link>
                 </div>
                 <div className="col link">
                     <h4>Register new Clinic Center Admin</h4>

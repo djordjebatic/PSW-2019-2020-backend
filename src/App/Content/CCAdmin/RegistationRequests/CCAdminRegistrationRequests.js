@@ -6,7 +6,7 @@ import Footer from '../../Footer/Footer';
 import Header from '../../Header/Header';
 import {NotificationManager} from 'react-notifications';
 
-class RegistrationRequests extends React.Component{
+class CCAdminRegistrationRequests extends React.Component{
       constructor () {
           super();
           this.handleChange = this.handleChange.bind(this);
@@ -148,4 +148,4 @@ class RegistrationRequests extends React.Component{
       }
     }
 
-export default RegistrationRequests
+export default CCAdminRegistrationRequests
