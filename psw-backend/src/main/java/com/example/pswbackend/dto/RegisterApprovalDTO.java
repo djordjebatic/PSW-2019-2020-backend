@@ -5,6 +5,8 @@ public class RegisterApprovalDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String city;
+    private String country;
 
     public Long getId() {
         return id;
@@ -36,5 +38,21 @@ public class RegisterApprovalDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
