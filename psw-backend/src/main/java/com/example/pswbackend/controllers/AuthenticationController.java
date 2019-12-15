@@ -78,7 +78,7 @@ public class AuthenticationController {
         Account account = this.accountService.save(accountRequest);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/account/{accountId}").buildAndExpand(account.getId()).toUri());
-        return new ResponseEntity<Account>(account, HttpStatus.CREATED);
+        return new ResponseEntity<>(account, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.POST)
@@ -110,7 +110,6 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
         accountDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 
