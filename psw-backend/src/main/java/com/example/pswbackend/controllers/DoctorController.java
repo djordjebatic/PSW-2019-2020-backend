@@ -31,7 +31,7 @@ public class DoctorController {
 
     @PostMapping(value="/doctor/shedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Account> sheduleAppointment(AppointmentDoctorDTO dto){
+    public ResponseEntity<Account> sheduleAppointment(@RequestBody  AppointmentDoctorDTO dto){
 
         if (doctorService.scheduleAppointment(dto)){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

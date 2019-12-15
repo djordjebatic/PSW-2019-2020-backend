@@ -1,5 +1,7 @@
 package com.example.pswbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,18 +40,22 @@ public class Clinic {
 	@Column(nullable = false)
 	private int num_votes;
 
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Doctor> doctors = new HashSet<>();
-	
+
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Doctor> nurses = new HashSet<>();
+	private Set<Nurse> nurses = new HashSet<>();
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private BusinessReport businessReport;
-	
+
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Doctor> ordinations = new HashSet<>();
-	
+	private Set<Ordination> ordinations = new HashSet<>();
+
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Doctor> clinicAdmins = new HashSet<>();
 
@@ -108,11 +114,11 @@ public class Clinic {
 		this.doctors = doctors;
 	}
 
-	public Set<Doctor> getNurses() {
+	public Set<Nurse> getNurses() {
 		return nurses;
 	}
 
-	public void setNurses(Set<Doctor> nurses) {
+	public void setNurses(Set<Nurse> nurses) {
 		this.nurses = nurses;
 	}
 
@@ -124,11 +130,11 @@ public class Clinic {
 		this.businessReport = businessReport;
 	}
 
-	public Set<Doctor> getOrdinations() {
+	public Set<Ordination> getOrdinations() {
 		return ordinations;
 	}
 
-	public void setOrdinations(Set<Doctor> ordinations) {
+	public void setOrdinations(Set<Ordination> ordinations) {
 		this.ordinations = ordinations;
 	}
 

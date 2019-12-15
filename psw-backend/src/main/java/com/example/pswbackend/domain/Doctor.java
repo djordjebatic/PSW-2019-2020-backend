@@ -1,7 +1,9 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,12 +18,16 @@ import javax.validation.constraints.Size;
 @DiscriminatorValue(value="DOCTOR")
 public class Doctor extends Account {
 
-	@JsonIgnore
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 	
 	@ManyToMany(mappedBy = "doctors")
     private Set<Appointment> appointments = new HashSet<Appointment>();
+
+	@JsonManagedReference
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<AppointmentRequest> appointmentRequest = new HashSet<>();
 
 	@Enumerated(EnumType.STRING)
 	private UserStatus userStatus;
@@ -73,5 +79,13 @@ public class Doctor extends Account {
 
 	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public Set<AppointmentRequest> getAppointmentRequest() {
+		return appointmentRequest;
+	}
+
+	public void setAppointmentRequest(Set<AppointmentRequest> appointmentRequest) {
+		this.appointmentRequest = appointmentRequest;
 	}
 }

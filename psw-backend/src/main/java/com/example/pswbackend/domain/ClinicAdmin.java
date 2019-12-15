@@ -1,6 +1,7 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +15,16 @@ public class ClinicAdmin extends Account{
     //FetchType must be EAGER because of editing ClinicAdministrator
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Clinic clinic;
-    
+
+	@JsonManagedReference
     @OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<>();
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<AppointmentRequest> appointmentRequests = new HashSet<>();
+
+	@JsonManagedReference
 	@OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<Appointment> predefinedAppointments = new HashSet<>();
 
@@ -57,5 +64,13 @@ public class ClinicAdmin extends Account{
 
 	public void setPredefinedAppointments(Set<Appointment> predefinedAppointments) {
 		this.predefinedAppointments = predefinedAppointments;
+	}
+
+	public Set<AppointmentRequest> getAppointmentRequests() {
+		return appointmentRequests;
+	}
+
+	public void setAppointmentRequests(Set<AppointmentRequest> appointmentRequests) {
+		this.appointmentRequests = appointmentRequests;
 	}
 }
