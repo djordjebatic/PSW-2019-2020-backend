@@ -23,7 +23,7 @@ public class AppointmentRequest {
     private String time;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Doctor doctor;
 
     @JsonBackReference

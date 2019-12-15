@@ -48,7 +48,6 @@ public class PatientController {
     }
 
     @GetMapping(value="/patients", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DOCTOR')")
     public List<Patient> getPatients() {
 
         return patientRepository.findAll();
