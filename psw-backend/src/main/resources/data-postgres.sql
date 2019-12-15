@@ -103,7 +103,7 @@ values( 'None', 'A', '170', '6', '70');
 insert into appointment(type, date, time, price, duration, status, ordination_id, doctor_id, patient_id, nurse_id, medical_record_id, clinic_admin_id, clinic_id, discount, doctor_rating, clinic_rating)
 values('EXAMINATION', '12.04.2019.', '19.30', '1000', '1', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '10', '5', '4');
 insert into appointment(type, date, time, price, duration, status, ordination_id, doctor_id, patient_id, nurse_id, medical_record_id, clinic_admin_id, clinic_id, discount, doctor_rating, clinic_rating)
-values('OPERATION', '15.04.2019.', '18.00', '2000', '1', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '5', '4', '5');
+values('OPERATION', '15.04.2019.', '18.00', '2000', '3', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '5', '4', '5');
 insert into appointment(type, date, time, price, duration, status, ordination_id, doctor_id, patient_id, nurse_id, medical_record_id, clinic_admin_id, clinic_id, discount, doctor_rating, clinic_rating)
 values('EXAMINATION', '20.05.2019.', '15.30', '1500', '1', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '15', '3', '3');
 
