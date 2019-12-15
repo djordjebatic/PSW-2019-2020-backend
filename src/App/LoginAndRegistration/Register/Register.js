@@ -1,13 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import './Register.css'
 import logo from '../../../images/med128.png'
 import { Button} from 'react-bootstrap';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
-const PatientRegisterAlert = withReactContent(Swal)
+import {NotificationManager} from 'react-notifications';
 
 class Register extends React.Component {
 
@@ -26,7 +24,7 @@ class Register extends React.Component {
             address: '',
             city: '',
             country: '',
-            phoneNumber: null,
+            phoneNumber: '',
             passwordConfirm:''
       }
    }
@@ -38,35 +36,25 @@ class Register extends React.Component {
         if (password !== passwordConfirm) {
             alert("Passwords don't match");
         } else {
-        axios.post("http://localhost:8080/patient/register", {
+        axios.post("http://localhost:8080/auth/register", {
             email: this.state.email,
             password: this.state.password,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            medicalNumber: this.state.medicalNumber,
             address: this.state.address,
             city: this.state.city,
             country: this.state.country,
             phoneNumber: this.state.phoneNumber
 
-        }).then((resp) => this.onSuccessHandler(resp))
-        .catch((error)=> this.onFailureHandler(error))
-  }
+        }
+        ).then((resp) => {
+        NotificationManager.success('Registered successfuly. Please log in', 'Success!', 4000);
+        this.props.history.push('/login');
+        }
+        )
+        .catch((error)=> NotificationManager.error('Wrong input', 'Error!', 4000))
+        }
 }
-
-  onSuccessHandler(resp){
-      PatientRegisterAlert.fire({
-          title: "Patient registered successfully",
-          text: "",
-          type: "success",
-      })
-  }
-  onFailureHandler(error){
-      PatientRegisterAlert.fire({
-          title: "Sign up failed",
-          text: error
-      })
-  }
 
   handleChange(e) {
       this.setState({...this.state, [e.target.name]: e.target.value});
@@ -211,23 +199,7 @@ class Register extends React.Component {
                                         </div>
                                     </div>
                                 </div>         
-                                <div className="form-row">
-                                    <div className="col-4">
-                                        <div className="form-group">
-                                            <label htmlFor="medicalNumber">Medical number</label>
-                                            <input type="text"
-                                                className="form-control form-control-sm"
-                                                id="medicalNumber"
-                                                name="medicalNumber"
-                                                onChange={this.handleChange}
-                                                placeholder="Enter medical number"
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                </div> 
                             <hr/>
-                            <small id="newAccount" className="form-text text-muted"><Link to="/login">Already have an account?</Link></small>
                             <br/>
                             <Button type="submit">Create</Button>
                         </form>
@@ -238,4 +210,4 @@ class Register extends React.Component {
   );}
 }
 
-export default Register;
+export default withRouter(Register);
