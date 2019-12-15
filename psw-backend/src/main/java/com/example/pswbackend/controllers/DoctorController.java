@@ -29,9 +29,9 @@ public class DoctorController {
     @Autowired
     private CustomAccountDetailsService accountDetailsService;
 
-    @PostMapping(value="/doctor/shedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/doctor/schedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Account> sheduleAppointment(AppointmentDoctorDTO dto){
+    public ResponseEntity<Account> scheduleAppointment(@RequestBody AppointmentDoctorDTO dto){
 
         if (doctorService.scheduleAppointment(dto)){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

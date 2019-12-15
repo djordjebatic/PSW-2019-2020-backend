@@ -7,8 +7,8 @@ import com.example.pswbackend.domain.Ordination;
 public class QuickReservationDTO {
 
     //private ClinicAdmin clinicAdmin; //TODO dodati *koji* admin pravi brzu rezervaciju
-    private Long doctor;
-    private Long ordination;
+    private String doctor;
+    private String ordination;
     private String date;
     private String time;
     private float price;
@@ -16,9 +16,9 @@ public class QuickReservationDTO {
     private String type; //  0 = EXAMINATION, 1 = OPERATION
 
 
-    public long getDoctor() { return doctor; }
+    public String getDoctor() { return doctor; }
 
-    public long getOrdination() { return ordination; }
+    public String getOrdination() { return ordination; }
 
     public String getDate() { return date; }
 

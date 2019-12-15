@@ -9,6 +9,7 @@ import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -47,6 +48,7 @@ public class PatientController {
     }
 
     @GetMapping(value="/patients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
     public List<Patient> getPatients() {
 
         return patientRepository.findAll();
