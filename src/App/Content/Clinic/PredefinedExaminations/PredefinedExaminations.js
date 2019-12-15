@@ -85,13 +85,13 @@ class PredefinedExaminations extends React.Component {
         },{
             Header:'Duration',
             accessor:'duration'
-        },{
+        }/*,{
             Header:'Doctor',
             accessor:'doctor'
         },{
             Header:'Ordination',
             accessor:'ordination'
-        },{
+        }*/,{
             Header:'Discount',
             accessor:'discount'
         },{
