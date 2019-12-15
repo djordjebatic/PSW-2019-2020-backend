@@ -3,20 +3,28 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
 import com.example.pswbackend.enums.Status;
+import com.example.pswbackend.enums.UserStatus;
+import com.example.pswbackend.repositories.AccountRepository;
+import com.example.pswbackend.repositories.CCAdminRepository;
 import com.example.pswbackend.repositories.DiagnosisRepository;
 import com.example.pswbackend.repositories.DrugRepository;
+import com.example.pswbackend.services.CCAdminService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.PatientService;
+import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/cc-admin")
 public class CCAdminController {
@@ -31,10 +39,19 @@ public class CCAdminController {
     ClinicAdminService clinicAdminService;
 
     @Autowired
+    CCAdminService ccAdminService;
+
+    @Autowired
     DiagnosisRepository diagnosisRepository;
 
     @Autowired
     DrugRepository drugRepository;
+
+    @Autowired
+    CCAdminRepository ccAdminRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @GetMapping(value="/all-registration-requests")
     @PreAuthorize("hasRole('CC_ADMIN')")
@@ -194,4 +211,21 @@ public class CCAdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(value="/register-cc-admin")
+    @PreAuthorize("hasRole('CC_ADMIN')")
+    public ResponseEntity<CCAdmin> registerCCAdmin(@RequestBody CCAdminDTO ccAdminDTO){
+        CCAdmin ccAdmin = ccAdminService.register(ccAdminDTO);
+        if (ccAdmin == null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        ccAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
+        List<Authority> authorities = new ArrayList<>();
+        Authority a = new Authority();
+        a.setName("ROLE_CC_ADMIN");
+        a.setId(new Long(5));
+        authorities.add(a);
+        ccAdmin.setAuthorities(authorities);
+        return new ResponseEntity<>(ccAdmin, HttpStatus.OK);
+    }
+    
 }
