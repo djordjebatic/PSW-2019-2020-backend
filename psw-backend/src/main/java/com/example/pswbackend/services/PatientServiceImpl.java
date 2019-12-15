@@ -38,6 +38,8 @@ public class PatientServiceImpl implements PatientService{
         regApproveDTO.setFirstName(p.getFirstName());
         regApproveDTO.setLastName(p.getLastName());
         regApproveDTO.setEmail(p.getUsername());
+        regApproveDTO.setCity(p.getCity());
+        regApproveDTO.setCountry(p.getCountry());
 
         return regApproveDTO;
     }

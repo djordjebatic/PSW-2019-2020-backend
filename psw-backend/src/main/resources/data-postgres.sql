@@ -52,8 +52,16 @@ values ('PATIENT', 'patijent@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGd
 INSERT INTO account_authority (account_id, authority_id) values  (8, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
-values ('PATIENT', 'patijent2@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Pera', 'Peric', '064123466', 'Veselina Maslese 3','Beograd','Srbija','1234567890123','AWAITING_APPROVAL');
+values ('PATIENT', 'patijent3@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Kongo', 'Kongic', '065259165', 'Heroja Pinkija 69','Kinsasa','DR Kongo','1235256262','AWAITING_APPROVAL');
 INSERT INTO account_authority (account_id, authority_id) values  (9, 1);
+
+insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
+values ('PATIENT', 'patijent4@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Sudan', 'Sudic', '065256065', 'Jevrejska 69','Dzuba','Juzni Sudan','124532636362','AWAITING_APPROVAL');
+INSERT INTO account_authority (account_id, authority_id) values  (10, 1);
+
+insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
+values ('PATIENT', 'patijent5@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Dragoje', 'Radic', '065256565', 'Kisacka 69','Maseru','Lesoto','14324234243','AWAITING_APPROVAL');
+INSERT INTO account_authority (account_id, authority_id) values  (11, 1);
 
 ------------------------------------------------------------------------------
 
@@ -73,17 +81,20 @@ values ('Clostridium perfringens', 'Gas gangrene');
 
 --Drug
 insert into drug (name, ingredient, description)
-values ('Tylenol', 'Acetaminophen', 'Acetaminophen is a pain reliever and a fever reducer');
+values ('Tylenol', 'Acetaminophen', 'Acetaminophen is a pain reliever and a fever reducer.');
 insert into drug (name, ingredient, description)
 values ('Vivlodex', 'Meloxicam', 'Meloxicam is a nonsteroidal anti-inflammatory drug (NSAID)');
 insert into drug (name, ingredient, description)
-values ('Adoxa Pak', 'Doxycycline', 'Doxycycline is a tetracycline antibiotic that fights bacteria in the body');
+values ('Adoxa Pak', 'Doxycycline', 'Doxycycline is a tetracycline antibiotic that fights bacteria in the body.');
 insert into drug (name, ingredient, description)
-values ('Sterapred', 'Prednisone', 'Prednisone is a corticosteroid. It prevents the release of substances in the body that cause inflammation. It also suppresses the immune system');
+values ('Sterapred', 'Prednisone', 'Prednisone prevents the release of substances in the body that cause inflammation.');
 insert into drug (name, ingredient, description)
-values ('Ativan', 'Lorazepam', 'Lorazepam belongs to a group of drugs called benzodiazepines. It affects chemicals in the brain that may be unbalanced in people with anxiety');
+values ('Ativan', 'Lorazepam', 'Lorazepam affects chemicals in the brain that may be unbalanced in people with anxiety.');
 
 --Ordination
+
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '1', '1');
 insert into ordination(type, number, clinic_id)
 values('EXAMINATION', '101', '1');
 insert into ordination(type, number, clinic_id)
@@ -104,4 +115,3 @@ insert into appointment(type, date, time, price, duration, status, ordination_id
 values('EXAMINATION', '12.04.2019.', '18.30', '1000', '1', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '1', '3', '4');
 
 ------------------------------------------------------------------------------
-
