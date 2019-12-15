@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import './Register.css'
 import logo from '../../../images/med128.png'
 import { Button} from 'react-bootstrap';
@@ -84,108 +85,150 @@ class Register extends React.Component {
                     </div>
                 <div className="col-8 login">
                 <form onSubmit={this.SendRegisterRequest}>
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <input type="email"
-                                    className="form-control form-control-sm"
-                                    id="email"
-                                    name="email"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter Email"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="password">Password</label>
-                                <input type="password"
-                                    className="form-control form-control-sm"
-                                    id="password"
-                                    name="password"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter Password"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="passwordConfirm">Confirm Password</label>
-                                <input type="password"
-                                    className="form-control form-control-sm"
-                                    id="passwordConfirm"
-                                    name="passwordConfirm"
-                                    onChange={this.handleChange}
-                                    placeholder="Confirm Password"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="firstName">First Name</label>
-                                <input type="text"
-                                    className="form-control form-control-sm"
-                                    id="firstName"
-                                    name="firstName"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter Name"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="lastName">Last Name</label>
-                                <input type="text"
-                                    className="form-control form-control-sm"
-                                    id="lastName"
-                                    name="lastName"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter Surname"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="medicalNumber">Medical number</label>
-                                <input type="text"
-                                    className="form-control form-control-sm"
-                                    id="medicalNumber"
-                                    name="medicalNumber"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter medical number"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="address">Address</label>
-                                <input type="text"
-                                    className="form-control form-control-sm"
-                                    id="address"
-                                    name="address"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter Address"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="city">City</label>
-                                <input type="text"
-                                    className="form-control form-control-sm"
-                                    id="city"
-                                    name="city"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter City"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="country">Country</label>
-                                <input type="text"
-                                    className="form-control form-control-sm"
-                                    id="country"
-                                    name="country"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter Country"
-                                    required
-                                />
-                                <br/>
-                                <label htmlFor="phoneNumber">Phone Number</label>
-                                <input type="number"
-                                    className="form-control form-control-sm"
-                                    id="phoneNumber"
-                                    name="phoneNumber"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter Phone Number"
-                                    required
-                                />
-                            </div>
+                                <div className="form-row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="firstName">First Name</label>
+                                            <input type="text"
+                                                className="form-control form-control"
+                                                id="firstName"
+                                                name="firstName"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter First Name"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="lastName">Last Name</label>
+                                            <input type="text"
+                                                className="form-control form-control"
+                                                id="lastName"
+                                                name="lastName"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter Last Name"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="email">Email Address</label>
+                                            <input type="email"
+                                                className="form-control form-control"
+                                                id="email"
+                                                name="email"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter Email Address"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="phoneNumber">Phone Number</label>
+                                            <input type="number"
+                                                className="form-control form-control"
+                                                id="phoneNumber"
+                                                name="phoneNumber"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter Phone Number"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="password">Password</label>
+                                            <input type="password"
+                                                className="form-control form-control"
+                                                id="password"
+                                                name="password"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter Password"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="passwordConfirm">Confirm Password</label>
+                                            <input type="password"
+                                                className="form-control form-control"
+                                                id="passwordConfirm"
+                                                name="passwordConfirm"
+                                                onChange={this.handleChange}
+                                                placeholder="Confirm Password"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div> 
+                                <hr/>
+                                <div className="form-row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="country">Country</label>
+                                            <input type="text"
+                                                className="form-control form-control-sm"
+                                                id="country"
+                                                name="country"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter Country"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="city">City</label>
+                                            <input type="text"
+                                                className="form-control form-control-sm"
+                                                id="city"
+                                                name="city"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter City"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label htmlFor="address">Address</label>
+                                            <input type="text"
+                                                className="form-control form-control-sm"
+                                                id="address"
+                                                name="address"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter Address"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>         
+                                <div className="form-row">
+                                    <div className="col-4">
+                                        <div className="form-group">
+                                            <label htmlFor="medicalNumber">Medical number</label>
+                                            <input type="text"
+                                                className="form-control form-control-sm"
+                                                id="medicalNumber"
+                                                name="medicalNumber"
+                                                onChange={this.handleChange}
+                                                placeholder="Enter medical number"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div> 
                             <hr/>
+                            <small id="newAccount" className="form-text text-muted"><Link to="/login">Already have an account?</Link></small>
+                            <br/>
                             <Button type="submit">Create</Button>
                         </form>
                 </div>
