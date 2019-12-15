@@ -65,13 +65,11 @@ class MedicalRecord extends React.Component{
                         <label><strong>Blood type:</strong> {this.state.bloodType} </label>
                       </div>
                       <div className="form-group">
-                        <label><strong>Allergies:</strong>  </label>
+                        <label><strong>Allergies:</strong> {this.state.allergies} </label>
                       </div>
 
 
-                      <div className="form-group">
-                        <label><strong>Examination reports:</strong>  </label>
-                      </div>
+                     
 
                     
                   </div>
