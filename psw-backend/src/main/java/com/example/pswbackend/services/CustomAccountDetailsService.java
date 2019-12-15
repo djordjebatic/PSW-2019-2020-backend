@@ -1,6 +1,8 @@
 package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.Account;
+import com.example.pswbackend.domain.CCAdmin;
+import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AccountRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,6 +59,10 @@ public class CustomAccountDetailsService implements UserDetailsService {
         LOGGER.debug("Changing password for user '" + email + "'");
 
         Account acc = (Account) loadUserByUsername(email);
+
+        if (acc instanceof CCAdmin){
+            ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
+        }
 
         acc.setPassword(passwordEncoder.encode(newPassword));
         accountRepo.save(acc);
