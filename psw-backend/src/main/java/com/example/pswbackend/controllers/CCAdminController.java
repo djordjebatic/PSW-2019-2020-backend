@@ -225,6 +225,9 @@ public class CCAdminController {
         a.setId(new Long(5));
         authorities.add(a);
         ccAdmin.setAuthorities(authorities);
+
+        ccAdminRepository.save(ccAdmin);
+
         return new ResponseEntity<>(ccAdmin, HttpStatus.OK);
     }
 
