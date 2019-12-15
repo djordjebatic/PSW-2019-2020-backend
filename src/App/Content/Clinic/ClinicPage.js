@@ -15,7 +15,7 @@ class ClinicPage extends React.Component {
                 <div className="clinic-page-title">Clinic page</div>
 
                 <div className="btn-predefined-exam">
-                    <Link to="/predefined-examinations" class="btn link-btn-patient predefined-btn">Predefined examinations</Link>
+                    <Link to="/predefined-examinations" className="btn link-btn-patient predefined-btn">Predefined examinations</Link>
                 </div>
 
                 <Footer/>
