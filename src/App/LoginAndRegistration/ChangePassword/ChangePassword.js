@@ -42,9 +42,12 @@ class ChangePassword extends React.Component {
                 return // prebaci na pocetnu stranicu uloge 2
             default: // u default je za sada samo za klinickog admina
                 axios.post("http://localhost:8080/auth/change-password", this.state)
-                .then((resp) => {NotificationManager.success('Welcome to the Clinic Center System. Your password has been changed', '', 4000);
-                        this.props.history.push('/ccadmin/');
-                    }
+                .then((resp) => {
+                NotificationManager.success('Welcome to the Clinic Center System. Your password has been changed', '', 4000);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;        
+                this.props.history.push('/login');
+                    
+                }
                 )
                 .catch((error) =>{NotificationManager.error('Wrong input', 'Error!', 4000);
                 })
