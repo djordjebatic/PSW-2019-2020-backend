@@ -50,7 +50,7 @@ public class Account implements UserDetails {
     private String country;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "account_authority",
             joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
