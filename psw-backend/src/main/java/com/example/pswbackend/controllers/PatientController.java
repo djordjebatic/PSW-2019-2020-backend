@@ -1,6 +1,5 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.PatientDTO;
 import com.example.pswbackend.enums.Status;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,10 +26,22 @@ public class PatientController {
     @Autowired
     PatientService patientService;
 
-    @PostMapping("/patient/register")
-    public ResponseEntity<Void> createPatient(@RequestBody Patient patient){
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        //TODO [security]/password hashing
+    @PostMapping("/patient/register")
+    public ResponseEntity<Void> createPatient(@RequestBody PatientDTO patientDTO){
+
+        Patient patient = new Patient();
+        patient.setFirstName(patientDTO.getFirstName());
+        patient.setLastName(patientDTO.getLastName());
+        patient.setAddress(patientDTO.getAddress());
+        patient.setCity(patientDTO.getCity());
+        patient.setCountry(patientDTO.getCountry());
+        patient.setPhoneNumber(patientDTO.getPhoneNumber());
+        patient.setEmail(patientDTO.getEmail());
+        patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
+
         patient.setPatientStatus(Status.AWAITING_APPROVAL);
         Patient createPatient = this.patientRepository.save(patient);
 

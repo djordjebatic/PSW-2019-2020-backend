@@ -3,6 +3,7 @@ package com.example.pswbackend.domain;
 import javax.persistence.*;
 
 import com.example.pswbackend.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import com.example.pswbackend.enums.Status;
@@ -23,7 +24,8 @@ public class Patient extends Account{
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments;
-	
+
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
 

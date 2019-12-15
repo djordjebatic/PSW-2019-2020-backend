@@ -1,8 +1,9 @@
 package com.example.pswbackend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.joda.time.DateTime;
-import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -23,7 +24,7 @@ public class Account implements UserDetails {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -35,7 +36,7 @@ public class Account implements UserDetails {
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String lastName;
 
-    @Column(columnDefinition = "VARCHAR(11)", unique = true, nullable = false)
+    @Column(columnDefinition = "VARCHAR(11)", nullable = false)
     @Pattern(regexp = "0[0-9]+")
     private String phoneNumber;
 
@@ -49,7 +50,8 @@ public class Account implements UserDetails {
     private String country;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "account_authority",
             joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
