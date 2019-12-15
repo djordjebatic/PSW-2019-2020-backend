@@ -1,21 +1,21 @@
-.container {
+.RegisterNewCCAdmin .container {
     margin: 0;
     padding: 0;
     background-size: cover;
 }
 
-.title {
+.RegisterNewCCAdmin .title {
     color: white;
 }
 
-.welcome {
+.RegisterNewCCAdmin .welcome {
     background-color: darkcyan;
     height: 100vh;
     width: 100%;
     text-align: center;
 }
 
-.logo {
+.RegisterNewCCAdmin .logo {
     display: inline-block;
     margin-top: 80px;
 }
@@ -26,23 +26,23 @@
     background-repeat: no-repeat;
 }
 
-img {
+.RegisterNewCCAdmin img {
     align-content: center;
 }
 
-.row {
+.RegisterNewCCAdmin .row {
     margin: 0
 }
 
-.register-form {
+.RegisterNewCCAdmin .register-form {
     width: 100%;
     margin-left : 25%
 }
 
-form .btn {
+.RegisterNewCCAdmin form .btn {
     background-color: darkcyan;
 }
 
-form a {
+.RegisterNewCCAdmin form a {
     color: darkcyan;
 }
