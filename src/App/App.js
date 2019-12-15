@@ -30,7 +30,6 @@ import RegistrationRequests from './Content/ClinicAdmin/RegistrationRequests/Reg
 // React Notification
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
-import RegistrationRequests from './Content/CCAdmin/RegistationRequests/RegistrationRequests';
 import RegisterNewCCAdmin from './Content/CCAdmin/RegisterNewCCAdmin/RegisterNewCCAdmin';
 
 function App() {

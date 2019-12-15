@@ -7,18 +7,18 @@
     text-align: left;
 }
 
-h3{
+.MedicalRecord  h3{
     margin-top: 40px;
 }
 
-.form-group{
+.MedicalRecord .form-group{
     margin-left: 20px;
 }
 
-.row{
+.MedicalRecord .row{
     margin-bottom: 50px;
 }
 
-hr{
+.MedicalRecord hr{
     margin-bottom: 30px;
 }
