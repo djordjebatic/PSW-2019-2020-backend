@@ -63,8 +63,7 @@ class NewAppointmentDoctor extends React.Component {
 
   componentDidMount() {
     var token = localStorage.getItem('token');
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    axios.get("http://localhost:8080/patients")  
+    axios.get("http://localhost:8080/api/patients")  
       .then(response => {
           let tmpArray = []
           for (var i = 0; i < response.data.length; i++) {

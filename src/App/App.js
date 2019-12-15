@@ -25,7 +25,7 @@ import ClinicPage from './Content/Clinic/ClinicPage'
 import PredefinedExaminations from './Content/Clinic/PredefinedExaminations/PredefinedExaminations'
 import Drug from './Content/Codebook/Drug/Drug';
 import Diagnosis from './Content/Codebook/Diagnosis/Diagnosis';
-import RegistrationRequests from './Content/ClinicAdmin/RegistrationRequests/RegistrationRequests';
+import ReservationRequests from './Content/ClinicAdmin/RegistrationRequests/ReservationRequests';
 
 // React Notification
 import 'react-notifications/lib/notifications.css';
@@ -113,8 +113,8 @@ function App() {
           <Route path="/register-ccadmin">
             <RegisterNewCCAdmin/>
           </Route>
-          <Route path="/registration-requests">
-            <RegistrationRequests />
+          <Route path="/reservation-requests">
+            <ReservationRequests />
           </Route>
           <Route path="/ccadmin-registration-requests">
             <CCAdminRegistrationRequests/>
