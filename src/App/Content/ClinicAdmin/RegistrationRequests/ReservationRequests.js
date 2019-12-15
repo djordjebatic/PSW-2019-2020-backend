@@ -6,7 +6,7 @@ import { Button} from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios'
 
-import './RegistrationRequests.css'
+import './ReservationRequests.css'
 
 const SheduleAlert = withReactContent(Swal)
 
@@ -61,6 +61,29 @@ class RegistrationRequests extends React.Component {
   }
 
   render() {
+
+    var content;
+    if (this.state.appointmentRequests.length == 0){
+      content = <h4>You don't have any appointment reservation requests.</h4>;
+    } else {
+      content = this.state.appointmentRequests.map((req) => (
+        <div>
+        <div className="col">
+            <div className="card">
+            <div className="card-body">
+                <h5 className="card-title">Appointment Request ({req.doctor.firstName} {req.doctor.lastName})</h5>
+                <hr/>
+                <p className="card-text"><strong>Date:</strong> {req.date} | <strong>Time:</strong> {req.time} | <strong>Type:</strong> </p>
+                <hr/>
+                <a href="#" className="btn btn-primary btn-app-req">Create appointment</a>
+            </div>
+            </div>
+        </div>
+        <br/>
+        </div>
+    ))
+    }
+
   return (
     <div className="RegistrationRequests">
       <Header/>
@@ -68,22 +91,7 @@ class RegistrationRequests extends React.Component {
       <h3>Appointment Requests</h3>
         <div className="cards">
             <br/>
-            {this.state.appointmentRequests.map((req) => (
-                <div>
-                <div className="col">
-                    <div className="card">
-                    <div className="card-body">
-                        <h5 className="card-title">Appointment Request ({req.doctor.firstName} {req.doctor.lastName})</h5>
-                        <hr/>
-                        <p className="card-text"><strong>Date:</strong> {req.date} | <strong>Time:</strong> {req.time} | <strong>Type:</strong> </p>
-                        <hr/>
-                        <a href="#" className="btn btn-primary btn-app-req">Create appointment</a>
-                    </div>
-                    </div>
-                </div>
-                <br/>
-                </div>
-            ))}
+            {content}
         </div>
       <Footer/>
 
