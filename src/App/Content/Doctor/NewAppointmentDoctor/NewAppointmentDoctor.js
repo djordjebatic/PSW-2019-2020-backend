@@ -31,7 +31,7 @@ class NewAppointmentDoctor extends React.Component {
     event.preventDefault();
       var token = localStorage.getItem('token');
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      axios.post("http://localhost:8080/api/doctor/shedule-appointment", {
+      axios.post("http://localhost:8080/api/doctor/schedule-appointment", {
         patient: this.state.patient,
         date: this.state.date,
         time: this.state.time,
