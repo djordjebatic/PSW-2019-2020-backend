@@ -4,11 +4,11 @@ import ReactTable from "react-table";
 import axios from 'axios';
 import Footer from '../../Footer/Footer';
 import Header from '../../Header/Header';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import {NotificationManager} from 'react-notifications';
 import { Button} from 'react-bootstrap';
-
-const AdminSuccess = withReactContent(Swal)
+import './Drug.css'
+import Modal from 'react-modal';
+Modal.setAppElement('#root')
 
 class Drug extends React.Component{
 
@@ -26,14 +26,36 @@ class Drug extends React.Component{
                 {
                   id: '',
                   name: '',
-                  ingredient: '',
-                  description: ''
+                  description: '',
+                  ingredient: ''
                 }
               ],
               name: '',
+              description: '',
               ingredient: '',
-              description: ''
+              modalIsOpen: false,
+              editModalIsOpen: false
           };
+          this.openModal = this.openModal.bind(this);
+          this.closeModal = this.closeModal.bind(this);
+          this.closeEditModal = this.closeModal.bind(this);
+      }
+
+      openModal() {
+        this.setState({modalIsOpen: true});
+      }
+
+      openEditModal(p_id, p_name, p_ing, p_description) {
+        this.setState({id: p_id, name: p_name, ingredient: p_ing, description: p_description})
+        this.setState({editModalIsOpen: true});
+      }
+     
+      closeModal() {
+        this.setState({modalIsOpen: false});
+      }
+
+      closeEditModal() {
+        this.setState({editModalIsOpen: false});
       }
 
       componentDidMount () {
@@ -49,21 +71,15 @@ class Drug extends React.Component{
         console.log(this.state);
         axios.post("http://localhost:8080/api/cc-admin/add-drug/", {
           name: this.state.name,
-          ingredient: this.state.ingredient,
-          description: this.state.description
+          description: this.state.description,
+          ingredient: this.state.ingredient
       }).then(response => {
+          NotificationManager.success('Drug successfuly added!', '', 2000);
           const {tableData} = this.state;
           tableData.push(response.data);
           this.setState({tableData});
-        }).then((resp) => this.onSuccessHandler(resp))
-      }
-
-      onSuccessHandler(resp){
-        AdminSuccess.fire({
-            title: "Drug succesfully added!",
-            text: "",
-            type: "success",
         })
+        .catch((error)=> {NotificationManager.error('Wrong input.', 'Error', 2000);}) 
       }
 
       deleteDrug = (id) =>{
@@ -71,16 +87,9 @@ class Drug extends React.Component{
           const {tableData} = this.state;
           tableData.pop(response.data);
           this.setState({tableData});
-        }).then((resp) => this.onSuccessDeleteHandler(resp))
-        console.log('This is the id: ' + id);
-      }
-
-      onSuccessDeleteHandler(resp){
-        AdminSuccess.fire({
-            title: "Drug succesfully deleted!",
-            text: "",
-            type: "success",
-        })
+        }).then(response => {
+          NotificationManager.success('Drug successfuly deleted', '', 2000);
+          ;})
       }
 
       handleChange(e) {
@@ -91,27 +100,15 @@ class Drug extends React.Component{
       }
 
       editDrug =  (id) => {
-        axios.put("http://localhost:8080/api/cc-admin/edit-drug/" + id, {
+        axios.put("http://localhost:8080/api/cc-admin/update-drug/" + id, {
           name: this.state.name,
-          ingredient: this.state.ingredient,
-          description: this.state.description
+          description: this.state.description,
+          ingredient: this.state.ingredient
       }).then(response => {
           const {tableData} = this.state;
           tableData.push(response.data);
           this.setState({tableData});
-        }).then((resp) => this.onSuccessHandler(resp))
-      }
-
-      onSuccessHandler(resp){
-        AdminSuccess.fire({
-            title: "Drug succesfully added!",
-            text: "",
-            type: "success",
         })
-      }
-
-      editPopup =  (id, name, ingredient, description) => {
-      
       }
 
       render() {
@@ -120,26 +117,22 @@ class Drug extends React.Component{
           <div className="AssignCCAdmin">
           <Header/>
           <div className='newDrug'>
-
-          <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add new Drug</button>
-          
-          <div class="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">New Drug</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <Modal
+          isOpen={this.state.editModalIsOpen}
+          onRequestClose={this.closeEditModal}
+          contentLabel="Example Modal"
+        >
+          <button onClick={this.closeEditModal} type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form onSubmit={this.addNewDrug}>
+          </button>
+          <form>
                     <div class="form-group">
                       <label htmlFor="name" class="col-form-label">Name:</label>
                       <input type="text" 
                              className="form-control form-control-sm"
                              id="name"
                              name="name"
+                             defaultValue={this.state.name}
                              onChange={this.handleChange}
                              placeholder="Enter Name"
                              required/>
@@ -150,8 +143,46 @@ class Drug extends React.Component{
                              className="form-control form-control-sm"
                              id="ingredient"
                              name="ingredient"
+                             defaultValue={this.state.ingredient}
                              onChange={this.handleChange}
-                             placeholder="Enter Ingredient"
+                             placeholder="Enter Name"
+                             required/>
+                    </div>
+                    <div class="form-group">
+                      <label htmlFor="description" class="col-form-label">Description:</label>
+                      <input type="text" 
+                             className="form-control form-control-sm"
+                             id="description"
+                             name="description"
+                             defaultValue={this.state.name}
+                             onChange={this.handleChange}
+                             placeholder="Enter Description"
+                             required/>
+                    </div>
+                    <div class="modal-footer">
+                      <Button onClick={() => this.editDrug(this.state.id)}>Save</Button>
+            </div>
+          </form>
+        </Modal>
+
+        <button className="btn primary jej" onClick={this.openModal}>Add new Diagnosis</button>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          contentLabel="Example Modal"
+        >
+          <button onClick={this.closeModal} type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+          </button>
+          <form onSubmit={this.addNewDiagnosis}>
+          <div class="form-group">
+                      <label htmlFor="name" class="col-form-label">Name:</label>
+                      <input type="text" 
+                             className="form-control form-control-sm"
+                             id="name"
+                             name="name"
+                             onChange={this.handleChange}
+                             placeholder="Enter Name"
                              required/>
                     </div>
                     <div class="form-group">
@@ -166,106 +197,50 @@ class Drug extends React.Component{
                     </div>
                     <div class="modal-footer">
                       <Button type="submit">Save</Button>
-                    </div>
-                  </form>
-                </div>
-              </div>
             </div>
-          </div>
+          </form>
+        </Modal>
           </div>
           <div className='nonccadmins rtable'>
           <ReactTable 
           data={tableData}
           columns={[{
-                      Header: 'Id',
-                      accessor: 'id',
-                      width: 45
-                    },{
                       Header: 'Name',
                       accessor: 'name',
-                      width: 225
-                    },{
-                      Header: 'Ingredients',
-                      accessor: 'ingredient',
-                      width: 200
+                      width: 150
                     },{
                       Header: 'Description',
                       accessor: 'description',
-                      width: 500
+                      width: 450
+                    },
+                    {
+                      Header: 'Ingredient',
+                      accessor: 'ingredient',
+                      width: 175
                     },
                     {
                       Header: '',
                       Cell: row => (                        
                         <div>
-                          <button className="btn btn-primary" data-toggle="modal" data-target="#editModal" >Edit {row.original.id}</button>
                           <div>
-          <div class="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel2">New Drug</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close2">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form onSubmit={this.editDrug(row.original.id)}>
-                  <div class="form-group">
-                    <label htmlFor="name" class="col-form-label">Name:</label>
-                    <input type="text" 
-                          className="form-control form-control-sm"
-                          id="name"
-                          name="name"
-                          defaultValue={row.original.name}
-                          onChange={this.handleChange}
-                          placeholder="Enter Name"
-                          required/>
-                  </div>
-                  <div class="form-group">
-                    <label htmlFor="ingredient" class="col-form-label">Ingredient:</label>
-                    <input type="text" 
-                          className="form-control form-control-sm"
-                          id="ingredient"
-                          name="ingredient"
-                          defaultValue={row.original.ingredient}
-                          onChange={this.handleChange}
-                          placeholder="Enter Ingredient"
-                          required/>
-                  </div>
-                  <div class="form-group">
-                    <label htmlFor="description" class="col-form-label">Description:</label>
-                    <input type="text" 
-                          className="form-control form-control-sm"
-                          id="description"
-                          name="description"
-                          defaultValue={row.original.description}
-                          onChange={this.handleChange}
-                          placeholder="Enter Description"
-                          required/>
-                  </div>
-                  <div class="modal-footer">
-                    <Button type="submit">Save</Button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
+                          <button className="btn primary" onClick={() => this.openEditModal(row.original.id, row.original.name, row.original.ingredient, row.original.description)}>Edit</button>
                         </div>
-                      )
+                        </div>
+                      ),
+                      width: 150
                     },
                     {
                         Header: '',
                         Cell: row => (
                             <div>
-                                <button className="btn btn-primary" onClick={() => this.deleteDrug(row.original.id)}>Delete</button>
+                                <button className="primary btn" onClick={() => this.deleteDrug(row.original.id)}>Delete</button>
                             </div>
-                        )
+                        ),                      
+                        width: 125
+
                       }
           ]}
           defaultPageSize = {10}
-          pageSizeOptions = {[5, 10, 15]}
           />
           </div>
            <Footer/>

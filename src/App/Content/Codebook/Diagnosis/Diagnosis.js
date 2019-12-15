@@ -4,11 +4,12 @@ import ReactTable from "react-table";
 import axios from 'axios';
 import Footer from '../../Footer/Footer';
 import Header from '../../Header/Header';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import {NotificationManager} from 'react-notifications';
 import { Button} from 'react-bootstrap';
+import './Diagnosis.css'
+import Modal from 'react-modal';
+Modal.setAppElement('#root')
 
-const AdminSuccess = withReactContent(Swal)
 
 class Diagnosis extends React.Component{
 
@@ -29,9 +30,33 @@ class Diagnosis extends React.Component{
                   description: ''
                 }
               ],
+              id: '',
               name: '',
-              description: ''
+              description: '',
+              modalIsOpen: false,
+              editModalIsOpen: false
           };
+          this.openModal = this.openModal.bind(this);
+          this.closeModal = this.closeModal.bind(this);
+          this.closeEditModal = this.closeModal.bind(this);
+
+      }
+
+      openModal() {
+        this.setState({modalIsOpen: true});
+      }
+
+      openEditModal(p_id, p_name, p_description) {
+        this.setState({id: p_id, name: p_name, description: p_description})
+        this.setState({editModalIsOpen: true});
+      }
+     
+      closeModal() {
+        this.setState({modalIsOpen: false});
+      }
+
+      closeEditModal() {
+        this.setState({editModalIsOpen: false});
       }
 
       componentDidMount () {
@@ -44,23 +69,18 @@ class Diagnosis extends React.Component{
 
       addNewDiagnosis =  event => {
         event.preventDefault();
+        this.setState({modalIsOpen: false});
         console.log(this.state);
         axios.post("http://localhost:8080/api/cc-admin/add-diagnosis/", {
           name: this.state.name,
           description: this.state.description
       }).then(response => {
+          NotificationManager.success('Diagnosis successfuly added!', '', 3000);
           const {tableData} = this.state;
           tableData.push(response.data);
           this.setState({tableData});
-        }).then((resp) => this.onSuccessHandler(resp))
-      }
-
-      onSuccessHandler(resp){
-        AdminSuccess.fire({
-            title: "Diagnosis succesfully added!",
-            text: "",
-            type: "success",
         })
+        .catch((error)=> {NotificationManager.error('Wrong input.', 'Error', 3000);}) 
       }
 
       deleteDiagnosis = (id) =>{
@@ -68,16 +88,9 @@ class Diagnosis extends React.Component{
           const {tableData} = this.state;
           tableData.pop(response.data);
           this.setState({tableData});
-        }).then((resp) => this.onSuccessDeleteHandler(resp))
-        console.log('This is the id: ' + id);
-      }
-
-      onSuccessDeleteHandler(resp){
-        AdminSuccess.fire({
-            title: "Drug succesfully deleted!",
-            text: "",
-            type: "success",
-        })
+        }).then(response => {
+          NotificationManager.success('Diagnosis successfuly deleted', '', 3000);
+          ;})
       }
 
       handleChange(e) {
@@ -88,26 +101,13 @@ class Diagnosis extends React.Component{
       }
 
       editDiagnosis =  (id) => {
-        axios.put("http://localhost:8080/api/cc-admin/update-drug/" + id, {
+        //this.setState({editModalIsOpen: false});
+        axios.put("http://localhost:8080/api/cc-admin/update-diagnosis/" + id, {
           name: this.state.name,
           description: this.state.description
       }).then(response => {
-          const {tableData} = this.state;
-          tableData.push(response.data);
-          this.setState({tableData});
-        }).then((resp) => this.onSuccessHandler(resp))
-      }
-
-      onSuccessHandler(resp){
-        AdminSuccess.fire({
-            title: "Diagnosis succesfully added!",
-            text: "",
-            type: "success",
+          NotificationManager.success('Diagnosis successfuly updated', '', 3000);
         })
-      }
-
-      editPopup =  (id, name, ingredient, description) => {
-      
       }
 
       render() {
@@ -115,22 +115,55 @@ class Diagnosis extends React.Component{
         return (
           <div className="AssignCCAdmin">
           <Header/>
-          <div className='newDrug'>
-
-          <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add new Diagnosis</button>
-          
-          <div class="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">New Diagnosis</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div>
+        <Modal
+          isOpen={this.state.editModalIsOpen}
+          onRequestClose={this.closeEditModal}
+          contentLabel="Example Modal"
+        >
+          <button onClick={this.closeEditModal} type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form onSubmit={this.addNewDiagnosis}>
+          </button>
+          <form>
+          <div class="form-group">
+                      <label htmlFor="name" class="col-form-label">Name:</label>
+                      <input type="text" 
+                             className="form-control form-control-sm"
+                             id="name"
+                             name="name"
+                             defaultValue={this.state.name}
+                             onChange={this.handleChange}
+                             placeholder="Enter Name"
+                             required/>
+                    </div>
                     <div class="form-group">
+                      <label htmlFor="description" class="col-form-label">Description:</label>
+                      <input type="text" 
+                             className="form-control form-control-sm"
+                             id="description"
+                             name="description"
+                             defaultValue={this.state.name}
+                             onChange={this.handleChange}
+                             placeholder="Enter Description"
+                             required/>
+                    </div>
+                    <div class="modal-footer">
+                      <Button onClick={() => this.editDiagnosis(this.state.id)}>Save</Button>
+            </div>
+          </form>
+        </Modal>
+
+        <button className="btn primary jej" onClick={this.openModal}>Add new Diagnosis</button>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          contentLabel="Example Modal"
+        >
+          <button onClick={this.closeModal} type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+          </button>
+          <form onSubmit={this.addNewDiagnosis}>
+          <div class="form-group">
                       <label htmlFor="name" class="col-form-label">Name:</label>
                       <input type="text" 
                              className="form-control form-control-sm"
@@ -152,47 +185,41 @@ class Diagnosis extends React.Component{
                     </div>
                     <div class="modal-footer">
                       <Button type="submit">Save</Button>
-                    </div>
-                  </form>
-                </div>
-              </div>
             </div>
-          </div>
+          </form>
+        </Modal>
+      </div>
+          <div className='newDrug'>
           </div>
           <div className='nonccadmins rtable'>
           <ReactTable 
           data={tableData}
           columns={[{
-                      Header: 'Id',
-                      accessor: 'id',
-                      width: 45
-                    },{
                       Header: 'Name',
                       accessor: 'name',
-                      width: 425
+                      width: 300
                     },{
                       Header: 'Description',
                       accessor: 'description',
-                      width: 500
+                      width: 475
                     },
                     {
                       Header: '',
                       Cell: row => (                        
                         <div>
-                          <button className="btn btn-primary" data-toggle="modal" data-target="#editModal" >Edit {row.original.id}</button>
-                          <div></div>
+                          <button className="btn primary" onClick={() => this.openEditModal(row.original.id, row.original.name, row.original.description)}>Edit</button>
                         </div>
                       ),
-                      width: 100
+                      width: 150
                     },
                     {
                         Header: '',
                         Cell: row => (
                             <div>
-                                <button className="btn btn-primary" onClick={() => this.deleteDiagnosis(row.original.id)}>Delete</button>
+                                <button className="primary btn" onClick={() => this.deleteDiagnosis(row.original.id)}>Delete</button>
                             </div>
                         ),                      
-                        width: 100
+                        width: 125
 
                       }
           ]}

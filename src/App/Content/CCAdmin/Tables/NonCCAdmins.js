@@ -42,7 +42,7 @@ class NonCCAdmins extends React.Component{
       assignCCAdmin = (id) =>{
         axios.post("http://localhost:8080/api/cc-admin/assign-cc-admin/" + id).then(response => {
           const {tableData} = this.state;
-          tableData.push(response.data);
+          tableData.pop(response.data);
           this.setState({tableData});
         }).then((resp) => this.onSuccessHandler(resp))
         console.log('This is the id: ' + id);

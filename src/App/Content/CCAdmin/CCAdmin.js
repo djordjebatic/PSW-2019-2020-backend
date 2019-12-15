@@ -26,18 +26,24 @@ class CCAdmin extends React.Component {
             </div>
             <div className="row links">
                 <div className="col link">
-                    <h4>All Registration Requests</h4>
+                    <h4>Registration Requests</h4>
                     <p>Look at the list of all patient registration requests.</p>
                     <Link to="/registration-requests" class="btn link-btn-doctor">View List</Link>
                 </div>
                 <div className="col link">
-                    <h4>Create a new Clinic or Clinic Admin</h4>
-                    <a href="#" class="btn link-btn-doctor">Create</a>
+                    <h4>Register new Clinic Center Admin</h4>
+                    <p>Fill out a registration form.</p>
+                    <a href="/register-ccadmin" class="btn link-btn-doctor">Create</a>
                 </div>
                 <div className="col link">
-                    <h4>Assign new Clinic Center Admin</h4>
-                    <p>Look at the list of all non clinic admin users.</p>
-                    <Link to="/assign-ccadmin" class="btn link-btn-doctor">View List</Link>
+                    <h4>Menage Diagnosis</h4>
+                    <p>Create new, edit or delete diagnosis.</p>
+                    <a href="/diagnosis" class="btn link-btn-doctor">View List</a>
+                </div>
+                <div className="col link">
+                    <h4>Manage Drugs</h4>
+                    <p>Create new, edit or delete drugs.</p>
+                    <Link to="/drugs" class="btn link-btn-doctor">View List</Link>
                 </div>
             </div>
         </div>
