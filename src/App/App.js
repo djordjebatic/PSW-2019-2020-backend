@@ -25,6 +25,13 @@ import ClinicPage from './Content/Clinic/ClinicPage'
 import PredefinedExaminations from './Content/Clinic/PredefinedExaminations/PredefinedExaminations'
 import Drug from './Content/Codebook/Drug/Drug';
 import Diagnosis from './Content/Codebook/Diagnosis/Diagnosis';
+import ReservationRequests from './Content/ClinicAdmin/RegistrationRequests/ReservationRequests';
+
+// React Notification
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer } from 'react-notifications';
+import RegisterNewCCAdmin from './Content/CCAdmin/RegisterNewCCAdmin/RegisterNewCCAdmin';
+import CCAdminRegistrationRequests from './Content/CCAdmin/RegistationRequests/CCAdminRegistrationRequests';
 
 function App() {
   return (
@@ -103,7 +110,17 @@ function App() {
           <Route path="/diagnosis">
             <Diagnosis />
           </Route>
+          <Route path="/register-ccadmin">
+            <RegisterNewCCAdmin/>
+          </Route>
+          <Route path="/reservation-requests">
+            <ReservationRequests />
+          </Route>
+          <Route path="/ccadmin-registration-requests">
+            <CCAdminRegistrationRequests/>
+          </Route>
         </Switch>
+        <NotificationContainer />
       </BrowserRouter>
     </div>
   );

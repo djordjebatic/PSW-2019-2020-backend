@@ -22,19 +22,24 @@ class NewAppointmentDoctor extends React.Component {
         patients: [],
         patient: '',
         date: '',
-        time: ''
+        time: '',
+        doctorId: ''
     }
   }
 
   SendAppointmentRequest = event => {
     event.preventDefault();
-      console.log(this.state);
-      axios.post("http://localhost:8080/api/doctor/shedule-appointment", {
+      var token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.post("http://localhost:8080/api/doctor/schedule-appointment", {
         patient: this.state.patient,
         date: this.state.date,
-        time: this.state.time
+        time: this.state.time,
+        doctor: this.state.doctorId
       })  
-    .then((resp) => this.onSuccessHandler(resp))
+    .then((resp) => {
+      this.onSuccessHandler(resp);
+    })
     .catch((error) => this.onFailureHandler(error))
   }
 
@@ -58,8 +63,7 @@ class NewAppointmentDoctor extends React.Component {
 
   componentDidMount() {
     var token = localStorage.getItem('token');
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    axios.get("http://localhost:8080/patients")  
+    axios.get("http://localhost:8080/api/patients")  
       .then(response => {
           let tmpArray = []
           for (var i = 0; i < response.data.length; i++) {
@@ -68,6 +72,15 @@ class NewAppointmentDoctor extends React.Component {
 
           this.setState({
               patients: tmpArray
+          })
+      })
+    .catch((error) => console.log(error))
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.get("http://localhost:8080/auth/getMyUser")  
+      .then(response => {
+          this.setState({
+              doctorId: response.data.id
           })
       })
     .catch((error) => console.log(error))
@@ -80,7 +93,7 @@ class NewAppointmentDoctor extends React.Component {
         <div className="">
         <div className="row">
             <div className="col-sm new-appointment-header">
-              <h3>Sheduling Appointment</h3>
+              <h3>Scheduling Appointment</h3>
             </div>
           </div>
           <div className="row new-appointment-form">
@@ -112,7 +125,8 @@ class NewAppointmentDoctor extends React.Component {
                 </div>
               </div>
               <div className="col-sm">
-              <Button type="submit" className="btn create-appointment-btn">Shedule</Button>
+                <br/>
+              <Button type="submit" className="btn create-appointment-btn">Schedule</Button>
               </div>
             </form>
             </div>

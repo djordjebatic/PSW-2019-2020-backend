@@ -6,6 +6,7 @@ import { Button} from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
+import {NotificationManager} from 'react-notifications';
 
 
 import logo from '../../../images/med128.png'
@@ -21,11 +22,14 @@ class ChangePassword extends React.Component {
         this.SendLoginRequest = this.SendLoginRequest.bind(this);
   
         this.state = {
-            email: '',
+            id: this.props.location.pathname.split('/').pop(),
+            oldPassword: 'admin',
             newPassword: '',
             confirmPassword: '',
             userType: ''
         }
+        NotificationManager.info('Welcome to the Clinic Center System. Upon first login you have to change your password', '', 4000);
+        
     }
 
     SendLoginRequest = event => {
@@ -37,29 +41,19 @@ class ChangePassword extends React.Component {
             case "ULOGA 2":
                 return // prebaci na pocetnu stranicu uloge 2
             default: // u default je za sada samo za klinickog admina
-                axios.put("http://localhost:8080/api/cc-admin/change-ccadmin-password", this.state)
-                .then((resp) => {this.onSuccessHandler(resp);
-                        this.props.history.push('/ccadmin/');
-                    }
+                axios.post("http://localhost:8080/auth/change-password", this.state)
+                .then((resp) => {
+                NotificationManager.success('Welcome to the Clinic Center System. Your password has been changed', '', 4000);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;        
+                this.props.history.push('/login');
+                    
+                }
                 )
-                .catch((error) => this.onFailureHandler(error))
+                .catch((error) =>{NotificationManager.error('Wrong input', 'Error!', 4000);
+                })
             // dodati konkretne uloge
         }
         
-    }
-  
-    onSuccessHandler(resp){
-        LoginAlert.fire({
-            title: "Password changed successfully",
-            text: ""
-        })
-    }
-
-    onFailureHandler(error){
-        LoginAlert.fire({
-            title: "Password change failed",
-            text: error
-        })
     }
 
     handleChange(e) {

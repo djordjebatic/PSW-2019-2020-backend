@@ -6,6 +6,7 @@ import { Button} from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
+import {NotificationManager} from 'react-notifications';
 
 
 import logo from '../../../images/med128.png'
@@ -29,11 +30,12 @@ class Login extends React.Component {
     SendLoginRequest = event => {
         event.preventDefault();
         axios.post("http://localhost:8080/auth/login", this.state)
-        .then((resp) => {this.onSuccessHandler(resp);
+        .then((resp) => {
             localStorage.setItem('token', resp.data.accessToken)
             axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.accessToken}`;
             axios.get("http://localhost:8080/auth/getMyUser")
                 .then((resp) => {
+                    console.log(resp.data)
                     if ((resp.data.authorities[0].name == "ROLE_DOCTOR" 
                         || resp.data.authorities[0].name == "ROLE_NURSE" 
                         || resp.data.authorities[0].name == "ROLE_CLINIC_ADMIN"
@@ -53,12 +55,16 @@ class Login extends React.Component {
                         if (resp.data.authorities[0].name == "ROLE_PATIENT"){
                             this.props.history.push('/patient')
                         }
+                        if (resp.data.authorities[0].name == "ROLE_CC_ADMIN"){
+                            this.props.history.push('/ccadmin')
+                        }
                     }
-
-                })
+                }
+                )
         }
         )
-        .catch((error) => this.onFailureHandler(error))
+        .catch((error) => NotificationManager.error('Wrong username or password', 'Error!', 4000)
+        )
     }
   
     onSuccessHandler(resp){
@@ -71,7 +77,7 @@ class Login extends React.Component {
     onFailureHandler(error){
         LoginAlert.fire({
             title: "Log In failed",
-            text: error
+            text: "Email and password combination is not acceptable."
         })
     }
 
@@ -82,45 +88,44 @@ class Login extends React.Component {
     render(){
       return (
         <div className="Login">
-        <div className="">
-                <div className="row">
-                    <div className="col-4 welcome">
-                        <div className="logo">
-                            <img alt="logo" src={logo} />
-                            <h1 className="title">Clinic Center</h1>
-                        </div>
-                    </div>
-                    <div className="col-8 login">
-                        <form onSubmit={this.SendLoginRequest}>
-                            <div className="form-group">
-                                <label>E-mail address</label>
-                                <input 
-                                    required
-                                    type="text" 
-                                    className="form-control" 
-                                    id="email" 
-                                    name="email"
-                                    aria-describedby="emailHelp"
-                                    onChange={this.handleChange} 
-                                    placeholder="E-mail address"/>
-                            </div>
-                            <div className="form-group">
-                                <label>Password</label>
-                                <input 
-                                    required
-                                    type="password" 
-                                    className="form-control" 
-                                    id="password" 
-                                    name="password"
-                                    onChange={this.handleChange}
-                                    placeholder="Password"/>
-                                <small id="newAccount" className="form-text text-muted"><Link to="/register">Doesn't have an account?</Link></small>
-                            </div>
-                            <Button type="submit" className="btn">Log In</Button>
-                        </form>
+            <div className="row">
+                <div className="col-4 welcome">
+                    <div className="logo">
+                        <img alt="logo" src={logo} />
+                        <h1 className="title">Clinic Center</h1>
                     </div>
                 </div>
-        </div>
+                <div className="col-8 login">
+                    <form onSubmit={this.SendLoginRequest}>
+                        <div className="form-group">
+                            <label>E-mail address</label>
+                            <input 
+                                required
+                                type="text" 
+                                className="form-control" 
+                                id="email" 
+                                name="email"
+                                aria-describedby="emailHelp"
+                                onChange={this.handleChange} 
+                                placeholder="E-mail address"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input 
+                                required
+                                type="password" 
+                                className="form-control" 
+                                id="password" 
+                                name="password"
+                                onChange={this.handleChange}
+                                placeholder="Password"/>
+                            </div>
+                        <small id="newAccount" className="form-text text-muted"><Link to="/register">Doesn't have an account?</Link></small>
+                        <br/>
+                        <Button type="submit" className="btn">Log In</Button>
+                    </form>
+                </div>
+            </div>
         </div>
         );
     }

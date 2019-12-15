@@ -6,3 +6,19 @@
     padding-left: 1em;
     text-align: left;
 }
+
+.MedicalRecord  h3{
+    margin-top: 40px;
+}
+
+.MedicalRecord .form-group{
+    margin-left: 20px;
+}
+
+.MedicalRecord .row{
+    margin-bottom: 50px;
+}
+
+.MedicalRecord hr{
+    margin-bottom: 30px;
+}

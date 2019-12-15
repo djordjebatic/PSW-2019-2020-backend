@@ -35,7 +35,7 @@ class Header extends React.Component{
       var homePageLink;
       if (this.state.role === "ROLE_CC_ADMIN"){
         homePageLink = (
-          <Link to="/cc-admin" className="nav-link link-header" href="#">Clinic Center</Link>
+          <Link to="/ccadmin" className="nav-link link-header" href="#">Clinic Center</Link>
         )
       } else if (this.state.role === "ROLE_CLINIC_ADMIN"){
         homePageLink = (
@@ -69,7 +69,7 @@ class Header extends React.Component{
                 <Link to="work-calendar" className="nav-link link-header" href="#">Work Calendar</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link link-header" href="#">Log Out</a>
+                <Link className="nav-link link-header" to="/login">Log Out</Link>
               </li>
             </ul>
           </nav>
