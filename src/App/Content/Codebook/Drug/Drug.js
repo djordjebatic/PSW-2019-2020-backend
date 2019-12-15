@@ -37,6 +37,7 @@ class Drug extends React.Component{
               editModalIsOpen: false
           };
           this.openModal = this.openModal.bind(this);
+          this.openEditModal = this.openEditModal.bind(this);
           this.closeModal = this.closeModal.bind(this);
           this.closeEditModal = this.closeModal.bind(this);
       }
@@ -68,18 +69,19 @@ class Drug extends React.Component{
 
       addNewDrug =  event => {
         event.preventDefault();
+        this.setState({modalIsOpen: false});
         console.log(this.state);
         axios.post("http://localhost:8080/api/cc-admin/add-drug/", {
           name: this.state.name,
           description: this.state.description,
           ingredient: this.state.ingredient
       }).then(response => {
-          NotificationManager.success('Drug successfuly added!', '', 2000);
+          NotificationManager.success('Drug successfuly added!', '', 3000);
           const {tableData} = this.state;
           tableData.push(response.data);
           this.setState({tableData});
         })
-        .catch((error)=> {NotificationManager.error('Wrong input.', 'Error', 2000);}) 
+        .catch((error)=> {NotificationManager.error('Wrong input.', 'Error', 3000);}) 
       }
 
       deleteDrug = (id) =>{
@@ -88,7 +90,7 @@ class Drug extends React.Component{
           tableData.pop(response.data);
           this.setState({tableData});
         }).then(response => {
-          NotificationManager.success('Drug successfuly deleted', '', 2000);
+          NotificationManager.success('Drug successfuly deleted', '', 3000);
           ;})
       }
 
@@ -105,6 +107,7 @@ class Drug extends React.Component{
           description: this.state.description,
           ingredient: this.state.ingredient
       }).then(response => {
+          NotificationManager.success('Drug successfuly updated', '', 3000);
           const {tableData} = this.state;
           tableData.push(response.data);
           this.setState({tableData});
@@ -121,7 +124,7 @@ class Drug extends React.Component{
           isOpen={this.state.editModalIsOpen}
           onRequestClose={this.closeEditModal}
           contentLabel="Example Modal"
-        >
+          >
           <button onClick={this.closeEditModal} type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
           </button>
@@ -165,7 +168,7 @@ class Drug extends React.Component{
           </form>
         </Modal>
 
-        <button className="btn primary jej" onClick={this.openModal}>Add new Diagnosis</button>
+        <button className="btn primary jej" onClick={this.openModal}>Add new Drug</button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -174,7 +177,7 @@ class Drug extends React.Component{
           <button onClick={this.closeModal} type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
           </button>
-          <form onSubmit={this.addNewDiagnosis}>
+          <form onSubmit={this.addNewDrug}>
           <div class="form-group">
                       <label htmlFor="name" class="col-form-label">Name:</label>
                       <input type="text" 
@@ -183,6 +186,16 @@ class Drug extends React.Component{
                              name="name"
                              onChange={this.handleChange}
                              placeholder="Enter Name"
+                             required/>
+                    </div>
+                    <div class="form-group">
+                      <label htmlFor="ingredient" class="col-form-label">Ingredient:</label>
+                      <input type="text" 
+                             className="form-control form-control-sm"
+                             id="ingredient"
+                             name="ingredient"
+                             onChange={this.handleChange}
+                             placeholder="Enter Ingredient"
                              required/>
                     </div>
                     <div class="form-group">
@@ -221,10 +234,8 @@ class Drug extends React.Component{
                     {
                       Header: '',
                       Cell: row => (                        
-                        <div>
                           <div>
                           <button className="btn primary" onClick={() => this.openEditModal(row.original.id, row.original.name, row.original.ingredient, row.original.description)}>Edit</button>
-                        </div>
                         </div>
                       ),
                       width: 150
