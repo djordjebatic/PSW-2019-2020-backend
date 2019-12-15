@@ -3,94 +3,70 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import axios from 'axios'
 
 import './PatientsList.css'
 
 class PatientsList extends React.Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+        patients: []
+    }
+  }
+
+  componentDidMount() {
+    var token = localStorage.getItem('token');
+    axios.get("http://localhost:8080/api/patients")  
+      .then(response => {
+          let tmpArray = []
+          for (var i = 0; i < response.data.length; i++) {
+              tmpArray.push(response.data[i])
+          }
+
+          this.setState({
+              patients: tmpArray
+          })
+      })
+    .catch((error) => console.log(error))
+  }
+
   render() {
-    const auth = [{
-    code: 'HSCV1235-1',
-    name: 'Pentaksilin',
-    patient: 'Katic Kata',
-    doctor: 'Marko Stojic',
-    authenticate: <button>Confirm</button>
+
+    const columns=[
+      {
+        Header:'Id',
+        id: 'id',
+        accessor: d => d.id
+    },{
+      Header:'First Name',
+      accessor: 'firstName'
+    },{
+      Header:'Last Name',
+      accessor: 'lastName'
+    },{
+        Header:'Email Address',
+        accessor: 'username'
+    },{
+      Header:'Address',
+      accessor: 'address'
   },{
-    code: 'BLJV135-19',
-    name: 'Amoksicilin',
-    patient: 'Katic Kata',
-    doctor: 'Marko Stojic',
-    authenticate: <button>Confirm</button>
+        Header:'City',
+        accessor: 'city'
+    },{
+      Header:'Country',
+      accessor: 'country'
   }]
-    const auth_columns = [{
-      Header: 'Code',
-      accessor: 'code'
-    },{
-      Header: 'Name',
-      accessor: 'name'
-    },{
-      Header: 'Patient',
-      accessor: 'patient'
-    },{
-      Header: 'Doctor',
-      accessor: 'doctor'
-    },{
-      Header: 'Authenticate',
-      accessor: 'authenticate'
-    }]
-    const columns = [{
-        Header: 'Surname',
-        accessor: 'surname'
-      },{
-        Header: 'Name',
-        accessor: 'name'
-      },{
-        Header: 'Email',
-        accessor: 'email'
-      },{
-        Header: 'Medical Card Number',
-        accessor: 'cardNumber'
-      }]
-    const data = [{
-        email: 'kata@gmail.com',
-        surname: 'Katic',
-        name: 'Kata',
-        cardNumber: 'SA129-2012'
-      },{
-        email: 'sata@gmail.com',
-        surname: 'Satic',
-        name: 'Tata',
-        cardNumber: 'SA19-2012'
-      },{
-        email: 'bata@gmail.com',
-        surname: 'Batic',
-        name: 'Mara',
-        cardNumber: 'SA12-2016'
-      },{
-        email: 'tata@gmail.com',
-        surname: 'Tatic',
-        name: 'Sava',
-        cardNumber: 'SA19-2019'
 
-      },{
-        email: 'pata@gmail.com',
-        surname: 'Patic',
-        name: 'Savo',
-        cardNumber: 'SA1219-2016'
-
-      },{
-        email: 'zata@gmail.com',
-        surname: 'Zatic',
-        name: 'Marko',
-        cardNumber: 'SA1291-2012'
-
-      }]
   return (
     <div className="PatientsList">
       <Header/>
       <div className='patients rtable'>
       <div className="patients-title">Patient List</div>
         <ReactTable 
-          data={data}
+          data={this.state.patients}
           columns={columns}
           defaultPageSize = {10}
           pageSizeOptions = {[5, 10, 15]}
