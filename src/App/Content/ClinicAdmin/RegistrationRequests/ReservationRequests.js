@@ -73,7 +73,7 @@ class RegistrationRequests extends React.Component {
             <div className="card-body">
                 <h5 className="card-title">Appointment Request</h5>
                 <hr/>
-                <p className="card-text"><strong>Date:</strong> {req.date} | <strong>Time:</strong> {req.time} | <strong>Type:</strong> </p>
+                <p className="card-text"><strong>Date:</strong> {req.date} | <strong>Time:</strong> {req.time} | <strong>Type: </strong>Examination</p>
                 <hr/>
                 <a href="#" className="btn btn-primary btn-app-req">Create appointment</a>
             </div>
