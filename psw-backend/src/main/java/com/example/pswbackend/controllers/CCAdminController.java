@@ -227,5 +227,61 @@ public class CCAdminController {
         ccAdmin.setAuthorities(authorities);
         return new ResponseEntity<>(ccAdmin, HttpStatus.OK);
     }
-    
+
+    @PostMapping(value="/assign-cc-admin/{id}")
+    public ResponseEntity<CCAdmin> assignCCAdmin(@PathVariable Long id){
+        Account acc = accountRepository.findById(id).get();
+
+
+        CCAdmin newCCAdmin = ccAdminService.assign(id);
+
+        if (newCCAdmin == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for (CCAdmin ccadmin : ccAdminRepository.findAll()){
+            if (ccadmin.getUsername() == newCCAdmin.getUsername()){
+                return new ResponseEntity<>(newCCAdmin, HttpStatus.BAD_REQUEST);
+            }
+        }
+
+
+        newCCAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
+        this.ccAdminRepository.save(newCCAdmin);
+
+        return new ResponseEntity<>(newCCAdmin, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/all-ccadmins")
+    public List<CCAdmin> getCCAdmins() {
+        return ccAdminRepository.findAll();
+    }
+
+    @GetMapping(value = "/all-non-ccadmin-accounts")
+    public List<Account> getAccounts() {
+
+        List<Account> accounts = accountRepository.findAll();
+        List<Account> ret = accountRepository.findAll();
+
+        // checks if account has a ccadmin role and then removes accounts with same email
+        for (Account account : accounts){
+            if (account.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_CC_ADMIN"))){
+                for (Account potentialOther : accounts){
+                    if (potentialOther.getUsername().equals(account.getUsername()) && !potentialOther.getAuthorities().stream()
+                            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_CC_ADMIN"))){
+                        ret.remove(potentialOther);
+                    }
+                }
+                ret.remove(account);
+            }
+            if (account instanceof Patient){
+                if (((Patient) account).getPatientStatus().equals(Status.AWAITING_APPROVAL)){
+                    ret.remove(account);
+                }
+            }
+        }
+
+        return ret;
+    }
 }
