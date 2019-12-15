@@ -82,14 +82,7 @@ class PersonalProfile extends React.Component {
             </div>
         </div>
       )
-    } else if (this.state.role === "ROLE_CC_ADMIN"){
-      additionalInfo = (
-        <div className="col-6">
-            <h3>Clinic Center Admin Information</h3>
-            <hr/>
-        </div>
-      )
-    } 
+    }
     
   return (
     <div className="PersonalProfile">
