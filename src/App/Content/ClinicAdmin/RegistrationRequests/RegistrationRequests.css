@@ -1,0 +1,26 @@
+.cards {
+    background-color: silver;
+    padding: 40px 70px;
+    margin: 30px 60px;
+    border-radius: 0 25px 0 25px;
+}
+
+.card {
+    border-radius: 0 25px 0 25px;
+}
+
+.card h5 {
+    margin-left: 0;
+}
+
+.btn-app-req {
+    color: white;
+    background-color: darkcyan;
+}
+
+.btn-app-req:hover {
+    color: silver;
+    background-color: darkcyan;
+    border-color: darkcyan;
+}
+

@@ -25,6 +25,7 @@ import ClinicPage from './Content/Clinic/ClinicPage'
 import PredefinedExaminations from './Content/Clinic/PredefinedExaminations/PredefinedExaminations'
 import Drug from './Content/Codebook/Drug/Drug';
 import Diagnosis from './Content/Codebook/Diagnosis/Diagnosis';
+import RegistrationRequests from './Content/ClinicAdmin/RegistrationRequests/RegistrationRequests';
 
 function App() {
   return (
@@ -102,6 +103,9 @@ function App() {
           </Route>
           <Route path="/diagnosis">
             <Diagnosis />
+          </Route>
+          <Route path="/registration-requests">
+            <RegistrationRequests/>
           </Route>
         </Switch>
       </BrowserRouter>
