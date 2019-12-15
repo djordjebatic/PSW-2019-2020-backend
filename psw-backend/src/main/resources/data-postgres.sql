@@ -113,7 +113,7 @@ values('OPERATION', '202', '1');
 
 --Medical record
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
-values( 'None', 'A', '170', '6', '70');
+values( 'Milk, flowers', 'A', '170', '6', '70');
 
 --Predefined appointment
 
