@@ -1,11 +1,15 @@
 package com.example.pswbackend.services;
 
+import com.example.pswbackend.domain.Authority;
 import com.example.pswbackend.domain.MedicalRecord;
 import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.dto.PatientDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +23,12 @@ public class PatientServiceImpl implements PatientService{
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<RegisterApprovalDTO> findByStatus(Status patientStatus) {
@@ -82,5 +92,39 @@ public class PatientServiceImpl implements PatientService{
         patientRepository.deleteById(id);
 
         return true;
+    }
+
+    @Override
+    public Patient registerPatient(PatientDTO patientDTO) {
+        UserDetails userDetails = accountService.findByEmail(patientDTO.getEmail());
+        if (userDetails != null) {
+            return null;
+        }
+
+        if (patientRepository.findByEmail(patientDTO.getEmail()) != null) {
+            return null;
+        }
+
+        Patient patient = new Patient();
+        patient.setFirstName(patientDTO.getFirstName());
+        patient.setLastName(patientDTO.getLastName());
+        patient.setAddress(patientDTO.getAddress());
+        patient.setCity(patientDTO.getCity());
+        patient.setCountry(patientDTO.getCountry());
+        patient.setPhoneNumber(patientDTO.getPhoneNumber());
+        patient.setEmail(patientDTO.getEmail());
+        patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
+
+        patient.setPatientStatus(Status.AWAITING_APPROVAL);
+
+        List<Authority> authorities = new ArrayList<>();
+
+        Authority a = new Authority();
+        a.setName("ROLE_PATIENT");
+        a.setId(new Long(1));
+        authorities.add(a);
+        patient.setAuthorities(authorities);
+
+        return patientRepository.save(patient);
     }
 }
