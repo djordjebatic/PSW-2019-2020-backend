@@ -26,6 +26,12 @@ import PredefinedExaminations from './Content/Clinic/PredefinedExaminations/Pred
 import Drug from './Content/Codebook/Drug/Drug';
 import Diagnosis from './Content/Codebook/Diagnosis/Diagnosis';
 
+// React Notification
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer } from 'react-notifications';
+import RegistrationRequests from './Content/CCAdmin/RegistationRequests/RegistrationRequests';
+import RegisterNewCCAdmin from './Content/CCAdmin/RegisterNewCCAdmin/RegisterNewCCAdmin';
+
 function App() {
   return (
     <div className="App">
@@ -103,7 +109,14 @@ function App() {
           <Route path="/diagnosis">
             <Diagnosis />
           </Route>
+          <Route path="/register-ccadmin">
+            <RegisterNewCCAdmin/>
+          </Route>
+          <Route path="/registration-requests">
+            <RegistrationRequests />
+          </Route>
         </Switch>
+        <NotificationContainer />
       </BrowserRouter>
     </div>
   );
