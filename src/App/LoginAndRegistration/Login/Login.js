@@ -6,6 +6,7 @@ import { Button} from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
+import {NotificationManager} from 'react-notifications';
 
 
 import logo from '../../../images/med128.png'
@@ -29,7 +30,7 @@ class Login extends React.Component {
     SendLoginRequest = event => {
         event.preventDefault();
         axios.post("http://localhost:8080/auth/login", this.state)
-        .then((resp) => {this.onSuccessHandler(resp);
+        .then((resp) => {
             localStorage.setItem('token', resp.data.accessToken)
             axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.accessToken}`;
             axios.get("http://localhost:8080/auth/getMyUser")
@@ -53,12 +54,16 @@ class Login extends React.Component {
                         if (resp.data.authorities[0].name == "ROLE_PATIENT"){
                             this.props.history.push('/patient')
                         }
+                        if (resp.data.authorities[0].name == "ROLE_CC_ADMIN"){
+                            this.props.history.push('/ccadmin')
+                        }
                     }
-
-                })
+                }
+                )
         }
         )
-        .catch((error) => this.onFailureHandler(error))
+        .catch((error) => NotificationManager.error('Wrong username or password', 'Error!', 4000)
+        )
     }
   
     onSuccessHandler(resp){
