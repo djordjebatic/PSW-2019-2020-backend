@@ -54,9 +54,14 @@ public class CodebookServiceImpl implements CodebookService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public void deleteDrug(Drug drug){
-
-        drugRepository.deleteById(drug.getId());
+    public Boolean deleteDrug(Long id){
+        try{
+            drugRepository.deleteById(id);
+        }
+        catch (EntityNotFoundException e){
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -88,8 +93,14 @@ public class CodebookServiceImpl implements CodebookService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public void deleteDiagnosis(Diagnosis diagnosis){
-        diagnosisRepository.deleteById(diagnosis.getId());
+    public Boolean deleteDiagnosis(Long id){
+        try {
+            diagnosisRepository.deleteById(id);
+        }
+        catch (EntityNotFoundException e){
+            return false;
+        }
+        return true;
     }
 
 }
