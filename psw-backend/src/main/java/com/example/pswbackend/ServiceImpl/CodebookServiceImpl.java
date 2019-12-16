@@ -51,6 +51,14 @@ public class CodebookServiceImpl implements CodebookService {
 
         return true;
     }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public void deleteDrug(Drug drug){
+
+        drugRepository.deleteById(drug.getId());
+    }
+
     
 
 }
