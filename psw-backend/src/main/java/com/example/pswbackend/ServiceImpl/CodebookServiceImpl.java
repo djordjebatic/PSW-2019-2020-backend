@@ -1,0 +1,39 @@
+package com.example.pswbackend.ServiceImpl;
+
+import com.example.pswbackend.domain.Diagnosis;
+import com.example.pswbackend.domain.Drug;
+import com.example.pswbackend.dto.DiagnosisDTO;
+import com.example.pswbackend.dto.DrugDTO;
+import com.example.pswbackend.repositories.DiagnosisRepository;
+import com.example.pswbackend.repositories.DrugRepository;
+import com.example.pswbackend.services.CodebookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
+
+
+@Service
+@Transactional(readOnly = true)
+public class CodebookServiceImpl implements CodebookService {
+
+    @Autowired
+    DiagnosisRepository diagnosisRepository;
+
+    @Autowired
+    DrugRepository drugRepository;
+
+    @Override
+    @Transactional(readOnly = false)
+    public Drug saveDrug(DrugDTO drugDTO) {
+
+        Drug newDrug = new Drug(drugDTO.getName(), drugDTO.getIngredient(), drugDTO.getDescription());
+        drugRepository.save(newDrug);
+
+        return newDrug;
+    }
+
+    
+}
