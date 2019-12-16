@@ -9,10 +9,10 @@ public interface CodebookService {
 
     Drug saveDrug(DrugDTO drugDTO);
     Boolean updateDrug(Drug drug, DrugDTO drugDTO);
-    void deleteDrug(Drug drug);
+    Boolean deleteDrug(Long id);
 
     Diagnosis saveDiagnosis(DiagnosisDTO diagnosisDTO);
     Boolean updateDiagnosis(Diagnosis diagnosis, DiagnosisDTO diagnosisDTO);
-    void deleteDiagnosis(Diagnosis diagnosis);
+    Boolean deleteDiagnosis(Long id);
 
 }

@@ -8,10 +8,7 @@ import com.example.pswbackend.repositories.AccountRepository;
 import com.example.pswbackend.repositories.CCAdminRepository;
 import com.example.pswbackend.repositories.DiagnosisRepository;
 import com.example.pswbackend.repositories.DrugRepository;
-import com.example.pswbackend.services.CCAdminService;
-import com.example.pswbackend.services.ClinicAdminService;
-import com.example.pswbackend.services.ClinicService;
-import com.example.pswbackend.services.PatientService;
+import com.example.pswbackend.services.*;
 import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -52,6 +49,9 @@ public class CCAdminController {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    CodebookService codebookService;
 
     @GetMapping(value="/all-registration-requests")
     @PreAuthorize("hasRole('CC_ADMIN')")
@@ -107,7 +107,7 @@ public class CCAdminController {
         return new ResponseEntity<>(newClinicAdmin, HttpStatus.OK);
     }
 
-    @GetMapping(value="/all-diagnosis")
+    @GetMapping(value="/get-all-diagnosis")
     @PreAuthorize("hasRole('CC_ADMIN')")
     public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
         return new ResponseEntity<>(diagnosisRepository.findAll(), HttpStatus.OK);
@@ -116,14 +116,13 @@ public class CCAdminController {
     @PostMapping(value = "/add-diagnosis")
     @PreAuthorize("hasRole('CC_ADMIN')")
     public ResponseEntity<Diagnosis> addDiagnosis(@RequestBody DiagnosisDTO diagnosisDTO){
-        Diagnosis diagnosis = new Diagnosis(diagnosisDTO.getName(), diagnosisDTO.getDescription());
 
-        if (diagnosisRepository.findByName(diagnosis.getName()) == null) {
-            diagnosisRepository.save(diagnosis);
-            return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+        if (diagnosisRepository.findByName(diagnosisDTO.getName()) != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Diagnosis newDiagnosis = codebookService.saveDiagnosis(diagnosisDTO);
+            return new ResponseEntity<>(newDiagnosis, HttpStatus.OK);
         }
     }
 
@@ -137,26 +136,27 @@ public class CCAdminController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        diagnosis.setName(diagnosisDTO.getName());
-        diagnosis.setDescription(diagnosisDTO.getDescription());
-        diagnosisRepository.save(diagnosis);
+        Boolean success = codebookService.updateDiagnosis(diagnosis, diagnosisDTO);
 
-        return new ResponseEntity<>(diagnosis, HttpStatus.OK);
-
+        if(success) {
+            return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping(value = "/delete-diagnosis/{id}")
     @PreAuthorize("hasRole('CC_ADMIN')")
     public ResponseEntity<Diagnosis> deleteDiagnosis(@PathVariable Long id){
 
-        Diagnosis diagnosis = diagnosisRepository.findOneById(id);
+        Boolean success = codebookService.deleteDiagnosis(id);
 
-        if (diagnosis == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (success){
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-
-        diagnosisRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value="/get-all-drugs")
@@ -168,14 +168,13 @@ public class CCAdminController {
     @PostMapping(value = "/add-drug")
     @PreAuthorize("hasRole('CC_ADMIN')")
     public ResponseEntity<Drug> addDrug(@RequestBody DrugDTO drugDTO){
-        Drug drug = new Drug(drugDTO.getName(), drugDTO.getIngredient(), drugDTO.getDescription());
 
-        if (drugRepository.findByName(drug.getName()) == null) {
-            drugRepository.save(drug);
-            return new ResponseEntity<>(drug, HttpStatus.OK);
+        if (drugRepository.findByName(drugDTO.getName()) != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Drug newDrug = codebookService.saveDrug(drugDTO);
+            return new ResponseEntity<>(newDrug, HttpStatus.OK);
         }
     }
 
@@ -189,26 +188,27 @@ public class CCAdminController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        drug.setName(drugDTO.getName());
-        drug.setDescription(drugDTO.getDescription());
-        drug.setIngredient(drugDTO.getIngredient());
+        Boolean success = codebookService.updateDrug(drug, drugDTO);
 
-        drugRepository.save(drug);
-        return new ResponseEntity<>(drug, HttpStatus.OK);
+        if(success) {
+            return new ResponseEntity<>(drug, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping(value = "/delete-drug/{id}")
     @PreAuthorize("hasRole('CC_ADMIN')")
     public ResponseEntity<Drug> deleteDrug(@PathVariable Long id){
 
-        Drug drug = drugRepository.findOneById(id);
+        Boolean success = codebookService.deleteDrug(id);
 
-        if (drug == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (success){
+            return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        drugRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(value="/register-cc-admin")
