@@ -24,6 +24,10 @@ public class Drug {
 	@OneToMany(mappedBy = "drug", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
+	@Version
+	@Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+	private long version = 0L;
+
 	public Drug() {
 
 	}
@@ -34,6 +38,14 @@ public class Drug {
 		this.description = description;
 	}
 
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
+	}
+	
 	public Long getId() {
 		return id;
 	}
