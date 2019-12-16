@@ -69,6 +69,23 @@ public class CodebookServiceImpl implements CodebookService {
         return newDiagnosis;
     }
 
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public Boolean updateDiagnosis(Diagnosis diagnosis, DiagnosisDTO diagnosisDTO) {
+
+        try {
+            diagnosis.setName(diagnosisDTO.getName());
+            diagnosis.setDescription(diagnosisDTO.getDescription());
+
+            diagnosisRepository.save(diagnosis);
+        }
+        catch(EntityNotFoundException e){
+            return false;
+        }
+
+        return true;
+    }
+
 
 
 }
