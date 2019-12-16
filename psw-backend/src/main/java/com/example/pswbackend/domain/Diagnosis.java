@@ -21,6 +21,10 @@ public class Diagnosis {
 	@OneToMany(mappedBy = "diagnosis", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<ExaminationReport> examinationReports = new HashSet<>();
 
+	@Version
+	@Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+	private long version = 0L;
+
 	public Diagnosis(){
 
 	}
@@ -60,5 +64,13 @@ public class Diagnosis {
 
 	public void setExaminationReports(Set<ExaminationReport> examinationReports) {
 		this.examinationReports = examinationReports;
+	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
 	}
 }
