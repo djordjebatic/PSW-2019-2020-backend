@@ -45,7 +45,7 @@ public class Drug {
 	public void setVersion(long version) {
 		this.version = version;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
