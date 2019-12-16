@@ -35,5 +35,22 @@ public class CodebookServiceImpl implements CodebookService {
         return newDrug;
     }
 
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public Boolean updateDrug(Drug drug, DrugDTO drugDTO) {
+
+        try{
+            drug.setName(drugDTO.getName());
+            drug.setDescription(drugDTO.getDescription());
+            drug.setIngredient(drugDTO.getIngredient());
+            drugRepository.save(drug);
+        }
+        catch(EntityNotFoundException e){
+            return false;
+        }
+
+        return true;
+    }
     
+
 }
