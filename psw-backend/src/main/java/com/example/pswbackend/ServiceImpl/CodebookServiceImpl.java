@@ -59,6 +59,16 @@ public class CodebookServiceImpl implements CodebookService {
         drugRepository.deleteById(drug.getId());
     }
 
-    
+    @Override
+    @Transactional(readOnly = false)
+    public Diagnosis saveDiagnosis(DiagnosisDTO diagnosisDTO) {
+
+        Diagnosis newDiagnosis = new Diagnosis(diagnosisDTO.getName(), diagnosisDTO.getDescription());
+        diagnosisRepository.save(newDiagnosis);
+
+        return newDiagnosis;
+    }
+
+
 
 }
