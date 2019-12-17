@@ -53,7 +53,12 @@ class Login extends React.Component {
                             this.props.history.push('/clinic-admin')
                         }
                         if (resp.data.authorities[0].name == "ROLE_PATIENT"){
+                            if (resp.data.patientStatus == "AWAITING_APPROVAL"){
+                                NotificationManager.info('You must wait for Clinic Center Admin to approve you registration attemp', '', 4000)
+                            }
+                            else{
                             this.props.history.push('/patient')
+                            }
                         }
                         if (resp.data.authorities[0].name == "ROLE_CC_ADMIN"){
                             this.props.history.push('/ccadmin')
