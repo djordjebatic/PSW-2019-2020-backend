@@ -35,7 +35,7 @@ class CCAdmin extends React.Component {
                     <a href="/register-ccadmin" class="btn link-btn-doctor">Create</a>
                 </div>
                 <div className="col link">
-                    <h4>Menage Diagnosis</h4>
+                    <h4>Manage Diagnosis</h4>
                     <p>Create new, edit or delete diagnosis.</p>
                     <a href="/diagnosis" class="btn link-btn-doctor">View List</a>
                 </div>
