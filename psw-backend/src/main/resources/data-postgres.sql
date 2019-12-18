@@ -117,11 +117,15 @@ values( 'Milk, flowers', 'A', '170', '6', '70');
 
 --Predefined appointment
 
-insert into appointment(type, date, time, price, duration, status, ordination_id, doctor_id, patient_id, nurse_id, medical_record_id, clinic_admin_id, clinic_id, discount, doctor_rating, clinic_rating)
-values('EXAMINATION', '12.04.2019.', '19.30', '1000', '1', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '10', '5', '4');
-insert into appointment(type, date, time, price, duration, status, ordination_id, doctor_id, patient_id, nurse_id, medical_record_id, clinic_admin_id, clinic_id, discount, doctor_rating, clinic_rating)
-values('OPERATION', '15.04.2019.', '18.00', '2000', '3', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '5', '4', '5');
-insert into appointment(type, date, time, price, duration, status, ordination_id, doctor_id, patient_id, nurse_id, medical_record_id, clinic_admin_id, clinic_id, discount, doctor_rating, clinic_rating)
-values('EXAMINATION', '20.05.2019.', '15.30', '1500', '1', 'PREDEF_AVAILABLE', '1', '3', '6', '5', '1', '2', '1', '15', '3', '3');
+insert into appointment(type, start_date_time, end_date_time, price, status, ordination_id, patient_id, nurse_id, medical_record_id, clinic_id, discount)
+values('OPERATION', '12.29.2019 10:00', '12.29.2019 12:00', '1000', 'PREDEF_AVAILABLE', '1', '5', '1', '1', '1', '10');
+insert into examining (appointment_id,doctor_id) values (1,4);
 
+insert into appointment(type, start_date_time, end_date_time, price, status, ordination_id, patient_id, nurse_id, medical_record_id, clinic_id, discount)
+values('OPERATION', '12.28.2019 10:00', '12.28.2019 12:00', '900', 'AWAITING_APPROVAL', '1', '3', '1', '1', '1', '10');
+insert into examining (appointment_id,doctor_id) values (2,4);
+
+insert into appointment(type, start_date_time, end_date_time, price, status, ordination_id, patient_id, nurse_id, medical_record_id, clinic_id, discount)
+values('OPERATION', '12.27.2019 10:00', '12.27.2019 12:00', '800', 'CANCELED', '1', '2', '1', '1', '1', '10');
+insert into examining (appointment_id,doctor_id) values (3,4);
 ------------------------------------------------------------------------------
