@@ -1,5 +1,6 @@
 package com.example.pswbackend.domain;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ import javax.persistence.OneToOne;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Appointment {
@@ -31,30 +34,17 @@ public class Appointment {
 	
 	@Enumerated(EnumType.STRING)
 	private AppointmentEnum type;
-	
+
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	@Column(nullable = false)
-	private String date;
-	
+	private LocalDateTime startDateTime;
+
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	@Column(nullable = false)
-	private String time;
+	private LocalDateTime endDateTime;
 	
 	@Column(nullable = false)
     private float price;
-
-	@Column(nullable = false)
-	private int duration;
-	
-	public float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
-	}
-
-	public int getDuration() { return duration; }
-
-	public void setDuration(int duration) { this.duration = duration; }
 
 	@Enumerated(EnumType.STRING)
     private AppointmentStatus status;
@@ -64,9 +54,6 @@ public class Appointment {
 	private Ordination ordination;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Doctor doctor;
-	
 	@ManyToMany
     @JoinTable(name = "examining", joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
     private Set<Doctor> doctors = new HashSet<Doctor>();
@@ -87,21 +74,15 @@ public class Appointment {
 	private MedicalRecord medicalRecord;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
-	private ClinicAdmin clinicAdmin;
-
-	@JsonBackReference
 	@ManyToOne(fetch =FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER)
+	private ClinicAdmin clinicAdmin;
+
 	@Column
     private Integer discount;
-	
-	@Column
-    private Integer doctorRating;
-
-    @Column
-    private Integer clinicRating;
     
 	public Appointment() {
 		super();
@@ -123,22 +104,6 @@ public class Appointment {
 		this.type = type;
 	}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
 	public AppointmentStatus getStatus() {
 		return status;
 	}
@@ -153,14 +118,6 @@ public class Appointment {
 
 	public void setOrdination(Ordination ordination) {
 		this.ordination = ordination;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
 	}
 
 	public Set<Doctor> getDoctors() {
@@ -211,28 +168,28 @@ public class Appointment {
 		this.discount = discount;
 	}
 
-	public Integer getDoctorRating() {
-		return doctorRating;
+	public float getPrice() {
+		return price;
 	}
 
-	public void setDoctorRating(Integer doctorRating) {
-		this.doctorRating = doctorRating;
+	public LocalDateTime getStartDateTime() {
+		return startDateTime;
 	}
 
-	public Integer getClinicRating() {
-		return clinicRating;
+	public void setStartDateTime(LocalDateTime startDateTime) {
+		this.startDateTime = startDateTime;
 	}
 
-	public void setClinicRating(Integer clinicRating) {
-		this.clinicRating = clinicRating;
+	public LocalDateTime getEndDateTime() {
+		return endDateTime;
 	}
 
-	public ClinicAdmin getClinicAdmin() {
-		return clinicAdmin;
+	public void setEndDateTime(LocalDateTime endDateTime) {
+		this.endDateTime = endDateTime;
 	}
 
-	public void setClinicAdmin(ClinicAdmin clinicAdmin) {
-		clinicAdmin = clinicAdmin;
+	public void setPrice(float price) {
+		this.price = price;
 	}
 
 	public Clinic getClinic() { return clinic; }
