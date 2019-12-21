@@ -75,7 +75,7 @@ class PersonalProfile extends React.Component {
             <h3>Doctor Information</h3>
             <hr/>
             <div className="form-group">
-              <label><strong>Number of Stars:</strong> {this.state.doctorStars}</label>
+              <label><strong>Stars:</strong> {this.state.doctorStars}</label>
             </div>
             <div className="form-group">
               <label><strong>Number of Votes:</strong> {this.state.doctorVotes}</label>
