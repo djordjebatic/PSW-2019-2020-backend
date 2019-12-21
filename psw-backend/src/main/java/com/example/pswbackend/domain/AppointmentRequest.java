@@ -13,8 +13,8 @@ public class AppointmentRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //@Enumerated(EnumType.STRING)
-    //private AppointmentEnum type;
+    @Enumerated(EnumType.STRING)
+    private AppointmentEnum type;
 
     @Column(nullable = false)
     private String date;
@@ -85,6 +85,14 @@ public class AppointmentRequest {
 
     public void setClinicAdmin(ClinicAdmin clinicAdmin) {
         this.clinicAdmin = clinicAdmin;
+    }
+
+    public AppointmentEnum getType() {
+        return type;
+    }
+
+    public void setType(AppointmentEnum type) {
+        this.type = type;
     }
 
     //endregion
