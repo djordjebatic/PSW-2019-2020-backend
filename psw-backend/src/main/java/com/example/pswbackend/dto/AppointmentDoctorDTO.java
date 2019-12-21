@@ -6,6 +6,7 @@ public class AppointmentDoctorDTO {
     private String doctor;
     private String date;
     private String time;
+    private String type;
 
     public String getPatient() {
         return patient;
@@ -19,7 +20,9 @@ public class AppointmentDoctorDTO {
         return time;
     }
 
-    public String getDoctor() {
-        return doctor;
+    public String getType() {
+        return type;
     }
+
+    public String getDoctor() { return doctor; }
 }
