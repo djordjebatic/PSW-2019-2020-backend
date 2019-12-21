@@ -13,8 +13,11 @@ class PatientsList extends React.Component {
     super(props);
 
     this.state = {
-        patients: []
+        patients: [],
+        searchQuery: ''
     }
+
+    this.cancel = '';
   }
 
   componentDidMount() {
@@ -63,15 +66,26 @@ class PatientsList extends React.Component {
   return (
     <div className="PatientsList">
       <Header/>
-      <div className='patients rtable'>
-      <div className="patients-title">Patient List</div>
-        <ReactTable 
-          data={this.state.patients}
-          columns={columns}
-          defaultPageSize = {10}
-          pageSizeOptions = {[5, 10, 15]}
-        />
-        </div> 
+      <div className="row">
+        <div className="col-10">
+          <br/>
+        <h3>Patients List</h3>
+          <div className='patients rtable'>
+            <ReactTable 
+              data={this.state.patients}
+              columns={columns}
+              filterable
+              onFilteredChange = {this.handleOnFilterInputChange}
+              defaultPageSize = {6}
+              pageSizeOptions = {[6, 10, 15]}
+            />
+            </div>
+        </div>
+        <div className="col-2 patient-list-image">
+
+        </div>
+      </div>
+       
       <Footer/>
 
     </div>
