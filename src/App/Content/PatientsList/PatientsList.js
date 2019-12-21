@@ -36,6 +36,40 @@ class PatientsList extends React.Component {
     .catch((error) => console.log(error))
   }
 
+  fetchSearchResults(updatedPageNumber = '', query) {
+      var pageNumber = updatedPageNumber ? `&page=${updatedPageNumber}` : ''; //za sad
+      var searchUrl = `blabla${query}blabla`;
+
+      if (this.cancel) {
+        this.cancel.cancel();
+      }
+
+      this.cancel = axios.CancelToken.source();
+
+      axios.get("http://localhost:8080/api/patients", { //inace searchUrl
+        cancelToken: this.cancel.token
+      })
+      .then(res => {
+        console.log(res.data[0]);
+        //this.setState({patients: [res.data[0], res.data[1]] })
+      })
+      .catch(error => {
+        console.warn(error);
+      })
+  }
+
+  handleOnFilterInputChange = (event) => {
+      if (event[0] != undefined){
+        console.log(event[0].value);
+        var query = event[0].value;
+        this.setState({searchQuery: query}, () => {
+          //this.fetchSearchResults(1, query);
+        })
+      } else {
+        this.setState({searchQuery: ""})
+      }
+  }
+
   render() {
 
     const columns=[
