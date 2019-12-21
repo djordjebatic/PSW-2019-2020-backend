@@ -37,11 +37,12 @@ public class AppointmentRequest {
 
     }
 
-    public AppointmentRequest(String date, String time, Doctor doctor, ClinicAdmin clinicAdmin){
+    public AppointmentRequest(String date, String time, Doctor doctor, ClinicAdmin clinicAdmin, AppointmentEnum type){
         this.date = date;
         this.time = time;
         this.doctor = doctor;
         this.clinicAdmin = clinicAdmin;
+        this.type = type;
     }
 
     //endregion
