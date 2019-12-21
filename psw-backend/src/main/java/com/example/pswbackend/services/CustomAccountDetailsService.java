@@ -1,7 +1,6 @@
 package com.example.pswbackend.services;
 
-import com.example.pswbackend.domain.Account;
-import com.example.pswbackend.domain.CCAdmin;
+import com.example.pswbackend.domain.*;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AccountRepository;
 import org.apache.commons.logging.Log;
@@ -62,6 +61,12 @@ public class CustomAccountDetailsService implements UserDetailsService {
 
         if (acc instanceof CCAdmin){
             ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
+        } else if (acc instanceof ClinicAdmin){
+            ((ClinicAdmin) acc).setUserStatus(UserStatus.ACTIVE);
+        } else if (acc instanceof Doctor){
+            ((Doctor) acc).setUserStatus(UserStatus.ACTIVE);
+        } else if (acc instanceof Nurse){
+            ((Nurse) acc).setUserStatus(UserStatus.ACTIVE);
         }
 
         acc.setPassword(passwordEncoder.encode(newPassword));
