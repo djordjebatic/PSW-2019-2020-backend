@@ -23,10 +23,12 @@ class ChangePassword extends React.Component {
   
         this.state = {
             id: this.props.location.pathname.split('/').pop(),
-            oldPassword: 'admin',
+            oldPassword: '',
             newPassword: '',
             confirmPassword: '',
-            userType: ''
+            role: '',
+            firstName: '',
+            email: ''
         }
         NotificationManager.info('Welcome to the Clinic Center System. Upon first login you have to change your password', '', 4000);
         
@@ -35,32 +37,52 @@ class ChangePassword extends React.Component {
     SendLoginRequest = event => {
         event.preventDefault();
         console.log(this.state);
-        switch (this.state.userType){
-            case "ULOGA 1":
-                return // prebaci na pocetnu stranicu uloge 1
-            case "ULOGA 2":
-                return // prebaci na pocetnu stranicu uloge 2
-            default: // u default je za sada samo za klinickog admina
-                axios.post("http://localhost:8080/auth/change-password", this.state)
-                .then((resp) => {
-                NotificationManager.success('Welcome to the Clinic Center System. Your password has been changed', '', 4000);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;        
-                this.props.history.push('/login');
-                    
-                }
-                )
-                .catch((error) =>{NotificationManager.error('Wrong input', 'Error!', 4000);
-                })
-            // dodati konkretne uloge
-        }
+        axios.post("http://localhost:8080/auth/change-password", this.state)
+        .then((resp) => {
+            NotificationManager.success('Welcome to the Clinic Center System. Your password has been changed', '', 4000);
+            axios.post("http://localhost:8080/auth/login", {
+                email: this.state.email,
+                password: this.state.newPassword
+            })
+            .then((resp) => {
+                localStorage.setItem('token', resp.data.accessToken);  
+                if (this.state.role == "ROLE_CCADMIN"){
+                    this.props.history.push('/ccadmin');
+                } else if (this.state.role == "ROLE_CLINIC_ADMIN"){
+                    this.props.history.push('/clinic-admin');
+                } else if (this.state.role == "ROLE_DOCTOR"){
+                    this.props.history.push('/doctor');
+                } else if (this.state.role == "ROLE_NURSE"){
+                    this.props.history.push('/nurse');
+                }   
+            })  
+        })
+        .catch((error) =>{NotificationManager.error('Wrong input', 'Error!', 4000);
+        })
         
     }
+
+    componentDidMount(){
+        var token = localStorage.getItem('token');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.get("http://localhost:8080/auth/getMyUser")  
+          .then(response => {
+              console.log(response.data);
+              this.setState({
+                  firstName: response.data.firstName,
+                  email: response.data.username,
+                  role: response.data.authorities[0].name
+              })
+          })
+        .catch((error) => console.log(error))
+     }
 
     handleChange(e) {
         this.setState({...this.state, [e.target.name]: e.target.value});
     }
 
     render(){
+     console.log(this.state)
       return (
         <div className="Login">
         <div className="">
@@ -73,26 +95,52 @@ class ChangePassword extends React.Component {
                     </div>
                     <div className="col-8 login">
                         <form onSubmit={this.SendLoginRequest}>
+                            <h4>You have logged in for the first time. <br></br>Please change your password.</h4>
                             <div className="form-group">
-                                <label>You have logged in for the first time. <br></br>Please change your password.</label>
-                                <input 
-                                    required
-                                    type="password" 
-                                    className="form-control" 
-                                    id="newPassword" 
-                                    name="newPassword"
-                                    onChange={this.handleChange}
-                                    placeholder="Enter New Password"/>
                                 <br/>
-                                <input 
-                                    required
-                                    type="password" 
-                                    className="form-control" 
-                                    id="confirmPassword" 
-                                    name="confirmPassword"
-                                    onChange={this.handleChange}
-                                    placeholder="Confirm New Password"/>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <label>Enter Old Password</label>
+                                        <input 
+                                            required
+                                            type="password" 
+                                            className="form-control" 
+                                            id="oldPassword" 
+                                            name="oldPassword"
+                                            onChange={this.handleChange}
+                                            placeholder="Old Password"/>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <label>Enter New Password</label>
+                                        <input 
+                                            required
+                                            type="password" 
+                                            className="form-control" 
+                                            id="newPassword" 
+                                            name="newPassword"
+                                            onChange={this.handleChange}
+                                            placeholder="New Password"/>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <label>Confirm New Password</label>
+                                        <input 
+                                            required
+                                            type="password" 
+                                            className="form-control" 
+                                            id="confirmPassword" 
+                                            name="confirmPassword"
+                                            onChange={this.handleChange}
+                                            placeholder="Confirm New Password"/>
+                                    </div>
+                                </div>
                             </div>
+                            <br/>
                             <Button type="submit" className="btn">Change Password</Button>
                         </form>
                     </div>
