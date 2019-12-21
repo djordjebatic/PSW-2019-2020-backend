@@ -4,6 +4,7 @@ import logo from '../../../images/med128.png'
 import { Button} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 import {NotificationManager} from 'react-notifications';
 
@@ -200,7 +201,8 @@ class Register extends React.Component {
                                     </div>
                                 </div>         
                             <hr/>
-                            <br/>
+                            <small id="newAccount" className="form-text text-muted"><Link to="/login">Already have an account?</Link></small> 
+                            <br/>                      
                             <Button type="submit">Create</Button>
                         </form>
                 </div>
