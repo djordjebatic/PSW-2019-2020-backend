@@ -53,8 +53,6 @@ public class AuthenticationController {
     @Autowired
     private PatientService patientService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
