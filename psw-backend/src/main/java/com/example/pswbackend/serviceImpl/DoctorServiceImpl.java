@@ -1,4 +1,4 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.Doctor;
@@ -7,6 +7,9 @@ import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.repositories.AccountRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.services.ClinicAdminService;
+import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
