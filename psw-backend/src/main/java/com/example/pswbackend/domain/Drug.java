@@ -26,7 +26,7 @@ public class Drug {
 
 	@Version
 	@Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
-	private long version = 0L;
+	private Long version = 0L;
 
 	public Drug() {
 
@@ -42,7 +42,7 @@ public class Drug {
 		return version;
 	}
 
-	public void setVersion(long version) {
+	public void setVersion(Long version) {
 		this.version = version;
 	}
 	
