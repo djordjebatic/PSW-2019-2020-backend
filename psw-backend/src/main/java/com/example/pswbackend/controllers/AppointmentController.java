@@ -47,6 +47,7 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getPredefinedBookedAppointments(), HttpStatus.OK);
     }
 
+    //TODO make AppointmentCalendarDTO
     @GetMapping(value = "/get-doctor-appointments")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<Appointment>> getDoctorAppointments() {
@@ -72,13 +73,17 @@ public class AppointmentController {
 
     @PutMapping("/cancel/{id}")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Appointment> cancelAppointments(@PathVariable Long id){
-        /*try {
-            //Appointment appointment = appointmentService.cancelAppointment()
+    public ResponseEntity<Appointment> cancelAppointments(@PathVariable("id") Long appointmentId){
+        Doctor doctor = doctorService.getLoggedInDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }*/
-        return null;
+
+        Appointment appointment = appointmentService.cancelAppointment(doctor, appointmentId);
+        if (appointment == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 }
