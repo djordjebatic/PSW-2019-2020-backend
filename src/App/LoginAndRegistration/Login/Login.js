@@ -45,12 +45,15 @@ class Login extends React.Component {
                     } else {
                         if (resp.data.authorities[0].name == "ROLE_DOCTOR"){
                             this.props.history.push('/doctor')
+                            NotificationManager.success('You have logged in succesfully!', 'Welcome ' + resp.data.firstName + '!', 4000)                            
                         }
                         if (resp.data.authorities[0].name == "ROLE_NURSE"){
                             this.props.history.push('/nurse')
+                            NotificationManager.success('You have logged in succesfully!', 'Welcome ' + resp.data.firstName + '!', 4000)
                         }
                         if (resp.data.authorities[0].name == "ROLE_CLINIC_ADMIN"){
                             this.props.history.push('/clinic-admin')
+                            NotificationManager.success('You have logged in succesfully!', 'Welcome ' + resp.data.firstName + '!', 4000)
                         }
                         if (resp.data.authorities[0].name == "ROLE_PATIENT"){
                             if (resp.data.patientStatus == "AWAITING_APPROVAL"){

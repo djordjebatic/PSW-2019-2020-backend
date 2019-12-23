@@ -4,9 +4,10 @@ import Footer from '../../Footer/Footer';
 import Swal from 'sweetalert2';
 import { Button} from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
-import axios from 'axios'
+import axios from 'axios';
+import {NotificationManager} from 'react-notifications';
 
-import './QuickReservation.css'
+import './QuickReservation.css';
 
 const QuickReservationAlert = withReactContent(Swal)
 
@@ -47,23 +48,9 @@ class QuickReservation extends React.Component {
       price: this.state.price
     })  
     .then((resp) => {
-      this.onSuccessHandler(resp);
+      NotificationManager.success('You have created appointment succesfully!', 'Success!', 4000)
     })
-    .catch((error) => this.onFailureHandler(error))
-  }
-
-  onSuccessHandler(resp){
-    QuickReservationAlert.fire({
-        title: "Created successfully",
-        text: ""
-    })
-  }
-
-  onFailureHandler(error){
-    QuickReservationAlert.fire({
-          title: "Creation failed",
-          text: error
-      })
+    .catch((error) => NotificationManager.success('Incorect values!', 'Error!', 4000))
   }
 
   handleChange(e) {

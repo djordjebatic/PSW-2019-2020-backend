@@ -2,102 +2,189 @@ import React from 'react';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/Footer';
 import Swal from 'sweetalert2';
-import { Button} from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
-import axios from 'axios'
+import axios from 'axios';
+import ReactTable from "react-table";
 
 import './ReservationRequests.css'
 
 const SheduleAlert = withReactContent(Swal)
 
-class RegistrationRequests extends React.Component {
+class ReservationRequests extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
     this.SendAppointmentRequest = this.SendAppointmentRequest.bind(this);
 
     this.state = {
-        appointmentRequests: []
+      appointmentRequests: [{
+        id: '',
+        date: '',
+        time: '',
+        type: ''
+      }],
+      role: ''
     }
   }
 
   SendAppointmentRequest = event => {
     event.preventDefault();
-      
+
   }
 
-  onSuccessHandler(resp){
+  onSuccessHandler(resp) {
     SheduleAlert.fire({
-        title: "Scheduled successfully",
-        text: ""
+      title: "Scheduled successfully",
+      text: ""
     })
   }
 
-  onFailureHandler(error){
+  onFailureHandler(error) {
     SheduleAlert.fire({
-          title: "Scheduling failed",
-          text: error
-      })
+      title: "Scheduling failed",
+      text: error
+    })
   }
 
   handleChange(e) {
-    this.setState({...this.state, [e.target.name]: String(e.target.value)});
+    this.setState({ ...this.state, [e.target.name]: String(e.target.value) });
   }
 
   componentDidMount() {
     var token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    axios.get("http://localhost:8080/auth/getMyUser")  
+    axios.get("http://localhost:8080/auth/getMyUser")
       .then(response => {
-          console.log(response);
-          this.setState({
-              appointmentRequests: response.data.appointmentRequests
-          })
-          console.log(this.state.appointmentRequests[0]);
+        console.log(response);
+        this.setState({
+          appointmentRequests: response.data.appointmentRequests,
+          role: response.data.authorities[0].name
+        })
+        console.log(this.state.appointmentRequests[0]);
       })
-    .catch((error) => console.log(error))
+      .catch((error) => console.log(error))
+  }
+
+  capitalize(s) {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
   }
 
   render() {
 
+    let requests  = this.state.appointmentRequests;
+    const columns=[
+      {
+        Header:'Id',
+        id: 'id',
+        accessor: d => d.id,
+        style: {
+          textAlign: "center",
+          fontSize: 20
+        }
+    },{
+      Header:'Date',
+      accessor: 'date',
+      style: {
+        textAlign: "center",
+        fontSize: 20
+      }
+    },{
+        Header:'Time',
+        accessor: 'time',
+        style: {
+          textAlign: "center",
+          fontSize: 20
+        }
+    },{
+        Header:'Type',
+        accessor: 'type',
+        style: {
+          textAlign: "center",
+          fontSize: 20
+        }
+    },{
+      Header: '',
+      Cell: row => (                        
+          <div>
+          <button className="btn primary btn-app-req">Create appointment</button>
+        </div>
+      ),
+      filterable: false,
+      style: {
+        textAlign: "center"
+      }
+    }]
+
+    const columns_doctor=[
+      {
+        Header:'Id',
+        id: 'id',
+        accessor: d => d.id,
+        style: {
+          textAlign: "center",
+          fontSize: 20
+        }
+    },{
+      Header:'Date',
+      accessor: 'date',
+      style: {
+        textAlign: "center",
+        fontSize: 20
+      }
+    },{
+        Header:'Time',
+        accessor: 'time',
+        style: {
+          textAlign: "center",
+          fontSize: 20
+        }
+    },{
+        Header:'Type',
+        accessor: 'type',
+        style: {
+          textAlign: "center",
+          fontSize: 20
+        }
+    }]
+
     var content;
-    if (this.state.appointmentRequests.length == 0){
-      content = <h4>You don't have any appointment reservation requests.</h4>;
+    if (this.state.role == "ROLE_DOCTOR") {
+      content = columns_doctor;
     } else {
-      content = this.state.appointmentRequests.map((req) => (
-        <div>
-        <div className="col">
-            <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">Appointment Request</h5>
-                <hr/>
-                <p className="card-text"><strong>Date:</strong> {req.date} | <strong>Time:</strong> {req.time} | <strong>Type: </strong>Examination</p>
-                <hr/>
-                <a href="#" className="btn btn-primary btn-app-req">Create appointment</a>
-            </div>
-            </div>
-        </div>
-        <br/>
-        </div>
-    ))
+      content = columns;
     }
 
-  return (
-    <div className="RegistrationRequests">
-      <Header/>
-        <br/>
-      <h3>Appointment Requests</h3>
-        <div className="cards">
+    return (
+      <div className="ReservationRequests">
+        <Header />
+        <div className="row">
+          <div className="col-10">
             <br/>
-            {content}
-        </div>
-      <Footer/>
+            <h3>Appointment Requests</h3>
+            <div className="cards">
+              <br />
+              <ReactTable 
+                      data={requests}
+                      columns={content}
+                      filterable
+                      defaultPageSize = {5}
+                      pageSizeOptions = {[5, 10, 15]}
+                      noDataText={"You don't have any appointment reservation requests."}
+                    />
+            </div>
+          </div>
+          <div className="col-2 res-req-image">
 
-    </div>
-  );
+          </div>
+        </div>
+        <Footer />
+
+      </div>
+    );
   }
 }
 
-export default RegistrationRequests;
+export default ReservationRequests;

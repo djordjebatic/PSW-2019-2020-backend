@@ -13,8 +13,11 @@ class PatientsList extends React.Component {
     super(props);
 
     this.state = {
-        patients: []
+        patients: [],
+        searchQuery: ''
     }
+
+    this.cancel = '';
   }
 
   componentDidMount() {
@@ -31,6 +34,40 @@ class PatientsList extends React.Component {
           })
       })
     .catch((error) => console.log(error))
+  }
+
+  fetchSearchResults(updatedPageNumber = '', query) {
+      var pageNumber = updatedPageNumber ? `&page=${updatedPageNumber}` : ''; //za sad
+      var searchUrl = `blabla${query}blabla`;
+
+      if (this.cancel) {
+        this.cancel.cancel();
+      }
+
+      this.cancel = axios.CancelToken.source();
+
+      axios.get("http://localhost:8080/api/patients", { //inace searchUrl
+        cancelToken: this.cancel.token
+      })
+      .then(res => {
+        console.log(res.data[0]);
+        //this.setState({patients: [res.data[0], res.data[1]] })
+      })
+      .catch(error => {
+        console.warn(error);
+      })
+  }
+
+  handleOnFilterInputChange = (event) => {
+      if (event[0] != undefined){
+        console.log(event[0].value);
+        var query = event[0].value;
+        this.setState({searchQuery: query}, () => {
+          //this.fetchSearchResults(1, query);
+        })
+      } else {
+        this.setState({searchQuery: ""})
+      }
   }
 
   render() {
@@ -63,15 +100,26 @@ class PatientsList extends React.Component {
   return (
     <div className="PatientsList">
       <Header/>
-      <div className='patients rtable'>
-      <div className="patients-title">Patient List</div>
-        <ReactTable 
-          data={this.state.patients}
-          columns={columns}
-          defaultPageSize = {10}
-          pageSizeOptions = {[5, 10, 15]}
-        />
-        </div> 
+      <div className="row">
+        <div className="col-10">
+          <br/>
+        <h3>Patients List</h3>
+          <div className='patients rtable'>
+            <ReactTable 
+              data={this.state.patients}
+              columns={columns}
+              filterable
+              onFilteredChange = {this.handleOnFilterInputChange}
+              defaultPageSize = {6}
+              pageSizeOptions = {[6, 10, 15]}
+            />
+            </div>
+        </div>
+        <div className="col-2 patient-list-image">
+
+        </div>
+      </div>
+       
       <Footer/>
 
     </div>
