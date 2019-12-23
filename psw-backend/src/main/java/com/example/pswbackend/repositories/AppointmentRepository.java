@@ -1,8 +1,12 @@
 package com.example.pswbackend.repositories;
 
 import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
+import com.example.pswbackend.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
@@ -16,6 +20,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByNurseIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
     Appointment getByIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
     List<Appointment> findByStatus(AppointmentStatus appointmentStatus);
+    Appointment findByPatientIdAndDoctorsIdAndStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
+            Long patientId, Long doctorsId, UserStatus userStatus, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> appointmentEnums);
 
 }
 
