@@ -19,7 +19,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -31,9 +30,10 @@ public class Appointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-	
-	@Enumerated(EnumType.STRING)
-	private AppointmentEnum type;
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private AppointmentPrice price;
 
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	@Column(nullable = false)
@@ -42,9 +42,6 @@ public class Appointment {
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	@Column(nullable = false)
 	private LocalDateTime endDateTime;
-	
-	@Column(nullable = false)
-    private float price;
 
 	@Enumerated(EnumType.STRING)
     private AppointmentStatus status;
@@ -55,7 +52,7 @@ public class Appointment {
 
 	@JsonBackReference
 	@ManyToMany
-    @JoinTable(name = "examining", joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
+    @JoinTable(name = "appointed_doctors", joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
     private Set<Doctor> doctors = new HashSet<Doctor>();
 
 	@JsonBackReference
@@ -65,20 +62,16 @@ public class Appointment {
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
-	
-	@OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
-    private ExaminationReport examinationReport;
-
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private MedicalRecord medicalRecord;
 
 	@JsonBackReference
 	@ManyToOne(fetch =FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
+	
+	@OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
+    private ExaminationReport examinationReport;
 
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	private ClinicAdmin clinicAdmin;
 
 	@Column
@@ -94,14 +87,6 @@ public class Appointment {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public AppointmentEnum getType() {
-		return type;
-	}
-
-	public void setType(AppointmentEnum type) {
-		this.type = type;
 	}
 
 	public AppointmentStatus getStatus() {
@@ -152,24 +137,12 @@ public class Appointment {
 		this.examinationReport = examinationReport;
 	}
 
-	public MedicalRecord getMedicalRecord() {
-		return medicalRecord;
-	}
-
-	public void setMedicalRecord(MedicalRecord medicalRecord) {
-		this.medicalRecord = medicalRecord;
-	}
-
 	public Integer getDiscount() {
 		return discount;
 	}
 
 	public void setDiscount(Integer discount) {
 		this.discount = discount;
-	}
-
-	public float getPrice() {
-		return price;
 	}
 
 	public LocalDateTime getStartDateTime() {
@@ -188,11 +161,23 @@ public class Appointment {
 		this.endDateTime = endDateTime;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
-	}
-
 	public Clinic getClinic() { return clinic; }
 
 	public void setClinic(Clinic clinic) { this.clinic = clinic; }
+
+	public ClinicAdmin getClinicAdmin() {
+		return clinicAdmin;
+	}
+
+	public void setClinicAdmin(ClinicAdmin clinicAdmin) {
+		this.clinicAdmin = clinicAdmin;
+	}
+
+	public AppointmentPrice getPrice() {
+		return price;
+	}
+
+	public void setPrice(AppointmentPrice price) {
+		this.price = price;
+	}
 }
