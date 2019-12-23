@@ -32,6 +32,9 @@ public class Doctor extends Account {
 	@Enumerated(EnumType.STRING)
 	private UserStatus userStatus;
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private AppointmentType specialization;
+
 	@Column
 	private int stars;
 
