@@ -17,7 +17,7 @@ public interface AppointmentService {
     List<Appointment> getAwaitingApprovalAppointments();
     List<Appointment> getPredefinedAwailableAppointments();
     List<Appointment> getPredefinedBookedAppointments();
-
+    Appointment getOngoingAppointment(Long patientId, Long doctorId, LocalDateTime startDateTime);
 
     Appointment getAppointment(Long id);
 
