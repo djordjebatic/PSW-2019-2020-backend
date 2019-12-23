@@ -1,8 +1,9 @@
-package com.example.pswbackend.ServiceImpl;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
+import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.EmailService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -66,6 +68,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getPredefinedBookedAppointments() {
         return appointmentRepository.findByStatus(AppointmentStatus.PREDEF_BOOKED);
+    }
+
+    @Override
+    public Appointment getOngoingAppointment(Long patientId, Long doctorId, LocalDateTime examinationStartTime) {
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+        statuses.add(AppointmentStatus.APPROVED);
+        return appointmentRepository.findByPatientIdAndDoctorsIdAndStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
+                patientId, doctorId, UserStatus.ACTIVE, examinationStartTime, examinationStartTime, statuses);
     }
 
     @Override
@@ -130,7 +141,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         emailService.sendEmail(patient.getUsername(), subject, message);
         emailService.sendEmail(nurse.getUsername(), subject, message);
-        if (appointment.getType().equals(AppointmentEnum.OPERATION)){
+        if (appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.OPERATION)){
             for (Doctor dr : appointment.getDoctors()){
                 if (dr.getId() != doctor.getId()){
                     emailService.sendEmail(dr.getUsername(), subject, message);
