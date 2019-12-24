@@ -21,15 +21,19 @@ values ('Fruskogorska 16', 'Novi Sad', 'Specijalisticka bolnica opste hirurgije'
 ----
 insert into appointment_type (name, clinic_id)
 values ('Kardiologija', 1);
+
 insert into appointment_price (appointment_type_id, appointment_enum, price)
 values (1, 'OPERATION', 3000);
+
 insert into appointment_price (appointment_type_id, appointment_enum, price)
 values (1, 'EXAMINATION', 30);
 ---------
 insert into appointment_type (name, clinic_id)
 values ('Gastologija', 1);
+
 insert into appointment_price (appointment_type_id, appointment_enum, price)
 values (2, 'OPERATION', 500);
+
 insert into appointment_price (appointment_type_id, appointment_enum, price)
 values (2, 'EXAMINATION', 10);
 ---------
@@ -57,6 +61,7 @@ INSERT INTO account_authority (account_id, authority_id) values  (3, 4);
 
 
 --Doctor
+--Password: dok
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
 values ('DOCTOR', 'dok@gmail.com', '$2y$12$u3nc1wRBsop15oZaI2FqVuSHFsD9ZHeGXcpXKwGeD3on4zv3BRWd6', 'Dok', 'Dokic', '065525404', 'Zeleznicka ulica 69','Ndzamena','Chad', 1, 1, 'ACTIVE', 50, 10);
 INSERT INTO account_authority (account_id, authority_id) values  (4, 2);
@@ -139,11 +144,21 @@ values( 'Milk, flowers', 'A', '170', '6', '70');
 
 --Appointments
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '12.29.2019 10:00', '12.29.2019 13:30', 'BOOKED', '4', '5', 1, 1, 1, '10');
-insert into appointed_doctors (appointment_id, doctor_id) values (1,1);
+values(1, '12.29.2019 10:00', '12.29.2019 13:30', 'APPROVED', '4', '9', 1, 1, 1, '10');
+insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '12.27.2019 10:00', '12.27.2019 13:30', 'PREDEF_BOOKED', '4', '8', 1, 1, 1, '5');
+insert into appointed_doctors (appointment_id, doctor_id) values (2,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '12.27.2019 15:00', '12.27.2019 16:00', 'CANCELED', '4', '8', 1, 1, 1, '5');
+insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
+
+--
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(4, '12.23.2019 08:00', '12.23.2019 9:30', 'PREDEF_AVAILABLE', '2', '4', 2, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (2,2);
+insert into appointed_doctors (appointment_id, doctor_id) values (4,5);
 
 
 --Appointments
