@@ -28,6 +28,9 @@ public class AppointmentPrice {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private AppointmentType appointmentType;
 
+    public AppointmentPrice() {
+
+    }
 
     public AppointmentPrice(AppointmentEnum appointmentEnum, Double price) {
         this.appointmentEnum = appointmentEnum;
