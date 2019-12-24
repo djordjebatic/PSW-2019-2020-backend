@@ -30,6 +30,10 @@ public class AppointmentType {
 	@OneToMany(mappedBy = "appointmentType", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Set<AppointmentPrice> appointmentPrices;
 
+	public AppointmentType() {
+
+	}
+
 	public AppointmentType(String name, Clinic clinic) {
 		this.name = name;
 		this.clinic = clinic;
