@@ -21,9 +21,10 @@ public class Doctor extends Account {
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
-	
-	@ManyToMany(mappedBy = "doctors")
-    private Set<Appointment> appointments = new HashSet<Appointment>();
+
+	@JsonIgnore
+	@ManyToMany(mappedBy = "doctors", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Appointment> appointments = new HashSet<>();
 
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
