@@ -141,10 +141,16 @@ values('OPERATION', '202', '1');
 --Medical record
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Milk, flowers', 'A', '170', '6', '70');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Eggs, gluten', '0', '230', '8', '30');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Cats', 'AB', '130', '9', '170');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Pollen', 'B', '180', '2', '70');
 
 --Appointments
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '12.29.2019 10:00', '12.29.2019 13:30', 'APPROVED', '4', '9', 1, 1, 1, '10');
+values(1, '12.25.2019 15:00', '12.25.2019 20:30', 'APPROVED', '4', '9', 1, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
