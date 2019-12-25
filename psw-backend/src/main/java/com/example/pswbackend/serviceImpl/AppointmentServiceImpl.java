@@ -75,7 +75,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<AppointmentStatus> statuses = new ArrayList<>();
         statuses.add(AppointmentStatus.PREDEF_BOOKED);
         statuses.add(AppointmentStatus.APPROVED);
-        return appointmentRepository.findByPatientIdAndDoctorsIdAndStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
+        return appointmentRepository.findByPatientIdAndDoctorsIdAndDoctorsUserStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
                 patientId, doctorId, UserStatus.ACTIVE, examinationStartTime, examinationStartTime, statuses);
     }
 
