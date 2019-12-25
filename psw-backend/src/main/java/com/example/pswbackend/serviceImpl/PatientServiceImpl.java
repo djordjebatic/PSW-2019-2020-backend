@@ -67,8 +67,7 @@ public class PatientServiceImpl implements PatientService {
         }
 
         MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setPatientId(patient.getId());
-
+        medicalRecord.setPatient(patient);
         patient.setPatientStatus(Status.APPROVED);
         patient.setMedicalRecord(medicalRecord);
 
