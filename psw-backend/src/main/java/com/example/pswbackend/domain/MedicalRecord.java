@@ -1,5 +1,7 @@
 package com.example.pswbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +20,8 @@ public class MedicalRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	private Long patientId;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Patient patient;
 	
     @Column
     private Integer height;
@@ -31,7 +34,7 @@ public class MedicalRecord {
 	
     @Column
     private String allergies;
-    
+
 	@OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ExaminationReport> examinationReports;
 
@@ -43,12 +46,12 @@ public class MedicalRecord {
 		this.id = id;
 	}
 
-	public Long getPatientId() {
-		return patientId;
+	public Patient getPatient() {
+		return patient;
 	}
 
-	public void setPatientId(Long patientId) {
-		this.patientId = patientId;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 	public Integer getHeight() {
