@@ -1,6 +1,8 @@
 package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
+import com.example.pswbackend.dto.AppointmentCalendarDTO;
+import com.example.pswbackend.dto.PrescriptionDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
@@ -15,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -31,13 +34,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getDoctorAppointments(Long doctorId) {
-        return appointmentRepository.findByDoctorsIdAndStatusNot(doctorId, AppointmentStatus.CANCELED);
+    public List<AppointmentCalendarDTO> getDoctorAppointments(Long doctorId) {
+        return convertToDTO(appointmentRepository.findByDoctorsIdAndStatusNot(doctorId, AppointmentStatus.CANCELED));
     }
 
     @Override
-    public List<Appointment> getNurseAppointments(Long nurseId) {
-        return appointmentRepository.findByNurseIdAndStatusNot(nurseId, AppointmentStatus.CANCELED);
+    public List<AppointmentCalendarDTO> getNurseAppointments(Long nurseId) {
+        return convertToDTO(appointmentRepository.findByNurseIdAndStatusNot(nurseId, AppointmentStatus.CANCELED));
     }
 
     @Override
@@ -81,12 +84,30 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment assignOrdination(Appointment appointment, Ordination ordination, Nurse nurse) {
-        appointment.setOrdination(ordination);
-        appointment.setStatus(AppointmentStatus.APPROVED);
-        if (nurse != null){
-            appointment.setNurse(nurse);
+        if (nurse == null){
+            return null;
         }
+        appointment.setOrdination(ordination);
+        appointment.setNurse(nurse);
+        appointment.setStatus(AppointmentStatus.APPROVED);
         return appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public Appointment assignOperationRoom(Appointment appointment, Ordination ordination) {
+        if (ordination == null) {
+            return null;
+        }
+        if (appointment == null){
+            return null;
+        }
+
+        appointment.setOrdination(ordination);
+        appointmentRepository.save(appointment);
+
+        sendOperationMail(appointment);
+
+        return appointment;
     }
 
     @Override
@@ -119,12 +140,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         Nurse nurse = appointment.getNurse();
         appointment.setNurse(null);
 
-        sendMail(appointment, appointment.getPatient(), doctor, nurse);
+        sendCancelationMail(appointment, appointment.getPatient(), doctor, nurse);
         return appointmentRepository.save(appointment);
     }
 
     @Override
-    public void sendMail(Appointment appointment, Patient patient, Doctor doctor, Nurse nurse) {
+    public void sendCancelationMail(Appointment appointment, Patient patient, Doctor doctor, Nurse nurse) {
         if (nurse == null || patient == null){
             return;
         }
@@ -147,6 +168,52 @@ public class AppointmentServiceImpl implements AppointmentService {
                     emailService.sendEmail(dr.getUsername(), subject, message);
                 }
             }
+        }
+    }
+
+    public List<AppointmentCalendarDTO> convertToDTO(List<Appointment> appointments){
+
+        if (appointments.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<AppointmentCalendarDTO> appointmentCalendarDTOS = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            appointmentCalendarDTOS.add(new AppointmentCalendarDTO(appointment));
+        }
+        return appointmentCalendarDTOS;
+    }
+
+    @Override
+    public void sendOperationMail(Appointment appointment) {
+        Nurse nurse = appointment.getNurse();
+        Patient patient = appointment.getPatient();
+        Set<Doctor> doctors = appointment.getDoctors();
+
+        if (nurse == null || patient == null){
+            return;
+        }
+
+        String subject = "Operation notice: Your operation has been scheduled";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Dear ");
+        stringBuilder.append(appointment.getPatient().getFirstName());
+        stringBuilder.append(", your operation has been scheduled for ");
+        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
+        stringBuilder.append(" in ordination ");
+        stringBuilder.append(appointment.getOrdination());
+        stringBuilder.append(". Doctors performing the operation are: ");
+        for (Doctor d : doctors){
+            stringBuilder.append(d.getFirstName());
+            stringBuilder.append(" ");
+            stringBuilder.append(d.getLastName());
+            stringBuilder.append("\n");
+        }
+        String message = stringBuilder.toString();
+
+        emailService.sendEmail(patient.getUsername(), subject, message);
+        emailService.sendEmail(nurse.getUsername(), subject, message);
+        for (Doctor d : doctors){
+                    emailService.sendEmail(d.getUsername(), subject, message);
         }
     }
 }
