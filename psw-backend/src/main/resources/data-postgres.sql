@@ -150,22 +150,32 @@ values( 'Pollen', 'B', '180', '2', '70');
 
 --Appointments
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '12.25.2019 15:00', '12.25.2019 20:30', 'APPROVED', '4', '9', 1, 1, 1, '10');
+values(1, '01.06.2020 15:00', '12.12.2020 20:30', 'APPROVED', '4', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '12.27.2019 10:00', '12.27.2019 13:30', 'PREDEF_BOOKED', '4', '8', 1, 1, 1, '5');
+values(2, '12.27.2019 10:00', '12.27.2019 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (2,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '12.27.2019 15:00', '12.27.2019 16:00', 'CANCELED', '4', '8', 1, 1, 1, '5');
+values(2, '12.27.2019 15:00', '12.27.2019 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
 
 --
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
-values(4, '12.23.2019 08:00', '12.23.2019 9:30', 'PREDEF_AVAILABLE', '2', '4', 2, 1, 1);
+values(4, '12.23.2019 08:00', '12.23.2019 9:30', 'PREDEF_AVAILABLE', '2', '4', 7, 3, 1);
 insert into appointed_doctors (appointment_id, doctor_id) values (4,5);
 
+--Examination Report
+insert into examination_report (comment, time_created, appointment_id, diagnosis_id, doctor_id, medical_record_id)
+values ('hahaha', '01.03.2020 11:30', 1, 1, 4, 3);
+
+--Prescription
+insert into prescription(prescription_enum, drug_id, examination_report_id, nurse_id)
+values (0, 1, 1, 6);
+
+insert into prescription(prescription_enum, drug_id, examination_report_id, nurse_id)
+values (0, 2, 1, 6);
 
 --Appointments
 
