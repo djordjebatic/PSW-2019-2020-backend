@@ -86,7 +86,7 @@ public class MedicalRecord {
 		this.allergies = allergies;
 	}
 
-	public Iterable<ExaminationReport> getExaminationReports() {
+	public Set<ExaminationReport> getExaminationReports() {
 		return examinationReports;
 	}
 
