@@ -20,14 +20,16 @@ public class AppointmentType {
 
 	//@Column(nullable = false, scale = 2)
 	//private Double price;
-
-	@OneToMany(mappedBy = "specialization", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(mappedBy = "specialization", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<Doctor> doctors;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
-	@OneToMany(mappedBy = "appointmentType", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(mappedBy = "appointmentType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<AppointmentPrice> appointmentPrices;
 
 	public AppointmentType() {
