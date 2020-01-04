@@ -2,6 +2,7 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.dto.AppointmentCalendarDTO;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class AppointmentController {
     //TODO make AppointmentCalendarDTO
     @GetMapping(value = "/get-doctor-appointments")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<List<Appointment>> getDoctorAppointments() {
+    public ResponseEntity<List<AppointmentCalendarDTO>> getDoctorAppointments() {
         Doctor doctor = doctorService.getLoggedInDoctor();
         try {
             return new ResponseEntity<>(appointmentService.getDoctorAppointments(doctor.getId()), HttpStatus.OK);
@@ -62,7 +63,7 @@ public class AppointmentController {
 
     @GetMapping(value = "/get-nurse-appointments/{id}")
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<List<Appointment>> getNurseAppointments(@PathVariable Long id) {
+    public ResponseEntity<List<AppointmentCalendarDTO>> getNurseAppointments(@PathVariable Long id) {
         try {
             return new ResponseEntity<>(appointmentService.getNurseAppointments(id), HttpStatus.OK);
         }
