@@ -1,5 +1,8 @@
 package com.example.pswbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,16 +24,18 @@ public class ExaminationReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     @Column(nullable = false)
     private LocalDateTime timeCreated;
 
     @Column(nullable = false)
     private String comment;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Diagnosis diagnosis;
 
     @OneToMany(mappedBy = "examinationReport", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -39,8 +44,12 @@ public class ExaminationReport {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Doctor doctor;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Appointment appointment;
+
+    public ExaminationReport() {
+
+	}
 
 	public ExaminationReport(LocalDateTime timeCreated, String comment, MedicalRecord medicalRecord, Diagnosis diagnosis, Doctor doctor, Appointment appointment) {
 		this.timeCreated = timeCreated;
