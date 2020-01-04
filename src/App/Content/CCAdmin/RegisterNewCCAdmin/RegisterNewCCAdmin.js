@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button} from 'react-bootstrap';
 import axios from 'axios';
-import './RegisterNewCCAdmin.css'
 import Header from '../../Header/Header';
 import './RegisterNewCCAdmin.css'
 import {NotificationManager} from 'react-notifications';
@@ -11,7 +10,7 @@ const emailRegex = RegExp(
 );
 
 const phoneRegex = RegExp(
-    /06[0-9]+/
+    /06[0-9]{7,8}/
 );
 
 const capitalLetterRegex = RegExp(
@@ -134,7 +133,7 @@ class RegisterNewCCAdmin extends React.Component {
       case "phoneNumber":
             formErrors.phoneNumber = phoneRegex.test(value)
             ? ""
-            : "Input letters must be numbers and start with '06'";
+            : "Input letters must be numbers, start with '06' and have between 9 and 10 numbers";
           break;
       default:
         break;
@@ -196,7 +195,7 @@ class RegisterNewCCAdmin extends React.Component {
               <label htmlFor="address">Address: </label>
               <input
                 className={formErrors.address.length > 0 ? "error" : null}
-                placeholder="address"
+                placeholder="Address"
                 type="address"
                 name="address"
                 noValidate
@@ -210,7 +209,7 @@ class RegisterNewCCAdmin extends React.Component {
               <label htmlFor="city">City: </label>
               <input
                 className={formErrors.city.length > 0 ? "error" : null}
-                placeholder="city"
+                placeholder="City"
                 type="city"
                 name="city"
                 noValidate
@@ -224,7 +223,7 @@ class RegisterNewCCAdmin extends React.Component {
               <label htmlFor="country">Country: </label>
               <input
                 className={formErrors.country.length > 0 ? "error" : null}
-                placeholder="country"
+                placeholder="Country"
                 type="country"
                 name="country"
                 noValidate
@@ -238,7 +237,7 @@ class RegisterNewCCAdmin extends React.Component {
               <label htmlFor="phoneNumber">Phone Number: </label>
               <input
                 className={formErrors.phoneNumber.length > 0 ? "error" : null}
-                placeholder="phoneNumber"
+                placeholder="Phone Number"
                 type="phoneNumber"
                 name="phoneNumber"
                 noValidate
