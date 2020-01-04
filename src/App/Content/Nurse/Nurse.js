@@ -32,7 +32,7 @@ class Nurse extends React.Component {
                 <div className="col link">
                     <h4>Prescriptions to Authenticate</h4>
                     <p>Look at the list of all prescriptions.</p>
-                    <a href="#" className="btn link-btn-doctor">View List</a>
+                    <Link to="/authenticate-prescriptions" class="btn link-btn-doctor">View List</Link>
                 </div>
             </div>
         </div>
