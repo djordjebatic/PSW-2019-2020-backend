@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {NotificationManager} from 'react-notifications';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
@@ -81,7 +81,9 @@ class Header extends React.Component{
                 {workCalendarLink}
               </li>
               <li className="nav-item">
-                <Link className="nav-link link-header" to="/login">Log Out</Link>
+                <Link 
+                className="nav-link link-header" 
+                to="/login">Log Out</Link>
               </li>
             </ul>
           </nav>

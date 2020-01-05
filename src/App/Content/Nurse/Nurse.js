@@ -1,28 +1,53 @@
 import React from 'react';
 import './Nurse.css'
 import "react-table/react-table.css";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import axios from 'axios';
 
 
 import logo from '../../../images/med128.png'
 
 class Nurse extends React.Component {
-  render() {
+
+    constructor(props){
+        super(props); 
     
-  return (
-    <div className="Nurse">
-      <Header/>
-        <div className="">
-            <div className="row welcome-nurse">
-                <div className="col-12">
-                        <div className="logo-nurse">
-                            <img src={logo} alt="logo" />
+        this.state = {
+            firstName: '',
+            lastName: ''
+        }
+    }
+
+    componentDidMount() {
+        var token = localStorage.getItem('token');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.get("http://localhost:8080/auth/getMyUser")
+            .then(response => {
+                console.log(response.data);
+                this.setState({
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName
+                })
+            })
+            .catch((error) => console.log(error))
+    }
+
+    render() {
+
+        return (
+            <div className="Nurse">
+                <Header />
+                <div className="">
+                    <div className="row welcome-nurse">
+                        <div className="col-12">
+                            <div className="logo-nurse">
+                                <img src={logo} alt="logo" />
+                            </div>
+                            <h3 className="welcome-and-logo">Welcome, {this.state.firstName} {this.state.lastName}</h3>
                         </div>
-                        <h3 className="welcome-and-logo">Welcome, Nurse</h3>
-                </div>
-            </div>
+                    </div>
             <div className="row links">
                 <div className="col link">
                     <h4>All Patients</h4>
@@ -33,14 +58,14 @@ class Nurse extends React.Component {
                     <h4>Prescriptions to Authenticate</h4>
                     <p>Look at the list of all prescriptions.</p>
                     <Link to="/authenticate-prescriptions" class="btn link-btn-doctor">View List</Link>
-                </div>
+                    </div>
             </div>
-        </div>
-        <Footer/>
+                </div>
+                <Footer />
 
-    </div>
-  );
-  }
+            </div>
+        );
+    }
 }
 
 export default Nurse;
