@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button} from 'react-bootstrap';
 import axios from 'axios';
 import Header from '../../Header/Header';
 import {NotificationManager} from 'react-notifications';
@@ -18,10 +17,16 @@ import {
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment'
 
-
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 
-//const localizer = momentLocalizer(moment) // or globalizeLocalizer
+const CustomEvent = (event) => { 
+  console.log(event)
+  return ( 
+
+  <span><strong style={{ color: 'orange' }}>{event.event.title}</strong><em><br></br> Ordination: {event.event.ordination}
+  <br></br> Patient: {event.event.patient} </em></span> 
+  ) 
+}
 
 class DoctorCalendar extends React.Component {
 
@@ -30,7 +35,6 @@ class DoctorCalendar extends React.Component {
     this.state = {
             appointments: [],
     }
-    
   }
 
   componentDidMount () {
@@ -56,9 +60,21 @@ class DoctorCalendar extends React.Component {
                 center: "title",
                 right: ""
               }}
+              popup
               selectable
               localizer={localizer}
               events={this.state.appointments}
+              components={{event:CustomEvent}}
+              /*components={{
+                event: Event,
+                agenda: {
+                  event: EventAgenda,
+                },
+              }}*/
+              timeslots={3}
+              step={30}
+
+              defaultView={Views.MONTH}
               startAccessor="start"
               endAccessor="end"
             />
