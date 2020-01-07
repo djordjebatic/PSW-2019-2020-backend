@@ -112,21 +112,13 @@
     margin-left: 1%;
   }
   
-  .firstName,
-  .lastName,
-  .email,
-  .address, .city, .country, .phoneNumber {
+  .name, .address, .city, .country, .description {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
   }
   
-  .firstName,
-  .lastName {
-    width: 49%;
-  }
-  
-  .email, .address, .city, .country, .phoneNumber{
+  .name, .address, .city, .country, .description{
     width: 100%;
   }
   

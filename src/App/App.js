@@ -32,6 +32,9 @@ import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
 import RegisterNewCCAdmin from './Content/CCAdmin/RegisterNewCCAdmin/RegisterNewCCAdmin';
 import CCAdminRegistrationRequests from './Content/CCAdmin/RegistationRequests/CCAdminRegistrationRequests';
+import RegisterClinic from './Content/CCAdmin/RegisterClinic/RegisterClinic';
+import DoctorCalendar from './Content/Doctor/Calendar/DoctorCalendar';
+import Prescriptions from './Content/Nurse/AuthenticatePrescriptions/Prescriptions';
 
 function App() {
   return (
@@ -118,6 +121,15 @@ function App() {
           </Route>
           <Route path="/ccadmin-registration-requests">
             <CCAdminRegistrationRequests/>
+          </Route>
+          <Route path="/register-clinic">
+            <RegisterClinic/>
+          </Route>
+          <Route path="/doctor-calendar">
+            <DoctorCalendar/>
+          </Route>
+          <Route path="/authenticate-prescriptions">
+            <Prescriptions/>
           </Route>
         </Switch>
         <NotificationContainer />

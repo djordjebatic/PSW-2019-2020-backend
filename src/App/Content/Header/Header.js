@@ -31,7 +31,8 @@ class Header extends React.Component{
     }
 
     render() {
-
+      
+      //HomePage link
       var homePageLink;
       if (this.state.role === "ROLE_CC_ADMIN"){
         homePageLink = (
@@ -55,6 +56,17 @@ class Header extends React.Component{
         )
       }
 
+      //Calendar link
+      var workCalendarLink;
+      if (this.state.role === "ROLE_DOCTOR"){
+        workCalendarLink = (
+          <Link to="/doctor-calendar" id="" className="nav-link link-header" href="#">Work Calendar</Link>
+        )
+      } else if (this.state.role === "ROLE_NURSE"){
+        workCalendarLink = (
+          <Link to="/nurse-calendar" className="nav-link link-header" href="#">Work Calendar</Link>
+        )
+      }
       return (
         <div className="Header">
           <nav className="navbar navbar-dark clinic-center-nav">
@@ -66,7 +78,7 @@ class Header extends React.Component{
                 <Link to="/my-profile" className="nav-link link-header" href="#">Profile</Link>
               </li>
               <li className="nav-item">
-                <Link to="work-calendar" className="nav-link link-header" href="#">Work Calendar</Link>
+                {workCalendarLink}
               </li>
               <li className="nav-item">
                 <Link 

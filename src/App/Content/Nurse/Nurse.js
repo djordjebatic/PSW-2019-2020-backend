@@ -48,18 +48,18 @@ class Nurse extends React.Component {
                             <h3 className="welcome-and-logo">Welcome, {this.state.firstName} {this.state.lastName}</h3>
                         </div>
                     </div>
-                    <div className="row links">
-                        <div className="col link">
-                            <h4>All Patients</h4>
-                            <p>Look at the list of all patients in your clinic.</p>
-                            <Link to="/patients" class="btn link-btn-doctor">View List</Link>
-                        </div>
-                        <div className="col link">
-                            <h4>Prescriptions to Authenticate</h4>
-                            <p>Look at the list of all prescriptions.</p>
-                            <a href="#" className="btn link-btn-doctor">View List</a>
-                        </div>
+            <div className="row links">
+                <div className="col link">
+                    <h4>All Patients</h4>
+                    <p>Look at the list of all patients in your clinic.</p>
+                    <Link to="/patients" class="btn link-btn-doctor">View List</Link>
+                </div>
+                <div className="col link">
+                    <h4>Prescriptions to Authenticate</h4>
+                    <p>Look at the list of all prescriptions.</p>
+                    <Link to="/authenticate-prescriptions" class="btn link-btn-doctor">View List</Link>
                     </div>
+            </div>
                 </div>
                 <Footer />
 
