@@ -1,4 +1,4 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.CCAdmin;
@@ -6,10 +6,10 @@ import com.example.pswbackend.dto.CCAdminDTO;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AccountRepository;
 import com.example.pswbackend.repositories.CCAdminRepository;
+import com.example.pswbackend.services.CCAdminService;
+import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CCAdminServiceImpl implements CCAdminService {

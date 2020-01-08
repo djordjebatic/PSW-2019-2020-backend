@@ -1,4 +1,4 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.Authority;
 import com.example.pswbackend.domain.MedicalRecord;
@@ -7,6 +7,9 @@ import com.example.pswbackend.dto.PatientDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.services.AccountService;
+import com.example.pswbackend.services.EmailService;
+import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PatientServiceImpl implements PatientService{
+public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private PatientRepository patientRepository;

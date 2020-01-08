@@ -1,4 +1,4 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
@@ -10,13 +10,16 @@ import com.example.pswbackend.repositories.ClinicAdminRepository;
 import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.OrdinationRepository;
+import com.example.pswbackend.services.AppointmentRequestService;
+import com.example.pswbackend.services.ClinicAdminService;
+import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ClinicAdminServiceImpl implements ClinicAdminService{
+public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Autowired
     ClinicAdminRepository clinicAdminRepository;
@@ -105,13 +108,13 @@ public class ClinicAdminServiceImpl implements ClinicAdminService{
 
         System.out.println("-------------------- ORDINATION: " + dto.getDoctor());
 
-        predefinedAppointment.setDate(dto.getDate());
-        predefinedAppointment.setTime(dto.getTime());
+        //predefinedAppointment.setDate(dto.getDate());
+        //predefinedAppointment.setTime(dto.getTime());
         predefinedAppointment.setOrdination(ordinationRepository.findById(Long.parseLong(dto.getOrdination())).get());
-        predefinedAppointment.setDoctor(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
-        predefinedAppointment.setDuration(dto.getDuration());
-        predefinedAppointment.setPrice(dto.getPrice());
-        predefinedAppointment.setType(appType);
+        //predefinedAppointment.setDoctor(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
+        //predefinedAppointment.setDuration(dto.getDuration());
+        predefinedAppointment.getPrice().setPrice(dto.getPrice());
+        predefinedAppointment.getPrice().setAppointmentEnum(appType);
 
         //TODO dodati u listu predefinisanih appointmenta
         /// dto.getClinicAdmin().getPredefinedAppointmetns().push/add/saveNew...

@@ -1,5 +1,6 @@
 package com.example.pswbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
@@ -58,6 +59,10 @@ public class Clinic {
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Doctor> clinicAdmins = new HashSet<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<AppointmentType> appointmentTypes = new HashSet<>();
 
 	public Clinic(String name, String description, String address, String city) {
 		this.name = name;
@@ -169,5 +174,12 @@ public class Clinic {
 	public void setClinicAdmins(Set<Doctor> clinicAdmins) {
 		this.clinicAdmins = clinicAdmins;
 	}
-	
+
+	public Set<AppointmentType> getAppointmentTypes() {
+		return appointmentTypes;
+	}
+
+	public void setAppointmentTypes(Set<AppointmentType> appointmentTypes) {
+		this.appointmentTypes = appointmentTypes;
+	}
 }

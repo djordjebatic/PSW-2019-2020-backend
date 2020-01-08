@@ -1,4 +1,4 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.AppointmentRequest;
 import com.example.pswbackend.domain.ClinicAdmin;
@@ -6,6 +6,7 @@ import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.repositories.AppointmentRequestRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
+import com.example.pswbackend.services.AppointmentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -13,4 +13,6 @@ public interface DoctorService {
 
     List<Doctor> findAll();
 
+    Doctor getLoggedInDoctor();
+
 }

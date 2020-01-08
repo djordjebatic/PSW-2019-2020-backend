@@ -42,6 +42,15 @@ public class ExaminationReport {
     @OneToOne()
     private Appointment appointment;
 
+	public ExaminationReport(LocalDateTime timeCreated, String comment, MedicalRecord medicalRecord, Diagnosis diagnosis, Doctor doctor, Appointment appointment) {
+		this.timeCreated = timeCreated;
+		this.comment = comment;
+		this.medicalRecord = medicalRecord;
+		this.diagnosis = diagnosis;
+		this.doctor = doctor;
+		this.appointment = appointment;
+	}
+
 	public Long getId() {
 		return id;
 	}

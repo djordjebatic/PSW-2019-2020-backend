@@ -24,6 +24,16 @@ public class Prescription {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
 
+    public Prescription(){
+
+	}
+
+	public Prescription(Drug drug, ExaminationReport examinationReport, Nurse nurse) {
+		this.drug = drug;
+		this.examinationReport = examinationReport;
+		this.nurse = nurse;
+	}
+
 	public Long getId() {
 		return id;
 	}
