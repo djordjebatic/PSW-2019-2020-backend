@@ -92,4 +92,12 @@ public class Doctor extends Account {
 	public void setAppointmentRequest(Set<AppointmentRequest> appointmentRequest) {
 		this.appointmentRequest = appointmentRequest;
 	}
+
+	public AppointmentType getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(AppointmentType specialization) {
+		this.specialization = specialization;
+	}
 }

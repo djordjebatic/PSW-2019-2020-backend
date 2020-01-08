@@ -1,5 +1,7 @@
 package com.example.pswbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +22,9 @@ public class Drug {
 
 	@Column(nullable = false)
 	private String description;
-	
-	@OneToMany(mappedBy = "drug", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "drug", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
 	@Version

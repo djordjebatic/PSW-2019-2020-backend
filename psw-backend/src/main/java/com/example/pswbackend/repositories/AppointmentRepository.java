@@ -20,7 +20,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByNurseIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
     Appointment getByIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
     List<Appointment> findByStatus(AppointmentStatus appointmentStatus);
-    Appointment findByPatientIdAndDoctorsIdAndStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
+    Appointment findByPatientIdAndDoctorsIdAndDoctorsUserStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
             Long patientId, Long doctorsId, UserStatus userStatus, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> appointmentEnums);
 
 }

@@ -2,6 +2,7 @@ package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ExaminationReportDTO;
+import com.example.pswbackend.enums.PrescriptionEnum;
 import com.example.pswbackend.repositories.DiagnosisRepository;
 import com.example.pswbackend.repositories.DrugRepository;
 import com.example.pswbackend.repositories.ExaminationReportRepository;
@@ -14,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class ExaminationReportImpl implements ExaminationReportService {
+public class ExaminationReportServiceImpl implements ExaminationReportService {
 
     @Autowired
     DiagnosisRepository diagnosisRepository;
@@ -42,6 +43,7 @@ public class ExaminationReportImpl implements ExaminationReportService {
                 return null;
             }
             Prescription prescription = new Prescription(drug, examinationReport, appointment.getNurse());
+            prescription.setPrescriptionEnum(PrescriptionEnum.ISSUED);
             prescriptions.add(prescription);
         }
 

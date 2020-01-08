@@ -1,12 +1,9 @@
 package com.example.pswbackend.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.example.pswbackend.enums.PrescriptionEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 @Entity
 public class Prescription {
@@ -15,14 +12,19 @@ public class Prescription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Drug drug;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
+
+    @Column
+	private PrescriptionEnum prescriptionEnum;
 
     public Prescription(){
 
@@ -64,5 +66,13 @@ public class Prescription {
 
 	public void setNurse(Nurse nurse) {
 		this.nurse = nurse;
+	}
+
+	public PrescriptionEnum getPrescriptionEnum() {
+		return prescriptionEnum;
+	}
+
+	public void setPrescriptionEnum(PrescriptionEnum prescriptionEnum) {
+		this.prescriptionEnum = prescriptionEnum;
 	}
 }

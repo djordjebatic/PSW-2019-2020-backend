@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.example.pswbackend.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @DiscriminatorValue(value="NURSE")
@@ -13,7 +14,8 @@ public class Nurse extends Account{
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<>();
 
@@ -22,6 +24,9 @@ public class Nurse extends Account{
 	
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
+
+	public Nurse(){
+	}
 
 	public Clinic getClinic() {
 		return clinic;
