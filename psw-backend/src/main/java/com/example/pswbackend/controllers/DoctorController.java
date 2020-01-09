@@ -52,17 +52,4 @@ public class DoctorController {
         return doctorService.findAll();
     }
 
-    @RequestMapping(value = "/doctor/change-password", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Account> changePassword(@RequestBody AuthenticationController.PasswordChanger passwordChanger) {
-        accountDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    static class PasswordChanger {
-        public String oldPassword;
-        public String newPassword;
-    }
-
 }

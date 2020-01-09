@@ -43,14 +43,18 @@ public class DoctorServiceImpl implements DoctorService {
         Patient patient = patientRepo.findById(Long.parseLong(dto.getPatient())).get();
         Doctor doctor = doctorRepo.findById(Long.parseLong(dto.getDoctor())).get();
 
+        String type = dto.getType();
+        String stringType = type == "0" ? "Examination" : "Surgery";
+
         String date = dto.getDate();
         date = date.substring(8,10) + "." + date.substring(5,7) + "." + date.substring(0,4) + ".";
 
         String message = "Hello, " + "Clinic Admin" +  // TODO dodati koji admin
                 ".\nYou got a new request for scheduling an appointment.\n\nAppointment information: \n" +
                 "-----------------------------------\n" +
-                "     Patient: " + patient.getFirstName() + " " + patient.getLastName() + "\n" +
                 "     Doctor: " + doctor.getFirstName() + " " + doctor.getLastName() + "\n" +
+                "     Patient: " + patient.getFirstName() + " " + patient.getLastName() + "\n" +
+                "     Type: " + stringType + "\n" +
                 "     Date: " + date +
                 "\n     Time: " + dto.getTime() +
                 "\n-----------------------------------";
