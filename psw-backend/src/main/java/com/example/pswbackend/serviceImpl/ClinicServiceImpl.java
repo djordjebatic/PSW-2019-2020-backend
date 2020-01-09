@@ -1,8 +1,9 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.repositories.ClinicRepository;
+import com.example.pswbackend.services.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

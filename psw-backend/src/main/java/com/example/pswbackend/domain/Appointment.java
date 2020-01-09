@@ -1,5 +1,8 @@
 package com.example.pswbackend.domain;
 
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,15 +15,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Appointment {
@@ -28,33 +30,18 @@ public class Appointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-	
-	@Enumerated(EnumType.STRING)
-	private AppointmentEnum type;
-	
-	@Column(nullable = false)
-	private String date;
-	
-	@Column(nullable = false)
-	private String time;
-	
-	@Column(nullable = false)
-    private float price;
 
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private AppointmentPrice price;
+
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	@Column(nullable = false)
-	private int duration;
-	
-	public float getPrice() {
-		return price;
-	}
+	private LocalDateTime startDateTime;
 
-	public void setPrice(float price) {
-		this.price = price;
-	}
-
-	public int getDuration() { return duration; }
-
-	public void setDuration(int duration) { this.duration = duration; }
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	@Column(nullable = false)
+	private LocalDateTime endDateTime;
 
 	@Enumerated(EnumType.STRING)
     private AppointmentStatus status;
@@ -63,13 +50,9 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Ordination ordination;
 
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Doctor doctor;
-	
-	@ManyToMany
-    @JoinTable(name = "examining", joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
-    private Set<Doctor> doctors = new HashSet<Doctor>();
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "appointed_doctors", joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
+	private Set<Doctor> doctors = new HashSet<>();
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -78,33 +61,25 @@ public class Appointment {
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
-	
-	@OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
-    private ExaminationReport examinationReport;
-
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private MedicalRecord medicalRecord;
-
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
-	private ClinicAdmin clinicAdmin;
 
 	@JsonBackReference
 	@ManyToOne(fetch =FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
+	@JsonIgnore
+	@OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
+    private ExaminationReport examinationReport;
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	private ClinicAdmin clinicAdmin;
+
 	@Column
     private Integer discount;
-	
-	@Column
-    private Integer doctorRating;
-
-    @Column
-    private Integer clinicRating;
     
 	public Appointment() {
 		super();
+		doctors = new HashSet<Doctor>();
 	}
 
 	public long getId() {
@@ -113,30 +88,6 @@ public class Appointment {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public AppointmentEnum getType() {
-		return type;
-	}
-
-	public void setType(AppointmentEnum type) {
-		this.type = type;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	public AppointmentStatus getStatus() {
@@ -153,14 +104,6 @@ public class Appointment {
 
 	public void setOrdination(Ordination ordination) {
 		this.ordination = ordination;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
 	}
 
 	public Set<Doctor> getDoctors() {
@@ -195,14 +138,6 @@ public class Appointment {
 		this.examinationReport = examinationReport;
 	}
 
-	public MedicalRecord getMedicalRecord() {
-		return medicalRecord;
-	}
-
-	public void setMedicalRecord(MedicalRecord medicalRecord) {
-		this.medicalRecord = medicalRecord;
-	}
-
 	public Integer getDiscount() {
 		return discount;
 	}
@@ -211,31 +146,39 @@ public class Appointment {
 		this.discount = discount;
 	}
 
-	public Integer getDoctorRating() {
-		return doctorRating;
+	public LocalDateTime getStartDateTime() {
+		return startDateTime;
 	}
 
-	public void setDoctorRating(Integer doctorRating) {
-		this.doctorRating = doctorRating;
+	public void setStartDateTime(LocalDateTime startDateTime) {
+		this.startDateTime = startDateTime;
 	}
 
-	public Integer getClinicRating() {
-		return clinicRating;
+	public LocalDateTime getEndDateTime() {
+		return endDateTime;
 	}
 
-	public void setClinicRating(Integer clinicRating) {
-		this.clinicRating = clinicRating;
+	public void setEndDateTime(LocalDateTime endDateTime) {
+		this.endDateTime = endDateTime;
 	}
+
+	public Clinic getClinic() { return clinic; }
+
+	public void setClinic(Clinic clinic) { this.clinic = clinic; }
 
 	public ClinicAdmin getClinicAdmin() {
 		return clinicAdmin;
 	}
 
 	public void setClinicAdmin(ClinicAdmin clinicAdmin) {
-		clinicAdmin = clinicAdmin;
+		this.clinicAdmin = clinicAdmin;
 	}
 
-	public Clinic getClinic() { return clinic; }
+	public AppointmentPrice getPrice() {
+		return price;
+	}
 
-	public void setClinic(Clinic clinic) { this.clinic = clinic; }
+	public void setPrice(AppointmentPrice price) {
+		this.price = price;
+	}
 }

@@ -1,14 +1,15 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.MedicalRecord;
 import com.example.pswbackend.repositories.MedicalRecordRepository;
+import com.example.pswbackend.services.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MedicalRecordServiceImpl implements  MedicalRecordService{
+public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Autowired
     MedicalRecordRepository medicalRecordRepository;

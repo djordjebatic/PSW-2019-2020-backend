@@ -1,11 +1,19 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 
+import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
+import com.example.pswbackend.repositories.AccountRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.services.ClinicAdminService;
+import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +32,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private PatientRepository patientRepo;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
 
     @Override
@@ -63,5 +74,20 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<Doctor> findAll() {
         return doctorRepo.findAll();
+    }
+
+    @Override
+    public Doctor getLoggedInDoctor() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            Account account = accountRepository.findByEmail(currentUser.getName());
+            Doctor doctor = (Doctor)account;
+            if (doctor != null) {
+                return doctor;
+            }
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+        return null;
     }
 }

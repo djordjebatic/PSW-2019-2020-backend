@@ -1,5 +1,7 @@
 package com.example.pswbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ public class Diagnosis {
 	@Column(columnDefinition = "VARCHAR", nullable = false)
 	private String description;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "diagnosis", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<ExaminationReport> examinationReports = new HashSet<>();
 

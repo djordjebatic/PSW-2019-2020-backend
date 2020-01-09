@@ -1,8 +1,9 @@
-package com.example.pswbackend.services;
+package com.example.pswbackend.serviceImpl;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
+import com.example.pswbackend.services.PredefinedAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentService{
+public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentService {
 
     @Autowired
     private AppointmentRepository predAppointRepo;
