@@ -48,7 +48,6 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getPredefinedBookedAppointments(), HttpStatus.OK);
     }
 
-    //TODO make AppointmentCalendarDTO
     @GetMapping(value = "/get-doctor-appointments")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<AppointmentCalendarDTO>> getDoctorAppointments() {
@@ -57,7 +56,26 @@ public class AppointmentController {
             return new ResponseEntity<>(appointmentService.getDoctorAppointments(doctor.getId()), HttpStatus.OK);
         }
         catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/get-appointment/{id}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<AppointmentCalendarDTO> getAppointment(@PathVariable Long id) {
+        Doctor doctor = doctorService.getLoggedInDoctor();
+        Appointment appointment = appointmentService.getAppointment(id);
+
+        if (!appointment.getDoctors().contains(doctor)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            return new ResponseEntity<>(new AppointmentCalendarDTO(appointment), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
