@@ -2,7 +2,8 @@ package com.example.pswbackend.enums;
 
 public enum AppointmentStatus {
     APPROVED,
-    AWAITING,
+    AWAITING_APPROVAL,
     PREDEF_BOOKED,
-    PREDEF_AVAILABLE
+    PREDEF_AVAILABLE,
+    CANCELED
 }

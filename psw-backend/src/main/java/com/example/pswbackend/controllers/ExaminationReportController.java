@@ -1,0 +1,106 @@
+package com.example.pswbackend.controllers;
+
+import com.example.pswbackend.domain.*;
+import com.example.pswbackend.dto.ExaminationReportDTO;
+import com.example.pswbackend.enums.PrescriptionEnum;
+import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.services.AppointmentService;
+import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.ExaminationReportService;
+import com.example.pswbackend.services.NurseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+@RestController
+@RequestMapping(value = "/api/examination-report")
+public class ExaminationReportController {
+
+    @Autowired
+    DoctorService doctorService;
+
+    @Autowired
+    NurseService nurseService;
+
+    @Autowired
+    AppointmentService appointmentService;
+
+    @Autowired
+    ExaminationReportService examinationReportService;
+
+    @Autowired
+    PatientRepository patientRepository;
+
+    @PostMapping(value = "/create/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<ExaminationReportDTO> create(@PathVariable("id") Long patientId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
+        Doctor doctor = doctorService.getLoggedInDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Patient patient = patientRepository.findOneById(patientId);
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        LocalDateTime appointmentStartTime = LocalDateTime.now();
+        Appointment ongoingExamination = appointmentService.getOngoingAppointment(patient.getId(), doctor.getId(), appointmentStartTime);
+        if (ongoingExamination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ExaminationReportDTO createdExaminationReportDTO = examinationReportService.create(ongoingExamination, doctor, examinationReportDTO);
+        if (createdExaminationReportDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/get-prescriptions/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('NURSE')")
+    public ResponseEntity<List<Prescription>> create(@PathVariable("id") Long patientId) {
+        Nurse nurse = nurseService.getLoggedInNurse();
+        if (nurse == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Patient patient = patientRepository.findOneById(patientId);
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Set<ExaminationReport> examinationReports = patient.getMedicalRecord().getExaminationReports();
+
+        List<Prescription> prescriptions = new ArrayList<>();
+
+        for (ExaminationReport examinationReport : examinationReports){
+            if (examinationReport.getAppointment().getNurse().getId() == nurse.getId()) {
+                for (Prescription p : examinationReport.getPrescriptions()) {
+                    if (p.getPrescriptionEnum().equals(PrescriptionEnum.ISSUED)) {
+                        prescriptions.add(p);
+                    }
+                }
+            }
+        }
+
+        if (prescriptions.size() == 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(prescriptions, HttpStatus.OK);
+        }
+
+
+    }
+
+    }

@@ -11,7 +11,7 @@ public class QuickReservationDTO {
     private String ordination;
     private String date;
     private String time;
-    private float price;
+    private double price;
     private int duration; // u minutima
     private String type; //  0 = EXAMINATION, 1 = OPERATION
 
@@ -24,7 +24,7 @@ public class QuickReservationDTO {
 
     public String getTime() { return time; }
 
-    public float getPrice() { return price; }
+    public double getPrice() { return price; }
 
     public int getDuration() { return duration; }
 

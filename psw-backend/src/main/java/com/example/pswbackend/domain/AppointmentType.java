@@ -1,17 +1,14 @@
 package com.example.pswbackend.domain;
 
+import com.example.pswbackend.enums.AppointmentEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+@Entity
 public class AppointmentType {
 
 	@Id
@@ -19,28 +16,29 @@ public class AppointmentType {
 	private Long id;
 
 	@Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
-	private String label;
+	private String name;
 
-	@Column(nullable = false, scale = 2)
-	private Double price;
+	//@Column(nullable = false, scale = 2)
+	//private Double price;
+	@JsonIgnore
+	@OneToMany(mappedBy = "specialization", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<Doctor> doctors;
 
-	@OneToMany(mappedBy = "specialization", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private Set<Doctor> doctors = new HashSet<>();
-
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "appointmentType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	private Set<Appointment> appointments = new HashSet<>();
+	private Set<AppointmentPrice> appointmentPrices;
 
-	public AppointmentType(String label, Double price, Set<Doctor> doctors, Clinic clinic,
-			Set<Appointment> appointments) {
-		super();
-		this.label = label;
-		this.price = price;
-		this.doctors = doctors;
+	public AppointmentType() {
+
+	}
+
+	public AppointmentType(String name, Clinic clinic) {
+		this.name = name;
 		this.clinic = clinic;
-		this.appointments = appointments;
 	}
 
 	public Long getId() {
@@ -51,20 +49,12 @@ public class AppointmentType {
 		this.id = id;
 	}
 
-	public String getLabel() {
-		return label;
+	public String getName() {
+		return name;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Set<Doctor> getDoctors() {
@@ -83,11 +73,11 @@ public class AppointmentType {
 		this.clinic = clinic;
 	}
 
-	public Set<Appointment> getAppointments() {
-		return appointments;
+	public Set<AppointmentPrice> getAppointmentPrices() {
+		return appointmentPrices;
 	}
 
-	public void setAppointments(Set<Appointment> appointments) {
-		this.appointments = appointments;
+	public void setAppointmentPrices(Set<AppointmentPrice> appointmentPrices) {
+		this.appointmentPrices = appointmentPrices;
 	}
 }

@@ -16,7 +16,6 @@ public class Patient extends Account{
 	
 	// TODO generate radnom number
 	@Column(columnDefinition = "VARCHAR(13)", unique = true)
-	@NonNull
 	private String medicalNumber;
 
     @Enumerated(EnumType.STRING)
@@ -26,7 +25,7 @@ public class Patient extends Account{
 	private Set<Appointment> appointments;
 
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
 
 	public Patient(){
