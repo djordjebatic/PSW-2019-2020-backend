@@ -66,7 +66,6 @@ public class Appointment {
 	@ManyToOne(fetch =FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
-	@JsonIgnore
 	@OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
