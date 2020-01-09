@@ -85,13 +85,13 @@ class PredefinedExaminations extends React.Component {
         },{
             Header:'Duration',
             accessor:'duration'
-        }/*,{
+        },{
             Header:'Doctor',
             accessor:'doctor'
         },{
             Header:'Ordination',
             accessor:'ordination'
-        }*/,{
+        },{
             Header:'Discount',
             accessor:'discount'
         },{
@@ -105,7 +105,7 @@ class PredefinedExaminations extends React.Component {
             <div className="Predefined-Examinations">
                 <Header/>
 
-                <div className="Predefined-Examinations-title">Predefined examinations</div>
+                <div className="Predefined-Examinations-title">Predefined appointments</div>
 
                 <div className='clinics rtable'>
                     <ReactTable 
