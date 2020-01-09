@@ -44,6 +44,7 @@ public class ExaminationReport {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Doctor doctor;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Appointment appointment;
 
