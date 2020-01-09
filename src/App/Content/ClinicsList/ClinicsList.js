@@ -65,15 +65,7 @@ class ClinicsList extends React.Component{
 
      visit = (id) =>{
       console.log(id)
-      axios.post("http://localhost:8080/api/clinic/"+id).then(response => {
-          console.log(response)
-          this.props.history.push({
-          pathname:'/clinic-page',
-          state: {data:id}
-        })
-
-      }).then((resp)=>{       
-      }).catch((error)=>console.log(error.response))
+          this.props.history.push('/clinic/'+id)
   }
       
 

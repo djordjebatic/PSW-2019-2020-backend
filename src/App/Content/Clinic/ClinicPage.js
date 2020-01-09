@@ -16,19 +16,19 @@ class ClinicPage extends React.Component {
             name: ''
         }
     }
-
+    
     componentDidMount(){
         var token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;  
-         axios.get("http://localhost:8080/api/clinic/"+this.state.id)  
-            .then(response => {
+        const id = window.location.pathname.split("/")[2];
+        console.log(id);
+        axios.get("http://localhost:8080/api/clinic/"+id).then(response => {
                 console.log(response.data);
                 this.setState({
                     id: response.data.id,
                     name: response.data.name
                 })
-            })
-        .catch((error) => console.log(error))
+            }) .catch((error) => console.log(error))
         }
 
     render() {
