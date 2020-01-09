@@ -6,6 +6,7 @@ import com.example.pswbackend.enums.PrescriptionEnum;
 import com.example.pswbackend.repositories.DiagnosisRepository;
 import com.example.pswbackend.repositories.DrugRepository;
 import com.example.pswbackend.repositories.ExaminationReportRepository;
+import com.example.pswbackend.repositories.PrescriptionRepository;
 import com.example.pswbackend.services.ExaminationReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
     @Autowired
     ExaminationReportRepository examinationReportRepository;
 
+    @Autowired
+    PrescriptionRepository prescriptionRepository;
+
     @Override
     public ExaminationReportDTO create(Appointment appointment, Doctor doctor, ExaminationReportDTO examinationReportDTO) {
         Diagnosis diagnosis = diagnosisRepository.findOneById(examinationReportDTO.getDiagnosisId());
@@ -45,12 +49,11 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
             Prescription prescription = new Prescription(drug, examinationReport, appointment.getNurse());
             prescription.setPrescriptionEnum(PrescriptionEnum.ISSUED);
             prescriptions.add(prescription);
+            prescriptionRepository.save(prescription);
         }
 
         examinationReport.setPrescriptions(prescriptions);
 
-        ExaminationReport created = examinationReportRepository.save(examinationReport);
-
-        return new ExaminationReportDTO(created);
+        return new ExaminationReportDTO(examinationReportRepository.save(examinationReport));
     }
 }
