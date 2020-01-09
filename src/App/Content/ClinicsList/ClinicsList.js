@@ -6,11 +6,13 @@ import Footer from '../Footer/Footer';
 import './ClinicsList.css'
 import Select from "react-select";
 import axios from 'axios'
+import { NotificationManager } from 'react-notifications';
+import { Link, withRouter } from 'react-router-dom'
 
 class ClinicsList extends React.Component{
    
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
         this.state={
 
@@ -60,6 +62,19 @@ class ClinicsList extends React.Component{
       
           this.setState({ filtered: filtered });
      };
+
+     visit = (id) =>{
+      console.log(id)
+      axios.post("http://localhost:8080/api/clinic/"+id).then(response => {
+          console.log(response)
+          this.props.history.push({
+          pathname:'/clinic-page',
+          state: {data:id}
+        })
+
+      }).then((resp)=>{       
+      }).catch((error)=>console.log(error.response))
+  }
       
 
     render(){
@@ -79,18 +94,16 @@ class ClinicsList extends React.Component{
         },{
             Header:'Stars',
             accessor: 'stars'
-        }]
-
-        /*const data=[
-          {
-            name:'Klinika Perinatal',
-            address:'Ilije Ognjenovica 79',
-            stars:'4,5' 
         },{
-            name:'Eliksir',
-            address:'Marodiceva 12',
-            stars:'4,5' 
-        }]*/
+          Header: '',
+          Cell: row => (
+              <div>
+                 <button className="primary btn" onClick={() => this.visit(row.original.id)}>Visit</button>
+               </div>
+          ),
+          width: 100
+
+        }]
 
         return (
             <div className="ClinicsList">
@@ -133,4 +146,4 @@ class ClinicsList extends React.Component{
 
 }
 
-export default ClinicsList;
+export default withRouter (ClinicsList);
