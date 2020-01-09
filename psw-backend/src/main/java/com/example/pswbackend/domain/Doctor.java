@@ -33,6 +33,7 @@ public class Doctor extends Account {
 	@Enumerated(EnumType.STRING)
 	private UserStatus userStatus;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private AppointmentType specialization;
 
