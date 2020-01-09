@@ -149,22 +149,40 @@ insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Pollen', 'B', '180', '2', '70');
 
 --Appointments
-insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '01.06.2020 15:00', '12.12.2020 20:30', 'APPROVED', '4', '9', 6, 1, 1, '10');
-insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '12.27.2019 10:00', '12.27.2019 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
+values(1, '01.03.2020 20:00', '01.03.2020 22:00', 'APPROVED', '4', '9', 6, 1, 1, '10');
+insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
+
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(1, '01.08.2020 20:00', '01.08.2020 22:00', 'APPROVED', '4', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (2,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '12.27.2019 15:00', '12.27.2019 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
+values(1, '01.08.2020 22:00', '01.08.2020 23:59', 'PREDEF_BOOKED', '4', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(1, '01.09.2020 12:00', '01.09.2020 20:00', 'APPROVED', '4', '9', 6, 1, 1, '10');
+insert into appointed_doctors (appointment_id, doctor_id) values (4,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(1, '01.09.2020 20:01', '01.09.2020 23:59', 'PREDEF_BOOKED', '4', '9', 6, 1, 1, '10');
+insert into appointed_doctors (appointment_id, doctor_id) values (5,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '12.27.2019 10:00', '12.27.2019 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
+insert into appointed_doctors (appointment_id, doctor_id) values (6,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '12.27.2019 15:00', '12.27.2019 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
+insert into appointed_doctors (appointment_id, doctor_id) values (7,4);
 
 --
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(4, '12.23.2019 08:00', '12.23.2019 9:30', 'PREDEF_AVAILABLE', '2', '4', 7, 3, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (4,5);
+insert into appointed_doctors (appointment_id, doctor_id) values (8,5);
 
 --Examination Report
 insert into examination_report (comment, time_created, appointment_id, diagnosis_id, doctor_id, medical_record_id)
