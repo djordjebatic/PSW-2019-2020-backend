@@ -15,6 +15,4 @@ public interface DoctorService {
 
     Doctor getLoggedInDoctor();
 
-    List<Doctor> findByClinicId(long id);
-
 }

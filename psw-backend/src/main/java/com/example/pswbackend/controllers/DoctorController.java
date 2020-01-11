@@ -52,12 +52,6 @@ public class DoctorController {
         return doctorService.findAll();
     }
 
-    @GetMapping(value="/doctors-list/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Doctor> getClinicDoctors(@PathVariable long id) {
-
-        return doctorService.findByClinicId(id);
-    }
-
     @RequestMapping(value = "/doctor/change-password", method = RequestMethod.POST)
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<Account> changePassword(@RequestBody AuthenticationController.PasswordChanger passwordChanger) {
@@ -70,6 +64,5 @@ public class DoctorController {
         public String oldPassword;
         public String newPassword;
     }
-
 
 }
