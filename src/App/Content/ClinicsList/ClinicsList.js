@@ -64,8 +64,8 @@ class ClinicsList extends React.Component{
      };
 
      visit = (id) =>{
-      console.log(id)
-          this.props.history.push('/clinic/'+id)
+        console.log(id);
+        this.props.history.push('/clinic/'+id);
   }
       
 
