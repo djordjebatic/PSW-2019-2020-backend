@@ -38,7 +38,7 @@ public class PredefinedAppointmentController {
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 
-    @GetMapping(value="/all-predefined-appointments")
+    @GetMapping(value="/predefined-appointments")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<Appointment>> getPredefinedAppointments() {
 
