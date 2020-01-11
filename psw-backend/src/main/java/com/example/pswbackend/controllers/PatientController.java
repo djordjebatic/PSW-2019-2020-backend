@@ -40,6 +40,7 @@ public class PatientController {
         patient.setCountry(patientDTO.getCountry());
         patient.setPhoneNumber(patientDTO.getPhoneNumber());
         patient.setEmail(patientDTO.getEmail());
+        patient.setMedicalNumber(patientDTO.getMedicalNumber());
         patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
 
         patient.setPatientStatus(Status.AWAITING_APPROVAL);

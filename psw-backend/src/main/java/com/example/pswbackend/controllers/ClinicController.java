@@ -36,18 +36,14 @@ public class ClinicController {
         return new ResponseEntity<>(lc, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/clinic/{clinicId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/clinic/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
-    public ClinicDTO getClinic(@PathVariable long clinicId) {
-        return this.clinicService.findById(clinicId);
+    public ClinicDTO getClinic(@PathVariable long id) {
+
+        return clinicService.findById(id);
     }
 
-    @PostMapping(value = "/clinic/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PATIENT')")
-    public long postClinicId(@RequestBody Long clinicId) {
 
-        return clinicId;
-    }
 
 
 }

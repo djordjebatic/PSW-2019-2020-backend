@@ -14,7 +14,7 @@ import java.util.Set;
 public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentService {
 
     @Autowired
-    private AppointmentRepository predAppointRepo;
+    AppointmentRepository predAppointRepo;
 
     @Override
     public Appointment findById(Long id){ return predAppointRepo.findOneById(id); }
