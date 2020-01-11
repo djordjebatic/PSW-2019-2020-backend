@@ -101,7 +101,7 @@ function App() {
           <Route path="/change-password">
             <ChangePassword />
           </Route>
-          <Route path="/clinic-page">
+          <Route path="/clinic">
             <ClinicPage />
           </Route>
           <Route path="/predefined-examinations">
