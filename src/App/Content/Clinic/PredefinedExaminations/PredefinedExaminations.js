@@ -8,6 +8,7 @@ import { Button} from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios';
+import { Link, withRouter } from 'react-router-dom'
 
 class PredefinedExaminations extends React.Component {
 
@@ -35,7 +36,7 @@ class PredefinedExaminations extends React.Component {
     componentDidMount() {
         var token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        axios.get("http://localhost:8080/api/all-predefined-appointments").then(response => {
+        axios.get("http://localhost:8080/api/predefined-appointments").then(response => {
           console.log(response.data[0]);
           this.setState({ examinations: response.data });
       });
@@ -140,4 +141,4 @@ class PredefinedExaminations extends React.Component {
         }
     }
     
-export default PredefinedExaminations;
+export default withRouter (PredefinedExaminations);
