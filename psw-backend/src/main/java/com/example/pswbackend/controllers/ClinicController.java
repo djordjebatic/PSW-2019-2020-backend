@@ -41,13 +41,7 @@ public class ClinicController {
     public ClinicDTO getClinic(@PathVariable long clinicId) {
         return this.clinicService.findById(clinicId);
     }
-
-    @PostMapping(value = "/clinic/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PATIENT')")
-    public long postClinicId(@RequestBody Long clinicId) {
-
-        return clinicId;
-    }
+    
 
 
 }
