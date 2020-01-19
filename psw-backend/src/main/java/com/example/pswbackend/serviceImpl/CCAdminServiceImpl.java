@@ -60,6 +60,11 @@ public class CCAdminServiceImpl implements CCAdminService {
     @Override
     public CCAdmin register(CCAdminDTO ccAdminDTO) {
 
+        if (ccAdminRepository.findByEmail(ccAdminDTO.getEmail()) != null){
+            System.out.println("Vec postoji");
+            return null;
+        }
+
         CCAdmin ccAdmin = new CCAdmin();
         ccAdmin.setFirstName(ccAdminDTO.getFirstName());
         ccAdmin.setLastName(ccAdminDTO.getLastName());
@@ -70,12 +75,10 @@ public class CCAdminServiceImpl implements CCAdminService {
         ccAdmin.setAddress(ccAdminDTO.getAddress());
         ccAdmin.setPassword(ccAdminDTO.getPassword());
         ccAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
-        if (ccAdminRepository.findByEmail(ccAdmin.getUsername()) != null){
-            System.out.println("Vec postoji");
-            return null;
-        }
 
-        String s = "You have been registered as an Clinic Center Admin. You can now log in to the Clinical Centre System";
+        String s = "You have been registered as an Clinic Center Admin. You can now log in to the Clinical Centre System. " +
+                "Please visit http://localhost:3000/login to log into your account. " +
+                "Your default password is \"admin\" and you will need to change it upon initial log in.";
         emailService.sendEmail(ccAdmin.getUsername(), "Registration Request Response", s);
 
         return ccAdminRepository.save(ccAdmin);
