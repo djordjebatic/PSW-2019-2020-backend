@@ -12,7 +12,10 @@ import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,12 +38,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentCalendarDTO> getDoctorAppointments(Long doctorId) {
-        return convertToDTO(appointmentRepository.findByDoctorsIdAndStatusNot(doctorId, AppointmentStatus.CANCELED));
+
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.APPROVED);
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+
+        return convertToDTO(appointmentRepository.findByDoctorsIdAndStatusIn(doctorId, statuses));
     }
 
     @Override
     public List<AppointmentCalendarDTO> getNurseAppointments(Long nurseId) {
-        return convertToDTO(appointmentRepository.findByNurseIdAndStatusNot(nurseId, AppointmentStatus.CANCELED));
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.APPROVED);
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+
+        return convertToDTO(appointmentRepository.findByNurseIdAndStatusIn(nurseId, statuses));
     }
 
     @Override
@@ -64,6 +76,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> getAwaitingAppointments() {
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.AWAITING_APPROVAL);
+        statuses.add(AppointmentStatus.AWAITING_DOCTOR_ASSIGNMENT);
+        return appointmentRepository.findByStatusIn(statuses);
+    }
+
+    @Override
     public List<Appointment> getPredefinedAwailableAppointments() {
         return appointmentRepository.findByStatus(AppointmentStatus.PREDEF_AVAILABLE);
     }
@@ -83,6 +103,35 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> getOrdinationAppointmentsDuringTheDay(Long ordinationId, LocalDateTime day) {
+
+        LocalDate date = day.toLocalDate();
+
+        LocalDateTime start = LocalDateTime.of(date, LocalTime.of(0, 0));
+        LocalDateTime end = LocalDateTime.of(date, LocalTime.of(23, 59, 59));
+
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+        statuses.add(AppointmentStatus.APPROVED);
+
+        return appointmentRepository.findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(ordinationId, start, end, statuses);
+    }
+
+    @Override
+    public List<Appointment> getDoctorAppointmentsDuringTheDay(Long doctorId, LocalDateTime day) {
+        LocalDate date = day.toLocalDate();
+
+        LocalDateTime start = LocalDateTime.of(date, LocalTime.of(0, 0));
+        LocalDateTime end = LocalDateTime.of(date, LocalTime.of(23, 59, 59));
+
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+        statuses.add(AppointmentStatus.APPROVED);
+
+        return appointmentRepository.findByDoctorsIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(doctorId, start, end, statuses);
+    }
+
+    @Override
     public Appointment assignOrdination(Appointment appointment, Ordination ordination, Nurse nurse) {
         if (nurse == null){
             return null;
@@ -94,7 +143,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment assignOperationRoom(Appointment appointment, Ordination ordination) {
+    public Appointment assignOperationOrdination(Appointment appointment, Ordination ordination, Set<Doctor> doctors) {
         if (ordination == null) {
             return null;
         }
@@ -103,10 +152,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         appointment.setOrdination(ordination);
+        appointment.setDoctors(doctors);
+        appointment.setStatus(AppointmentStatus.APPROVED);
         appointmentRepository.save(appointment);
-
         sendOperationMail(appointment);
-
         return appointment;
     }
 
@@ -183,6 +232,45 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentCalendarDTOS;
     }
 
+    public String writeEmail(Appointment appointment, int recipientType){
+
+        Set<Doctor> doctors = appointment.getDoctors();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Dear ");
+        if (recipientType == 1) {
+            stringBuilder.append(appointment.getPatient().getFirstName());
+            stringBuilder.append(" ");
+            stringBuilder.append(appointment.getPatient().getFirstName());
+
+        }
+        if (recipientType == 2) {
+            stringBuilder.append(appointment.getNurse().getFirstName());
+            stringBuilder.append(" ");
+            stringBuilder.append(appointment.getNurse().getFirstName());
+        }
+        if (recipientType == 3) {
+            stringBuilder.append("doctor");
+        }
+        stringBuilder.append(", your operation has been scheduled for ");
+        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
+        stringBuilder.append(" in ordination ");
+        stringBuilder.append(appointment.getOrdination().getNumber());
+        stringBuilder.append(", Clinic: ");
+        stringBuilder.append(appointment.getOrdination().getClinic().getName());
+        stringBuilder.append(", Address: ");
+        stringBuilder.append(appointment.getOrdination().getClinic().getAddress());
+        stringBuilder.append(". Doctors performing the operation are: ");
+        for (Doctor d : doctors){
+            stringBuilder.append(d.getFirstName());
+            stringBuilder.append(" ");
+            stringBuilder.append(d.getLastName());
+            stringBuilder.append(", ");
+        }
+        String message = stringBuilder.toString();
+        return message;
+    }
+
     @Override
     public void sendOperationMail(Appointment appointment) {
         Nurse nurse = appointment.getNurse();
@@ -193,27 +281,15 @@ public class AppointmentServiceImpl implements AppointmentService {
             return;
         }
 
-        String subject = "Operation notice: Your operation has been scheduled";
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Dear ");
-        stringBuilder.append(appointment.getPatient().getFirstName());
-        stringBuilder.append(", your operation has been scheduled for ");
-        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
-        stringBuilder.append(" in ordination ");
-        stringBuilder.append(appointment.getOrdination());
-        stringBuilder.append(". Doctors performing the operation are: ");
-        for (Doctor d : doctors){
-            stringBuilder.append(d.getFirstName());
-            stringBuilder.append(" ");
-            stringBuilder.append(d.getLastName());
-            stringBuilder.append("\n");
-        }
-        String message = stringBuilder.toString();
+        String subject = "Operation notice: Operation has been scheduled";
+        String messagePatient = writeEmail(appointment, 1);
+        String messageNurse = writeEmail(appointment, 2);
+        String messageDoctor = writeEmail(appointment, 3);
 
-        emailService.sendEmail(patient.getUsername(), subject, message);
-        emailService.sendEmail(nurse.getUsername(), subject, message);
+        emailService.sendEmail(patient.getUsername(), subject, messagePatient);
+        emailService.sendEmail(nurse.getUsername(), subject, messageNurse);
         for (Doctor d : doctors){
-                    emailService.sendEmail(d.getUsername(), subject, message);
+            emailService.sendEmail(d.getUsername(), subject, messageDoctor);
         }
     }
 }
