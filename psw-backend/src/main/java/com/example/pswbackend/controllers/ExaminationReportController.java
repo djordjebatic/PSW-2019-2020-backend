@@ -3,6 +3,7 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ExaminationReportDTO;
 import com.example.pswbackend.enums.PrescriptionEnum;
+import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.DoctorService;
@@ -40,27 +41,34 @@ public class ExaminationReportController {
     @Autowired
     PatientRepository patientRepository;
 
+    @Autowired
+    AppointmentRepository appointmentRepository;
+
     @PostMapping(value = "/create/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<ExaminationReportDTO> create(@PathVariable("id") Long patientId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
+    public ResponseEntity<ExaminationReportDTO> create(@PathVariable("id") Long appointmendId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
         Doctor doctor = doctorService.getLoggedInDoctor();
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Patient patient = patientRepository.findOneById(patientId);
+        Appointment appointment = appointmentRepository.findOneById(appointmendId);
+
+        Patient patient = patientRepository.findOneById(appointment.getPatient().getId());
         if (patient == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         LocalDateTime appointmentStartTime = LocalDateTime.now();
-        Appointment ongoingExamination = appointmentService.getOngoingAppointment(patient.getId(), doctor.getId(), appointmentStartTime);
-        if (ongoingExamination == null) {
+        Appointment ongoingAppointment = appointmentService.getOngoingAppointment(patient.getId(), doctor.getId(), appointmentStartTime);
+        if (ongoingAppointment == null) {
+            System.out.println("Ovde greska");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        ExaminationReportDTO createdExaminationReportDTO = examinationReportService.create(ongoingExamination, doctor, examinationReportDTO);
+        ExaminationReportDTO createdExaminationReportDTO = examinationReportService.create(ongoingAppointment, doctor, examinationReportDTO);
         if (createdExaminationReportDTO == null) {
+            System.out.println("Ipak je ovde greska");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);
