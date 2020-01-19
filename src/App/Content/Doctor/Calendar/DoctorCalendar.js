@@ -74,7 +74,7 @@ class DoctorCalendar extends React.Component {
 
               style={{ maxHeight: "100%" }}
               onSelectEvent={obj => {
-                  this.props.history.push(`/examination-report/${obj.id}`)
+                  this.props.history.push(`/doctor-calendar-event/${obj.id}`)
                 }
               }
               startAccessor="start"

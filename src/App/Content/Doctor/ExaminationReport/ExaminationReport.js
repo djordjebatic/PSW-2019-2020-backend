@@ -194,8 +194,8 @@ class ExaminationReport extends React.Component {
                   <em>
                     <br></br> Start: <em style={{ color: 'red' }}>{appointment.start}</em>
                     <br></br> End: <em style={{ color: 'red' }}>{appointment.end}</em>
-                    <br></br> Ordination: {appointment.ordination}
-                    <br></br> Patient: {appointment.patient} 
+                    <br></br> Ordination: <em style={{ color: 'red' }}>{appointment.ordination}</em>
+                    <br></br> Patient: <em style={{ color: 'red' }}>{appointment.patient} </em>
                   </em>
                 </span>
                 <div className="comment"><br></br>
