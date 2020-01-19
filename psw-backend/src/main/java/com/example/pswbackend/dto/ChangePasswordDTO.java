@@ -2,19 +2,18 @@ package com.example.pswbackend.dto;
 
 public class ChangePasswordDTO {
 
-    private Long id;
     private String newPassword;
-    private String confirmPassword;
+    private String oldPassword;
 
-    public Long getId() {
-        return id;
+    public ChangePasswordDTO() {
+
     }
 
     public String getNewPassword() {
         return newPassword;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
+    public String getOldPassword() {
+        return oldPassword;
     }
 }
