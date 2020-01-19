@@ -5,6 +5,7 @@ import com.example.pswbackend.domain.MedicalRecord;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.PatientDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
+import com.example.pswbackend.enums.PatientStatus;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.AccountService;
@@ -61,18 +62,13 @@ public class PatientServiceImpl implements PatientService {
     public Patient approveRegistration(Long id) {
 
         Patient patient = patientRepository.findById(id).orElseGet(null);
-
         if (patient == null) {
             return null;
         }
-
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setPatient(patient);
         patient.setPatientStatus(Status.APPROVED);
         patient.setMedicalRecord(medicalRecord);
-
-        String s = "Registration request has been approved by the Administrator! You can now log in to the Clinical Centre System";
-        emailService.sendEmail(patient.getUsername(), "Registration Request Response", s);
 
         return patientRepository.save(patient);
     }
@@ -130,5 +126,25 @@ public class PatientServiceImpl implements PatientService {
         patient.setAuthorities(authorities);
 
         return patientRepository.save(patient);
+    }
+
+    @Override
+    public void sendVerificationEmail(Long id) {
+        Patient patient = patientRepository.findById(id).orElseGet(null);
+
+        if (patient == null) {
+            return;
+        }
+
+        patient.setPatientStatus(Status.AWAITING_VERIFICATON);
+        patientRepository.save(patient);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Registration request has been successful. Please visit this link in order to verify your email address. ");
+        stringBuilder.append("http://localhost:3000/verify/");
+        stringBuilder.append(id);
+        stringBuilder.append(".");
+
+        String s = stringBuilder.toString();
+        emailService.sendEmail(patient.getUsername(), "Registration Request Response", s);
     }
 }
