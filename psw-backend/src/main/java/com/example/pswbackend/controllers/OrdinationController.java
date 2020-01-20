@@ -38,8 +38,8 @@ public class OrdinationController {
     @Autowired
     private DoctorService doctorService;
 
-
-    @Scheduled(cron = "0 1 * * *")
+    // everyday at 0:45 am
+    @Scheduled(cron = "0 45 0 * * *")
     public void assignOrdinationAutomatically() {
         ordinationService.assignOrdinationAutomatically();
     }
