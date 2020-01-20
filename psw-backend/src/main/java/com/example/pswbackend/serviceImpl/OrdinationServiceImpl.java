@@ -12,12 +12,14 @@ import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.OrdinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Transactional
 @Service
 public class OrdinationServiceImpl implements OrdinationService {
 
@@ -83,15 +85,20 @@ public class OrdinationServiceImpl implements OrdinationService {
 
     @Override
     public void assignOrdinationAutomatically() {
+        System.out.println("++++++++++USAO U METODU+++++++++++++++++++");
         List<Appointment> appointmentsAwaitingApproval = appointmentService.getAwaitingApprovalAppointments();
         for (Appointment appointment : appointmentsAwaitingApproval) {
+            System.out.println("++++++++++Ima ih koji cekaju+++++++++++++++++++    " + appointment.getId());
 
             List<Ordination> availableOrdinations = getAvailableOrdinations(appointment);
             List<Doctor> availableDoctors = getAvailableDoctors(appointment);
 
-            if (appointment.getPrice().getAppointmentType().equals(AppointmentEnum.OPERATION)) {
+            if (appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.OPERATION)) {
+                System.out.println("operacija");
                 if (!availableOrdinations.isEmpty()) {
+                    System.out.println("nije prazna ordinacija");
                     if (!availableDoctors.isEmpty()) {
+                        System.out.println("Slobodan doktor");
                         Ordination ordination = availableOrdinations.get(new Random().nextInt(availableOrdinations.size()));
 
                         Set<Doctor> doctorSet = new HashSet<>();
@@ -101,6 +108,7 @@ public class OrdinationServiceImpl implements OrdinationService {
                         assignOrdinationForOperation(appointment.getId(), ordination.getId(), doctorSet);
                     }
                 } else {
+                    System.out.println("sledeci dan");
                     assignNextDay(appointment, availableDoctors);
                 }
             } else {
