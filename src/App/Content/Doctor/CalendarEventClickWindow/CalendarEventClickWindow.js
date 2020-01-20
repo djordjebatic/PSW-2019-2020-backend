@@ -31,6 +31,18 @@ class CalendarEventClickWindow extends React.Component {
                 appointment.end = (new Date(appointment.end)).toISOString().slice(5, 16).replace(/-/g, "/").replace("T", " ");
     
                 this.setState({appointment});
+
+                //Doctors can make examination reports only in interval [appointment_start:appointment_end+1.5hours]
+                var now = new Date()
+                var appointment_end_check = new Date(response.data.end);
+                appointment_end_check.setMinutes(appointment_end_check.getMinutes() + 90);
+                var disabled = (
+                    now.toISOString() >= (new Date(response.data.start)).toISOString() ||
+                    now.toISOString() <= appointment_end_check.toISOString()
+                );
+                this.setState({
+                    disabled: disabled
+                })
                 console.log(this.state.appointment);
         })
         .catch((error) => console.log(error))

@@ -39,6 +39,7 @@ import ExaminationReport from './Content/Doctor/ExaminationReport/ExaminationRep
 import VerifyEmail from './LoginAndRegistration/VerifyEmail/VerifyEmail';
 import CalendarEventClickWindow from './Content/Doctor/CalendarEventClickWindow/CalendarEventClickWindow';
 import MedicalCard from './Content/Doctor/MedicalCard/MedicalCard';
+import EditExaminationReport from './Content/Doctor/ExaminationReport/EditExaminationReport';
 
 function App() {
   return (
@@ -146,6 +147,9 @@ function App() {
           </Route>
           <Route path="/medical-card">
             <MedicalCard/>
+          </Route>
+          <Route path="/edit-examination-report">
+            <EditExaminationReport/>
           </Route>
         </Switch>
         <NotificationContainer />
