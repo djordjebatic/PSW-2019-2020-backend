@@ -40,6 +40,7 @@ import VerifyEmail from './LoginAndRegistration/VerifyEmail/VerifyEmail';
 import CalendarEventClickWindow from './Content/Doctor/CalendarEventClickWindow/CalendarEventClickWindow';
 import MedicalCard from './Content/Doctor/MedicalCard/MedicalCard';
 import EditExaminationReport from './Content/Doctor/ExaminationReport/EditExaminationReport';
+import Ordinations from './Content/Ordinations/Ordinations';
 
 function App() {
   return (
@@ -106,7 +107,7 @@ function App() {
           <Route path="/change-password">
             <ChangePassword />
           </Route>
-          <Route path="/clinic-page">
+          <Route path="/clinic">
             <ClinicPage />
           </Route>
           <Route path="/predefined-examinations">
@@ -150,6 +151,9 @@ function App() {
           </Route>
           <Route path="/edit-examination-report">
             <EditExaminationReport/>
+          </Route>
+          <Route path="/ordinations">
+            <Ordinations/>
           </Route>
         </Switch>
         <NotificationContainer />
