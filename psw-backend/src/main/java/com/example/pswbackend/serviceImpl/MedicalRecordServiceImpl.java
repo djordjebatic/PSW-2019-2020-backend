@@ -22,7 +22,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     public MedicalRecord findById(long id){ return medicalRecordRepository.findById(id);}
 
     @Override
-    public MedicalRecord findByPatientId(long id, long doctorId){
+    public MedicalRecord finByPatientAndDoctorId(long id, long doctorId){
 
         MedicalRecord medicalRecord = medicalRecordRepository.findByPatientId(id);
         Set<ExaminationReport> examinationReportSet = medicalRecord.getExaminationReports();
@@ -41,5 +41,36 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     }
 
     @Override
+    public MedicalRecord findByPatientId(long id) {
+        return medicalRecordRepository.findByPatientId(id);
+    }
+
+    @Override
     public List<MedicalRecord> findAll(){ return medicalRecordRepository.findAll();}
+
+    @Override
+    public MedicalRecord save(MedicalRecordDTO medicalRecordDTO) {
+
+
+        long patientId = medicalRecordDTO.getPatientId();
+        Integer height = medicalRecordDTO.getHeight();
+        Integer weight = medicalRecordDTO.getWeight();
+        String bloodType = medicalRecordDTO.getBloodType();
+        String allergies = medicalRecordDTO.getAllergies();
+
+        if (patientId <= 0 || height == null || weight == null || bloodType == null || allergies == null){
+            return null;
+        }
+
+        MedicalRecord medicalRecord = findByPatientId(patientId);
+
+        medicalRecord.setHeight(height);
+        medicalRecord.setWeight(weight);
+        medicalRecord.setBloodType(bloodType);
+        medicalRecord.setAllergies(allergies);
+
+        return medicalRecordRepository.save(medicalRecord);
+    }
+
+
 }

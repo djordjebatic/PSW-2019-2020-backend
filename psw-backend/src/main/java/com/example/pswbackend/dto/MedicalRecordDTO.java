@@ -1,9 +1,14 @@
 package com.example.pswbackend.dto;
 
+import javax.persistence.Column;
+
 public class MedicalRecordDTO {
 
     private long patientId;
-    private long doctorId;
+    private Integer height;
+    private Integer weight;
+    private String bloodType;
+    private String allergies;
 
     public MedicalRecordDTO(){
 
@@ -17,11 +22,35 @@ public class MedicalRecordDTO {
         this.patientId = patientId;
     }
 
-    public long getDoctorId() {
-        return doctorId;
+    public Integer getHeight() {
+        return height;
     }
 
-    public void setDoctorId(long doctorId) {
-        this.doctorId = doctorId;
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(String allergies) {
+        this.allergies = allergies;
     }
 }
