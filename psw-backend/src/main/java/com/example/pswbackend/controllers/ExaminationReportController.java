@@ -1,6 +1,7 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.*;
+import com.example.pswbackend.dto.EditExaminationReportDTO;
 import com.example.pswbackend.dto.ExaminationReportDTO;
 import com.example.pswbackend.enums.PrescriptionEnum;
 import com.example.pswbackend.repositories.AppointmentRepository;
@@ -44,19 +45,32 @@ public class ExaminationReportController {
     @Autowired
     AppointmentRepository appointmentRepository;
 
+    @GetMapping(value = "/get-examination-report/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<EditExaminationReportDTO> getExaminationReport(@PathVariable("id") Long examinationReportId) {
+        Doctor doctor = doctorService.getLoggedInDoctor();
+
+        ExaminationReport examinationReport = examinationReportService.getExaminationReport(examinationReportId);
+        if (!examinationReport.getDoctor().getId().equals(doctor.getId())){
+            System.out.println(examinationReport.getDoctor().getUsername() + " " + doctor.getUsername());
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(new EditExaminationReportDTO(examinationReport), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/create/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<ExaminationReportDTO> create(@PathVariable("id") Long appointmendId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
         Doctor doctor = doctorService.getLoggedInDoctor();
         if (doctor == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Appointment appointment = appointmentRepository.findOneById(appointmendId);
 
         Patient patient = patientRepository.findOneById(appointment.getPatient().getId());
         if (patient == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         LocalDateTime appointmentStartTime = LocalDateTime.now();
@@ -72,6 +86,29 @@ public class ExaminationReportController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/edit/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<ExaminationReportDTO> edit(@PathVariable("id") Long examinationReportId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
+
+        ExaminationReport examinationReport = examinationReportService.getExaminationReport(examinationReportId);
+
+        Doctor doctor = doctorService.getLoggedInDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (!examinationReport.getDoctor().getId().equals(doctor.getId())){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        ExaminationReportDTO ret = examinationReportService.edit(examinationReportId, examinationReportDTO);
+        if (ret == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
     @GetMapping(value = "/get-prescriptions/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

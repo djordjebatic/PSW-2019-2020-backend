@@ -30,6 +30,9 @@ public class ExaminationReport {
     @Column(nullable = false)
     private LocalDateTime timeCreated;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    private LocalDateTime lastEdited;
+
     @Column(nullable = false)
     private String comment;
 
@@ -127,5 +130,13 @@ public class ExaminationReport {
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
+    }
+
+    public LocalDateTime getLastEdited() {
+        return lastEdited;
+    }
+
+    public void setLastEdited(LocalDateTime lastEdited) {
+        this.lastEdited = lastEdited;
     }
 }

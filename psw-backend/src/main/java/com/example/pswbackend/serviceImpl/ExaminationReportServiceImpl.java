@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -55,5 +56,43 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
         examinationReport.setPrescriptions(prescriptions);
 
         return new ExaminationReportDTO(examinationReportRepository.save(examinationReport));
+    }
+
+    @Override
+    public ExaminationReportDTO edit(long examinationReportId, ExaminationReportDTO examinationReportDTO) {
+
+        ExaminationReport examinationReport = examinationReportRepository.findOneById(examinationReportId);
+
+        if (examinationReportDTO.getComment() == null){
+            return null;
+        }
+
+        Diagnosis diagnosis = diagnosisRepository.findOneById(examinationReportDTO.getDiagnosisId());
+        if (diagnosis == null){
+            return null;
+        }
+        Set<Prescription> prescriptions = new HashSet<>();
+        for (Long drugId : examinationReportDTO.getDrugIds()) {
+            Drug drug = drugRepository.findOneById(drugId);
+            if (drug == null) {
+                return null;
+            }
+            Prescription prescription = new Prescription(drug, examinationReport, examinationReport.getAppointment().getNurse());
+            prescription.setPrescriptionEnum(PrescriptionEnum.ISSUED);
+            prescriptions.add(prescription);
+            prescriptionRepository.save(prescription);
+        }
+
+        examinationReport.setPrescriptions(prescriptions);
+        examinationReport.setDiagnosis(diagnosis);
+        examinationReport.setComment(examinationReportDTO.getComment());
+        examinationReport.setLastEdited(LocalDateTime.now());
+        examinationReportRepository.save(examinationReport);
+        return new ExaminationReportDTO(examinationReport);
+    }
+
+    @Override
+    public ExaminationReport getExaminationReport(Long id) {
+        return examinationReportRepository.findOneById(id);
     }
 }
