@@ -69,7 +69,7 @@ values ('DOCTOR', 'dok@gmail.com', '$2y$12$u3nc1wRBsop15oZaI2FqVuSHFsD9ZHeGXcpXK
 INSERT INTO account_authority (account_id, authority_id) values  (4, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
-values ('DOCTOR', 'dok2@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Sima', 'Dokic', '060123456', 'Zeleznicka ulica 69','Ndzamena','Chad', 2, 1, 'NEVER_LOGGED_IN', 46, 10);
+values ('DOCTOR', 'dok2@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Sima', 'Dokic', '060123456', 'Zeleznicka ulica 69','Ndzamena','Chad', 2, 1, 'ACTIVE', 46, 10);
 INSERT INTO account_authority (account_id, authority_id) values  (5, 2);
 
 --Nurse
@@ -166,18 +166,18 @@ values( 'Pollen', 'B', '180', '2', '70');
 
 --This operation is yet to be approved and it's ordination and doctors to be set
 insert into appointment(price_id, start_date_time, end_date_time, status, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '01.19.2020 13:00', '01.19.2020 14:30', 'AWAITING_APPROVAL', '9', 6, 1, 1, '10');
+values(1, '01.21.2020 18:00', '01.21.2020 19:30', 'AWAITING_APPROVAL', '9', 6, 1, 1, '10');
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
 values(1, '01.19.2020 14:45', '01.19.2020 23:30', 'APPROVED', 3, '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '01.27.2019 10:00', '01.27.2019 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
+values(2, '01.27.2020 10:00', '01.27.2020 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (2,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '01.27.2019 15:00', '01.27.2019 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
+values(2, '01.27.2020 15:00', '01.27.2020 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
 
 --
