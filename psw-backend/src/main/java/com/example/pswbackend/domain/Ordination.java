@@ -38,8 +38,8 @@ public class Ordination {
   private List<Appointment> appointments;
 	
   @JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Clinic clinic ;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Clinic clinic ;
 
 	public long getId() {
 		return id;

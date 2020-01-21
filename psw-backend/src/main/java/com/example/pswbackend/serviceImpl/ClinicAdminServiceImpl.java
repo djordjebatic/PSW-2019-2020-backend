@@ -6,14 +6,14 @@ import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.dto.QuickReservationDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.UserStatus;
-import com.example.pswbackend.repositories.ClinicAdminRepository;
-import com.example.pswbackend.repositories.ClinicRepository;
-import com.example.pswbackend.repositories.DoctorRepository;
-import com.example.pswbackend.repositories.OrdinationRepository;
+import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.AppointmentRequestService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +38,9 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Override
     public ClinicAdminDTO findByName(String name) {
@@ -120,5 +123,20 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
         /// dto.getClinicAdmin().getPredefinedAppointmetns().push/add/saveNew...
 
         return predefinedAppointment;
+    }
+
+    @Override
+    public ClinicAdmin getLoggedInClinicAdmin() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            Account account = accountRepository.findByEmail(currentUser.getName());
+            ClinicAdmin clinicAdmin = (ClinicAdmin) account;
+            if (clinicAdmin != null) {
+                return clinicAdmin;
+            }
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+        return null;
     }
 }

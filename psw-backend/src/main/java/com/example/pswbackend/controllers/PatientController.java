@@ -6,6 +6,7 @@ import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +31,7 @@ public class PatientController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/patient/register")
-    public ResponseEntity<Void> createPatient(@RequestBody PatientDTO patientDTO){
+    public ResponseEntity<Patient> createPatient(@RequestBody PatientDTO patientDTO){
 
         Patient patient = new Patient();
         patient.setFirstName(patientDTO.getFirstName());
@@ -41,16 +42,9 @@ public class PatientController {
         patient.setPhoneNumber(patientDTO.getPhoneNumber());
         patient.setEmail(patientDTO.getEmail());
         patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
-
         patient.setPatientStatus(Status.AWAITING_APPROVAL);
-        Patient createPatient = this.patientRepository.save(patient);
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/patient")
-                .buildAndExpand(createPatient.getId()).toUri();
-
-        return ResponseEntity.created(uri).build();
+        return new ResponseEntity<>(patientRepository.save(patient), HttpStatus.OK);
     }
 
     @GetMapping("/patients/{id}")
@@ -66,8 +60,6 @@ public class PatientController {
         return patientRepository.findAll();
     }
 
-    //TODO update/delete patient
-    
     @PutMapping(value="/patients/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     public Patient updatePatient(@PathVariable long id, PatientDTO dto){
 

@@ -23,15 +23,17 @@ import com.example.pswbackend.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Appointment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-	@JsonIgnore
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private AppointmentPrice price;
 
@@ -70,7 +72,7 @@ public class Appointment {
 	@OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
-	@JsonIgnore
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private ClinicAdmin clinicAdmin;
 

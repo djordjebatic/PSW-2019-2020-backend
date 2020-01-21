@@ -15,14 +15,17 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findAll();
     List<Appointment> findByClinicId(Long id);
 
-    List<Appointment> findByDoctorsIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
+    List<Appointment> findByDoctorsIdAndStatusIn(Long id, List<AppointmentStatus> appointmentStatus);
     List<Appointment> findByOrdinationIdAndStatusNotOrderByStartDateTime(Long id, AppointmentStatus appointmentStatus);
-    List<Appointment> findByNurseIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
+    List<Appointment> findByNurseIdAndStatusIn(Long id, List<AppointmentStatus> appointmentStatus);
     Appointment getByIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
     List<Appointment> findByStatus(AppointmentStatus appointmentStatus);
+    List<Appointment> findByStatusIn(List<AppointmentStatus> statuses);
     Appointment findByPatientIdAndDoctorsIdAndDoctorsUserStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
             Long patientId, Long doctorsId, UserStatus userStatus, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> appointmentEnums);
 
+    List<Appointment> findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(Long ordinationId, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> statuses);
+    List<Appointment> findByDoctorsIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(Long doctorId, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> statuses);
 }
 
 

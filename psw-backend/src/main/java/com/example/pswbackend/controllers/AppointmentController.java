@@ -30,6 +30,12 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getAwaitingApprovalAppointments(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get-all-awaiting-appointments")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Appointment>> getAwaitingAppointments(){
+        return new ResponseEntity<>(appointmentService.getAwaitingAppointments(), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/get-canceled-appointments")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<Appointment>> getCanceledAppointments(){
@@ -48,7 +54,6 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getPredefinedBookedAppointments(), HttpStatus.OK);
     }
 
-    //TODO make AppointmentCalendarDTO
     @GetMapping(value = "/get-doctor-appointments")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<AppointmentCalendarDTO>> getDoctorAppointments() {
@@ -60,6 +65,25 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/get-appointment/{id}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<AppointmentCalendarDTO> getAppointment(@PathVariable Long id) {
+        Doctor doctor = doctorService.getLoggedInDoctor();
+        Appointment appointment = appointmentService.getAppointment(id);
+
+        if (!appointment.getDoctors().contains(doctor)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            return new ResponseEntity<>(new AppointmentCalendarDTO(appointment), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping(value = "/get-nurse-appointments/{id}")
     @PreAuthorize("hasRole('NURSE')")
