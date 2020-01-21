@@ -2,6 +2,7 @@ package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.dto.FilterClinicsDTO;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface ClinicService {
     Clinic register(ClinicDTO clinicDTO);
 
     List<Clinic> findAll();
+    List<Clinic> filterClinics(FilterClinicsDTO dto);
 }
