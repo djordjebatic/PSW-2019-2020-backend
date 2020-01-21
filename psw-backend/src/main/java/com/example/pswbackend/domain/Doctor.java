@@ -27,12 +27,13 @@ public class Doctor extends Account {
     private Set<Appointment> appointments = new HashSet<>();
 
 	@JsonManagedReference
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<AppointmentRequest> appointmentRequest = new HashSet<>();
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<AppointmentRequest> appointmentRequests = new HashSet<>();
 
 	@Enumerated(EnumType.STRING)
 	private UserStatus userStatus;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private AppointmentType specialization;
 
@@ -85,12 +86,12 @@ public class Doctor extends Account {
 		this.userStatus = userStatus;
 	}
 
-	public Set<AppointmentRequest> getAppointmentRequest() {
-		return appointmentRequest;
+	public Set<AppointmentRequest> getAppointmentRequests() {
+		return appointmentRequests;
 	}
 
-	public void setAppointmentRequest(Set<AppointmentRequest> appointmentRequest) {
-		this.appointmentRequest = appointmentRequest;
+	public void setAppointmentRequests(Set<AppointmentRequest> appointmentRequest) {
+		this.appointmentRequests = appointmentRequest;
 	}
 
 	public AppointmentType getSpecialization() {

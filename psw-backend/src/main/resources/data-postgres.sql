@@ -96,6 +96,18 @@ insert into account (account_type, email, password, first_name, last_name, phone
 values ('PATIENT', 'patijent5@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Dragoje', 'Radic', '065256565', 'Kisacka 69','Maseru','Lesoto','14324234243','AWAITING_APPROVAL');
 INSERT INTO account_authority (account_id, authority_id) values  (11, 1);
 
+insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
+values ('PATIENT', 'patijent6@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Milovan', 'Radovic', '0652565445', 'Bulevar Oslobodjenja 69','Maseru','Lesoto','14324234212','APPROVED');
+INSERT INTO account_authority (account_id, authority_id) values  (12, 1);
+
+insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
+values ('PATIENT', 'patijent7@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Kristina', 'Kekic', '0652565889', 'Bulevar Kralja Petra 69','Maseru','Lesoto','14324234223','APPROVED');
+INSERT INTO account_authority (account_id, authority_id) values  (13, 1);
+
+insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
+values ('PATIENT', 'patijent8@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Milica', 'Petrovic', '0652565229', 'Gogoljeva 69','Maseru','Lesoto','14324234256','APPROVED');
+INSERT INTO account_authority (account_id, authority_id) values  (14, 1);
+
 ------------------------------------------------------------------------------
 
 --Diagnosis

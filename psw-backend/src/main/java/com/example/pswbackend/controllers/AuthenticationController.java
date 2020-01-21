@@ -53,6 +53,7 @@ public class AuthenticationController {
     @Autowired
     private PatientService patientService;
 
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
                                                        HttpServletResponse response) throws AuthenticationException, IOException {

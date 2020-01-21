@@ -2,6 +2,7 @@ package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +21,7 @@ public class AppointmentType {
 
 	//@Column(nullable = false, scale = 2)
 	//private Double price;
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy = "specialization", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<Doctor> doctors;
 
