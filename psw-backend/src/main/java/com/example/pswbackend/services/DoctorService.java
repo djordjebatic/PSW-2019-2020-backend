@@ -10,6 +10,7 @@ public interface DoctorService {
     boolean scheduleAppointment(AppointmentDoctorDTO dto);
 
     Doctor findById(long id);
+    List<Doctor> findByClinicId(long id);
 
     List<Doctor> findAll();
 
