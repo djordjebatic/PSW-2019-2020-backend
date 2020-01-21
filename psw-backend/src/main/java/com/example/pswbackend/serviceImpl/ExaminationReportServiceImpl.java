@@ -6,12 +6,14 @@ import com.example.pswbackend.enums.PrescriptionEnum;
 import com.example.pswbackend.repositories.DiagnosisRepository;
 import com.example.pswbackend.repositories.DrugRepository;
 import com.example.pswbackend.repositories.ExaminationReportRepository;
+import com.example.pswbackend.repositories.PrescriptionRepository;
 import com.example.pswbackend.services.ExaminationReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,6 +27,9 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 
     @Autowired
     ExaminationReportRepository examinationReportRepository;
+
+    @Autowired
+    PrescriptionRepository prescriptionRepository;
 
     @Override
     public ExaminationReportDTO create(Appointment appointment, Doctor doctor, ExaminationReportDTO examinationReportDTO) {
@@ -45,12 +50,49 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
             Prescription prescription = new Prescription(drug, examinationReport, appointment.getNurse());
             prescription.setPrescriptionEnum(PrescriptionEnum.ISSUED);
             prescriptions.add(prescription);
+            prescriptionRepository.save(prescription);
         }
 
         examinationReport.setPrescriptions(prescriptions);
 
-        ExaminationReport created = examinationReportRepository.save(examinationReport);
+        return new ExaminationReportDTO(examinationReportRepository.save(examinationReport));
+    }
 
-        return new ExaminationReportDTO(created);
+    @Override
+    public ExaminationReportDTO edit(long examinationReportId, ExaminationReportDTO examinationReportDTO) {
+
+        ExaminationReport examinationReport = examinationReportRepository.findOneById(examinationReportId);
+
+        if (examinationReportDTO.getComment() == null){
+            return null;
+        }
+
+        Diagnosis diagnosis = diagnosisRepository.findOneById(examinationReportDTO.getDiagnosisId());
+        if (diagnosis == null){
+            return null;
+        }
+        Set<Prescription> prescriptions = new HashSet<>();
+        for (Long drugId : examinationReportDTO.getDrugIds()) {
+            Drug drug = drugRepository.findOneById(drugId);
+            if (drug == null) {
+                return null;
+            }
+            Prescription prescription = new Prescription(drug, examinationReport, examinationReport.getAppointment().getNurse());
+            prescription.setPrescriptionEnum(PrescriptionEnum.ISSUED);
+            prescriptions.add(prescription);
+            prescriptionRepository.save(prescription);
+        }
+
+        examinationReport.setPrescriptions(prescriptions);
+        examinationReport.setDiagnosis(diagnosis);
+        examinationReport.setComment(examinationReportDTO.getComment());
+        examinationReport.setLastEdited(LocalDateTime.now());
+        examinationReportRepository.save(examinationReport);
+        return new ExaminationReportDTO(examinationReport);
+    }
+
+    @Override
+    public ExaminationReport getExaminationReport(Long id) {
+        return examinationReportRepository.findOneById(id);
     }
 }

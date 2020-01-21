@@ -15,4 +15,6 @@ public interface PatientService {
     boolean rejectRegistration(Long id, String message);
 
     Patient registerPatient(PatientDTO patientDTO);
+
+    void sendVerificationEmail(Long id);
 }

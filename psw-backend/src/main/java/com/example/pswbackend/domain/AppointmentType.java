@@ -1,6 +1,7 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.AppointmentEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -25,11 +26,11 @@ public class AppointmentType {
 	@OneToMany(mappedBy = "specialization", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<Doctor> doctors;
 
-	@JsonIgnore
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy = "appointmentType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<AppointmentPrice> appointmentPrices;
 

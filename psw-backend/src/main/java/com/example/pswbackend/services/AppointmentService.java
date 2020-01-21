@@ -17,14 +17,18 @@ public interface AppointmentService {
     List<AppointmentCalendarDTO> getNurseAppointments(Long nurseId);
     List<Appointment> getCanceledAppointments();
     List<Appointment> getAwaitingApprovalAppointments();
+    List<Appointment> getAwaitingAppointments();
     List<Appointment> getPredefinedAwailableAppointments();
     List<Appointment> getPredefinedBookedAppointments();
     Appointment getOngoingAppointment(Long patientId, Long doctorId, LocalDateTime startDateTime);
+    List<Appointment> getOrdinationAppointmentsDuringTheDay(Long ordinationId, LocalDateTime day);
+    List<Appointment> getDoctorAppointmentsDuringTheDay(Long ordinationId, LocalDateTime day);
+    //List<Appointment> getAppointmentsAfter(Long appointmentId);
 
     Appointment getAppointment(Long id);
 
     Appointment assignOrdination(Appointment appointment, Ordination ordination, Nurse nurse);
-    Appointment assignOperationRoom(Appointment appointment, Ordination ordination);
+    Appointment assignOperationOrdination(Appointment appointment, Ordination ordination, Set<Doctor> doctors);
 
     Appointment cancelAppointment(Doctor doctor, Long appointmentId);
 

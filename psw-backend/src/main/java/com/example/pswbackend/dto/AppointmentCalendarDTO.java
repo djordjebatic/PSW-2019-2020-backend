@@ -18,9 +18,14 @@ public class AppointmentCalendarDTO {
     private Date start;
     private Date end;
     private String patient;
+    private Long patientId;
     private String ordination;
     private String nurse;
     private String doctors;
+
+    public AppointmentCalendarDTO(){
+
+    }
 
     public AppointmentCalendarDTO(Appointment appointment){
 
@@ -37,6 +42,7 @@ public class AppointmentCalendarDTO {
         this.start = Date.from(appointment.getStartDateTime().atZone(ZoneId.systemDefault()).toInstant());
         this.end = Date.from(appointment.getEndDateTime().atZone(ZoneId.systemDefault()).toInstant());
         this.patient = patient;
+        this.patientId = appointment.getPatient().getId();
         this.ordination = appointment.getOrdination().getNumber();
         this.nurse = nurse;
         this.doctors = doctors;
@@ -60,6 +66,14 @@ public class AppointmentCalendarDTO {
 
     public Date getStart() {
         return start;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
     }
 
     public void setStart(Date start) {

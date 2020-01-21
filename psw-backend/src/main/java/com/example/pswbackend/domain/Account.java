@@ -21,7 +21,6 @@ public class Account implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
     private long id;
 
     @Column(nullable = false)

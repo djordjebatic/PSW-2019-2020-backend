@@ -60,7 +60,7 @@ public class Clinic {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Doctor> clinicAdmins = new HashSet<>();
 
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<AppointmentType> appointmentTypes = new HashSet<>();
 

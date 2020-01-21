@@ -4,10 +4,7 @@ import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.enums.UserStatus;
-import com.example.pswbackend.repositories.AccountRepository;
-import com.example.pswbackend.repositories.CCAdminRepository;
-import com.example.pswbackend.repositories.DiagnosisRepository;
-import com.example.pswbackend.repositories.DrugRepository;
+import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.*;
 import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +48,9 @@ public class CCAdminController {
     AccountRepository accountRepository;
 
     @Autowired
+    PatientRepository patientRepository;
+
+    @Autowired
     CodebookService codebookService;
 
     @GetMapping(value="/all-registration-requests")
@@ -59,8 +59,20 @@ public class CCAdminController {
         return new ResponseEntity<>(patientService.findByStatus(Status.AWAITING_APPROVAL), HttpStatus.OK);
     }
 
-    @PutMapping(value="/approve-registration-request/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value="/send-verification-email/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CC_ADMIN')")
+    public ResponseEntity<Patient> sendVerificationEmail(@PathVariable Long id ){
+        Patient patient = patientRepository.findOneById(id);
+        if (patient == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        patientService.sendVerificationEmail(id);
+
+        return new ResponseEntity<>(patient, HttpStatus.OK);
+    }
+
+    @PutMapping(value="/approve-registration-request/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> approveRegistrationRequest(@PathVariable Long id ){
         Patient patient = patientService.approveRegistration(id);
 
@@ -108,7 +120,7 @@ public class CCAdminController {
     }
 
     @GetMapping(value="/get-all-diagnosis")
-    @PreAuthorize("hasRole('CC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CC_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
         return new ResponseEntity<>(diagnosisRepository.findAll(), HttpStatus.OK);
     }
@@ -160,7 +172,7 @@ public class CCAdminController {
     }
 
     @GetMapping(value="/get-all-drugs")
-    @PreAuthorize("hasRole('CC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CC_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<Drug>> getAllDrugs() {
         return new ResponseEntity<>(drugRepository.findAll(), HttpStatus.OK);
     }
@@ -222,7 +234,7 @@ public class CCAdminController {
         List<Authority> authorities = new ArrayList<>();
         Authority a = new Authority();
         a.setName("ROLE_CC_ADMIN");
-        a.setId(new Long(5));
+        a.setId(5L);
         authorities.add(a);
         ccAdmin.setAuthorities(authorities);
 
@@ -233,8 +245,6 @@ public class CCAdminController {
 
     @PostMapping(value="/assign-cc-admin/{id}")
     public ResponseEntity<CCAdmin> assignCCAdmin(@PathVariable Long id){
-        Account acc = accountRepository.findById(id).get();
-
 
         CCAdmin newCCAdmin = ccAdminService.assign(id);
 
@@ -247,7 +257,6 @@ public class CCAdminController {
                 return new ResponseEntity<>(newCCAdmin, HttpStatus.BAD_REQUEST);
             }
         }
-
 
         newCCAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
         this.ccAdminRepository.save(newCCAdmin);

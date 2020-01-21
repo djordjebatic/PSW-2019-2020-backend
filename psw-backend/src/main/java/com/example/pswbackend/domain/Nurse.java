@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.example.pswbackend.enums.UserStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @DiscriminatorValue(value="NURSE")
@@ -15,10 +16,11 @@ public class Nurse extends Account{
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<>();
 
+	@JsonManagedReference
     @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 	

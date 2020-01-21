@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import com.example.pswbackend.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.lang.NonNull;
 
 import com.example.pswbackend.enums.Status;
@@ -12,6 +14,7 @@ import java.util.Set;
 
 @Entity
 @DiscriminatorValue(value="PATIENT")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Patient extends Account{
 	
 	// TODO generate radnom number
@@ -20,7 +23,8 @@ public class Patient extends Account{
 
     @Enumerated(EnumType.STRING)
     private Status status;
-	
+
+    @JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments;
 

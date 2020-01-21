@@ -1,6 +1,7 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.PrescriptionEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,14 +13,15 @@ public class Prescription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Drug drug;
 
-    @JsonIgnore
+	@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
 

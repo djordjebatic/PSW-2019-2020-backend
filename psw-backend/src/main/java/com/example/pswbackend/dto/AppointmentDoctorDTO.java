@@ -8,6 +8,10 @@ public class AppointmentDoctorDTO {
     private String time;
     private String type;
 
+    public AppointmentDoctorDTO(){
+
+    }
+
     public String getPatient() {
         return patient;
     }

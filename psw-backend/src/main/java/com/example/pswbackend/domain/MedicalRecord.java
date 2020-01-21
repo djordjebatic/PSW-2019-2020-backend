@@ -1,6 +1,8 @@
 package com.example.pswbackend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,6 +37,7 @@ public class MedicalRecord {
     @Column
     private String allergies;
 
+    @JsonManagedReference
 	@OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ExaminationReport> examinationReports;
 
