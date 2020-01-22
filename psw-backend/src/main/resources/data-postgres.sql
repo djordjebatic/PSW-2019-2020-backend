@@ -163,7 +163,7 @@ values( 'Cats', 'AB', '130', 9, '170');
 
 --This operation is yet to be approved and it's ordination and doctors to be set
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '01.20.2020 18:00', '01.20.2020 19:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
+values(1, '01.23.2020 18:00', '01.23.2020 19:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
@@ -183,8 +183,13 @@ values(2, '01.21.2020 9:00', '01.21.2020 19:30', 'APPROVED', '1', 9, 6, 1, 1);
 insert into appointed_doctors (appointment_id, doctor_id) values (5,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
-values(4, '01.23.2020 08:00', '01.23.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (6,5);
+values(1, '01.23.2020 18:30', '01.23.2020 20:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(1, '01.24.2020 08:00', '01.24.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(1, '01.25.2020 08:00', '01.25.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
 
 --Examination Report
 insert into examination_report (comment, time_created, appointment_id, diagnosis_id, doctor_id, medical_record_id)
