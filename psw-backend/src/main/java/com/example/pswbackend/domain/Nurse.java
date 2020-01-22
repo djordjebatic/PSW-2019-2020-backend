@@ -27,6 +27,10 @@ public class Nurse extends Account{
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
+    @JsonIgnore
+	@OneToOne(mappedBy = "nurse",cascade = CascadeType.ALL)
+	private PaidTimeOffNurse paidTimeOffNurse;
+
 	public Nurse(){
 	}
 
@@ -60,5 +64,13 @@ public class Nurse extends Account{
 
 	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public PaidTimeOffNurse getPaidTimeOffNurse() {
+		return paidTimeOffNurse;
+	}
+
+	public void setPaidTimeOffNurse(PaidTimeOffNurse paidTimeOffNurse) {
+		this.paidTimeOffNurse = paidTimeOffNurse;
 	}
 }
