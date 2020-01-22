@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
@@ -44,6 +44,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         statuses.add(AppointmentStatus.PREDEF_BOOKED);
 
         return convertToDTO(appointmentRepository.findByDoctorsIdAndStatusIn(doctorId, statuses));
+    }
+
+    @Override
+    public List<AppointmentCalendarDTO> getOrdinationAppointments(Long ordinationId){
+
+        return convertToDTO(appointmentRepository.findByOrdinationId(ordinationId));
     }
 
     @Override
