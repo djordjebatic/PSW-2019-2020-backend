@@ -1,13 +1,14 @@
 package com.example.pswbackend.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class FilterClinicsDTO {
 
-    private String date;
+    private LocalDate date;
     private String type;
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -15,12 +16,12 @@ public class FilterClinicsDTO {
         return type;
     }
 
-    public FilterClinicsDTO(String type, String date) {
+    public FilterClinicsDTO(String type, LocalDate date) {
         this.date = date;
         this.type = type;
     }
 
-    public FilterClinicsDTO() { super();
+    public FilterClinicsDTO() {
     }
 
 
