@@ -252,7 +252,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             stringBuilder.append("doctor");
         }
         stringBuilder.append(", your operation has been scheduled for ");
-        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm")));
+        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
         stringBuilder.append(" in ordination ");
         stringBuilder.append(appointment.getOrdination().getNumber());
         stringBuilder.append(", Clinic: ");
