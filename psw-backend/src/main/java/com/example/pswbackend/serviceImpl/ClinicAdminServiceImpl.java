@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,11 +50,15 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
             return null;
         }
 
-        return new ClinicAdminDTO(clinicAdminDTO.getEmail(), clinicAdminDTO.getPassword(), clinicAdminDTO.getFirstName(), clinicAdminDTO.getLastName(), clinicAdminDTO.getPhoneNumber(), clinicAdminDTO.getAddress(), clinicAdminDTO.getCity(), clinicAdminDTO.getCountry(), clinicAdminDTO.getClinicId());
+        return new ClinicAdminDTO(clinicAdminDTO.getEmail(), clinicAdminDTO.getFirstName(), clinicAdminDTO.getLastName(), clinicAdminDTO.getPhoneNumber(), clinicAdminDTO.getAddress(), clinicAdminDTO.getCity(), clinicAdminDTO.getCountry(), clinicAdminDTO.getClinicId());
     }
 
     @Override
     public ClinicAdmin register(ClinicAdminDTO clinicAdminDTO) {
+
+        if (accountRepository.findByEmail(clinicAdminDTO.getEmail()) != null){
+            return null;
+        }
 
         ClinicAdmin clinicAdmin = new ClinicAdmin();
         clinicAdmin.setFirstName(clinicAdminDTO.getFirstName());
@@ -63,16 +68,20 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
         clinicAdmin.setAddress(clinicAdminDTO.getAddress());
         clinicAdmin.setCity(clinicAdminDTO.getCity());
         clinicAdmin.setCountry(clinicAdminDTO.getCountry());
-        clinicAdmin.setPassword(clinicAdminDTO.getPassword());
+        clinicAdmin.setPassword("$2y$12$4zrqOojpixOe/ogFw1xyyuQuIvFqrzbj0IohYtshqqy1P5rS6kdbq");
         clinicAdmin.setClinic(clinicRepository.findOneById(clinicAdminDTO.getClinicId()));
         clinicAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
-        if (clinicAdminRepository.findByEmail(clinicAdmin.getUsername()) != null){
-            System.out.println("Vec postoji");
-            return null;
-        }
+        List<Authority> authorities = new ArrayList<>();
+        Authority a = new Authority();
+        a.setName("ROLE_CLINIC_ADMIN");
+        a.setId(4L);
+        authorities.add(a);
+        clinicAdmin.setAuthorities(authorities);
 
-        String s = "You have been registered as an Admin of %s" + clinicAdmin.getClinic().getName() + " clinic! You can now log in to the Clinical Centre System";
-        //emailService.sendEmail(clinicAdmin.getEmail(), "Registration Request Response", s);
+        String s = "You have been registered as an Admin of %s" + clinicAdmin.getClinic().getName() + " clinic!" +
+                " You can now log in to the Clinical Centre System! To log in use the default password: \"admin\". " +
+                "You will have to change this password after your first log in.";
+        emailService.sendEmail(clinicAdmin.getUsername(), "Registration Request Response", s);
 
         return clinicAdminRepository.save(clinicAdmin);
 
