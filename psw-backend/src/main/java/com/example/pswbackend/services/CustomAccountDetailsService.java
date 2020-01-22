@@ -3,9 +3,11 @@ package com.example.pswbackend.services;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AccountRepository;
+import com.example.pswbackend.repositories.CCAdminRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,8 +27,13 @@ public class CustomAccountDetailsService implements UserDetailsService {
     private AccountRepository accountRepo;
 
     @Autowired
+    private CCAdminRepository ccAdminRepository;
+
+    @Lazy
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Lazy
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -59,8 +66,20 @@ public class CustomAccountDetailsService implements UserDetailsService {
 
         Account acc = (Account) loadUserByUsername(email);
 
+        if (acc == null){
+            return;
+        }
+
         if (acc instanceof CCAdmin){
-            ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
+            CCAdmin ccAdmin = (CCAdmin) acc;
+            if (ccAdmin.getUserStatus().equals(UserStatus.NEVER_LOGGED_IN)){
+                ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
+            }
+            ccAdmin.setPassword(passwordEncoder.encode(newPassword));
+            ccAdminRepository.save(ccAdmin);
+            System.out.println(ccAdmin.getPassword() + "====" + newPassword);
+
+            return;
         } else if (acc instanceof ClinicAdmin){
             ((ClinicAdmin) acc).setUserStatus(UserStatus.ACTIVE);
         } else if (acc instanceof Doctor){
