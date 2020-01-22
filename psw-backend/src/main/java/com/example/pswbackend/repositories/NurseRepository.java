@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface NurseRepository extends JpaRepository<Nurse, Long> {
     Nurse findByEmail(String email);
+    Nurse findOneById(Long id);
 }
