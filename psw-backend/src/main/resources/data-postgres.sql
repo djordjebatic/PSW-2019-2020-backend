@@ -150,6 +150,16 @@ insert into ordination(type, number, clinic_id)
 values('OPERATION', '201', '1');
 insert into ordination(type, number, clinic_id)
 values('OPERATION', '202', '1');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '10', '2');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '11', '2');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '12', '2');
+insert into ordination(type, number, clinic_id)
+values('OPERATION', '20', '2');
+insert into ordination(type, number, clinic_id)
+values('OPERATION', '21', '2');
 
 
 --Medical record
