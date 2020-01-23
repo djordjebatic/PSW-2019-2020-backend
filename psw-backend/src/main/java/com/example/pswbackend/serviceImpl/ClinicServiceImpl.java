@@ -3,6 +3,8 @@ package com.example.pswbackend.serviceImpl;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.FilterClinicsDTO;
+import com.example.pswbackend.dto.ResultClinicDTO;
+import com.example.pswbackend.repositories.AppointmentPriceRepository;
 import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicService;
@@ -33,6 +35,9 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Autowired
     AppointmentService appointmentService;
+
+    @Autowired
+    AppointmentPriceRepository appointmentPriceRepository;
 
     @Override
     public ClinicDTO findById(Long id) {
@@ -67,7 +72,7 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public List<Clinic> filterClinics(FilterClinicsDTO dto) {
+    public List<ResultClinicDTO> filterClinics(FilterClinicsDTO dto) {
 
         List<Clinic> clinicList = new ArrayList<Clinic>();
         List<Clinic> clinicListAll = clinicRepository.findAll();
@@ -75,17 +80,20 @@ public class ClinicServiceImpl implements ClinicService {
              List<Doctor> clinicDoctors = doctorRepository.findByClinicId(c.getId());
              outerLoop:
              for(Doctor d : clinicDoctors){
-                if(d.getSpecialization().getId().toString()==dto.getType()){
+
+                if(d.getSpecialization().getId().toString().equals(dto.getType())){
 
                     long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
 
                     LocalDateTime start = dto.getDate().atStartOfDay().plusHours(8);
                     LocalDateTime end = start.plusSeconds(duration);
                     LocalDateTime end_search = dto.getDate().atStartOfDay().plusHours(20);
-                    
-                    for(LocalDateTime st=start; st.isBefore(end_search); st.plusSeconds(duration)){
-                        if (isDoctorAvailable(d, st, st.plusMinutes(45))) {
-                            clinicList.add(d.getClinic());
+
+                    for(int i=0; i<16; i++){
+                        LocalDateTime st=start.plusSeconds(i*duration);
+
+                        if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                            clinicList.add(clinicRepository.findOneById(d.getClinic().getId()));
                             break outerLoop;
                         }
                     }
@@ -93,7 +101,16 @@ public class ClinicServiceImpl implements ClinicService {
              }
         }
 
-        return clinicList;
+        List<ResultClinicDTO> resultList= new ArrayList<>();
+        for(Clinic c : clinicList) {
+
+            List<AppointmentPrice> a=appointmentPriceRepository.findByAppointmentTypeId(Long.parseLong(dto.getType()));
+            AppointmentPrice ap=a.get(1);
+
+            ResultClinicDTO resultDTO = new ResultClinicDTO(c.getId().toString(), c.getName(), c.getDescription(), c.getAddress(), c.getCity(), Integer.toString(c.getStars()), Integer.toString(c.getNum_votes()), ap.getPrice().toString() );
+            resultList.add(resultDTO);
+        }
+        return resultList;
     }
 
     public boolean isDoctorAvailable(Doctor doctor, LocalDateTime start, LocalDateTime end) {
