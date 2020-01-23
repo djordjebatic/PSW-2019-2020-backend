@@ -19,7 +19,7 @@ public interface AppointmentService {
     List<Appointment> getCanceledAppointments();
     List<Appointment> getAwaitingApprovalAppointments();
     List<Appointment> getAwaitingAppointments();
-    List<Appointment> getPredefinedAwailableAppointments();
+    List<Appointment> getPredefinedAvailableAppointments();
     List<Appointment> getPredefinedBookedAppointments();
     Appointment getOngoingAppointment(Long patientId, Long doctorId, LocalDateTime startDateTime);
     List<Appointment> getOrdinationAppointmentsDuringTheDay(Long ordinationId, LocalDateTime day);
