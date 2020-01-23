@@ -1,11 +1,9 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Account;
-import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ChangePasswordDTO;
+import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.CustomAccountDetailsService;
 import com.example.pswbackend.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,9 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private ClinicAdminService clinicAdminService;
 
     @Autowired
     private CustomAccountDetailsService accountDetailsService;
@@ -52,10 +53,16 @@ public class DoctorController {
         return doctorService.findAll();
     }
 
-    @GetMapping(value="/clinic-doctors/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Doctor> getClinicDoctors(@PathVariable Long id) {
+    @GetMapping(value="/clinic-doctors/{clinicId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Doctor>> getClinicDoctors(@PathVariable Long clinicId) {
 
-        return doctorService.findClinicDoctors(id);
+        ClinicAdmin clinicAdmin = clinicAdminService.getLoggedInClinicAdmin();
+        if (!clinicAdmin.getClinic().getId().equals(clinicId)){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<List<Doctor>>(doctorService.findClinicDoctors(clinicId), HttpStatus.OK);
     }
 
 }
