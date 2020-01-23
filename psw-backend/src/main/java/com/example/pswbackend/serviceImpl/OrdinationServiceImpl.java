@@ -242,4 +242,8 @@ public class OrdinationServiceImpl implements OrdinationService {
         }
         return ordinationAssignDTOS;
     }
+
+    public List<Ordination> findByClinicId(Long clinicId){
+        return ordinationRepository.findByClinicId(clinicId);
+    }
 }
