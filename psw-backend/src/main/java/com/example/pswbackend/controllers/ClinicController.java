@@ -37,7 +37,7 @@ public class ClinicController {
     }
 
     @GetMapping(value = "/clinic/{clinicId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasRole('PATIENT') or hasRole('CLINIC_ADMIN')")
     public ClinicDTO getClinic(@PathVariable long clinicId) {
         return this.clinicService.findById(clinicId);
     }
