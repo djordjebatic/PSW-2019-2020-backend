@@ -20,6 +20,7 @@ public class AppointmentCalendarDTO {
     private String patient;
     private Long patientId;
     private String ordination;
+    private Long ordinationId;
     private String nurse;
     private String doctors;
 
@@ -44,6 +45,7 @@ public class AppointmentCalendarDTO {
         this.patient = patient;
         this.patientId = appointment.getPatient().getId();
         this.ordination = appointment.getOrdination().getNumber();
+        this.ordinationId = appointment.getOrdination().getId();
         this.nurse = nurse;
         this.doctors = doctors;
     }
@@ -118,5 +120,13 @@ public class AppointmentCalendarDTO {
 
     public void setDoctors(String doctors) {
         this.doctors = doctors;
+    }
+
+    public Long getOrdinationId() {
+        return ordinationId;
+    }
+
+    public void setOrdinationId(Long ordinationId) {
+        this.ordinationId = ordinationId;
     }
 }
