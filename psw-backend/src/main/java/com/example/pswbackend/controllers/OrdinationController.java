@@ -78,4 +78,16 @@ public class OrdinationController {
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/clinic-ordinations/{clinicId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Ordination>> getClinicOrdinations(@PathVariable Long clinicId){
+
+        ClinicAdmin clinicAdmin = clinicAdminService.getLoggedInClinicAdmin();
+        if (!clinicAdmin.getClinic().getId().equals(clinicId)){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<List<Ordination>>(ordinationService.findByClinicId(clinicId), HttpStatus.OK);
+    }
+
 }
