@@ -1,13 +1,15 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.dto.QuickReservationDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
+import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.AppointmentRequestService;
+import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -32,6 +36,12 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Autowired
     OrdinationRepository ordinationRepository;
+
+    @Autowired
+    AppointmentService appointmentService;
+
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
     @Autowired
     AppointmentRequestService appointmentRequestService;
@@ -109,18 +119,23 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
             appType = AppointmentEnum.OPERATION;
         }
 
-        System.out.println("-------------------- ORDINATION: " + dto.getDoctor());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDateTime = LocalDateTime.parse(dto.getStartDateTime(), formatter);
+        LocalDateTime endDateTime = LocalDateTime.parse(dto.getEndDateTime(), formatter);
 
-        //predefinedAppointment.setDate(dto.getDate());
-        //predefinedAppointment.setTime(dto.getTime());
+        AppointmentPrice price = new AppointmentPrice(appType, dto.getPrice());
+
+        predefinedAppointment.setStartDateTime(startDateTime);
+        predefinedAppointment.setEndDateTime(endDateTime);
         predefinedAppointment.setOrdination(ordinationRepository.findById(Long.parseLong(dto.getOrdination())).get());
+        predefinedAppointment.setClinicAdmin(clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get());
+        predefinedAppointment.setClinic(clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get().getClinic());
         //predefinedAppointment.setDoctor(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
-        //predefinedAppointment.setDuration(dto.getDuration());
-        predefinedAppointment.getPrice().setPrice(dto.getPrice());
-        predefinedAppointment.getPrice().setAppointmentEnum(appType);
+        predefinedAppointment.setPrice(price);
+        predefinedAppointment.setStatus(AppointmentStatus.PREDEF_AVAILABLE);
 
-        //TODO dodati u listu predefinisanih appointmenta
-        /// dto.getClinicAdmin().getPredefinedAppointmetns().push/add/saveNew...
+        clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get().getPredefinedAppointments().add(predefinedAppointment);
+        appointmentRepository.save(predefinedAppointment);
 
         return predefinedAppointment;
     }
