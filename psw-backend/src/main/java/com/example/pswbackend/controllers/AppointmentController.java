@@ -42,10 +42,10 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getCanceledAppointments(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/get-predefined-awailable-appointments")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @GetMapping(value = "/get-predefined-available-appointments")
+    @PreAuthorize("hasRole('CLINIC_ADMIN') or hasRole('PATIENT')")
     public ResponseEntity<List<Appointment>> getPredefinedAwailableAppointments(){
-        return new ResponseEntity<>(appointmentService.getPredefinedAwailableAppointments(), HttpStatus.OK);
+        return new ResponseEntity<>(appointmentService.getPredefinedAvailableAppointments(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/get-predefined-booked-appointments")
