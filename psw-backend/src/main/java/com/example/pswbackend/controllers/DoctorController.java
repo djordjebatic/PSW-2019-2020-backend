@@ -52,4 +52,10 @@ public class DoctorController {
         return doctorService.findAll();
     }
 
+    @GetMapping(value="/clinic-doctors/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Doctor> getClinicDoctors(@PathVariable Long id) {
+
+        return doctorService.findClinicDoctors(id);
+    }
+
 }
