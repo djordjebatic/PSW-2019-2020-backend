@@ -77,6 +77,11 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public List<Doctor> findClinicDoctors(Long id) {
+        return doctorRepo.findByClinicId(id);
+    }
+
+    @Override
     public Doctor getLoggedInDoctor() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         try {
