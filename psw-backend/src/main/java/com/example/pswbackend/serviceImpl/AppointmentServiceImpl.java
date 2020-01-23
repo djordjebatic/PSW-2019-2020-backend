@@ -89,7 +89,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getPredefinedAwailableAppointments() {
+    public List<Appointment> getPredefinedAvailableAppointments() {
         return appointmentRepository.findByStatus(AppointmentStatus.PREDEF_AVAILABLE);
     }
 
