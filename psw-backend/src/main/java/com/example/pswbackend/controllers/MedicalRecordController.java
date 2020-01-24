@@ -13,10 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/medicalRecords")
 public class MedicalRecordController {
 
     @Autowired
@@ -25,25 +26,44 @@ public class MedicalRecordController {
     @Autowired
     DoctorService doctorService;
 
-    @GetMapping(value="/medicalRecords/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DOCTOR')")
+    @GetMapping(value="/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
     public MedicalRecord getMedicalRecord(@PathVariable long id) {
         Doctor doctor = doctorService.getLoggedInDoctor();
         return medicalRecordService.finByPatientAndDoctorId(id, doctor.getId());
     }
 
-    @GetMapping(value="/medicalRecords", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
     public List<MedicalRecord> getMedicalRecords() {
-
         return medicalRecordService.findAll();
     }
 
-    @PostMapping(value="/medicalRecords/save")
-    public ResponseEntity<MedicalRecord> saveMedicalRecord(@RequestBody MedicalRecordDTO medicalRecordDTO) {
-        MedicalRecord medicalRecord = medicalRecordService.save(medicalRecordDTO);
-        if (medicalRecord == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @GetMapping(value="/check-version", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
+    public ResponseEntity getVersion(@PathParam("id") Long id, @PathParam("version") Long version) {
+
+        if (medicalRecordService.findById(id).getVersion() > version){
+            return new ResponseEntity("Medical information has been changed by some other user of the system while you were inputing data. Please refresh the page before continuing.", HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(medicalRecord, HttpStatus.OK);
+        else {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
+    @PutMapping(value="/edit")
+    @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
+    public ResponseEntity editMedicalRecord(@RequestBody MedicalRecordDTO medicalRecordDTO) {
+        try {
+            MedicalRecord medicalRecord = medicalRecordService.editMedicalRecord(medicalRecordDTO);
+
+            if (medicalRecord == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(medicalRecord, HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getStackTrace(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
