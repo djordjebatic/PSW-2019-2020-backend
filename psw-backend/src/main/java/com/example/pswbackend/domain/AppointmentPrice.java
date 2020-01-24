@@ -21,7 +21,7 @@ public class AppointmentPrice {
     private AppointmentEnum appointmentEnum;
 
     @Column(nullable = false, scale = 2)
-    private Double price;
+    private double price;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "price", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -35,7 +35,7 @@ public class AppointmentPrice {
 
     }
 
-    public AppointmentPrice(AppointmentEnum appointmentEnum, Double price) {
+    public AppointmentPrice(AppointmentEnum appointmentEnum, double price) {
         this.appointmentEnum = appointmentEnum;
         this.price = price;
     }
@@ -56,7 +56,7 @@ public class AppointmentPrice {
         this.appointmentEnum = appointmentEnum;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 

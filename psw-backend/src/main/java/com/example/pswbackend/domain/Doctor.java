@@ -57,8 +57,7 @@ public class Doctor extends Account {
         this.num_votes = num_votes;
     }
 
-    public Doctor(){
-    }
+    public Doctor(){}
 
     public Clinic getClinic() {
         return clinic;

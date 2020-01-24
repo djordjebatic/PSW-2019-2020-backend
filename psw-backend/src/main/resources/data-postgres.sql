@@ -141,7 +141,7 @@ values ('Ativan', 'Lorazepam', 'Lorazepam affects chemicals in the brain that ma
 --Ordination
 
 insert into ordination(type, number, clinic_id)
-values('EXAMINATION', '1', '1');
+values('EXAMINATION', '100', '1');
 insert into ordination(type, number, clinic_id)
 values('EXAMINATION', '101', '1');
 insert into ordination(type, number, clinic_id)
@@ -150,6 +150,16 @@ insert into ordination(type, number, clinic_id)
 values('OPERATION', '201', '1');
 insert into ordination(type, number, clinic_id)
 values('OPERATION', '202', '1');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '10', '2');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '11', '2');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '12', '2');
+insert into ordination(type, number, clinic_id)
+values('OPERATION', '20', '2');
+insert into ordination(type, number, clinic_id)
+values('OPERATION', '21', '2');
 
 
 --Medical record
@@ -169,17 +179,24 @@ insert into appointment(price_id, start_date_time, end_date_time, status, patien
 values(1, '01.21.2020 18:00', '01.21.2020 19:30', 'AWAITING_APPROVAL', '9', 6, 1, 1, '10');
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '01.19.2020 14:45', '01.19.2020 23:30', 'APPROVED', 3, '9', 6, 1, 1, '10');
+values(4, '01.19.2020 14:45', '01.19.2020 23:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '01.27.2020 10:00', '01.27.2020 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
+values(3, '01.27.2020 10:00', '01.27.2020 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (2,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '01.27.2020 15:00', '01.27.2020 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
+values(3, '01.27.2020 15:00', '01.27.2020 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
 
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '02.17.2020 15:00', '02.17.2020 15:30', 'APPROVED', '3', '9', 6, 3, 1, '4');
+insert into appointed_doctors (appointment_id, doctor_id) values (1,5);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '02.21.2020 15:00', '02.21.2020 12:00', 'APPROVED', '3', '9', 6, 3, 1, '4');
+insert into appointed_doctors (appointment_id, doctor_id) values (3,5);
 --
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(4, '01.23.2019 08:00', '01.23.2019 9:30', 'PREDEF_AVAILABLE', '2', '4', 7, 3, 1);
