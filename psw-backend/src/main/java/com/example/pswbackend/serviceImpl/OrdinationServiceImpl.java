@@ -1,6 +1,7 @@
 package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
+import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.dto.OrdinationAssignDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
@@ -8,6 +9,7 @@ import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.OrdinationRepository;
 import com.example.pswbackend.services.AppointmentService;
+import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.OrdinationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class OrdinationServiceImpl implements OrdinationService {
 
     @Autowired
     AppointmentService appointmentService;
+
+    @Autowired
+    ClinicService clinicService;
 
     @Autowired
     AppointmentRepository appointmentRepository;
@@ -241,6 +246,29 @@ public class OrdinationServiceImpl implements OrdinationService {
             ordinationAssignDTOS.add(new OrdinationAssignDTO(ordination));
         }
         return ordinationAssignDTOS;
+    }
+
+    @Override
+    public Ordination addNew(NewOrdinationDTO dto){
+
+        Ordination o = new Ordination();
+        AppointmentEnum app;
+        if (Integer.parseInt(dto.getType()) == 0){
+            app = AppointmentEnum.EXAMINATION;
+            o.setType(app);
+        } else if (Integer.parseInt(dto.getType()) == 1){
+            app = AppointmentEnum.OPERATION;
+            o.setType(app);
+        }
+
+        Clinic c = clinicService.findClinicById(dto.getClinicId());
+
+        o.setNumber(dto.getNumber());
+        o.setClinic(c);
+
+        c.getOrdinations().add(o);
+
+        return o;
     }
 
     public List<Ordination> findByClinicId(Long clinicId){
