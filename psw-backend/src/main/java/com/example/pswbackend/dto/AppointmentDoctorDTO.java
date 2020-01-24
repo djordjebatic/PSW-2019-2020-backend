@@ -1,27 +1,34 @@
 package com.example.pswbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.Column;
+import java.time.LocalDateTime;
+
 public class AppointmentDoctorDTO {
 
-    private String patient;
+    private long patient;
     private String doctor;
-    private String date;
-    private String time;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    private String startDateTime;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    private String endDateTime;
     private String type;
 
     public AppointmentDoctorDTO(){
 
     }
 
-    public String getPatient() {
+    public long getPatient() {
         return patient;
     }
 
-    public String getDate() {
-        return date;
+    public String getStartDateTime() {
+        return startDateTime;
     }
 
-    public String getTime() {
-        return time;
+    public String getEndDateTime() {
+        return endDateTime;
     }
 
     public String getType() {
