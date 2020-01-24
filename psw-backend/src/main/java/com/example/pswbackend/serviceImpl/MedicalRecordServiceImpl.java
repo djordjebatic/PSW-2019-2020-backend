@@ -7,12 +7,16 @@ import com.example.pswbackend.repositories.MedicalRecordRepository;
 import com.example.pswbackend.services.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Autowired
@@ -49,8 +53,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     public List<MedicalRecord> findAll(){ return medicalRecordRepository.findAll();}
 
     @Override
-    public MedicalRecord save(MedicalRecordDTO medicalRecordDTO) {
-
+    // Isolation level set in order to prevent lost updated
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED)
+    public MedicalRecord editMedicalRecord(MedicalRecordDTO medicalRecordDTO) throws Exception{
 
         long patientId = medicalRecordDTO.getPatientId();
         Integer height = medicalRecordDTO.getHeight();
@@ -71,6 +76,4 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
         return medicalRecordRepository.save(medicalRecord);
     }
-
-
 }
