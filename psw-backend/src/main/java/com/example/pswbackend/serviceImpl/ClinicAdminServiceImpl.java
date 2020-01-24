@@ -113,7 +113,7 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
         Appointment predefinedAppointment = new Appointment();
 
         AppointmentEnum appType;
-        if (dto.getType() == "0"){
+        if (Integer.parseInt(dto.getType()) == 0){
             appType = AppointmentEnum.EXAMINATION;
         } else {
             appType = AppointmentEnum.OPERATION;
