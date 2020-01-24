@@ -100,18 +100,19 @@ public class DoctorController {
 
     @GetMapping(value="/filter-doctors/{date}/{type}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<ResultDoctorDTO>> filterDoctors(@PathVariable String date, @PathVariable String type, @PathVariable String id){
+    public ResponseEntity<List<ResultDoctorDTO>> filterDoctors(@PathVariable String date, @PathVariable String type, @PathVariable String id) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-        FilterDoctorsDTO dto = new FilterDoctorsDTO(LocalDate.parse(date, formatter),type, id);
+        FilterDoctorsDTO dto = new FilterDoctorsDTO(LocalDate.parse(date, formatter), type, id);
 
 
-        if (doctorService.filterDoctors(dto).isEmpty()){
+        if (doctorService.filterDoctors(dto).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            List<ResultDoctorDTO> lc= doctorService.filterDoctors(dto);
+            List<ResultDoctorDTO> lc = doctorService.filterDoctors(dto);
             return new ResponseEntity<>(lc, HttpStatus.OK);
         }
+    }
 
     @GetMapping(value="/clinic-doctors/{clinicId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")

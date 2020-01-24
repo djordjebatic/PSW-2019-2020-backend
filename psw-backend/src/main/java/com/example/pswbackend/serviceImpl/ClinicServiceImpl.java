@@ -110,7 +110,7 @@ public class ClinicServiceImpl implements ClinicService {
             List<AppointmentPrice> a=appointmentPriceRepository.findByAppointmentTypeId(Long.parseLong(dto.getType()));
             AppointmentPrice ap=a.get(1);
 
-            ResultClinicDTO resultDTO = new ResultClinicDTO(c.getId().toString(), c.getName(), c.getDescription(), c.getAddress(), c.getCity(), Integer.toString(c.getStars()), Integer.toString(c.getNum_votes()), ap.getPrice().toString() );
+            ResultClinicDTO resultDTO = new ResultClinicDTO(c.getId().toString(), c.getName(), c.getDescription(), c.getAddress(), c.getCity(), Integer.toString(c.getStars()), Integer.toString(c.getNum_votes()), String.valueOf(ap.getPrice()) );
             resultList.add(resultDTO);
         }
         return resultList;

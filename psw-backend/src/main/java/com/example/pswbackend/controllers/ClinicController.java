@@ -51,27 +51,21 @@ public class ClinicController {
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
-
-    /*@GetMapping(value = "/clinic/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<ClinicDTO> getClinic(@PathVariable long id) {
-        return new ResponseEntity<>(clinicService.findById(id), HttpStatus.OK);
-    }*/
-
     @GetMapping(value="/filter-clinics/{date}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<ResultClinicDTO>> filterClinics(@PathVariable String date, @PathVariable String type){
+    public ResponseEntity<List<ResultClinicDTO>> filterClinics(@PathVariable String date, @PathVariable String type) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         FilterClinicsDTO dto = new FilterClinicsDTO(type, LocalDate.parse(date, formatter));
 
-        if (clinicService.filterClinics(dto).isEmpty()){
+        if (clinicService.filterClinics(dto).isEmpty()) {
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            List<ResultClinicDTO> lc= clinicService.filterClinics(dto);
+            List<ResultClinicDTO> lc = clinicService.filterClinics(dto);
             return new ResponseEntity<>(lc, HttpStatus.OK);
         }
+    }
 
     @GetMapping(value = "/clinic/{clinicId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT') or hasRole('CLINIC_ADMIN')")

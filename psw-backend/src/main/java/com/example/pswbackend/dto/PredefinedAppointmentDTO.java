@@ -30,7 +30,7 @@ public class PredefinedAppointmentDTO {
         this.type = appointment.getPrice().getAppointmentEnum().toString();
         this.startTime = Date.from(appointment.getStartDateTime().atZone(ZoneId.systemDefault()).toInstant());
         this.endTime = Date.from(appointment.getEndDateTime().atZone(ZoneId.systemDefault()).toInstant());
-        this.price=appointment.getPrice().getPrice().toString();
+        this.price=String.valueOf(appointment.getPrice().getPrice());
         this.duration="0";
         this.doctors = doctors;
         this.ordination = appointment.getOrdination().getNumber();
