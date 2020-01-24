@@ -4,6 +4,7 @@ import com.example.pswbackend.enums.AppointmentEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,19 +28,23 @@ public class Ordination {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-  @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
-  private String number;
+	  @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
+	private String number;
 
-  @Enumerated(EnumType.STRING)
-  private AppointmentEnum type;
+	@Enumerated(EnumType.STRING)
+	private AppointmentEnum type;
 
-  @JsonManagedReference
-  @OneToMany(mappedBy = "ordination", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-  private List<Appointment> appointments;
-	
-  @JsonBackReference
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Clinic clinic ;
+	@JsonManagedReference
+	@OneToMany(mappedBy = "ordination", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<Appointment> appointments;
+
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Clinic clinic ;
+
+	public Ordination(){
+		this.appointments = new ArrayList();
+	}
 
 	public long getId() {
 		return id;
