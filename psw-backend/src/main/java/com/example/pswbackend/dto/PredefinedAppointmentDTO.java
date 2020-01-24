@@ -10,7 +10,6 @@ public class PredefinedAppointmentDTO {
 
     private Long id;
     private String type;
-    //private Date date;
     private Date startTime;
     private Date endTime;
     private String price;
@@ -29,7 +28,6 @@ public class PredefinedAppointmentDTO {
 
         this.id = appointment.getId(); //Date.from( localDateTime.atZone( ZoneId.systemDefault()).toInstant());
         this.type = appointment.getPrice().getAppointmentEnum().toString();
-        //this.date=Date.from(appointment.getStartDateTime().atZone(ZoneId.systemDefault()).toInstant());
         this.startTime = Date.from(appointment.getStartDateTime().atZone(ZoneId.systemDefault()).toInstant());
         this.endTime = Date.from(appointment.getEndDateTime().atZone(ZoneId.systemDefault()).toInstant());
         this.price=appointment.getPrice().getPrice().toString();
@@ -55,14 +53,6 @@ public class PredefinedAppointmentDTO {
     public void setType(String type) {
         this.type = type;
     }
-
-    /*public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }*/
 
     public Date getEndTime() {
         return endTime;
