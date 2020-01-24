@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Ordination;
+import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.dto.OrdinationAssignDTO;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public interface OrdinationService {
     List<Ordination> findByClinicId(Long clinicId);
 
     List<Ordination> findAll();
+    Ordination addNew(NewOrdinationDTO dto);
 
     List<OrdinationAssignDTO> findAllOrdinationsInClinic(Clinic clinic);
     Appointment assignOrdinationForOperation(Long appointmentId, Long ordinationId, Set<Doctor> doctors);
