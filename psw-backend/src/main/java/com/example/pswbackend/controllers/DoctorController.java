@@ -3,6 +3,8 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ChangePasswordDTO;
+import com.example.pswbackend.dto.NewDoctorDTO;
+import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.CustomAccountDetailsService;
 import com.example.pswbackend.services.DoctorService;
@@ -39,6 +41,13 @@ public class DoctorController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // izmeniti tip statusa
         }
+    }
+
+    @PostMapping(value="/doctor/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Doctor> addNew(@RequestBody NewDoctorDTO dto) {
+
+        return new ResponseEntity<Doctor>(doctorService.addNew(dto), HttpStatus.CREATED);
     }
 
     @GetMapping(value="/doctors/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
