@@ -30,7 +30,7 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
     public List<Appointment> findAll(){ return predAppointRepo.findAll(); }
 
     @Override
-    public List<PredefinedAppointmentDTO> findByClinicId(long id){
+    public List<PredefinedAppointmentDTO> findPredefinedByClinicId(long id){
         //return predAppointRepo.findByClinicId(id);
         return convertToDTO(predAppointRepo.findByClinicId(id));
 

@@ -10,7 +10,7 @@ import java.util.List;
 public interface PredefinedAppointmentService{
 
     Appointment findById(Long id);
-    List<PredefinedAppointmentDTO> findByClinicId(long id);
+    List<PredefinedAppointmentDTO> findPredefinedByClinicId(long id);
     List<Appointment> findAll();
     Appointment schedulePredefinedAppointment(Patient patient, Appointment appointment);
 }

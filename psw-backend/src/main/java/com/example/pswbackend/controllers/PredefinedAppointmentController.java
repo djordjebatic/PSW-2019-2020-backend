@@ -52,7 +52,7 @@ public class PredefinedAppointmentController {
     public ResponseEntity<List<PredefinedAppointmentDTO>> getPredefinedAppointments(@PathVariable long id) {
 
         try {
-            return new ResponseEntity<>(predefinedAppointmentService.findByClinicId(id), HttpStatus.OK);
+            return new ResponseEntity<>(predefinedAppointmentService.findPredefinedByClinicId(id), HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

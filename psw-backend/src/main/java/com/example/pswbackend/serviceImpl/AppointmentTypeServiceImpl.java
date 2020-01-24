@@ -25,7 +25,6 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
 
         return new AppointmentTypeDTO(appointmentType.getId(), appointmentType.getName());
     }
-    //public AppointmentTypeDTO findById(Long id){ return appointmentTypeRepository.findById(id);}
 
     @Override
     public AppointmentTypeDTO findByName(String name){
