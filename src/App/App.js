@@ -41,6 +41,9 @@ import CalendarEventClickWindow from './Content/Doctor/CalendarEventClickWindow/
 import MedicalCard from './Content/Doctor/MedicalCard/MedicalCard';
 import EditExaminationReport from './Content/Doctor/ExaminationReport/EditExaminationReport';
 import Ordinations from './Content/Ordinations/Ordinations';
+import RegisterClinicAdmin from './Content/CCAdmin/RegisterClinicAdmin/RegisterClinicAdmin';
+import RequestLeaveNurse from './Content/Nurse/RequestLeave/RequestLeaveNurse';
+import NurseCalendar from './Content/Nurse/NurseCalendar/NurseCalendar';
 
 function App() {
   return (
@@ -154,6 +157,15 @@ function App() {
           </Route>
           <Route path="/ordinations">
             <Ordinations/>
+          </Route>
+          <Route path="/register-clinic-admin">
+            <RegisterClinicAdmin/>
+          </Route>
+          <Route path="/request-leave-nurse">
+            <RequestLeaveNurse/>
+          </Route>
+          <Route path="/nurse-calendar">
+            <NurseCalendar/>
           </Route>
         </Switch>
         <NotificationContainer />
