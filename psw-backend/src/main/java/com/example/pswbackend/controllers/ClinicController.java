@@ -52,7 +52,7 @@ public class ClinicController {
     }
 
     @GetMapping(value = "/clinic/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<ClinicDTO> getClinic(@PathVariable long id) {
         return new ResponseEntity<>(clinicService.findById(id), HttpStatus.OK);
     }
