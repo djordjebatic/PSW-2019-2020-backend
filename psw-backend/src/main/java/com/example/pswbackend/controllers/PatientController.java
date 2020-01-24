@@ -50,7 +50,7 @@ public class PatientController {
     @GetMapping("/patients/{id}")
     public Patient getPatient(@PathVariable long id) {
 
-        return patientRepository.findById(id).get();
+        return patientRepository.findById(id);
     }
 
     @GetMapping(value="/patients", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,7 +63,7 @@ public class PatientController {
     @PutMapping(value="/patients/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     public Patient updatePatient(@PathVariable long id, PatientDTO dto){
 
-        Patient patient= patientRepository.findById(id).get();
+        Patient patient= patientRepository.findById(id);
 
         if(patient==null){
             return null;
