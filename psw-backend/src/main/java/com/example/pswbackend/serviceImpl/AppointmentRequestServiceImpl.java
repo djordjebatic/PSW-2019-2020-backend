@@ -11,6 +11,9 @@ import com.example.pswbackend.services.AppointmentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class AppointmentRequestServiceImpl implements AppointmentRequestService {
 
@@ -25,12 +28,17 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
 
         Doctor doctor = doctorRepository.findById(Long.parseLong(dto.getDoctor())).get();
         AppointmentEnum appType;
-        if (dto.getType() == "0"){
+        if (Integer.parseInt(dto.getType()) == 0){
             appType = AppointmentEnum.EXAMINATION;
         } else {
             appType = AppointmentEnum.OPERATION;
         }
-        AppointmentRequest ar = new AppointmentRequest(dto.getDate(), dto.getTime(), doctor, ca, appType);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDateTime = LocalDateTime.parse(dto.getStartDateTime(), formatter);
+        LocalDateTime endDateTime = LocalDateTime.parse(dto.getEndDateTime(), formatter);
+
+        AppointmentRequest ar = new AppointmentRequest(startDateTime, endDateTime, doctor, ca, appType, dto.getPatient());
         appointmentRequestRepository.save(ar);
 
         return true;
