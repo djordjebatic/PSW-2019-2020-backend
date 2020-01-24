@@ -9,6 +9,7 @@ import java.util.List;
 public interface ClinicAdminRepository extends JpaRepository <ClinicAdmin, Long> {
 
     ClinicAdmin findOneById(Long id);
+    ClinicAdmin findOneById(long id);
     ClinicAdminDTO findByEmail(String email);
 
     List<ClinicAdmin> findAll();
