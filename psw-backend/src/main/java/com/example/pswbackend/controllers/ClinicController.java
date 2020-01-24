@@ -1,16 +1,18 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.services.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,7 +34,14 @@ public class ClinicController {
         }
 
         return new ResponseEntity<>(lc, HttpStatus.OK);
-
-
     }
+
+    @GetMapping(value = "/clinic/{clinicId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT') or hasRole('CLINIC_ADMIN')")
+    public ClinicDTO getClinic(@PathVariable long clinicId) {
+        return this.clinicService.findById(clinicId);
+    }
+    
+
+
 }

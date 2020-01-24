@@ -141,7 +141,7 @@ values ('Ativan', 'Lorazepam', 'Lorazepam affects chemicals in the brain that ma
 --Ordination
 
 insert into ordination(type, number, clinic_id)
-values('EXAMINATION', '1', '1');
+values('EXAMINATION', '100', '1');
 insert into ordination(type, number, clinic_id)
 values('EXAMINATION', '101', '1');
 insert into ordination(type, number, clinic_id)
@@ -150,6 +150,16 @@ insert into ordination(type, number, clinic_id)
 values('OPERATION', '201', '1');
 insert into ordination(type, number, clinic_id)
 values('OPERATION', '202', '1');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '10', '2');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '11', '2');
+insert into ordination(type, number, clinic_id)
+values('EXAMINATION', '12', '2');
+insert into ordination(type, number, clinic_id)
+values('OPERATION', '20', '2');
+insert into ordination(type, number, clinic_id)
+values('OPERATION', '21', '2');
 
 
 --Medical record
@@ -190,6 +200,7 @@ values(1, '01.24.2020 08:00', '01.24.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7,
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(1, '01.25.2020 08:00', '01.25.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+--
 
 --Examination Report
 insert into examination_report (comment, time_created, appointment_id, diagnosis_id, doctor_id, medical_record_id)

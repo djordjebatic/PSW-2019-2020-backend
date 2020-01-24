@@ -12,6 +12,7 @@ import java.util.Set;
 public interface OrdinationService {
 
     Ordination findById(long id);
+    List<Ordination> findByClinicId(Long clinicId);
 
     List<Ordination> findAll();
 
