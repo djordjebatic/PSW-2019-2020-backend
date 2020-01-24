@@ -1,7 +1,9 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.ClinicAdmin;
 import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.repositories.ClinicAdminRepository;
 import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.services.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class ClinicServiceImpl implements ClinicService {
     @Autowired
     ClinicRepository clinicRepository;
 
+    @Autowired
+    ClinicAdminRepository clinicAdminRepository;
+
     @Override
     public ClinicDTO findById(Long id) {
         Clinic clinic = clinicRepository.findOneById(id);
@@ -23,6 +28,22 @@ public class ClinicServiceImpl implements ClinicService {
         }
 
         return new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity());
+    }
+
+    @Override
+    public Clinic findClinicById(Long id) {
+        Clinic clinic = clinicRepository.findOneById(id);
+        if (clinic == null) {
+            return null;
+        }
+
+        return clinic;
+    }
+
+    @Override
+    public Long findByClinicAdminId(long clinicAdminId){
+        ClinicAdmin ca = clinicAdminRepository.findOneById(clinicAdminId);
+        return ca.getClinic().getId();
     }
 
     @Override
