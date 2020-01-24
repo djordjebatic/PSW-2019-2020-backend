@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -22,11 +24,11 @@ public class Doctor extends Account {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "doctors", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Appointment> appointments = new HashSet<>();
+    private List<Appointment> appointments;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<AppointmentRequest> appointmentRequests = new HashSet<>();
+    private List<AppointmentRequest> appointmentRequests;
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
@@ -40,6 +42,15 @@ public class Doctor extends Account {
 
     @Column
     private int num_votes;
+
+
+    public Doctor(){
+        this.appointmentRequests = new ArrayList();
+        this.appointments = new ArrayList();
+        this.stars = 10;
+        this.num_votes = 0;
+        this.userStatus = UserStatus.NEVER_LOGGED_IN;
+    }
 
     public int getStars() {
         return stars;
@@ -57,8 +68,6 @@ public class Doctor extends Account {
         this.num_votes = num_votes;
     }
 
-    public Doctor(){}
-
     public Clinic getClinic() {
         return clinic;
     }
@@ -67,11 +76,11 @@ public class Doctor extends Account {
         this.clinic = clinic;
     }
 
-    public Set<Appointment> getAppointments() {
+    public List<Appointment> getAppointments() {
         return appointments;
     }
 
-    public void setAppointments(Set<Appointment> appointments) {
+    public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
 
@@ -83,11 +92,11 @@ public class Doctor extends Account {
         this.userStatus = userStatus;
     }
 
-    public Set<AppointmentRequest> getAppointmentRequests() {
+    public List<AppointmentRequest> getAppointmentRequests() {
         return appointmentRequests;
     }
 
-    public void setAppointmentRequests(Set<AppointmentRequest> appointmentRequest) {
+    public void setAppointmentRequests(List<AppointmentRequest> appointmentRequest) {
         this.appointmentRequests = appointmentRequest;
     }
 
