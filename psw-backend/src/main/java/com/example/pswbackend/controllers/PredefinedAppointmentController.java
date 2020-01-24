@@ -2,6 +2,7 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.dto.PredefinedAppointmentDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.PatientRepository;
@@ -44,18 +45,17 @@ public class PredefinedAppointmentController {
 
         return new ResponseEntity<>(appointment1, HttpStatus.OK);
     }
+    
 
-    @GetMapping(value="/predefined-appointments")
-    @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<Appointment>> getPredefinedAppointments() {
+    @GetMapping(value = "/predefined-appointments/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PredefinedAppointmentDTO>> getPredefinedAppointments(@PathVariable long id) {
 
-        //samo od te klinike
-        List<Appointment> pa= predefinedAppointmentService.findAll();
-
-        if(pa==null){
+        try {
+            return new ResponseEntity<>(predefinedAppointmentService.findPredefinedByClinicId(id), HttpStatus.OK);
+        }
+        catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(pa, HttpStatus.OK);
     }
 }

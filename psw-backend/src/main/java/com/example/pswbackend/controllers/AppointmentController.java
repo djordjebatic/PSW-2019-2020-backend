@@ -2,9 +2,11 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.Nurse;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class AppointmentController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private NurseService nurseService;
 
     @GetMapping(value = "/get-awaiting-approval-appointments")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -62,6 +67,7 @@ public class AppointmentController {
             return new ResponseEntity<>(appointmentService.getDoctorAppointments(doctor.getId()), HttpStatus.OK);
         }
         catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -96,11 +102,12 @@ public class AppointmentController {
     }
 
 
-    @GetMapping(value = "/get-nurse-appointments/{id}")
+    @GetMapping(value = "/get-nurse-appointments")
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<List<AppointmentCalendarDTO>> getNurseAppointments(@PathVariable Long id) {
+    public ResponseEntity<List<AppointmentCalendarDTO>> getNurseAppointments() {
+        Nurse nurse = nurseService.getLoggedInNurse();
         try {
-            return new ResponseEntity<>(appointmentService.getNurseAppointments(id), HttpStatus.OK);
+            return new ResponseEntity<>(appointmentService.getNurseAppointments(nurse.getId()), HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

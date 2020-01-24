@@ -1,6 +1,7 @@
 package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.Account;
+import com.example.pswbackend.domain.Authority;
 import com.example.pswbackend.domain.CCAdmin;
 import com.example.pswbackend.dto.CCAdminDTO;
 import com.example.pswbackend.enums.UserStatus;
@@ -10,6 +11,9 @@ import com.example.pswbackend.services.CCAdminService;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CCAdminServiceImpl implements CCAdminService {
@@ -60,8 +64,7 @@ public class CCAdminServiceImpl implements CCAdminService {
     @Override
     public CCAdmin register(CCAdminDTO ccAdminDTO) {
 
-        if (ccAdminRepository.findByEmail(ccAdminDTO.getEmail()) != null){
-            System.out.println("Vec postoji");
+        if (accountRepository.findByEmail(ccAdminDTO.getEmail()) != null){
             return null;
         }
 
@@ -73,8 +76,14 @@ public class CCAdminServiceImpl implements CCAdminService {
         ccAdmin.setCountry(ccAdminDTO.getCountry());
         ccAdmin.setCity(ccAdminDTO.getCity());
         ccAdmin.setAddress(ccAdminDTO.getAddress());
-        ccAdmin.setPassword(ccAdminDTO.getPassword());
+        ccAdmin.setPassword("$2y$12$4zrqOojpixOe/ogFw1xyyuQuIvFqrzbj0IohYtshqqy1P5rS6kdbq");
         ccAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
+        List<Authority> authorities = new ArrayList<>();
+        Authority a = new Authority();
+        a.setName("ROLE_CC_ADMIN");
+        a.setId(5L);
+        authorities.add(a);
+        ccAdmin.setAuthorities(authorities);
 
         String s = "You have been registered as an Clinic Center Admin. You can now log in to the Clinical Centre System. " +
                 "Please visit http://localhost:3000/login to log into your account. " +
@@ -82,6 +91,5 @@ public class CCAdminServiceImpl implements CCAdminService {
         emailService.sendEmail(ccAdmin.getUsername(), "Registration Request Response", s);
 
         return ccAdminRepository.save(ccAdmin);
-
     }
 }

@@ -12,6 +12,6 @@ public interface MedicalRecordService {
     MedicalRecord findByPatientId(long id);
     List<MedicalRecord> findAll();
 
-    MedicalRecord save(MedicalRecordDTO medicalRecordDTO);
+    MedicalRecord editMedicalRecord(MedicalRecordDTO medicalRecordDTO) throws Exception;
 
 }

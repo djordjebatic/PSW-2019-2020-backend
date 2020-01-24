@@ -1,6 +1,7 @@
 package com.example.pswbackend.serviceImpl;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.dto.PredefinedAppointmentDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.services.EmailService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +30,11 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
     public List<Appointment> findAll(){ return predAppointRepo.findAll(); }
 
     @Override
-    public List<Appointment> findByClinicId(Long id){ return predAppointRepo.findByClinicId(id); }
+    public List<PredefinedAppointmentDTO> findPredefinedByClinicId(long id){
+        //return predAppointRepo.findByClinicId(id);
+        return convertToDTO(predAppointRepo.findByClinicId(id));
+
+    }
 
     @Override
     public Appointment schedulePredefinedAppointment(Patient patient, Appointment appointment ){
@@ -55,5 +61,16 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
 
     }
 
+    public List<PredefinedAppointmentDTO> convertToDTO(List<Appointment> appointments) {
+
+        if (appointments.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<PredefinedAppointmentDTO> predefinedAppointmentsDTO = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            predefinedAppointmentsDTO.add(new PredefinedAppointmentDTO(appointment));
+        }
+        return predefinedAppointmentsDTO;
+    }
 
 }

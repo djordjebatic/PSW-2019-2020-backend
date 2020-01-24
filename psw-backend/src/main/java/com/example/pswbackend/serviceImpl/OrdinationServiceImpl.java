@@ -90,16 +90,13 @@ public class OrdinationServiceImpl implements OrdinationService {
 
     @Override
     public void assignOrdinationAutomatically() {
-        System.out.println("++++++++++USAO U METODU+++++++++++++++++++");
         List<Appointment> appointmentsAwaitingApproval = appointmentService.getAwaitingApprovalAppointments();
         for (Appointment appointment : appointmentsAwaitingApproval) {
-            System.out.println("++++++++++Ima ih koji cekaju+++++++++++++++++++    " + appointment.getId());
-
             List<Ordination> availableOrdinations = getAvailableOrdinations(appointment);
             List<Doctor> availableDoctors = getAvailableDoctors(appointment);
+            System.out.println("ID ===== " + appointment.getId());
 
             if (appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.OPERATION)) {
-                System.out.println("operacija");
                 if (!availableOrdinations.isEmpty()) {
                     System.out.println("nije prazna ordinacija");
                     if (!availableDoctors.isEmpty()) {
@@ -127,9 +124,9 @@ public class OrdinationServiceImpl implements OrdinationService {
         Ordination ordination = null;
         long duration = Duration.between(appointment.getStartDateTime(), appointment.getEndDateTime()).toMillis() / 1000;
 
-        LocalDateTime start = appointment.getStartDateTime().toLocalDate().atStartOfDay().plusHours(8);
+        LocalDateTime start = appointment.getStartDateTime().toLocalDate().plusDays(1).atStartOfDay().plusHours(8);
         LocalDateTime end = start.plusSeconds(duration);
-        LocalDateTime end_search = appointment.getStartDateTime().toLocalDate().atStartOfDay().plusHours(20);
+        LocalDateTime end_search = appointment.getStartDateTime().toLocalDate().plusDays(1).atStartOfDay().plusHours(20);
 
         List<Ordination> ordinations = ordinationRepository.findByClinicId(appointment.getId());
 
@@ -175,7 +172,7 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     public List<Ordination> getAvailableOrdinations(Appointment appointment){
-        List<Ordination> ordinations = ordinationRepository.findByClinicId(appointment.getId());
+        List<Ordination> ordinations = ordinationRepository.findByClinicId(appointment.getClinic().getId());
         List<Ordination> availableOrdinations = new ArrayList<>();
 
         for (Ordination o : ordinations){
@@ -189,6 +186,8 @@ public class OrdinationServiceImpl implements OrdinationService {
 
     public boolean isOrdinationAvailable(Ordination ordination, LocalDateTime start, LocalDateTime end) {
         List<Appointment> appointments = appointmentService.getOrdinationAppointmentsDuringTheDay(ordination.getId(), start);
+
+
         boolean available = false;
         if (appointments.isEmpty()){
             return true;
@@ -225,11 +224,13 @@ public class OrdinationServiceImpl implements OrdinationService {
         LocalDateTime appointment_end = appointment.getEndDateTime();
 
         if (appointment_end.isAfter(end)){
+            System.out.println("oved");
             if (appointment_start.isBefore(end)){
                 return true;
             }
         }
         if (appointment_start.isBefore(start)){
+            System.out.println("ipak oved");
             if (appointment_end.isAfter(start)){
                 return true;
             }

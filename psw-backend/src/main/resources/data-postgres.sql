@@ -87,7 +87,7 @@ values ('PATIENT', 'patijent@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGd
 INSERT INTO account_authority (account_id, authority_id) values  (8, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
-values ('PATIENT', 'patijent3@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Kongo', 'Kongic', '065259165', 'Heroja Pinkija 69','Kinsasa','DR Kongo','1235256262','AWAITING_APPROVAL');
+values ('PATIENT', 'patijent3@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Kongo', 'Kongic', '065259165', 'Heroja Pinkija 69','Kinsasa','DR Kongo','1235256262','APPROVED');
 INSERT INTO account_authority (account_id, authority_id) values  (9, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
@@ -164,50 +164,50 @@ values('OPERATION', '21', '2');
 
 --Medical record
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
-values( 'Milk, flowers', 'A', '170', '6', '70');
+values( 'Eggs, gluten', '0', '230', 8, '30');
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
-values( 'Eggs, gluten', '0', '230', '8', '30');
-insert into medical_record(allergies, blood_type, height, patient_id, weight)
-values( 'Cats', 'AB', '130', '9', '170');
-insert into medical_record(allergies, blood_type, height, patient_id, weight)
-values( 'Pollen', 'B', '180', '2', '70');
+values( 'Cats', 'AB', '130', 9, '170');
+
 
 --Appointments
 
 --This operation is yet to be approved and it's ordination and doctors to be set
-insert into appointment(price_id, start_date_time, end_date_time, status, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '01.21.2020 18:00', '01.21.2020 19:30', 'AWAITING_APPROVAL', '9', 6, 1, 1, '10');
-
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(4, '01.19.2020 14:45', '01.19.2020 23:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
+values(1, '01.23.2020 18:00', '01.23.2020 19:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(3, '01.27.2020 10:00', '01.27.2020 13:30', 'PREDEF_BOOKED', '4', '8', 6, 2, 1, '5');
+values(1, '01.19.2020 14:45', '01.19.2020 23:30', 'APPROVED', 3, '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (2,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(3, '01.27.2020 15:00', '01.27.2020 16:00', 'CANCELED', '4', '8', 6, 2, 1, '5');
+values(2, '01.27.2020 10:00', '01.27.2020 13:30', 'PREDEF_BOOKED', '4', 8, 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '02.17.2020 15:00', '02.17.2020 15:30', 'APPROVED', '3', '9', 6, 3, 1, '4');
-insert into appointed_doctors (appointment_id, doctor_id) values (1,5);
+values(2, '01.27.2020 15:00', '01.27.2020 16:00', 'CANCELED', '4', 8, 6, 2, 1, '5');
+insert into appointed_doctors (appointment_id, doctor_id) values (4,4);
 
-insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '02.21.2020 15:00', '02.21.2020 12:00', 'APPROVED', '3', '9', 6, 3, 1, '4');
-insert into appointed_doctors (appointment_id, doctor_id) values (3,5);
---
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
-values(4, '01.23.2019 08:00', '01.23.2019 9:30', 'PREDEF_AVAILABLE', '2', '4', 7, 3, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (4,5);
+values(2, '01.21.2020 9:00', '01.21.2020 19:30', 'APPROVED', '1', 9, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (5,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(1, '01.23.2020 18:30', '01.23.2020 20:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(1, '01.24.2020 08:00', '01.24.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(1, '01.25.2020 08:00', '01.25.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+--
 
 --Examination Report
 insert into examination_report (comment, time_created, appointment_id, diagnosis_id, doctor_id, medical_record_id)
-values ('hahaha', '01.03.2020 11:30', 1, 1, 4, 3);
+values ('Lorem ipsum lupus hominus', '01.20.2020 19:15', 1, 1, 4, 1);
 
 insert into examination_report (comment, time_created, appointment_id, diagnosis_id, doctor_id, medical_record_id)
-values ('hahaha', '01.03.2020 11:30', 2, 1, 5, 3);
+values ('Hahus quius est locus', '01.19.2020 22:10', 2, 1, 5, 2);
 
 --Prescription
 insert into prescription(prescription_enum, drug_id, examination_report_id, nurse_id)

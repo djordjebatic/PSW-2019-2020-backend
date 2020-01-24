@@ -1,12 +1,9 @@
 package com.example.pswbackend.dto;
 
-import com.example.pswbackend.enums.UserStatus;
-
 public class CCAdminDTO {
 
     private Long id;
     private String email;
-    private String password;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -28,14 +25,6 @@ public class CCAdminDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = "$2y$12$4zrqOojpixOe/ogFw1xyyuQuIvFqrzbj0IohYtshqqy1P5rS6kdbq";
     }
 
     public String getFirstName() {
