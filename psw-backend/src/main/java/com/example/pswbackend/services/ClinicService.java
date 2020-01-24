@@ -10,7 +10,7 @@ import java.util.List;
 public interface ClinicService {
 
     ClinicDTO findById(Long id);
-    Clinic findByName(String name);
+    List<Clinic> findByName(String name);
 
     Clinic register(ClinicDTO clinicDTO);
 

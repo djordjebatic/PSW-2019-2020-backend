@@ -10,7 +10,6 @@ public class ClinicAdminDTO {
 
     private Long id;
     private String email;
-    private String password;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -19,9 +18,8 @@ public class ClinicAdminDTO {
     private String country;
     private Long clinicId;
 
-    public ClinicAdminDTO(String email, String password, String firstName, String lastName, String phoneNumber, String address, String city, String country, Long clinicId) {
+    public ClinicAdminDTO(String email, String firstName, String lastName, String phoneNumber, String address, String city, String country, Long clinicId) {
         this.email = email;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -29,6 +27,10 @@ public class ClinicAdminDTO {
         this.city = city;
         this.country = country;
         this.clinicId = clinicId;
+    }
+
+    public  ClinicAdminDTO(){
+
     }
 
     public Long getId() {
@@ -45,14 +47,6 @@ public class ClinicAdminDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {

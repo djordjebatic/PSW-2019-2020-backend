@@ -6,14 +6,16 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.example.pswbackend.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @DiscriminatorValue(value="NURSE")
 public class Nurse extends Account{
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
 	@JsonManagedReference
@@ -26,6 +28,10 @@ public class Nurse extends Account{
 	
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
+
+    @JsonIgnore
+	@OneToOne(mappedBy = "nurse",cascade = CascadeType.ALL)
+	private PaidTimeOffNurse paidTimeOffNurse;
 
 	public Nurse(){
 	}
@@ -60,5 +66,13 @@ public class Nurse extends Account{
 
 	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public PaidTimeOffNurse getPaidTimeOffNurse() {
+		return paidTimeOffNurse;
+	}
+
+	public void setPaidTimeOffNurse(PaidTimeOffNurse paidTimeOffNurse) {
+		this.paidTimeOffNurse = paidTimeOffNurse;
 	}
 }

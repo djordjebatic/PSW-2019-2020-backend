@@ -81,7 +81,8 @@ public class PatientServiceImpl implements PatientService {
             return false;
         }
 
-        String s = "Registration request has been approved by the Administrator! You can now log in to the Clinical Centre System. Reason: ";
+        String s = "Dear " + patient.getFirstName() + " " + patient.getLastName() +
+                ", unfortunately your registration request has been rejected by the Clinic Center Administrator for the following reason: ";
         StringBuilder sb = new StringBuilder();
         sb.append(s);
         sb.append(message);

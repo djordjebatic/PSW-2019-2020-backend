@@ -3,30 +3,32 @@ package com.example.pswbackend.dto;
 import com.example.pswbackend.domain.ClinicAdmin;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Ordination;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class QuickReservationDTO {
 
-    //private ClinicAdmin clinicAdmin; //TODO dodati *koji* admin pravi brzu rezervaciju
+    private String clinicAdmin;
     private String doctor;
     private String ordination;
-    private String date;
-    private String time;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private String startDateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private String endDateTime;
     private double price;
-    private int duration; // u minutima
     private String type; //  0 = EXAMINATION, 1 = OPERATION
 
+
+    public String getClinicAdmin() { return clinicAdmin; }
 
     public String getDoctor() { return doctor; }
 
     public String getOrdination() { return ordination; }
 
-    public String getDate() { return date; }
+    public String getStartDateTime() { return startDateTime; }
 
-    public String getTime() { return time; }
+    public String getEndDateTime() { return endDateTime; }
 
     public double getPrice() { return price; }
-
-    public int getDuration() { return duration; }
 
     public String getType() { return type; }
 }

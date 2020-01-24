@@ -51,11 +51,12 @@ public class ClinicController {
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/clinic/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    /*@GetMapping(value = "/clinic/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<ClinicDTO> getClinic(@PathVariable long id) {
         return new ResponseEntity<>(clinicService.findById(id), HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping(value="/filter-clinics/{date}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
@@ -71,6 +72,11 @@ public class ClinicController {
             List<ResultClinicDTO> lc= clinicService.filterClinics(dto);
             return new ResponseEntity<>(lc, HttpStatus.OK);
         }
+
+    @GetMapping(value = "/clinic/{clinicId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT') or hasRole('CLINIC_ADMIN')")
+    public ClinicDTO getClinic(@PathVariable long clinicId) {
+        return this.clinicService.findById(clinicId);
     }
     
 

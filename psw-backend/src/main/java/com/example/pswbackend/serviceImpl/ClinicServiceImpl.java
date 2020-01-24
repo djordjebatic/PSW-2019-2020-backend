@@ -50,15 +50,18 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public Clinic findByName(String name) {
-        return clinicRepository.findByName(name);
+    public List<Clinic> findByName(String name) {
+        return clinicRepository.findByNameIgnoreCase(name);
     }
 
     @Override
     public Clinic register(ClinicDTO clinicDTO) {
-        if (findByName(clinicDTO.getName()) != null){
-            System.out.println("Clinic with name: %s" + clinicDTO.getName() + "already exists.");
-            return null;
+
+        List<Clinic> clinics = findByName(clinicDTO.getName());
+        for (Clinic clinic : clinics){
+            if (clinic.getAddress().toUpperCase().equals(clinicDTO.getAddress().toUpperCase()) && clinic.getCity().toUpperCase().equals(clinicDTO.getCity().toUpperCase())){
+                return null;
+            }
         }
 
         Clinic clinic = new Clinic(clinicDTO.getName(), clinicDTO.getDescription(), clinicDTO.getAddress(), clinicDTO.getCity());

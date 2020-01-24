@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.Diagnosis;
 import com.example.pswbackend.domain.Drug;
 import com.example.pswbackend.domain.ExaminationReport;
 import com.example.pswbackend.domain.Prescription;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,7 +16,11 @@ public class EditExaminationReportDTO {
     private String comment;
     private Diagnosis diagnosis;
     private List<Drug> drugs;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime timeCreated;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime lastEdited;
 
 

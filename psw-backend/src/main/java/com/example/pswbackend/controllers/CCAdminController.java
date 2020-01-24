@@ -97,12 +97,25 @@ public class CCAdminController {
         }
     }
 
+    @GetMapping(value = "/get-all-clinics")
+    @PreAuthorize("hasRole('CC_ADMIN')")
+    public ResponseEntity getAllClinics(){
+
+        List<Clinic> clinics = clinicService.findAll();
+        if (clinics.isEmpty()){
+            return new ResponseEntity<>("There are no clinics registered in clinic center system", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(clinics, HttpStatus.OK);
+    }
+
     @PostMapping(value="/register-clinic")
     @PreAuthorize("hasRole('CC_ADMIN')")
-    public ResponseEntity<Clinic> registerClinic(@RequestBody ClinicDTO clinicDTO){
+    public ResponseEntity registerClinic(@RequestBody ClinicDTO clinicDTO){
+
         Clinic clinic = clinicService.register(clinicDTO);
         if (clinic == null){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Clinic with given name already exists at a given address", HttpStatus.CONFLICT);
         }
 
         return new ResponseEntity<>(clinic, HttpStatus.OK);
@@ -110,10 +123,11 @@ public class CCAdminController {
 
     @PostMapping(value="/register-clinic-admin")
     @PreAuthorize("hasRole('CC_ADMIN')")
-    public ResponseEntity<ClinicAdmin> registerClinic(@RequestBody ClinicAdminDTO clinicAdminDTO){
+    public ResponseEntity registerClinic(@RequestBody ClinicAdminDTO clinicAdminDTO){
+
         ClinicAdmin newClinicAdmin = clinicAdminService.register(clinicAdminDTO);
         if (newClinicAdmin == null){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User with given email address already exists", HttpStatus.CONFLICT);
         }
 
         return new ResponseEntity<>(newClinicAdmin, HttpStatus.OK);
@@ -225,20 +239,12 @@ public class CCAdminController {
 
     @PostMapping(value="/register-cc-admin")
     @PreAuthorize("hasRole('CC_ADMIN')")
-    public ResponseEntity<CCAdmin> registerCCAdmin(@RequestBody CCAdminDTO ccAdminDTO){
+    public ResponseEntity registerCCAdmin(@RequestBody CCAdminDTO ccAdminDTO){
+
         CCAdmin ccAdmin = ccAdminService.register(ccAdminDTO);
         if (ccAdmin == null){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User with given email address already exists", HttpStatus.CONFLICT);
         }
-        ccAdmin.setUserStatus(UserStatus.NEVER_LOGGED_IN);
-        List<Authority> authorities = new ArrayList<>();
-        Authority a = new Authority();
-        a.setName("ROLE_CC_ADMIN");
-        a.setId(5L);
-        authorities.add(a);
-        ccAdmin.setAuthorities(authorities);
-
-        ccAdminRepository.save(ccAdmin);
 
         return new ResponseEntity<>(ccAdmin, HttpStatus.OK);
     }

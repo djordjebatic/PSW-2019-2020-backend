@@ -8,7 +8,7 @@ import java.util.List;
 public interface ClinicRepository extends JpaRepository <Clinic, Long> {
 
     Clinic findOneById(Long id);
-    Clinic findByName(String name);
+    List<Clinic> findByNameIgnoreCase(String name);
 
     List<Clinic> findAll();
 }

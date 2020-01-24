@@ -1,5 +1,6 @@
 package com.example.pswbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -57,7 +58,7 @@ public class Clinic {
 	private Set<Ordination> ordinations = new HashSet<>();
 
 	@JsonManagedReference
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Doctor> clinicAdmins = new HashSet<>();
 
 	@JsonManagedReference

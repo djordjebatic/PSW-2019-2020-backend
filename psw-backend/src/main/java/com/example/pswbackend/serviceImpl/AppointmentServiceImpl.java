@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
@@ -47,6 +47,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<AppointmentCalendarDTO> getOrdinationAppointments(Long ordinationId){
+
+        return convertToDTO(appointmentRepository.findByOrdinationId(ordinationId));
+    }
+
+    @Override
     public List<AppointmentCalendarDTO> getNurseAppointments(Long nurseId) {
         List<AppointmentStatus> statuses = new ArrayList<>();
         statuses.add(AppointmentStatus.APPROVED);
@@ -83,7 +89,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getPredefinedAwailableAppointments() {
+    public List<Appointment> getPredefinedAvailableAppointments() {
         return appointmentRepository.findByStatus(AppointmentStatus.PREDEF_AVAILABLE);
     }
 
@@ -252,7 +258,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             stringBuilder.append("doctor");
         }
         stringBuilder.append(", your operation has been scheduled for ");
-        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm")));
+        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
         stringBuilder.append(" in ordination ");
         stringBuilder.append(appointment.getOrdination().getNumber());
         stringBuilder.append(", Clinic: ");

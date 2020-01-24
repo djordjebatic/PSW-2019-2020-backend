@@ -17,4 +17,6 @@ public interface DoctorService {
     Doctor getLoggedInDoctor();
     List<ResultDoctorDTO> filterDoctors(FilterDoctorsDTO dto);
 
+    List<Doctor> findClinicDoctors(Long clinicId);
+
 }

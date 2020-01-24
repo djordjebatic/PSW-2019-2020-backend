@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.Appointment;
@@ -89,6 +89,10 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> findByClinicId(long id) { return doctorRepo.findByClinicId(id);
+
+    @Override
+    public List<Doctor> findClinicDoctors(Long id) {
+        return doctorRepo.findByClinicId(id);
     }
 
     @Override
