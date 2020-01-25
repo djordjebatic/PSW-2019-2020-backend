@@ -130,7 +130,7 @@ public class DoctorServiceImpl implements DoctorService {
         d.setFirstName(dto.getFirstName());
         d.setLastName(dto.getLastName());
         d.setEmail(dto.getUsername());
-        d.setPassword(passwordEncoder.encode("admin"));
+        d.setPassword(passwordEncoder.encode("doktor"));
         d.setPhoneNumber(dto.getPhoneNumber());
         d.setCity(dto.getCity());
         d.setCountry(dto.getCountry());
