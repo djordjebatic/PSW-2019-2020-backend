@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.AppointmentType;
 import com.example.pswbackend.dto.AppointmentTypeDTO;
@@ -24,6 +24,22 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
         }
 
         return new AppointmentTypeDTO(appointmentType.getId(), appointmentType.getName());
+    }
+
+    @Override
+    public List<AppointmentTypeDTO> findByClinicId(Long clinicId) {
+        List<AppointmentType> appointmentType = appointmentTypeRepository.findByClinicId(clinicId);
+        if (appointmentType == null) {
+            return null;
+        }
+
+        List<AppointmentTypeDTO> appDTOL = new ArrayList<AppointmentTypeDTO>();
+        for(AppointmentType a :appointmentType){
+            AppointmentTypeDTO appDTO = new AppointmentTypeDTO(a.getId(), a.getName());
+            appDTOL.add(appDTO);
+        }
+
+        return appDTOL;
     }
 
     @Override
