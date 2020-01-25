@@ -1,5 +1,8 @@
 package com.example.pswbackend.ServiceImpl;
 
+import com.example.pswbackend.domain.*;
+import com.example.pswbackend.dto.AppointmentDoctorDTO;
+import com.example.pswbackend.dto.NewDoctorDTO;
 import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
@@ -13,18 +16,21 @@ import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
+import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.DoctorService;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -36,6 +42,9 @@ public class DoctorServiceImpl implements DoctorService {
     private ClinicAdminService clinicAdminService;
 
     @Autowired
+    private ClinicService clinicService;
+
+    @Autowired
     private DoctorRepository doctorRepo;
 
     @Autowired
@@ -45,29 +54,31 @@ public class DoctorServiceImpl implements DoctorService {
     private AccountRepository accountRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private AppointmentService appointmentService;
 
 
     @Override
     public boolean scheduleAppointment(AppointmentDoctorDTO dto) {
 
-        Patient patient = patientRepo.findById(Long.parseLong(dto.getPatient())).get();
+        Patient patient = patientRepo.findById(dto.getPatient());
         Doctor doctor = doctorRepo.findById(Long.parseLong(dto.getDoctor())).get();
 
-        String type = dto.getType();
-        String stringType = type == "0" ? "Examination" : "Surgery";
+        int type = Integer.parseInt(dto.getType());
+        String stringType = type == 0 ? "Examination" : "Operation";
 
-        String date = dto.getDate();
-        date = date.substring(8,10) + "." + date.substring(5,7) + "." + date.substring(0,4) + ".";
+        // TODO dodati startDateTime endDateTime
 
-        String message = "Hello, " + "Clinic Admin" +  // TODO dodati koji admin
+        String message = "Hello, " + "Clinic Admin" +
                 ".\nYou got a new request for scheduling an appointment.\n\nAppointment information: \n" +
                 "-----------------------------------\n" +
                 "     Doctor: " + doctor.getFirstName() + " " + doctor.getLastName() + "\n" +
                 "     Patient: " + patient.getFirstName() + " " + patient.getLastName() + "\n" +
                 "     Type: " + stringType + "\n" +
-                "     Date: " + date +
-                "\n     Time: " + dto.getTime() +
+                "     Start: " + dto.getStartDateTime()+
+                "\n     End: " + dto.getEndDateTime() +
                 "\n-----------------------------------";
 
         clinicAdminService.receiveAppointmentRequest(dto);
@@ -111,8 +122,36 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<ResultDoctorDTO> filterDoctors(FilterDoctorsDTO dto) {
+    public Doctor addNew(NewDoctorDTO dto) {
 
+        Clinic c = clinicService.findClinicById(dto.getClinicId());
+
+        Doctor d = new Doctor();
+        d.setFirstName(dto.getFirstName());
+        d.setLastName(dto.getLastName());
+        d.setEmail(dto.getUsername());
+        d.setPassword(passwordEncoder.encode("doktor"));
+        d.setPhoneNumber(dto.getPhoneNumber());
+        d.setCity(dto.getCity());
+        d.setCountry(dto.getCountry());
+        d.setAddress(dto.getAddress());
+        d.setClinic(c);
+
+        List<Authority> authorities = new ArrayList<Authority>();
+        Authority a = new Authority();
+        a.setName("ROLE_DOCTOR");
+        a.setId(2L);
+        authorities.add(a);
+        d.setAuthorities(authorities);
+
+        c.getDoctors().add(d);
+        doctorRepo.save(d);
+
+        return d;
+
+    }
+
+    public List<ResultDoctorDTO> filterDoctors(FilterDoctorsDTO dto) {
 
         List<Doctor> doctorList = new ArrayList<Doctor>();
         List<ResultDoctorDTO> listDoctorDTO = new ArrayList<>();

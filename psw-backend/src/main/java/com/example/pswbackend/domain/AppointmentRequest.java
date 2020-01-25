@@ -2,8 +2,10 @@ package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class AppointmentRequest {
@@ -16,11 +18,13 @@ public class AppointmentRequest {
     @Enumerated(EnumType.STRING)
     private AppointmentEnum type;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     @Column(nullable = false)
-    private String date;
+    private LocalDateTime startDateTime;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     @Column(nullable = false)
-    private String time;
+    private LocalDateTime endDateTime;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
@@ -30,6 +34,8 @@ public class AppointmentRequest {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private ClinicAdmin clinicAdmin;
 
+    private long patientId;
+
     //endregion
 
     //region Contructors
@@ -37,12 +43,13 @@ public class AppointmentRequest {
 
     }
 
-    public AppointmentRequest(String date, String time, Doctor doctor, ClinicAdmin clinicAdmin, AppointmentEnum type){
-        this.date = date;
-        this.time = time;
+    public AppointmentRequest(LocalDateTime start, LocalDateTime end, Doctor doctor, ClinicAdmin clinicAdmin, AppointmentEnum type, long patientId){
+        this.startDateTime = start;
+        this.endDateTime = end;
         this.doctor = doctor;
         this.clinicAdmin = clinicAdmin;
         this.type = type;
+        this.patientId = patientId;
     }
 
     //endregion
@@ -56,20 +63,20 @@ public class AppointmentRequest {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
-    public String getTime() {
-        return time;
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setEndDateTime(LocalDateTime endDateTime) {
+        this.endDateTime = endDateTime;
     }
 
     public Doctor getDoctor() {
@@ -94,6 +101,14 @@ public class AppointmentRequest {
 
     public void setType(AppointmentEnum type) {
         this.type = type;
+    }
+
+    public long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(long patientId) {
+        this.patientId = patientId;
     }
 
     //endregion

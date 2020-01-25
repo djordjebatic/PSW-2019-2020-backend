@@ -72,6 +72,14 @@ public class ClinicController {
     public ClinicDTO getClinic(@PathVariable long clinicId) {
         return this.clinicService.findById(clinicId);
     }
+
+
+    @GetMapping(value = "/clinic-admin-clinic/{clinicAdminId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Long> getClinicAdminClinic(@PathVariable long clinicAdminId) {
+
+        return new ResponseEntity<Long>(clinicService.findByClinicAdminId(clinicAdminId), HttpStatus.OK);
+    }
     
 
 

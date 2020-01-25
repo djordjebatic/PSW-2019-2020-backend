@@ -1,8 +1,6 @@
 package com.example.pswbackend.services;
-
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.dto.*;
-
 import java.util.List;
 
 public interface DoctorService {
@@ -11,6 +9,8 @@ public interface DoctorService {
 
     Doctor findById(long id);
     List<Doctor> findByClinicId(long id);
+
+    Doctor addNew(NewDoctorDTO dto);
 
     List<Doctor> findAll();
 

@@ -1,5 +1,9 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
+import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.ClinicAdmin;
+import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.repositories.ClinicAdminRepository;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.FilterClinicsDTO;
@@ -28,6 +32,9 @@ public class ClinicServiceImpl implements ClinicService {
     ClinicRepository clinicRepository;
 
     @Autowired
+    ClinicAdminRepository clinicAdminRepository;
+
+    @Autowired
     DoctorRepository doctorRepository;
 
     @Autowired
@@ -50,14 +57,35 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public List<Clinic> findByName(String name) {
+    public Clinic findClinicById(Long id) {
+        Clinic clinic = clinicRepository.findOneById(id);
+        if (clinic == null) {
+            return null;
+        }
+
+        return clinic;
+    }
+
+    @Override
+    public Long findByClinicAdminId(long clinicAdminId){
+        ClinicAdmin ca = clinicAdminRepository.findOneById(clinicAdminId);
+        return ca.getClinic().getId();
+    }
+
+    @Override
+    public Clinic findByName(String name) {
+        return clinicRepository.findByName(name);
+    }
+
+    @Override
+    public List<Clinic> findByNameIgnoreCase(String name) {
         return clinicRepository.findByNameIgnoreCase(name);
     }
 
     @Override
     public Clinic register(ClinicDTO clinicDTO) {
 
-        List<Clinic> clinics = findByName(clinicDTO.getName());
+        List<Clinic> clinics = findByNameIgnoreCase(clinicDTO.getName());
         for (Clinic clinic : clinics){
             if (clinic.getAddress().toUpperCase().equals(clinicDTO.getAddress().toUpperCase()) && clinic.getCity().toUpperCase().equals(clinicDTO.getCity().toUpperCase())){
                 return null;

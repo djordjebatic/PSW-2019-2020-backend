@@ -3,6 +3,7 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.AssignOperationDTO;
+import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
@@ -53,6 +54,13 @@ public class OrdinationController {
     public List<Ordination> getOrdinations() {
 
         return ordinationService.findAll();
+    }
+
+    @PostMapping(value="/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Ordination> addNew(@RequestBody NewOrdinationDTO dto) {
+
+        return new ResponseEntity<Ordination>(ordinationService.addNew(dto), HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/assign-operation-ordination", produces = MediaType.APPLICATION_JSON_VALUE)

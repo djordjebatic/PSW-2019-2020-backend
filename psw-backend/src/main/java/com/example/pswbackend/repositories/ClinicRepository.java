@@ -9,6 +9,7 @@ public interface ClinicRepository extends JpaRepository <Clinic, Long> {
 
     Clinic findOneById(Long id);
     List<Clinic> findByNameIgnoreCase(String name);
+    Clinic findByName(String name);
 
     List<Clinic> findAll();
 }
