@@ -110,6 +110,17 @@ insert into account (account_type, email, password, first_name, last_name, phone
 values ('PATIENT', 'patijent8@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Milica', 'Petrovic', '0652565229', 'Gogoljeva 69','Maseru','Lesoto','14324234256','APPROVED');
 INSERT INTO account_authority (account_id, authority_id) values  (14, 1);
 
+--doc2
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
+values ('DOCTOR', 'dok3@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mika', 'Dokic', '060321456', 'Zeleznicka ulica 69','Ndzamena','Chad', 2, 2, 'ACTIVE', 46, 10);
+INSERT INTO account_authority (account_id, authority_id) values  (15, 2);
+
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
+values ('DOCTOR', 'dok4@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mile', 'Dokic', '060123654', 'Zeleznicka ulica 69','Ndzamena','Chad', 3, 3, 'ACTIVE', 46, 10);
+INSERT INTO account_authority (account_id, authority_id) values  (16, 2);
+
+
+
 ------------------------------------------------------------------------------
 
 --Diagnosis
@@ -192,6 +203,15 @@ insert into appointment(price_id, start_date_time, end_date_time, status, ordina
 values(2, '01.21.2020 9:00', '01.21.2020 19:30', 'APPROVED', '1', 9, 6, 1, 1);
 insert into appointed_doctors (appointment_id, doctor_id) values (5,4);
 
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '01.27.2020 10:15', '01.27.2020 11:00', 'PREDEF_AVAILABLE', '4', null, 6, 2, 1, '5');
+insert into appointed_doctors (appointment_id, doctor_id) values (6,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
+values(2, '02.02.2020 09:30', '02.02.2020 10:15', 'PREDEF_AVAILABLE', '4', null, 6, 2, 1, '5');
+insert into appointed_doctors (appointment_id, doctor_id) values (7,4);
+insert into appointed_doctors (appointment_id, doctor_id) values (7,5);
+
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(1, '01.23.2020 18:30', '01.23.2020 20:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
 
@@ -200,6 +220,8 @@ values(1, '01.24.2020 08:00', '01.24.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7,
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(1, '01.25.2020 08:00', '01.25.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+
+
 --
 
 --Examination Report
