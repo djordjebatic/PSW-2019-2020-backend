@@ -3,6 +3,7 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.AssignOperationDTO;
+import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.services.AppointmentService;
@@ -61,6 +62,26 @@ public class OrdinationController {
     public ResponseEntity<Ordination> addNew(@RequestBody NewOrdinationDTO dto) {
 
         return new ResponseEntity<Ordination>(ordinationService.addNew(dto), HttpStatus.CREATED);
+    }
+
+    @PutMapping(value="/{ordinationId}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Boolean> updateClinic(@PathVariable Long ordinationId, @RequestBody NewOrdinationDTO dto){
+
+        Ordination o = ordinationService.findById(ordinationId);
+
+        if (o == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Boolean success = ordinationService.updateOrdination(o, dto);
+
+        if(success) {
+            return new ResponseEntity<>(success, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping(value = "/assign-operation-ordination", produces = MediaType.APPLICATION_JSON_VALUE)
