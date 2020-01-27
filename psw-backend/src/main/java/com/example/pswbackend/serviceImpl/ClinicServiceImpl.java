@@ -2,21 +2,23 @@ package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.ClinicAdmin;
-import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.dto.*;
 import com.example.pswbackend.repositories.ClinicAdminRepository;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ClinicDTO;
-import com.example.pswbackend.dto.FilterClinicsDTO;
-import com.example.pswbackend.dto.ResultClinicDTO;
 import com.example.pswbackend.repositories.AppointmentPriceRepository;
 import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.DoctorService;
 import com.example.pswbackend.repositories.DoctorRepository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -189,7 +191,21 @@ public class ClinicServiceImpl implements ClinicService {
         return false;
     }
 
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public Boolean updateClinic(Clinic c, ClinicDTO dto) {
 
+        try{
+            c.setName(dto.getName());
+            c.setDescription(dto.getDescription());
+            c.setCity(dto.getCity());
+            c.setAddress(dto.getAddress());
+            clinicRepository.save(c);
+        }
+        catch(EntityNotFoundException e){
+            return false;
+        }
 
-
+        return true;
+    }
 }
