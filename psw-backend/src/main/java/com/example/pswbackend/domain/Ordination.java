@@ -9,17 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Ordination {
@@ -27,8 +17,12 @@ public class Ordination {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+
+	@Version
+	@Column(name = "version_number", columnDefinition = "integer DEFAULT 0", nullable = false)
+	private Long version = 0L;
 	
-	  @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
+	@Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
 	private String number;
 
 	@Enumerated(EnumType.STRING)
@@ -52,6 +46,14 @@ public class Ordination {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public String getNumber() {
