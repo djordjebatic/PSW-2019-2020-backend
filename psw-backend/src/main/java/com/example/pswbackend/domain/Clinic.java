@@ -7,15 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Clinic {
@@ -23,6 +15,10 @@ public class Clinic {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Version
+	@Column(name = "version_number", columnDefinition = "integer DEFAULT 0", nullable = false)
+	private Long version = 0L;
 	
     @Column(columnDefinition = "VARCHAR(50)", nullable = false)
 	private String name;
@@ -86,6 +82,14 @@ public class Clinic {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public String getName() {
