@@ -2,6 +2,7 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Patient;
+import com.example.pswbackend.dto.PAScheduleDTO;
 import com.example.pswbackend.dto.PredefinedAppointmentDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
@@ -31,30 +32,32 @@ public class PredefinedAppointmentController {
     PatientRepository patientRepository;
 
     @PostMapping(value = "/schedule-predefined-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Appointment> schedulePredefinedAppointment(@PathVariable long patientId, @PathVariable long appId) {
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity schedulePredefinedAppointment(@RequestBody PAScheduleDTO dto) {
 
-        Patient patient = patientRepository.findOneById(patientId);
-        Appointment app = predefinedAppointmentRepository.findOneById(appId);
+        Patient patient = patientRepository.findOneById(dto.getPatientId());
+        Appointment app = predefinedAppointmentRepository.findOneById(dto.getAppointmentId());
 
         if(app.getStatus()==AppointmentStatus.PREDEF_BOOKED){
 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Appointment appointment1 = predefinedAppointmentService.schedulePredefinedAppointment(patient, app);
+        PredefinedAppointmentDTO appDTO = predefinedAppointmentService.schedulePredefinedAppointment(patient, app);
 
-        return new ResponseEntity<>(appointment1, HttpStatus.OK);
+        return new ResponseEntity<>(appDTO, HttpStatus.OK);
     }
     
 
     @GetMapping(value = "/predefined-appointments/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<PredefinedAppointmentDTO>> getPredefinedAppointments(@PathVariable long id) {
 
         try {
             return new ResponseEntity<>(predefinedAppointmentService.findPredefinedByClinicId(id), HttpStatus.OK);
         }
         catch (Exception e){
+            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
