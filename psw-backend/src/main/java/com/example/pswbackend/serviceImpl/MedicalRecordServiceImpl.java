@@ -50,6 +50,16 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     }
 
     @Override
+    public MedicalRecordDTO findByPatientIdP(long id) {
+
+        MedicalRecord mr = medicalRecordRepository.findByPatientId(id);
+        MedicalRecordDTO mDTO= new MedicalRecordDTO(id, mr.getHeight(), mr.getWeight(), mr.getBloodType(), mr.getAllergies());
+
+        return mDTO;
+    }
+
+
+    @Override
     public List<MedicalRecord> findAll(){ return medicalRecordRepository.findAll();}
 
     @Override
