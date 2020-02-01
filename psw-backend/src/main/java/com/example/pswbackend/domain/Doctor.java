@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,11 +45,21 @@ public class Doctor extends Account {
     @Column
     private int num_votes;
 
+    @Column
+    private Time workTimeStart;
+
+    @Column
+    private Time workTimeEnd;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "doctor",cascade = CascadeType.ALL)
+    private PaidTimeOffDoctor paidTimeOffDoctor;
+
 
     public Doctor(){
         this.appointmentRequests = new ArrayList();
         this.appointments = new ArrayList();
-        this.stars = 10;
+        this.stars = 0;
         this.num_votes = 0;
         this.userStatus = UserStatus.NEVER_LOGGED_IN;
     }
@@ -106,5 +118,29 @@ public class Doctor extends Account {
 
     public void setSpecialization(AppointmentType specialization) {
         this.specialization = specialization;
+    }
+
+    public Time getWorkTimeStart() {
+        return workTimeStart;
+    }
+
+    public void setWorkTimeStart(Time workTimeStart) {
+        this.workTimeStart = workTimeStart;
+    }
+
+    public Time getWorkTimeEnd() {
+        return workTimeEnd;
+    }
+
+    public void setWorkTimeEnd(Time workTimeEnd) {
+        this.workTimeEnd = workTimeEnd;
+    }
+
+    public PaidTimeOffDoctor getPaidTimeOffDoctor() {
+        return paidTimeOffDoctor;
+    }
+
+    public void setPaidTimeOffDoctor(PaidTimeOffDoctor paidTimeOffDoctor) {
+        this.paidTimeOffDoctor = paidTimeOffDoctor;
     }
 }
