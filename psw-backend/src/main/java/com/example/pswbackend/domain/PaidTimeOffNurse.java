@@ -3,6 +3,7 @@ package com.example.pswbackend.domain;
 import com.example.pswbackend.enums.PaidTimeOffStatus;
 import com.example.pswbackend.enums.PaidTimeOffType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class PaidTimeOffNurse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Nurse nurse;
 
