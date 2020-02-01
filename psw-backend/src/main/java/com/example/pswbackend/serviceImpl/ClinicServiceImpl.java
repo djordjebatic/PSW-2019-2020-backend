@@ -55,7 +55,7 @@ public class ClinicServiceImpl implements ClinicService {
             return null;
         }
 
-        return new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity());
+        return new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), clinic.getStars());
     }
 
     @Override
