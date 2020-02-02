@@ -277,6 +277,19 @@ public class OrdinationServiceImpl implements OrdinationService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public Boolean deleteOrd(Long id){
+
+        try {
+            ordinationRepository.delete(ordinationRepository.findOneById(id));
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Boolean updateOrdination(Ordination o, NewOrdinationDTO dto){
 
         try{
