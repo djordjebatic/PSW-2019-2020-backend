@@ -64,9 +64,16 @@ public class OrdinationController {
         return new ResponseEntity<Ordination>(ordinationService.addNew(dto), HttpStatus.CREATED);
     }
 
+    @PutMapping(value="/delete/{ordId}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Boolean> deleteOrd(@PathVariable Long ordId) {
+
+        return new ResponseEntity<Boolean>(ordinationService.deleteOrd(ordId), HttpStatus.OK);
+    }
+
     @PutMapping(value="/{ordinationId}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Boolean> updateClinic(@PathVariable Long ordinationId, @RequestBody NewOrdinationDTO dto){
+    public ResponseEntity<Boolean> updateOrd(@PathVariable Long ordinationId, @RequestBody NewOrdinationDTO dto){
 
         Ordination o = ordinationService.findById(ordinationId);
 
