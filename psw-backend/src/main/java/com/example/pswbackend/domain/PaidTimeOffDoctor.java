@@ -20,7 +20,7 @@ public class PaidTimeOffDoctor {
     private Doctor doctor;
 
     @Column
-    private String comment;
+    private String commentt;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     @Column(nullable = false)
@@ -57,11 +57,11 @@ public class PaidTimeOffDoctor {
     }
 
     public String getComment() {
-        return comment;
+        return commentt;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.commentt = comment;
     }
 
     public LocalDateTime getStartDateTime() {
