@@ -25,4 +25,5 @@ public interface OrdinationService {
     void assignOrdinationAutomatically();
 
     Boolean updateOrdination(Ordination ordination, NewOrdinationDTO dto);
+    Boolean deleteOrd(Long id);
 }
