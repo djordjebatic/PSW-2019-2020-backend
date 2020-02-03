@@ -16,6 +16,7 @@ public class QuickReservationDTO {
     private String endDateTime;
     private double price;
     private String type; //  0 = EXAMINATION, 1 = OPERATION
+    private int discount;
 
 
     public String getClinicAdmin() { return clinicAdmin; }
@@ -31,4 +32,8 @@ public class QuickReservationDTO {
     public double getPrice() { return price; }
 
     public String getType() { return type; }
+
+    public int getDiscount() {
+        return discount;
+    }
 }

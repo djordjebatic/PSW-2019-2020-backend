@@ -8,10 +8,7 @@ import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.*;
-import com.example.pswbackend.services.AppointmentRequestService;
-import com.example.pswbackend.services.AppointmentService;
-import com.example.pswbackend.services.ClinicAdminService;
-import com.example.pswbackend.services.EmailService;
+import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,6 +49,7 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Autowired
     AccountRepository accountRepository;
+
 
     @Override
     public ClinicAdminDTO findByName(String name) {
@@ -136,10 +134,12 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
         predefinedAppointment.setStartDateTime(startDateTime);
         predefinedAppointment.setEndDateTime(endDateTime);
+        predefinedAppointment.setDiscount(dto.getDiscount());
         predefinedAppointment.setOrdination(ordinationRepository.findById(Long.parseLong(dto.getOrdination())).get());
         predefinedAppointment.setClinicAdmin(clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get());
         predefinedAppointment.setClinic(clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get().getClinic());
         //predefinedAppointment.setDoctor(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
+        predefinedAppointment.getDoctors().add(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
         predefinedAppointment.setPrice(price);
         predefinedAppointment.setStatus(AppointmentStatus.PREDEF_AVAILABLE);
 
