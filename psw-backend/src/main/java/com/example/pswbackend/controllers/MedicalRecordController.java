@@ -66,4 +66,13 @@ public class MedicalRecordController {
             return new ResponseEntity<>(e.getStackTrace(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('PATIENT')")
+    public MedicalRecordDTO getMedicalRecordP(@PathVariable long id) {
+
+        return medicalRecordService.findByPatientIdP(id);
+    }
+
+
 }

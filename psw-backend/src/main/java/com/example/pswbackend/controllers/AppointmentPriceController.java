@@ -1,0 +1,29 @@
+package com.example.pswbackend.controllers;
+
+import com.example.pswbackend.dto.AppointmentPriceDTO;
+import com.example.pswbackend.services.AppointmentPriceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(value = "/api")
+public class AppointmentPriceController {
+
+    @Autowired
+    AppointmentPriceService appointmentPriceService;
+
+    @GetMapping(value = "/get-appointment-details/{id}")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<AppointmentPriceDTO> getAppointmentDetails(@PathVariable Long id){
+
+        AppointmentPriceDTO dto = appointmentPriceService.getAppointmentPrice(id);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+}

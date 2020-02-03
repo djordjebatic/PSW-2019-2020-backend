@@ -4,14 +4,15 @@ import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class PredefinedAppointmentDTO {
 
     private Long id;
     private String type;
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
     private String price;
     private String duration;
     private String doctors;
@@ -28,8 +29,9 @@ public class PredefinedAppointmentDTO {
 
         this.id = appointment.getId();
         this.type = appointment.getPrice().getAppointmentEnum().toString();
-        this.startTime = Date.from(appointment.getStartDateTime().atZone(ZoneId.systemDefault()).toInstant());
-        this.endTime = Date.from(appointment.getEndDateTime().atZone(ZoneId.systemDefault()).toInstant());
+        //this.startTime = Date.from(appointment.getStartDateTime().atZone(ZoneId.systemDefault()).toInstant());
+        this.startTime=appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy"));
+        this.endTime=appointment.getEndDateTime().format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy"));
         this.price=String.valueOf(appointment.getPrice().getPrice());
         this.duration="0";
         this.doctors = doctors;
@@ -54,19 +56,19 @@ public class PredefinedAppointmentDTO {
         this.type = type;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 

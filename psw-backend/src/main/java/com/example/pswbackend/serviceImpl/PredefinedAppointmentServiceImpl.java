@@ -1,13 +1,16 @@
 package com.example.pswbackend.serviceImpl;
 import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.PredefinedAppointmentDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
+import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.PredefinedAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.pswbackend.repositories.DoctorRepository;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,6 +26,12 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    DoctorRepository doctorRepository;
+
+    @Autowired
+    PatientRepository patientRepository;
+
     @Override
     public Appointment findById(Long id){ return predAppointRepo.findOneById(id); }
 
@@ -31,17 +40,21 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
 
     @Override
     public List<PredefinedAppointmentDTO> findPredefinedByClinicId(long id){
-        //return predAppointRepo.findByClinicId(id);
-        return convertToDTO(predAppointRepo.findByClinicId(id));
+
+        return convertToDTO(predAppointRepo.findByClinicIdAndStatus(id, AppointmentStatus.PREDEF_AVAILABLE));
 
     }
 
     @Override
-    public Appointment schedulePredefinedAppointment(Patient patient, Appointment appointment ){
+    public PredefinedAppointmentDTO schedulePredefinedAppointment(Patient patient, Appointment appointment ){
 
             Set<Appointment> appointments= patient.getAppointments();
             appointments.add(appointment);
             patient.setAppointments(appointments);
+            patientRepository.save(patient);
+            appointment.setStatus(AppointmentStatus.PREDEF_BOOKED);
+            appointment.setPatient(patient);
+            predAppointRepo.save(appointment);
 
         String s = "Successfully scheduled appointment. ";
         StringBuilder sb = new StringBuilder();
@@ -54,10 +67,10 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
         sb.append(appointment.getPrice().getPrice());
         String ret= sb.toString();
 
-        appointment.setStatus(AppointmentStatus.PREDEF_BOOKED);
         emailService.sendEmail(patient.getUsername(), "Scheduled appointment approval", ret);
 
-            return appointment;
+
+            return new PredefinedAppointmentDTO(appointment);
 
     }
 
@@ -68,8 +81,10 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
         }
         List<PredefinedAppointmentDTO> predefinedAppointmentsDTO = new ArrayList<>();
         for (Appointment appointment : appointments) {
+
             predefinedAppointmentsDTO.add(new PredefinedAppointmentDTO(appointment));
         }
+
         return predefinedAppointmentsDTO;
     }
 

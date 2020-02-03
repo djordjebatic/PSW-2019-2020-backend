@@ -10,6 +10,7 @@ public interface MedicalRecordService {
     MedicalRecord findById(long id);
     MedicalRecord finByPatientAndDoctorId(long id, long doctorId);
     MedicalRecord findByPatientId(long id);
+    MedicalRecordDTO findByPatientIdP(long id);
     List<MedicalRecord> findAll();
 
     MedicalRecord editMedicalRecord(MedicalRecordDTO medicalRecordDTO) throws Exception;

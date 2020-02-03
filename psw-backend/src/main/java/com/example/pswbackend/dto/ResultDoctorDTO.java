@@ -11,6 +11,7 @@ public class ResultDoctorDTO {
     String rating;
     List<LocalDateTime> freeTerms;
     List<String> free;
+    List<ResultAvailableDoctorTimeDTO> dto;
 
     public ResultDoctorDTO() {
     }
@@ -22,6 +23,17 @@ public class ResultDoctorDTO {
         this.rating = rating;
         this.freeTerms = freeTerms;
         this.free= free;
+
+    }
+
+    public ResultDoctorDTO(String id,String firstName, String lastName, String rating, List<LocalDateTime> freeTerms, List<String> free, List<ResultAvailableDoctorTimeDTO> dto) {
+        this.id=id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.rating = rating;
+        this.freeTerms = freeTerms;
+        this.free= free;
+        this.dto=dto;
 
     }
 
@@ -72,5 +84,13 @@ public class ResultDoctorDTO {
 
     public void setFree(List<String> free) {
         this.free = free;
+    }
+
+    public List<ResultAvailableDoctorTimeDTO> getDto() {
+        return dto;
+    }
+
+    public void setDto(List<ResultAvailableDoctorTimeDTO> dto) {
+        this.dto = dto;
     }
 }
