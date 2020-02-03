@@ -7,6 +7,9 @@ import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
+import com.example.pswbackend.repositories.AccountRepository;
+import com.example.pswbackend.repositories.DoctorRepository;
+import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.PaidTimeOffStatus;
 import com.example.pswbackend.enums.PaidTimeOffType;
@@ -234,6 +237,7 @@ public class DoctorServiceImpl implements DoctorService {
 
             List<LocalDateTime> freeTerms = new ArrayList<>();
             List<String> free = new ArrayList<>();
+            List<ResultAvailableDoctorTimeDTO> TIME= new ArrayList<>();
             if(d.getSpecialization().getId().toString().equals(dto.getType())){
 
                 long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
@@ -249,13 +253,17 @@ public class DoctorServiceImpl implements DoctorService {
                          }
                          free.add(st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
                          freeTerms.add(st);
+
+                        Long a=Long.parseLong(d.getId()+""+i);
+                        ResultAvailableDoctorTimeDTO oneResult= new ResultAvailableDoctorTimeDTO(a,st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                        TIME.add(oneResult);
                     }
                 }
             }
 
             if(!freeTerms.isEmpty()) {
                 int r= d.getStars()/d.getNum_votes();
-                ResultDoctorDTO resultDTO = new ResultDoctorDTO(d.getId().toString(),d.getFirstName(), d.getLastName(), Integer.toString(r), freeTerms, free);
+                ResultDoctorDTO resultDTO = new ResultDoctorDTO(d.getId().toString(),d.getFirstName(), d.getLastName(), Integer.toString(r), freeTerms, free, TIME);
                 listDoctorDTO.add(resultDTO);
             }
         }

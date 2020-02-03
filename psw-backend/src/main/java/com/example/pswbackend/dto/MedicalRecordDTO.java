@@ -14,6 +14,14 @@ public class MedicalRecordDTO {
 
     }
 
+    public MedicalRecordDTO(long patientId, Integer height, Integer weight, String bloodType, String allergies) {
+        this.patientId = patientId;
+        this.height = height;
+        this.weight = weight;
+        this.bloodType = bloodType;
+        this.allergies = allergies;
+    }
+
     public long getPatientId() {
         return patientId;
     }
