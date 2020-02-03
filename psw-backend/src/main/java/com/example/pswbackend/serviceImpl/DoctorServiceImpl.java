@@ -240,12 +240,17 @@ public class DoctorServiceImpl implements DoctorService {
             List<ResultAvailableDoctorTimeDTO> TIME= new ArrayList<>();
             if(d.getSpecialization().getId().toString().equals(dto.getType())){
 
-                long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
+                long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(40)).toMillis() / 1000;
+                long duration2 = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
 
                 LocalDateTime start = dto.getDate().atStartOfDay().plusHours(8);
 
                 for(int i=0; i<16; i++){
-                    LocalDateTime st=start.plusSeconds(i*duration);
+                    LocalDateTime st=start.plusSeconds(i*duration2);
+
+                    if(i==0){
+                        st=start.plusSeconds(i*duration);
+                    }
 
                     if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
                          if(!doctorList.contains(d)) {
