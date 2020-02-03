@@ -1,7 +1,9 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.Diagnosis;
 import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.dto.DiagnosisDTO;
 import com.example.pswbackend.dto.FilterClinicsDTO;
 import com.example.pswbackend.dto.ResultClinicDTO;
 import com.example.pswbackend.repositories.ClinicRepository;
@@ -81,6 +83,24 @@ public class ClinicController {
         return new ResponseEntity<Long>(clinicService.findByClinicAdminId(clinicAdminId), HttpStatus.OK);
     }
     
+    @PutMapping(value="/clinic/{clinicId}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Boolean> updateClinic(@PathVariable Long clinicId, @RequestBody ClinicDTO dto){
 
+        Clinic c = clinicRepository.findOneById(clinicId);
+
+        if (c == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Boolean success = clinicService.updateClinic(c, dto);
+
+        if(success) {
+            return new ResponseEntity<>(success, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

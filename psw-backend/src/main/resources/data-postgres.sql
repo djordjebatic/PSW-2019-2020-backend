@@ -200,23 +200,23 @@ values( 'Cats', 'AB', '130', 9, '170');
 
 --This operation is yet to be approved and it's ordination and doctors to be set
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '01.23.2020 18:00', '01.23.2020 19:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
+values(2, '02.23.2020 18:00', '02.23.2020 19:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, '01.19.2020 14:45', '01.19.2020 23:30', 'APPROVED', 3, '9', 6, 1, 1, '10');
+values(4, '02.13.2020 14:45', '02.13.2020 23:30', 'APPROVED', 3, '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (2,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '01.27.2020 10:00', '01.27.2020 13:30', 'PREDEF_BOOKED', '4', 8, 6, 2, 1, '5');
+values(1, '02.27.2020 10:00', '02.27.2020 13:30', 'PREDEF_BOOKED', '4', 8, 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '01.27.2020 15:00', '01.27.2020 16:00', 'CANCELED', '4', 8, 6, 2, 1, '5');
+values(1, '02.27.2020 15:00', '02.27.2020 16:00', 'CANCELED', '5', 8, 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (4,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
-values(2, '01.21.2020 9:00', '01.21.2020 19:30', 'APPROVED', '1', 9, 6, 1, 1);
+values(2, '02.21.2020 9:00', '02.21.2020 19:30', 'APPROVED', '3', 9, 6, 1, 1);
 insert into appointed_doctors (appointment_id, doctor_id) values (5,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
@@ -229,10 +229,10 @@ insert into appointed_doctors (appointment_id, doctor_id) values (7,4);
 insert into appointed_doctors (appointment_id, doctor_id) values (7,5);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
-values(1, '01.23.2020 18:30', '01.23.2020 20:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+values(4, '02.23.2020 18:30', '02.23.2020 20:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
-values(1, '01.24.2020 08:00', '01.24.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+values(2, '02.24.2020 08:00', '02.24.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(1, '01.25.2020 08:00', '01.25.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
@@ -273,3 +273,14 @@ values('OPERATION', '12.29.2019 10:00', '12.29.2019 12:00', '1000', 'PREDEF_AVAI
 insert into appointed_doctors (appointment_id,doctor_id) values (9,5);*/
 
 ------------------------------------------------------------------------------
+
+--AbsenceRequests
+
+insert into paid_time_off_nurse(commentt, end_date_time, paid_time_off_status,paid_time_off_type, start_date_time,nurse_id)
+values ('Komentar2', '03.08.2020', 'REQUESTED', 'SICK_LEAVE', '03.03.2020','7');
+
+insert into paid_time_off_doctor(commentt, end_date_time, paid_time_off_status,paid_time_off_type, start_date_time,doctor_id)
+values ('Komentar3', '03.11.2020', 'REQUESTED', 'ANNUAL_LEAVE', '03.05.2020','4');
+
+insert into paid_time_off_doctor(commentt, end_date_time, paid_time_off_status,paid_time_off_type, start_date_time,doctor_id)
+values ('Komentar4', '03.08.2020', 'REQUESTED', 'SICK_LEAVE', '03.03.2020','5');

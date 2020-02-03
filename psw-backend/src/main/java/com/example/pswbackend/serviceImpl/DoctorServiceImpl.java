@@ -10,10 +10,15 @@ import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.repositories.AccountRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.enums.AppointmentStatus;
+import com.example.pswbackend.enums.PaidTimeOffStatus;
+import com.example.pswbackend.enums.PaidTimeOffType;
+import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.domain.PaidTimeOffDoctor;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -54,6 +59,12 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private PaidTimeOffDoctorRepository paidTimeOffDoctorRepository;
 
 
     @Override
@@ -100,6 +111,65 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<Doctor> findClinicDoctors(Long id) {
         return doctorRepo.findByClinicId(id);
+    }
+
+    @Override
+    public PaidTimeOffDoctor requestLeave(Long id, PaidTimeOffDoctorDTO dto) {
+        Doctor doc = doctorRepo.findById(id).get();
+
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.APPROVED);
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+
+        List<Appointment> appointmens = appointmentRepository
+                .findByDoctorIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanAndStatusIn(id,
+                        dto.getStartDateTime(), dto.getEndDateTime(),
+                        statuses);
+
+        if (!appointmens.isEmpty()){
+            return null;
+        }
+
+        PaidTimeOffDoctor paidTimeOffDoctor = new PaidTimeOffDoctor();
+
+        paidTimeOffDoctor.setDoctor(doc);
+        paidTimeOffDoctor.setComment(dto.getComment());
+        paidTimeOffDoctor.setStartDateTime(dto.getStartDateTime());
+        paidTimeOffDoctor.setEndDateTime(dto.getEndDateTime());
+
+        if (dto.getPaidTimeOffType().equals(PaidTimeOffType.ANNUAL_LEAVE)){
+            paidTimeOffDoctor.setPaidTimeOffType(PaidTimeOffType.ANNUAL_LEAVE);
+        }
+        else {
+            paidTimeOffDoctor.setPaidTimeOffType(PaidTimeOffType.SICK_LEAVE);
+        }
+
+        paidTimeOffDoctor.setPaidTimeOffStatus(PaidTimeOffStatus.REQUESTED);
+
+        return paidTimeOffDoctorRepository.save(paidTimeOffDoctor);
+    }
+
+    @Override
+    public boolean alreadyRequestedLeave(Doctor dr) {
+        if (dr.getPaidTimeOffDoctor() != null) {
+            if (dr.getPaidTimeOffDoctor().getPaidTimeOffStatus().equals(PaidTimeOffStatus.REQUESTED)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean alreadyOnLeave(Doctor dr) {
+        if (dr.getPaidTimeOffDoctor() != null) {
+            if (dr.getPaidTimeOffDoctor().getPaidTimeOffStatus().equals(PaidTimeOffStatus.APPROVED)) {
+                if (dr.getPaidTimeOffDoctor().getStartDateTime().isAfter(LocalDateTime.now()) &&
+                        dr.getPaidTimeOffDoctor().getEndDateTime().isBefore(LocalDateTime.now())
+                )
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override

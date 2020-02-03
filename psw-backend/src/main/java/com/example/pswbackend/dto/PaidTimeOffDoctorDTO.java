@@ -1,27 +1,23 @@
 package com.example.pswbackend.dto;
 
-import com.example.pswbackend.domain.Nurse;
-import com.example.pswbackend.enums.PaidTimeOffStatus;
 import com.example.pswbackend.enums.PaidTimeOffType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public class PaidTimeOffNurseDTO {
+public class PaidTimeOffDoctorDTO {
 
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
-    //@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime startDateTime;
-    //@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime endDateTime;
     private PaidTimeOffType paidTimeOffType;
     private String comment;
     private String denialComment;
 
-    public PaidTimeOffNurseDTO(){
+    public PaidTimeOffDoctorDTO(){
 
     }
 

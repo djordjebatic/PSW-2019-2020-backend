@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.Diagnosis;
 import com.example.pswbackend.domain.Drug;
