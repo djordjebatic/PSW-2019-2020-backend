@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,10 +46,10 @@ public class Doctor extends Account {
     private int num_votes;
 
     @Column
-    private Time workTimeStart;
+    private LocalTime workTimeStart;
 
     @Column
-    private Time workTimeEnd;
+    private LocalTime workTimeEnd;
 
     @JsonIgnore
     @OneToOne(mappedBy = "doctor",cascade = CascadeType.ALL)
@@ -120,19 +120,19 @@ public class Doctor extends Account {
         this.specialization = specialization;
     }
 
-    public Time getWorkTimeStart() {
+    public LocalTime getWorkTimeStart() {
         return workTimeStart;
     }
 
-    public void setWorkTimeStart(Time workTimeStart) {
+    public void setWorkTimeStart(LocalTime workTimeStart) {
         this.workTimeStart = workTimeStart;
     }
 
-    public Time getWorkTimeEnd() {
+    public LocalTime getWorkTimeEnd() {
         return workTimeEnd;
     }
 
-    public void setWorkTimeEnd(Time workTimeEnd) {
+    public void setWorkTimeEnd(LocalTime workTimeEnd) {
         this.workTimeEnd = workTimeEnd;
     }
 
