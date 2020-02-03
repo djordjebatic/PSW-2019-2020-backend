@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Ordination;
+import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.dto.OrdinationAssignDTO;
 
@@ -22,4 +23,7 @@ public interface OrdinationService {
     Appointment assignOrdinationForOperation(Long appointmentId, Long ordinationId, Set<Doctor> doctors);
 
     void assignOrdinationAutomatically();
+
+    Boolean updateOrdination(Ordination ordination, NewOrdinationDTO dto);
+    Boolean deleteOrd(Long id);
 }

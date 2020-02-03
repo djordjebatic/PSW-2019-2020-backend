@@ -1,5 +1,6 @@
 package com.example.pswbackend.services;
 import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.PaidTimeOffDoctor;
 import com.example.pswbackend.dto.*;
 import java.util.List;
 
@@ -18,5 +19,10 @@ public interface DoctorService {
     List<ResultDoctorDTO> filterDoctors(FilterDoctorsDTO dto);
 
     List<Doctor> findClinicDoctors(Long clinicId);
+
+    PaidTimeOffDoctor requestLeave(Long id, PaidTimeOffDoctorDTO dto);
+
+    boolean alreadyRequestedLeave(Doctor dr);
+    boolean alreadyOnLeave(Doctor dr);
 
 }

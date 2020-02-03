@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.NewOrdinationDTO;
@@ -14,8 +14,10 @@ import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.OrdinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -250,6 +252,7 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Ordination addNew(NewOrdinationDTO dto){
 
         Ordination o = new Ordination();
@@ -270,6 +273,42 @@ public class OrdinationServiceImpl implements OrdinationService {
         c.getOrdinations().add(o);
 
         return o;
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public Boolean deleteOrd(Long id){
+
+        try {
+            ordinationRepository.delete(ordinationRepository.findOneById(id));
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public Boolean updateOrdination(Ordination o, NewOrdinationDTO dto){
+
+        try{
+            AppointmentEnum app;
+            if (Integer.parseInt(dto.getType()) == 0){
+                app = AppointmentEnum.EXAMINATION;
+            } else {
+                app = AppointmentEnum.OPERATION;
+            }
+
+            o.setNumber(dto.getNumber());
+            o.setType(app);
+            ordinationRepository.save(o);
+        }
+        catch(EntityNotFoundException e){
+            return false;
+        }
+
+        return true;
     }
 
     public List<Ordination> findByClinicId(Long clinicId){

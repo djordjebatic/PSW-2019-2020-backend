@@ -19,4 +19,7 @@ public interface ClinicService {
 
     List<Clinic> findAll();
     List<ResultClinicDTO> filterClinics(FilterClinicsDTO dto);
+
+    Boolean updateClinic(Clinic clinic, ClinicDTO clinicDTO);
+
 }

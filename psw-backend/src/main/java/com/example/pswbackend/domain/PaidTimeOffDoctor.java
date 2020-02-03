@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class PaidTimeOffNurse {
+public class PaidTimeOffDoctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class PaidTimeOffNurse {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Nurse nurse;
+    private Doctor doctor;
 
     @Column
     private String commentt;
@@ -36,7 +36,7 @@ public class PaidTimeOffNurse {
     @Enumerated(EnumType.STRING)
     private PaidTimeOffStatus paidTimeOffStatus;
 
-    public PaidTimeOffNurse() {
+    public PaidTimeOffDoctor() {
 
     }
 
@@ -48,12 +48,20 @@ public class PaidTimeOffNurse {
         this.id = id;
     }
 
-    public Nurse getNurse() {
-        return nurse;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setNurse(Nurse nurse) {
-        this.nurse = nurse;
+    public void setDoctor(Doctor doc) {
+        this.doctor = doc;
+    }
+
+    public String getComment() {
+        return commentt;
+    }
+
+    public void setComment(String comment) {
+        this.commentt = comment;
     }
 
     public LocalDateTime getStartDateTime() {
@@ -86,13 +94,5 @@ public class PaidTimeOffNurse {
 
     public void setPaidTimeOffStatus(PaidTimeOffStatus paidTimeOffStatus) {
         this.paidTimeOffStatus = paidTimeOffStatus;
-    }
-
-    public String getComment() {
-        return commentt;
-    }
-
-    public void setComment(String comment) {
-        this.commentt = comment;
     }
 }

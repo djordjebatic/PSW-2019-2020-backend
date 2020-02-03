@@ -135,4 +135,31 @@ public class DoctorController {
         return new ResponseEntity<List<Doctor>>(doctorService.findClinicDoctors(clinicId), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/doctor/request-leave")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity requestLeave(@RequestBody PaidTimeOffDoctorDTO dto){
+
+        Doctor doc = doctorService.getLoggedInDoctor();
+
+        if (doc == null){
+            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+        }
+
+        if (doctorService.alreadyRequestedLeave(doc)){
+            return new ResponseEntity("You already requested a leave", HttpStatus.BAD_REQUEST);
+        }
+
+        if (doctorService.alreadyOnLeave(doc)){
+            return new ResponseEntity("You are currently on leave until " + doc.getPaidTimeOffDoctor().getEndDateTime() +". Please wait until your current leave " +
+                    "time ends until you request a new one.", HttpStatus.BAD_REQUEST);
+        }
+
+        PaidTimeOffDoctor paidTimeOffDoctor = doctorService.requestLeave(doc.getId(), dto);
+        if (paidTimeOffDoctor == null){
+            return new ResponseEntity("Request could not be accepted because you have scheduled appointments during this time", HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity(paidTimeOffDoctor, HttpStatus.OK);
+    }
+
 }

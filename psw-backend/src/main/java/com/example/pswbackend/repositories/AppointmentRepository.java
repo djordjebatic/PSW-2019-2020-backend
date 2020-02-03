@@ -1,10 +1,12 @@
 package com.example.pswbackend.repositories;
 
 import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +22,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByOrdinationIdAndStatusNotOrderByStartDateTime(Long id, AppointmentStatus appointmentStatus);
     List<Appointment> findByNurseIdAndStatusIn(Long id, List<AppointmentStatus> appointmentStatus);
     List<Appointment> findByNurseIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanAndStatusIn(Long id, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> appointmentStatus);
+    @Query(value = "SELECT * FROM Appointment a WHERE a.start_date_time >= ?2 AND a.end_date_time < ?3 AND a.status IN ?4 AND EXISTS(SELECT * from a.doctors doc WHERE doc.id = ?1)", nativeQuery = true)
+    List<Appointment> findByDoctorIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanAndStatusIn(Long id, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> appointmentStatus);
     Appointment getByIdAndStatusNot(Long id, AppointmentStatus appointmentStatus);
     List<Appointment> findByStatus(AppointmentStatus appointmentStatus);
     List<Appointment> findByStatusIn(List<AppointmentStatus> statuses);

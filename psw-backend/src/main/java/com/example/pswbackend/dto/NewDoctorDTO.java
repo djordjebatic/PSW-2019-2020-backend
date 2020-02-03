@@ -10,6 +10,9 @@ public class NewDoctorDTO {
     private String city;
     private String address;
     private Long clinicId;
+    private String workTimeStart;
+    private String workTimeEnd;
+    private String specialization;
 
     public String getFirstName() {
         return firstName;
@@ -41,5 +44,17 @@ public class NewDoctorDTO {
 
     public Long getClinicId() {
         return clinicId;
+    }
+
+    public String getWorkTimeStart() {
+        return workTimeStart;
+    }
+
+    public String getWorkTimeEnd() {
+        return workTimeEnd;
+    }
+
+    public String getSpecialization() {
+        return specialization;
     }
 }
