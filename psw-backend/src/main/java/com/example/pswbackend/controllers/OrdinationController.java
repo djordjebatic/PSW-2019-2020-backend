@@ -68,7 +68,13 @@ public class OrdinationController {
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Boolean> deleteOrd(@PathVariable Long ordId) {
 
-        return new ResponseEntity<Boolean>(ordinationService.deleteOrd(ordId), HttpStatus.OK);
+        Boolean deleted = ordinationService.deleteOrd(ordId);
+
+        if (deleted) {
+            return new ResponseEntity<Boolean>(ordinationService.deleteOrd(ordId), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Boolean>(ordinationService.deleteOrd(ordId), HttpStatus.NOT_FOUND);
     }
 
     @PutMapping(value="/{ordinationId}")
