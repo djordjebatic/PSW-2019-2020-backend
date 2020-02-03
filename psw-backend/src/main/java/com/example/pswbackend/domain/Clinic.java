@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -59,7 +61,7 @@ public class Clinic {
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<AppointmentType> appointmentTypes = new HashSet<>();
+	private List<AppointmentType> appointmentTypes = new ArrayList<>();
 
 	public Clinic(String name, String description, String address, String city) {
 		this.name = name;
@@ -180,11 +182,11 @@ public class Clinic {
 		this.clinicAdmins = clinicAdmins;
 	}
 
-	public Set<AppointmentType> getAppointmentTypes() {
+	public List<AppointmentType> getAppointmentTypes() {
 		return appointmentTypes;
 	}
 
-	public void setAppointmentTypes(Set<AppointmentType> appointmentTypes) {
+	public void setAppointmentTypes(List<AppointmentType> appointmentTypes) {
 		this.appointmentTypes = appointmentTypes;
 	}
 }

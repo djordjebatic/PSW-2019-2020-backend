@@ -64,6 +64,9 @@ public class DoctorServiceImpl implements DoctorService {
     private AppointmentRepository appointmentRepository;
 
     @Autowired
+    private AppointmentTypeRepository appointmentTypeRepository;
+
+    @Autowired
     private PaidTimeOffDoctorRepository paidTimeOffDoctorRepository;
 
 
@@ -191,11 +194,19 @@ public class DoctorServiceImpl implements DoctorService {
     public Doctor addNew(NewDoctorDTO dto) {
 
         Clinic c = clinicService.findClinicById(dto.getClinicId());
+        List<AppointmentType> types = c.getAppointmentTypes();
+        String specId = dto.getSpecialization();
+        AppointmentType type = appointmentTypeRepository.findOneById(Long.parseLong(specId));
 
         Doctor d = new Doctor();
+        if (type != null){
+            d.setSpecialization(type);
+        }
         d.setFirstName(dto.getFirstName());
         d.setLastName(dto.getLastName());
         d.setEmail(dto.getUsername());
+        d.setWorkTimeStart(dto.getWorkTimeStart());
+        d.setWorkTimeEnd(dto.getWorkTimeEnd());
         d.setPassword(passwordEncoder.encode("doktor"));
         d.setPhoneNumber(dto.getPhoneNumber());
         d.setCity(dto.getCity());

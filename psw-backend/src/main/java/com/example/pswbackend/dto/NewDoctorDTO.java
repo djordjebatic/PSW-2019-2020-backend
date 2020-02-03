@@ -1,5 +1,10 @@
 package com.example.pswbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalTime;
+
+
 public class NewDoctorDTO {
 
     private String firstName;
@@ -10,8 +15,10 @@ public class NewDoctorDTO {
     private String city;
     private String address;
     private Long clinicId;
-    private String workTimeStart;
-    private String workTimeEnd;
+    @JsonFormat(pattern="HH:mm")
+    private LocalTime workTimeStart;
+    @JsonFormat(pattern="HH:mm")
+    private LocalTime workTimeEnd;
     private String specialization;
 
     public String getFirstName() {
@@ -46,11 +53,11 @@ public class NewDoctorDTO {
         return clinicId;
     }
 
-    public String getWorkTimeStart() {
+    public LocalTime getWorkTimeStart() {
         return workTimeStart;
     }
 
-    public String getWorkTimeEnd() {
+    public LocalTime getWorkTimeEnd() {
         return workTimeEnd;
     }
 
