@@ -2,18 +2,22 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.ExaminationReport;
 import com.example.pswbackend.domain.Nurse;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
+import com.example.pswbackend.dto.AppointmentHistoryDTO;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.DoctorService;
 import com.example.pswbackend.services.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -128,5 +132,13 @@ public class AppointmentController {
         }
 
         return new ResponseEntity<>(appointment, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/history/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT')")
+    public List<AppointmentHistoryDTO> getHistoryApp(@PathVariable String id) {
+
+
+        return appointmentService.getHistoryApp(Long.parseLong(id));
     }
 }
