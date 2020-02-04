@@ -17,7 +17,7 @@ public class AppointmentType {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
+	@Column(columnDefinition = "VARCHAR(30)", nullable = false)
 	private String name;
 
 	//@Column(nullable = false, scale = 2)
