@@ -2,6 +2,8 @@ package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
+import com.example.pswbackend.dto.AvailableAppointmentDTO;
+import com.example.pswbackend.dto.NewAppointmentDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,5 +37,9 @@ public interface AppointmentService {
 
     void sendCancelationMail(Appointment appointment, Patient patient, Doctor doctor, Nurse nurse);
     void sendOperationMail(Appointment appointment);
+
+    List<Ordination> getAvailableOrdinations(AvailableAppointmentDTO dto);
+
+    Appointment createNew(NewAppointmentDTO dto);
 
 }

@@ -1,12 +1,13 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Nurse;
+import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.services.AppointmentService;
-import com.example.pswbackend.services.DoctorService;
-import com.example.pswbackend.services.NurseService;
+import com.example.pswbackend.dto.AvailableAppointmentDTO;
+import com.example.pswbackend.dto.NewAppointmentDTO;
+import com.example.pswbackend.enums.AppointmentStatus;
+import com.example.pswbackend.repositories.AppointmentPriceRepository;
+import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class AppointmentController {
 
     @Autowired
     private NurseService nurseService;
+
 
     @GetMapping(value = "/get-awaiting-approval-appointments")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -83,6 +85,17 @@ public class AppointmentController {
         }
     }
 
+    @PostMapping(value = "/available-ordinations-by-date")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Ordination>> getAvailableOrdinations(@RequestBody AvailableAppointmentDTO dto) {
+        try {
+            return new ResponseEntity<List<Ordination>>(appointmentService.getAvailableOrdinations(dto), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/get-appointment/{id}")
     @PreAuthorize("hasRole('DOCTOR') or hasRole('CLINIC_ADMIN')")
     public ResponseEntity<AppointmentCalendarDTO> getAppointment(@PathVariable Long id) {
@@ -128,5 +141,17 @@ public class AppointmentController {
         }
 
         return new ResponseEntity<>(appointment, HttpStatus.OK);
+    }
+
+    @PostMapping("/new")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Appointment> createNew(@RequestBody NewAppointmentDTO dto){
+
+        Appointment a = appointmentService.createNew(dto);
+        if (a == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(a, HttpStatus.CREATED);
     }
 }
