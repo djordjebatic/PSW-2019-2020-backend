@@ -115,6 +115,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setPhoneNumber(patientDTO.getPhoneNumber());
         patient.setEmail(patientDTO.getEmail());
         patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
+        patient.setMedicalNumber(patientDTO.getMedicalNumber());
 
         patient.setPatientStatus(Status.AWAITING_APPROVAL);
 
