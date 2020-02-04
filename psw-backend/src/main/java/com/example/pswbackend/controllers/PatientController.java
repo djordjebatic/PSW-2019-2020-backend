@@ -43,6 +43,7 @@ public class PatientController {
         patient.setEmail(patientDTO.getEmail());
         patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
         patient.setPatientStatus(Status.AWAITING_APPROVAL);
+        patient.setMedicalNumber(patientDTO.getMedicalNumber());
 
         return new ResponseEntity<>(patientRepository.save(patient), HttpStatus.OK);
     }
