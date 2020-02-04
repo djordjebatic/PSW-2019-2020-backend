@@ -14,7 +14,7 @@ public class QuickReservationDTO {
     private String startDateTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private String endDateTime;
-    private double price;
+    private Long price;
     private String type; //  0 = EXAMINATION, 1 = OPERATION
     private int discount;
 
@@ -29,7 +29,7 @@ public class QuickReservationDTO {
 
     public String getEndDateTime() { return endDateTime; }
 
-    public double getPrice() { return price; }
+    public Long getPrice() { return price; }
 
     public String getType() { return type; }
 
