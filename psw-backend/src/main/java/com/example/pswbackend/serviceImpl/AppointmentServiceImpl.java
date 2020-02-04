@@ -2,11 +2,13 @@ package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
+import com.example.pswbackend.dto.AppointmentHistoryDTO;
 import com.example.pswbackend.dto.PrescriptionDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
+import com.example.pswbackend.repositories.MedicalRecordRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    MedicalRecordRepository medicalRecordRepository;
 
     @Override
     public List<Appointment> getAppointments(Long ordinationId) {
@@ -296,5 +301,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         for (Doctor d : doctors){
             emailService.sendEmail(d.getUsername(), subject, messageDoctor);
         }
+    }
+
+    @Override
+    public List<AppointmentHistoryDTO> getHistoryApp(long id){
+
+        Set<ExaminationReport> list = medicalRecordRepository.findByPatientId(id).getExaminationReports();
+        List<AppointmentHistoryDTO> historyList= new ArrayList<>();
+
+        for(ExaminationReport e : list){
+
+             AppointmentHistoryDTO a = new AppointmentHistoryDTO(e.getAppointment().getStartDateTime().toString(), e.getAppointment().getEndDateTime().toString(),
+                     e.getDoctor().getFirstName(),e.getDoctor().getLastName(), e.getAppointment().getPrice().getAppointmentEnum().toString(),e.getDoctor().getSpecialization().getName()) ;
+
+                historyList.add(a);
+        }
+
+            return historyList;
     }
 }
