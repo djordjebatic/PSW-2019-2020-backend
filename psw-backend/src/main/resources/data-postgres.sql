@@ -6,16 +6,16 @@ INSERT INTO authority (name) values ('ROLE_CLINIC_ADMIN');
 INSERT INTO authority (name) values ('ROLE_CC_ADMIN');
 
 --Clinic
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('1300 Kaplara', 'Beograd', 'Ocna bolnica', 'Sveto oko', 4, 9);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Trg slobode', 'Novi Sad', 'Klinicki centar Vojvodine (Novi Sad)', 'Klinicki centar Vojvodine', 5, 10);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Bulevar umetnosti 29', 'Beograd', 'Bolnicki centar', 'Euromedic', 3, 10);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Bulevar oslobodjenja 10', 'Novi Sad', 'Bolnicki centar', 'Consilium', 3, 10);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Fruskogorska 16', 'Novi Sad', 'Specijalisticka bolnica opste hirurgije', 'Global care surgery', 5, 10);
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Dobricina 27', 'Beograd', 'Ocna bolnica', 'Sveti vid', 4, 9, '44.819580','20.462440');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Hajduk Veljkova 1', 'Novi Sad', 'Klinicki centar Vojvodine (Novi Sad)', 'Klinicki centar Vojvodine', 5, 10, '45.250330','19.823720');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Cvijiceva 42', 'Beograd', 'Bolnicki centar', 'Euromedic', 3, 10, '44.815670', '20.476900');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Bulevar oslobodjenja 18', 'Novi Sad', 'Klinicki centar', 'Klinika Svjetlost', 3, 10, '45.261030','19.831350');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Laze Nancica 5', 'Novi Sad', 'Specijalisticka bolnica opste hirurgije', 'Global care surgery', 5, 10,'45.247230','19.823830');
 
 --AppointmentTypes
 insert into appointment_type (name, clinic_id)
