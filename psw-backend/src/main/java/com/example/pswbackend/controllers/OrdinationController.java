@@ -5,7 +5,10 @@ import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.AssignOperationDTO;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.NewOrdinationDTO;
+import com.example.pswbackend.enums.AppointmentEnum;
+import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.DoctorRepository;
+import com.example.pswbackend.repositories.OrdinationRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.DoctorService;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +43,9 @@ public class OrdinationController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private OrdinationRepository ordinationRepository;
 
     // everyday at 0:45 am
     @Scheduled(cron = "0 45 0 * * *")
@@ -99,11 +106,19 @@ public class OrdinationController {
 
     @PostMapping(value = "/assign-operation-ordination", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Appointment> assignOrdinationForOperation(@Valid @RequestBody AssignOperationDTO assignOperationDTO){
+    public ResponseEntity assignOrdinationForOperation(@Valid @RequestBody AssignOperationDTO assignOperationDTO){
         ClinicAdmin clinicAdmin = clinicAdminService.getLoggedInClinicAdmin();
+
+        Appointment appointment = appointmentService.getAppointment(assignOperationDTO.getAppointmentId());
+        Ordination ordination = ordinationRepository.findOneById(assignOperationDTO.getOrdinationId());
+
 
         if (!clinicAdmin.getClinic().getId().equals(appointmentService.getAppointment(assignOperationDTO.getAppointmentId()).getClinic().getId())){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (appointment.getStatus().equals(AppointmentStatus.APPROVED)){
+            return new ResponseEntity<>("Ordination for this appointment has already been assigned!", HttpStatus.BAD_REQUEST);
         }
 
         Set<Doctor> doctors = new HashSet<>();
@@ -111,13 +126,25 @@ public class OrdinationController {
             doctors.add(doctorService.findById(id));
         }
 
-        Appointment appointment = ordinationService.assignOrdinationForOperation(assignOperationDTO.getAppointmentId(), assignOperationDTO.getOrdinationId(), doctors);
+        if (appointment == null || ordination == null || appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.EXAMINATION)) {
+            return new ResponseEntity<>("Appointment is of type 'Examination'!", HttpStatus.BAD_REQUEST);
+        }
+        if (appointment.getStartDateTime().isBefore(LocalDateTime.now())) {
+            return new ResponseEntity<>("You can not assign ordination for a past appointment", HttpStatus.BAD_REQUEST);
+        }
 
-        if (appointment == null){
+        /*if (!ordinationService.isOrdinationAvailable(ordination, appointment.getStartDateTime(), appointment.getEndDateTime())) {
+            System.out.println("--3--");
+            return null;
+        }*/
+
+        Appointment assignedAppointment = ordinationService.assignOrdinationForOperation(assignOperationDTO.getAppointmentId(), assignOperationDTO.getOrdinationId(), doctors);
+
+        if (assignedAppointment == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(appointment, HttpStatus.OK);
+        return new ResponseEntity<>(assignedAppointment, HttpStatus.OK);
     }
 
     @GetMapping(value = "/clinic-ordinations/{clinicId}", produces = MediaType.APPLICATION_JSON_VALUE)
