@@ -16,5 +16,5 @@ public interface PatientService {
 
     Patient registerPatient(PatientDTO patientDTO);
 
-    void sendVerificationEmail(Long id);
+    boolean sendVerificationEmail(Long id);
 }
