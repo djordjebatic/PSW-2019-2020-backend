@@ -3,13 +3,11 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.EditExaminationReportDTO;
 import com.example.pswbackend.dto.ExaminationReportDTO;
+import com.example.pswbackend.dto.ExaminationReportForPatientDTO;
 import com.example.pswbackend.enums.PrescriptionEnum;
 import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.PatientRepository;
-import com.example.pswbackend.services.AppointmentService;
-import com.example.pswbackend.services.DoctorService;
-import com.example.pswbackend.services.ExaminationReportService;
-import com.example.pswbackend.services.NurseService;
+import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -148,4 +146,34 @@ public class ExaminationReportController {
 
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<ExaminationReportForPatientDTO> getExaminationReportP(@PathVariable Long id)  {
+
+        ExaminationReport e = examinationReportService.getExaminationReport(id);
+        if(e==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String lastEdited= "/";
+        String comment= e.getComment();
+        String diagnosis= e.getDiagnosis().getName();
+
+        if(e.getLastEdited()==null){
+            lastEdited="/";
+        }
+
+        if(e.getDiagnosis().getName()==null){
+            diagnosis="/";
+        }
+
+        if(e.getComment()==null){
+            comment="/";
+        }
+
+        ExaminationReportForPatientDTO dto = new ExaminationReportForPatientDTO(comment, diagnosis, lastEdited);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+}

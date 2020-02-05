@@ -2,6 +2,7 @@ package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
+import com.example.pswbackend.dto.AppointmentHistoryDTO;
 import com.example.pswbackend.dto.AvailableAppointmentDTO;
 import com.example.pswbackend.dto.NewAppointmentDTO;
 import com.example.pswbackend.dto.PrescriptionDTO;
@@ -38,6 +39,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     EmailService emailService;
 
     @Autowired
+    MedicalRecordRepository medicalRecordRepository;
+
+    @Autowired
     OrdinationRepository ordinationRepo;
 
     @Autowired
@@ -57,6 +61,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     NurseRepository nurseRepository;
+
 
     @Override
     public List<Appointment> getAppointments(Long ordinationId) {
@@ -323,6 +328,23 @@ public class AppointmentServiceImpl implements AppointmentService {
         for (Doctor d : doctors){
             emailService.sendEmail(d.getUsername(), subject, messageDoctor);
         }
+    }
+
+    @Override
+    public List<AppointmentHistoryDTO> getHistoryApp(long id){
+
+        Set<ExaminationReport> list = medicalRecordRepository.findByPatientId(id).getExaminationReports();
+        List<AppointmentHistoryDTO> historyList= new ArrayList<>();
+
+        for(ExaminationReport e : list){
+
+             AppointmentHistoryDTO a = new AppointmentHistoryDTO(e.getAppointment().getStartDateTime().toString(), e.getAppointment().getEndDateTime().toString(),
+                     e.getDoctor().getFirstName(),e.getDoctor().getLastName(), e.getAppointment().getPrice().getAppointmentEnum().toString(),e.getDoctor().getSpecialization().getName()) ;
+
+                historyList.add(a);
+        }
+
+            return historyList;
     }
 
     @Override

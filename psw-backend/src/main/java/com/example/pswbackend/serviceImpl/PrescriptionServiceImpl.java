@@ -1,5 +1,6 @@
 package com.example.pswbackend.serviceImpl;
 
+import com.example.pswbackend.domain.ExaminationReport;
 import com.example.pswbackend.domain.Prescription;
 import com.example.pswbackend.dto.PrescriptionDTO;
 import com.example.pswbackend.enums.PrescriptionEnum;
@@ -33,4 +34,22 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         }
         return prescriptionDTOS;
     }
+
+    @Override
+    public List<String> getPrescriptionsPatient(ExaminationReport e) {
+
+        List<String> prescriptions = new ArrayList<>();
+
+        for (Prescription p : e.getPrescriptions()) {
+            String s = p.getDrug().getName();
+
+            if (e.getPrescriptions().toArray().length == (prescriptions.size() + 1)) {
+                prescriptions.add(s);
+            } else {
+                prescriptions.add(s + ", ");
+            }
+        }
+        return prescriptions;
+    }
+
 }
