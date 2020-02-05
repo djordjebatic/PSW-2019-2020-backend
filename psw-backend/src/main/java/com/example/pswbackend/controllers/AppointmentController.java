@@ -2,14 +2,11 @@ package com.example.pswbackend.controllers;
 
 
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.dto.AppointmentHistoryDTO;
+import com.example.pswbackend.dto.*;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.DoctorService;
 import com.example.pswbackend.services.NurseService;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.dto.AvailableAppointmentDTO;
-import com.example.pswbackend.dto.NewAppointmentDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentPriceRepository;
 import com.example.pswbackend.repositories.PatientRepository;
@@ -21,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -137,7 +135,7 @@ public class AppointmentController {
 
     @PutMapping("/cancel/{id}")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Appointment> cancelAppointments(@PathVariable("id") Long appointmentId){
+    public ResponseEntity<PredefinedAppointmentDTO> cancelAppointments(@PathVariable("id") Long appointmentId){
         Doctor doctor = doctorService.getLoggedInDoctor();
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -148,16 +146,22 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(appointment, HttpStatus.OK);
+        PredefinedAppointmentDTO dto= new PredefinedAppointmentDTO(appointment, Long.parseLong("1"));
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 
     @GetMapping(value="/history/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
-    public List<AppointmentHistoryDTO> getHistoryApp(@PathVariable String id) {
+    public ResponseEntity<List<AppointmentHistoryDTO>> getHistoryApp(@PathVariable String id) {
 
-
-        return appointmentService.getHistoryApp(Long.parseLong(id));
+        try {
+            return new ResponseEntity<>(appointmentService.getHistoryApp(Long.parseLong(id)), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/new")
@@ -171,4 +175,43 @@ public class AppointmentController {
 
         return new ResponseEntity<>(a, HttpStatus.CREATED);
     }
+
+    @GetMapping(value = "/future-cancel-appointments/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<PredefinedAppointmentDTO>> getFutureCancelAppointments(@PathVariable Long id) {
+
+        try {
+            return new ResponseEntity<>(appointmentService.getFutureCancelAppointments(id) , HttpStatus.OK);
+        }
+        catch (Exception e){
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/future-fix-appointments/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<PredefinedAppointmentDTO>> getFutureFixAppointments(@PathVariable String id) {
+
+        try {
+            return new ResponseEntity<>(appointmentService.getFutureFixAppointments(Long.parseLong(id)) , HttpStatus.OK);
+        }
+        catch (Exception e){
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/cancel-Patient/{appointmentId}")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Appointment> cancelAppointmentP(@PathVariable Long appointmentId){
+
+        Appointment appointment = appointmentService.cancelAppointmentP(appointmentId);
+        if (appointment == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(appointment, HttpStatus.OK);
+    }
+
 }
