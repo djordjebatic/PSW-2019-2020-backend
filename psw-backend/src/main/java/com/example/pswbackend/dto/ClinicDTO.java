@@ -19,18 +19,18 @@ public class ClinicDTO {
     @NotEmpty(message = "City is empty.")
     private String city;
 
-    private int stars;
+    private double avg;
 
     public ClinicDTO() {
     }
 
-    public ClinicDTO(Long id, @NotEmpty(message = "Name empty.") @Size(message = "Max name size  is 40.", max = 40) String name, String description, @NotEmpty(message = "Address is empty.") String address, @NotEmpty(message = "City is empty.") String city, int stars) {
+    public ClinicDTO(Long id, @NotEmpty(message = "Name empty.") @Size(message = "Max name size  is 40.", max = 40) String name, String description, @NotEmpty(message = "Address is empty.") String address, @NotEmpty(message = "City is empty.") String city, double avg) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.address = address;
         this.city = city;
-        this.stars = stars;
+        this.avg = avg;
     }
 
     public Long getId() {
@@ -73,11 +73,11 @@ public class ClinicDTO {
         this.city = city;
     }
 
-    public int getStars() {
-        return stars;
+    public double getAvg() {
+        return avg;
     }
 
-    public void setStars(int stars) {
-        this.stars = stars;
+    public void setAvg(double stars) {
+        this.avg = stars;
     }
 }

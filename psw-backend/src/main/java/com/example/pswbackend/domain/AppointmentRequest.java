@@ -32,7 +32,7 @@ public class AppointmentRequest {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private ClinicAdmin clinicAdmin;
+    private Clinic clinic;
 
     private long patientId;
 
@@ -43,11 +43,11 @@ public class AppointmentRequest {
 
     }
 
-    public AppointmentRequest(LocalDateTime start, LocalDateTime end, Doctor doctor, ClinicAdmin clinicAdmin, AppointmentEnum type, long patientId){
+    public AppointmentRequest(LocalDateTime start, LocalDateTime end, Doctor doctor, Clinic clinic, AppointmentEnum type, long patientId){
         this.startDateTime = start;
         this.endDateTime = end;
         this.doctor = doctor;
-        this.clinicAdmin = clinicAdmin;
+        this.clinic = clinic;
         this.type = type;
         this.patientId = patientId;
     }
@@ -87,12 +87,12 @@ public class AppointmentRequest {
         this.doctor = doctor;
     }
 
-    public ClinicAdmin getClinicAdmin() {
-        return clinicAdmin;
+    public Clinic getClinic() {
+        return clinic;
     }
 
-    public void setClinicAdmin(ClinicAdmin clinicAdmin) {
-        this.clinicAdmin = clinicAdmin;
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
     public AppointmentEnum getType() {

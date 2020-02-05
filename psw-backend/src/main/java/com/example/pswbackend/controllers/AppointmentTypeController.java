@@ -74,7 +74,7 @@ public class AppointmentTypeController {
 
     @PutMapping(value="/type/{typeId}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Boolean> updateClinic(@PathVariable Long typeId, @RequestBody AppointmentTypeDTO dto){
+    public ResponseEntity<Boolean> updateAppType(@PathVariable Long typeId, @RequestBody AppointmentTypeDTO dto){
 
         AppointmentType type = appointmentTypeRepository.findOneById(typeId);
 
@@ -90,5 +90,18 @@ public class AppointmentTypeController {
         else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping(value="/app-type/delete/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Boolean> deleteOrd(@PathVariable Long id) {
+
+        Boolean deleted = appointmentTypeService.deleteAppType(id);
+
+        if (deleted) {
+            return new ResponseEntity<Boolean>(appointmentTypeService.deleteAppType(id), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Boolean>(appointmentTypeService.deleteAppType(id), HttpStatus.NOT_FOUND);
     }
 }

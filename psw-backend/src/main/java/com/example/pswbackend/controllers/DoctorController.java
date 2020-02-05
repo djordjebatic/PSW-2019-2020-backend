@@ -71,6 +71,12 @@ public class DoctorController {
         return doctorService.findAll();
     }
 
+    @PostMapping(value="/doctors-by-working-time", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<NewDoctorDTO> getDoctorsByWorkTime(@RequestBody DoctorWorkTimeDTO dto) {
+
+
+        return doctorService.findByWorkingTime(dto.getStart(), dto.getEnd());
+    }
 
     @GetMapping(value="/doctors-list/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
@@ -135,6 +141,24 @@ public class DoctorController {
         return new ResponseEntity<List<Doctor>>(doctorService.findClinicDoctors(clinicId), HttpStatus.OK);
     }
 
+    @GetMapping(value="/clinic-doctors", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Doctor>> getClinicDoctors() {
+
+        ClinicAdmin clinicAdmin = clinicAdminService.getLoggedInClinicAdmin();
+
+        if (clinicAdmin == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Clinic c = clinicAdmin.getClinic();
+        if ( c == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Doctor>>(doctorService.findClinicDoctors(c.getId()), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/doctor/request-leave")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity requestLeave(@RequestBody PaidTimeOffDoctorDTO dto){
@@ -160,6 +184,19 @@ public class DoctorController {
         }
 
         return new ResponseEntity(paidTimeOffDoctor, HttpStatus.OK);
+    }
+
+    @PutMapping(value="/doctor/delete/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Boolean> deleteDoctor(@PathVariable Long id) {
+
+        Boolean deleted = doctorService.deleteOneById(id);
+
+        if (deleted) {
+            return new ResponseEntity<Boolean>(doctorService.deleteOneById(id), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Boolean>(doctorService.deleteOneById(id), HttpStatus.NOT_FOUND);
     }
 
 }

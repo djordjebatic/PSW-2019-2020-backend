@@ -24,10 +24,6 @@ public class ClinicAdmin extends Account{
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	private Set<AppointmentRequest> appointmentRequests = new HashSet<>();
-
-	@JsonManagedReference
-	@OneToMany(mappedBy = "clinicAdmin", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Set<Appointment> predefinedAppointments = new HashSet<>();
 
 	@Enumerated(EnumType.STRING)
@@ -68,11 +64,4 @@ public class ClinicAdmin extends Account{
 		this.predefinedAppointments = predefinedAppointments;
 	}
 
-	public Set<AppointmentRequest> getAppointmentRequests() {
-		return appointmentRequests;
-	}
-
-	public void setAppointmentRequests(Set<AppointmentRequest> appointmentRequests) {
-		this.appointmentRequests = appointmentRequests;
-	}
 }
