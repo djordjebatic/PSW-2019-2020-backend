@@ -1,11 +1,7 @@
 package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.dto.AppointmentHistoryDTO;
-import com.example.pswbackend.dto.AvailableAppointmentDTO;
-import com.example.pswbackend.dto.NewAppointmentDTO;
-import com.example.pswbackend.dto.PrescriptionDTO;
+import com.example.pswbackend.dto.*;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
@@ -413,4 +409,78 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         return a;
     }
+
+    @Override
+    public List<PredefinedAppointmentDTO> getFutureCancelAppointments(Long id){
+
+         List<Appointment> list = appointmentRepository.findByPatientId(id);
+         List<PredefinedAppointmentDTO> finalList = new ArrayList<>();
+         for(Appointment a : list){
+             if(a.getStatus().toString().equals("APPROVED") || a.getStatus().toString().equals("PREDEF_BOOKED")){
+                 if(a.getStartDateTime().isAfter(LocalDateTime.now().plusHours(24))) {
+                     PredefinedAppointmentDTO dto = new PredefinedAppointmentDTO(a, Long.parseLong("1"));
+                     finalList.add(dto);
+                 }
+             }
+        }
+        return finalList;
+    }
+
+    @Override
+    public List<PredefinedAppointmentDTO> getFutureFixAppointments(Long id){
+
+        List<Appointment> list = appointmentRepository.findByPatientId(id);
+        List<PredefinedAppointmentDTO> finalList = new ArrayList<>();
+        for(Appointment a : list){
+            if(a.getStatus().toString().equals("APPROVED") || a.getStatus().toString().equals("PREDEF_BOOKED")) {
+                if (a.getStartDateTime().isAfter(LocalDateTime.now()) && a.getStartDateTime().isBefore(LocalDateTime.now().plusHours(24))) {
+                    PredefinedAppointmentDTO dto = new PredefinedAppointmentDTO(a,  Long.parseLong("1") );
+                    finalList.add(dto);
+                }
+            }
+        }
+        return finalList;
+    }
+
+    @Override
+    public Appointment cancelAppointmentP(Long appointmentId) {
+        Appointment appointment = getAppointment(appointmentId);
+        if (appointment == null){
+            return null;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime canCancel = appointment.getStartDateTime().minusHours(24);
+        if (now.isAfter(canCancel)){
+            return null;
+        }
+
+        List<Doctor> appDoctors = new ArrayList<>();
+        for(Doctor d: appointment.getDoctors()){
+            appDoctors.add(d);
+        }
+
+        appointment.setStatus(AppointmentStatus.CANCELED);
+        Nurse nurse = appointment.getNurse();
+        Patient patient = appointment.getPatient();
+
+        String subject = "Appointment notice: Your appointment has been canceled";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(patient.getFirstName());
+        stringBuilder.append(" ");
+        stringBuilder.append(patient.getLastName());
+        stringBuilder.append("has canceled the appointment scheduled for ");
+        stringBuilder.append(appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
+
+        String message = stringBuilder.toString();
+
+        for (Doctor dr : appDoctors){
+            emailService.sendEmail(dr.getUsername(), subject, message);
+        }
+        emailService.sendEmail(nurse.getUsername(), subject, message);
+
+        return appointmentRepository.save(appointment);
+    }
+
+
 }
