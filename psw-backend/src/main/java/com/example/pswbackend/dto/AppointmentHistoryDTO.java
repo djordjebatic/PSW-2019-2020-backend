@@ -10,8 +10,11 @@ public class AppointmentHistoryDTO {
     private String specialization;
     private String diagnosis;
     private Long id;
+    private Long doctorId;
+    private Long clinicId;
+    private String clinicName;
 
-    public AppointmentHistoryDTO(String startTime, String endTime, String doctorFirstName, String doctorLastName, String type, String specialization, String diagnosis, Long id) {
+    public AppointmentHistoryDTO(String startTime, String endTime, String doctorFirstName, String doctorLastName, String type, String specialization, String diagnosis, Long id, Long doctorId, Long clinicId, String clinicName) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.doctorFirstName = doctorFirstName;
@@ -20,6 +23,9 @@ public class AppointmentHistoryDTO {
         this.specialization = specialization;
         this.diagnosis= diagnosis;
         this.id=id;
+        this.doctorId=doctorId;
+        this.clinicId= clinicId;
+        this.clinicName= clinicName;
     }
 
     public String getStartTime() {
@@ -84,5 +90,29 @@ public class AppointmentHistoryDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public Long getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(Long clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        this.clinicName = clinicName;
     }
 }
