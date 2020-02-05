@@ -231,6 +231,14 @@ insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Eggs, gluten', '0', '230', 8, '30');
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Cats', 'AB', '130', 9, '170');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Flowers', 'A', '170', 10, '100');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Oranges', 'B', '190', 11, '90');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'None', 'AB', '180', 12, '70');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Flower', 'B', '165', 13, '60');
 
 
 --Appointments
@@ -273,6 +281,22 @@ values(2, '02.24.2020 08:00', '02.24.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7,
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(1, '01.25.2020 08:00', '01.25.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '02.24.2020 9:00', '02.24.2020 19:30', 'APPROVED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (8,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '03.22.2020 11:00', '03.22.2020 12:30', 'APPROVED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (9,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '04.22.2020 19:00', '04.22.2020 19:30', 'PREDEF_BOOKED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (10,17);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '02.06.2020 09:00', '02.06.2020 10:30', 'APPROVED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (11,4);
 
 
 --AppointmentRequests
