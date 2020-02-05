@@ -339,9 +339,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         for(ExaminationReport e : list){
 
              AppointmentHistoryDTO a = new AppointmentHistoryDTO(e.getAppointment().getStartDateTime().toString(), e.getAppointment().getEndDateTime().toString(),
-                     e.getDoctor().getFirstName(),e.getDoctor().getLastName(), e.getAppointment().getPrice().getAppointmentEnum().toString(),e.getDoctor().getSpecialization().getName()) ;
+                     e.getDoctor().getFirstName(),e.getDoctor().getLastName(), e.getAppointment().getPrice().getAppointmentEnum().toString(),e.getDoctor().getSpecialization().getName(),
+                     e.getDiagnosis().getName(), e.getId(), e.getDoctor().getId(), e.getDoctor().getClinic().getId(), e.getDoctor().getClinic().getName()) ;
 
-                historyList.add(a);
+
+            historyList.add(a);
         }
 
             return historyList;
