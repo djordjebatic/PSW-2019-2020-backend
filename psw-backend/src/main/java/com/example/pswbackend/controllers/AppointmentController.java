@@ -1,9 +1,7 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.ExaminationReport;
-import com.example.pswbackend.domain.Nurse;
+
+import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
 import com.example.pswbackend.dto.AppointmentHistoryDTO;
 import com.example.pswbackend.services.AppointmentService;
