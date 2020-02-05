@@ -56,11 +56,11 @@ public class Clinic {
 	private Set<Ordination> ordinations = new HashSet<>();
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Doctor> clinicAdmins = new HashSet<>();
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<ClinicAdmin> clinicAdmins = new HashSet<>();
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AppointmentType> appointmentTypes = new ArrayList<>();
 
 	@JsonManagedReference
@@ -178,11 +178,11 @@ public class Clinic {
 		this.city = city;
 	}
 
-	public Set<Doctor> getClinicAdmins() {
+	public Set<ClinicAdmin> getClinicAdmins() {
 		return clinicAdmins;
 	}
 
-	public void setClinicAdmins(Set<Doctor> clinicAdmins) {
+	public void setClinicAdmins(Set<ClinicAdmin> clinicAdmins) {
 		this.clinicAdmins = clinicAdmins;
 	}
 
