@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import com.example.pswbackend.enums.AppointmentEnum;
+
 import java.time.LocalDateTime;
 
 public class AppointmentRequestDTO {
@@ -23,9 +25,17 @@ public class AppointmentRequestDTO {
     private Long doctorId;
     private String patientFN;
     private String patientLN;
-    private Long patientId;
+    private Long patientId; //zajednicko
     private Long priceId;
     private double price;
+
+    //Sara
+    private Long clinicId;
+    private AppointmentEnum appointmentType;
+    private String startTime;
+    private LocalDateTime startTime1;
+    private Long doctorsId;
+    //
 
     public AppointmentRequestDTO(Long id, String typeEnum, LocalDateTime startDateTime, LocalDateTime endDateTime, String doctorFN, String doctorLN, Long doctorId) {
         this.id = id;
@@ -36,6 +46,24 @@ public class AppointmentRequestDTO {
         this.doctorLN = doctorLN;
         this.doctorId = doctorId;
     }
+
+    //Sara
+    public AppointmentRequestDTO(Long patientId, Long clinicId, AppointmentEnum appointmentType, String startTime, Long doctorsId) {
+        this.patientId = patientId;
+        this.clinicId = clinicId;
+        this.appointmentType = appointmentType;
+        this.startTime = startTime;
+        this.doctorsId = doctorsId;
+    }
+
+    public AppointmentRequestDTO(Long patientId, Long clinicId, AppointmentEnum appointmentType, LocalDateTime startTime, Long doctorsId) {
+        this.patientId = patientId;
+        this.clinicId = clinicId;
+        this.appointmentType = appointmentType;
+        this.startTime1 = startTime;
+        this.doctorsId = doctorsId;
+    }
+    //
 
     public Long getId() {
         return id;
@@ -112,4 +140,46 @@ public class AppointmentRequestDTO {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public Long getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(Long clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public AppointmentEnum getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(AppointmentEnum appointmentType) {
+        this.appointmentType = appointmentType;
+    }
+
+    public LocalDateTime getStartTime1() {
+        return startTime1;
+    }
+
+    public void setStartTime1(LocalDateTime startTime) {
+        this.startTime1 = startTime;
+    }
+
+    public Long getDoctorsId() {
+        return doctorsId;
+    }
+
+    public void setDoctorsId(Long doctorsId) {
+        this.doctorsId = doctorsId;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTimeS(String startTime) {
+        this.startTime = startTime;
+
+    }
+
 }

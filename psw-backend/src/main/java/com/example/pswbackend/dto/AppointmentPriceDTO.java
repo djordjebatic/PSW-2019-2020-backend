@@ -2,8 +2,8 @@ package com.example.pswbackend.dto;
 
 public class AppointmentPriceDTO {
 
-    String appointmentType;
-    String appointmentPrice;
+    private String appointmentType;
+    private String appointmentPrice;
 
     public AppointmentPriceDTO(String appointmentType, String appointmentPrice) {
         this.appointmentType = appointmentType;

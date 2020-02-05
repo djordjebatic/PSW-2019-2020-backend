@@ -1,16 +1,22 @@
 package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
+import com.example.pswbackend.domain.AppointmentRequest;
+import com.example.pswbackend.domain.ClinicAdmin;
+import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.AppointmentRequestDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.repositories.AppointmentPriceRepository;
 import com.example.pswbackend.repositories.AppointmentRequestRepository;
+import com.example.pswbackend.repositories.ClinicAdminRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.AppointmentRequestService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +47,15 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
 
     @Autowired
     PatientRepository patientRepo;
+
+    @Autowired
+    ClinicAdminRepository clinicAdminRepository;
+
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    PatientRepository patientRepository;
 
     @Override
     public boolean saveRequest(AppointmentDoctorDTO dto, Clinic c) {
@@ -125,9 +140,9 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
 
         List<AppointmentRequestDTO> dtoList = new ArrayList<>();
         List<AppointmentRequest> appointmentRequests = c.getAppointmentRequests();
-        for (AppointmentRequest ar:appointmentRequests) {
+        for (AppointmentRequest ar : appointmentRequests) {
             AppointmentPrice price = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(ar.getDoctor().getSpecialization().getId(), ar.getType());
-            AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(),ar.getType().name(),ar.getStartDateTime(),ar.getEndDateTime(),ar.getDoctor().getFirstName(),ar.getDoctor().getLastName(),ar.getDoctor().getId());
+            AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(), ar.getType().name(), ar.getStartDateTime(), ar.getEndDateTime(), ar.getDoctor().getFirstName(), ar.getDoctor().getLastName(), ar.getDoctor().getId());
             Patient p = patientRepo.findById(ar.getPatientId());
             dto.setTypeSpec(price.getAppointmentType().getName());
             dto.setPrice(price.getPrice());
@@ -139,5 +154,42 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
         }
 
         return dtoList;
+    }
+
+    @Override
+    public boolean sendRequest(AppointmentRequestDTO dto){
+
+        if(dto.equals(null)){
+            return false;
+        }
+
+        Patient patient = patientRepository.findOneById(dto.getPatientId());
+        Doctor doctor = doctorRepository.findById(dto.getDoctorsId()).get();
+        List<ClinicAdmin> clinicAdminList = clinicAdminRepository.findByClinicId(dto.getClinicId());
+        ClinicAdmin ca = clinicAdminList.get(0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime time =  LocalDateTime.parse(dto.getStartTime(), formatter);
+        AppointmentRequest appR= new AppointmentRequest(time, time.plusMinutes(40), doctor, ca.getClinic() ,dto.getAppointmentType(), dto.getPatientId());
+
+        appointmentRequestRepository.save(appR);
+
+        String subject = "Appointment notice: New request received";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(patient.getFirstName());
+        stringBuilder.append(" ");
+        stringBuilder.append(patient.getLastName());
+        stringBuilder.append("has requested for examination.");
+        stringBuilder.append(" Doctor:");
+        stringBuilder.append(doctor.getFirstName());
+        stringBuilder.append(" ");
+        stringBuilder.append(doctor.getLastName());
+        stringBuilder.append(". Time:");
+        stringBuilder.append(time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
+        String message = stringBuilder.toString();
+
+        emailService.sendEmail(ca.getUsername(), subject, message);
+
+        return true;
     }
 }

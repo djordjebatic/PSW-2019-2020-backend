@@ -13,6 +13,8 @@ public interface AppointmentRequestService {
     boolean saveRequest(AppointmentDoctorDTO dto, Clinic c);
     AppointmentRequestDTO getById(Long id);
 
+    boolean sendRequest(AppointmentRequestDTO dto);
+
     List<AppointmentRequestDTO> getClinicAppReqCA();
     List<AppointmentRequestDTO> getClinicAppReqDoc();
 }
