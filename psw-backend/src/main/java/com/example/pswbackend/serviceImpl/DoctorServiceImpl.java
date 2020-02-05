@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -69,6 +70,9 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private PaidTimeOffDoctorRepository paidTimeOffDoctorRepository;
 
+    @Autowired
+    private ClinicAdminRepository clinicAdminRepo;
+
 
     @Override
     public boolean scheduleAppointment(AppointmentDoctorDTO dto) {
@@ -94,6 +98,11 @@ public class DoctorServiceImpl implements DoctorService {
         clinicAdminService.receiveAppointmentRequest(dto);
 
         emailService.sendEmail("jelenadostic2@gmail.com", "Scheduling Appointment", message);
+        List<ClinicAdmin> ca = clinicAdminRepo.findByClinicId(doctorRepo.findById(Long.parseLong(dto.getDoctor())).get().getClinic().getId());
+
+        for (int i=0;i<ca.size();i++){
+            emailService.sendEmail(ca.get(i).getUsername(), "Scheduling Appointment", message);
+        }
 
         return true; //za sad uvek true
     }
@@ -106,6 +115,21 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<Doctor> findAll() {
         return doctorRepo.findAll();
+    }
+
+    @Override
+    public List<NewDoctorDTO> findByWorkingTime(LocalTime start, LocalTime end) {
+        ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
+        if (ca == null){
+            return null;
+        }
+
+        List<Doctor> doctors = doctorRepo.findByWorkTimeStartGreaterThanEqualAndWorkTimeEndLowerThan(start, end, ca.getClinic().getId());
+        List<NewDoctorDTO> dtoDoctors = new ArrayList<>();
+        for (Doctor d:doctors) {
+            dtoDoctors.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
+        }
+        return dtoDoctors;
     }
 
     @Override
@@ -221,11 +245,24 @@ public class DoctorServiceImpl implements DoctorService {
         authorities.add(a);
         d.setAuthorities(authorities);
 
+        //TODO email service => javi doktoru sifru
+
         c.getDoctors().add(d);
         doctorRepo.save(d);
 
         return d;
 
+    }
+
+
+    @Override
+    public Boolean deleteOneById(Long id) {
+        try {
+            doctorRepo.deleteOneById(id);
+            return true;
+        } catch (Exception e){
+            return true; //exception jer delete ne vraca nista -> PSQLException: No results were returned by the query
+        }
     }
 
     public List<ResultDoctorDTO> filterDoctors(FilterDoctorsDTO dto) {

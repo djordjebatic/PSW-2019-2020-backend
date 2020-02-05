@@ -3,15 +3,17 @@ package com.example.pswbackend.ServiceImpl;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
 import com.example.pswbackend.dto.AppointmentHistoryDTO;
+import com.example.pswbackend.dto.AvailableAppointmentDTO;
+import com.example.pswbackend.dto.NewAppointmentDTO;
 import com.example.pswbackend.dto.PrescriptionDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
-import com.example.pswbackend.repositories.AppointmentRepository;
-import com.example.pswbackend.repositories.MedicalRecordRepository;
-import com.example.pswbackend.services.AppointmentService;
-import com.example.pswbackend.services.EmailService;
+import com.example.pswbackend.repositories.*;
+import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,10 +33,35 @@ public class AppointmentServiceImpl implements AppointmentService {
     AppointmentRepository appointmentRepository;
 
     @Autowired
+    AppointmentRequestRepository appointmentRequestRepository;
+
+    @Autowired
     EmailService emailService;
 
     @Autowired
     MedicalRecordRepository medicalRecordRepository;
+
+    @Autowired
+    OrdinationRepository ordinationRepo;
+
+    @Autowired
+    ClinicAdminService clinicAdminService;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private OrdinationService ordinationService;
+
+    @Autowired
+    private PatientRepository patientService;
+
+    @Autowired
+    private AppointmentPriceRepository appointmentPriceService;
+
+    @Autowired
+    NurseRepository nurseRepository;
+
 
     @Override
     public List<Appointment> getAppointments(Long ordinationId) {
@@ -318,5 +345,70 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
             return historyList;
+    }
+
+    @Override
+    public List<Ordination> getAvailableOrdinations(AvailableAppointmentDTO dto) {
+
+        ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
+        if (ca == null){
+            return null;
+        }
+
+        Clinic c = ca.getClinic();
+        if (c == null){
+            return null;
+        }
+
+        AppointmentEnum appType;
+        if (Integer.parseInt(dto.getAppType()) == 0){
+            appType = AppointmentEnum.EXAMINATION;
+        } else {
+            appType = AppointmentEnum.OPERATION;
+        }
+
+        return ordinationRepo.findByTypeAndClinicId(appType, c.getId());
+    }
+
+    @Override
+    public Appointment createNew(NewAppointmentDTO dto) {
+
+        ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
+        AppointmentRequest areq = appointmentRequestRepository.findById(Long.parseLong(dto.getAppReqId())).get();
+
+        if (areq == null){
+            return null;
+        }
+
+        if (ca == null){
+            return null;
+        }
+
+        Clinic c = ca.getClinic();
+
+        if (c == null){
+            return null;
+        }
+
+        Appointment a = new Appointment();
+        a.setStartDateTime(dto.getStartDateTime());
+        a.setEndDateTime(dto.getEndDateTime());
+        a.setOrdination(ordinationService.findById(Long.parseLong(dto.getOrdinationId())));
+        a.setPatient(patientService.findById(Long.parseLong(dto.getPatientId())));
+        a.getDoctors().add(doctorService.findById(Long.parseLong(dto.getDoctorId())));
+        a.setNurse(nurseRepository.findOneById(7L)); //TODO prava sestra
+        a.setDiscount(0);
+        a.setPrice(appointmentPriceService.findById(Long.parseLong(dto.getPriceId())).get());
+        a.setStatus(AppointmentStatus.APPROVED);
+        a.setClinic(c);
+
+        appointmentRepository.save(a);
+        try {
+            appointmentRequestRepository.deleteOneById(Long.parseLong(dto.getAppReqId()));
+        } catch (Exception e){
+            return a;
+        }
+
+        return a;
     }
 }

@@ -276,14 +276,14 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     @Override
-    //@Transactional(readOnly = false, propagation = Propagation.NESTED)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Boolean deleteOrd(Long id){
 
         try {
-            ordinationRepository.deleteById(id);
+            ordinationRepository.deleteOneById(id);
             return true;
         } catch (Exception e){
-            return false;
+            return true; //exception jer delete ne vraca nista -> PSQLException: No results were returned by the query
         }
 
     }

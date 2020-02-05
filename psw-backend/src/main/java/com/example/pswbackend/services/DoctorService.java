@@ -2,6 +2,10 @@ package com.example.pswbackend.services;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.PaidTimeOffDoctor;
 import com.example.pswbackend.dto.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface DoctorService {
@@ -14,6 +18,7 @@ public interface DoctorService {
     Doctor addNew(NewDoctorDTO dto);
 
     List<Doctor> findAll();
+    List<NewDoctorDTO> findByWorkingTime(LocalTime start, LocalTime end);
 
     Doctor getLoggedInDoctor();
     List<ResultDoctorDTO> filterDoctors(FilterDoctorsDTO dto);
@@ -24,5 +29,7 @@ public interface DoctorService {
 
     boolean alreadyRequestedLeave(Doctor dr);
     boolean alreadyOnLeave(Doctor dr);
+
+    Boolean deleteOneById(Long id);
 
 }

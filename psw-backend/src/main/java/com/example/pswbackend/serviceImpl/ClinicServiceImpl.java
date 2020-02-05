@@ -55,7 +55,14 @@ public class ClinicServiceImpl implements ClinicService {
             return null;
         }
 
-        return new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), clinic.getStars());
+        int stars = clinic.getStars();
+        int num = clinic.getNum_votes();
+        double avg = 0;
+        if (num != 0){
+            avg = Double.valueOf(stars)/Double.valueOf(num);
+        }
+
+        return new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), avg);
     }
 
     @Override

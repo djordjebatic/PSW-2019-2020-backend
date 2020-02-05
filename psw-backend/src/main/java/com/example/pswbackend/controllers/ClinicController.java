@@ -1,19 +1,16 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Clinic;
-import com.example.pswbackend.domain.Diagnosis;
-import com.example.pswbackend.dto.ClinicDTO;
-import com.example.pswbackend.dto.DiagnosisDTO;
-import com.example.pswbackend.dto.FilterClinicsDTO;
-import com.example.pswbackend.dto.ResultClinicDTO;
+import com.example.pswbackend.domain.*;
+import com.example.pswbackend.dto.*;
 import com.example.pswbackend.repositories.ClinicRepository;
-import com.example.pswbackend.services.ClinicService;
+import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,6 +30,10 @@ public class ClinicController {
 
     @Autowired
     ClinicRepository clinicRepository;
+
+    @Autowired
+    AppointmentRequestService appointmentRequestService;
+
 
     @GetMapping(value="/clinics", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
@@ -103,4 +104,31 @@ public class ClinicController {
         }
     }
 
+    @GetMapping(value="/clinic-app-requests-ca")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<AppointmentRequestDTO>> getAppointmentRequestsCa(){
+
+        List<AppointmentRequestDTO> list = appointmentRequestService.getClinicAppReqCA();
+
+        if (list == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value="/clinic-app-requests-doc")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<List<AppointmentRequestDTO>> getAppointmentRequestsDoc() {
+
+        List<AppointmentRequestDTO> list = appointmentRequestService.getClinicAppReqDoc();
+
+        if (list == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+
+    }
 }

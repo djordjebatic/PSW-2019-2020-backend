@@ -50,6 +50,12 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+    NurseRepository nurseRepository;
+
+    @Autowired
+    AppointmentPriceRepository appointmentPriceRepository;
+
 
     @Override
     public ClinicAdminDTO findByName(String name) {
@@ -99,8 +105,11 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
     @Override
     public boolean receiveAppointmentRequest(AppointmentDoctorDTO dto) {
 
-        ClinicAdmin ca = clinicAdminRepository.findAll().get(0);
-        appointmentRequestService.saveRequest(dto, ca);
+        Clinic c = doctorRepository.findById(Long.parseLong(dto.getDoctor())).get().getClinic();
+        if (c == null){
+            return false;
+        }
+        appointmentRequestService.saveRequest(dto, c);
 
         return true;
     }
@@ -114,8 +123,6 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Override
     public Appointment createQuickReservation(QuickReservationDTO dto){
-
-        // provere..............
 
         Appointment predefinedAppointment = new Appointment();
 
@@ -132,16 +139,21 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
         AppointmentPrice price = new AppointmentPrice(appType, dto.getPrice());
 
+
         predefinedAppointment.setStartDateTime(startDateTime);
         predefinedAppointment.setEndDateTime(endDateTime);
         predefinedAppointment.setDiscount(dto.getDiscount());
         predefinedAppointment.setOrdination(ordinationRepository.findById(Long.parseLong(dto.getOrdination())).get());
         predefinedAppointment.setClinicAdmin(clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get());
         predefinedAppointment.setClinic(clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get().getClinic());
-        //predefinedAppointment.setDoctor(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
+        predefinedAppointment.setNurse(nurseRepository.findOneById(7L)); //TODO prava sestra
         predefinedAppointment.getDoctors().add(doctorRepository.findById(Long.parseLong(dto.getDoctor())).get());
-        predefinedAppointment.setPrice(price);
+        predefinedAppointment.setPrice(appointmentPriceRepository.findById(dto.getPrice()).get());
         predefinedAppointment.setStatus(AppointmentStatus.PREDEF_AVAILABLE);
+
+        for (Doctor d:predefinedAppointment.getDoctors()) {
+            d.getAppointments().add(predefinedAppointment);
+        }
 
         clinicAdminRepository.findById(Long.parseLong(dto.getClinicAdmin())).get().getPredefinedAppointments().add(predefinedAppointment);
         appointmentRepository.save(predefinedAppointment);

@@ -67,6 +67,19 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public Boolean deleteAppType(Long id){
+
+        try {
+            appointmentTypeRepository.deleteOneById(id);
+            return true;
+        } catch (Exception e){
+            return true; //exception jer delete ne vraca nista -> PSQLException: No results were returned by the query
+        }
+
+    }
+
+    @Override
     public List<AppointmentTypeDTO> findByClinicId(Long clinicId) {
         List<AppointmentType> appointmentType = appointmentTypeRepository.findByClinicId(clinicId);
         if (appointmentType == null) {

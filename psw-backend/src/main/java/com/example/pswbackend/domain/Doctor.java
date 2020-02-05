@@ -1,10 +1,7 @@
 package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.UserStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import java.sql.Time;
 import java.time.LocalTime;
@@ -19,6 +16,7 @@ import javax.persistence.*;
 @DiscriminatorValue(value="DOCTOR")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Doctor extends Account {
+
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -45,9 +43,11 @@ public class Doctor extends Account {
     @Column
     private int num_votes;
 
+    @JsonFormat(pattern = "HH:mm")
     @Column
     private LocalTime workTimeStart;
 
+    @JsonFormat(pattern = "HH:mm")
     @Column
     private LocalTime workTimeEnd;
 

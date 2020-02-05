@@ -22,13 +22,26 @@ insert into appointment_type (name, clinic_id)
 values ('Kardiologija', 1);
 
 insert into appointment_type (name, clinic_id)
-values ('Gastologija', 1);
+values ('Gastrologija', 1);
 
 insert into appointment_type (name, clinic_id)
-values ('Ginekologija', 2);
+values ('Ginekologija', 1);
+
+insert into appointment_type (name, clinic_id)
+values ('Opsta praksa', 1);
+
+insert into appointment_type (name, clinic_id)
+values ('Onkologija', 2);
 
 insert into appointment_type (name, clinic_id)
 values ('Opsta praksa', 2);
+
+insert into appointment_type (name, clinic_id)
+values ('Pedijatrija', 2);
+
+insert into appointment_type (name, clinic_id)
+values ('Dermatologija', 2);
+
 ---AppointmentPrices
 
 insert into appointment_price (appointment_type_id, appointment_enum, price)
@@ -41,21 +54,45 @@ insert into appointment_price (appointment_type_id, appointment_enum, price)
 values (2, 'OPERATION', 500);
 
 insert into appointment_price (appointment_type_id, appointment_enum, price)
-values (2, 'EXAMINATION', 10);
+values (2, 'EXAMINATION', 25);
 
 insert into appointment_price (appointment_type_id, appointment_enum, price)
-values (3, 'OPERATION', 450);
+values (3, 'OPERATION', 490);
 
 insert into appointment_price (appointment_type_id, appointment_enum, price)
 values (3, 'EXAMINATION', 15);
 
 insert into appointment_price (appointment_type_id, appointment_enum, price)
-values (4, 'OPERATION', 490);
+values (4, 'OPERATION', 450);
 
 insert into appointment_price (appointment_type_id, appointment_enum, price)
-values (4, 'EXAMINATION', 9);
----------
+values (4, 'EXAMINATION', 10);
 
+--------- Dodati za drugu kliniku
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (5, 'OPERATION', 3500);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (5, 'EXAMINATION', 30);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (6, 'OPERATION', 600);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (6, 'EXAMINATION', 20);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (7, 'OPERATION', 450);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (7, 'EXAMINATION', 15);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (8, 'OPERATION', 350);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (8, 'EXAMINATION', 15);
 
 -----------------------------------USERS----------------------------------------
 
@@ -70,18 +107,18 @@ values ('CLINIC_ADMIN', 'cadmin1@gmail.com', '$2y$12$4zrqOojpixOe/ogFw1xyyuQuIvF
 INSERT INTO account_authority (account_id, authority_id) values  (2, 4);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, user_status, clinic_id)
-values ('CLINIC_ADMIN', 'cadmin2@gmail.com', '$2y$12$4zrqOojpixOe/ogFw1xyyuQuIvFqrzbj0IohYtshqqy1P5rS6kdbq', 'Milos', 'Marković', '066123457', 'Zeleznicka ulica 69','Ndzamena','Chad', 'NEVER_LOGGED_IN', 1);
+values ('CLINIC_ADMIN', 'cadmin2@gmail.com', '$2y$12$4zrqOojpixOe/ogFw1xyyuQuIvFqrzbj0IohYtshqqy1P5rS6kdbq', 'Milos', 'Marković', '066123457', 'Zeleznicka ulica 69','Ndzamena','Chad', 'NEVER_LOGGED_IN', 2);
 INSERT INTO account_authority (account_id, authority_id) values  (3, 4);
 
 
 --Doctor
 --Password: dok
-insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
-values ('DOCTOR', 'dok@gmail.com', '$2y$12$u3nc1wRBsop15oZaI2FqVuSHFsD9ZHeGXcpXKwGeD3on4zv3BRWd6', 'Dok', 'Dokic', '065525404', 'Zeleznicka ulica 69','Ndzamena','Chad', 1, 1, 'ACTIVE', 50, 10);
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok@gmail.com', '$2y$12$u3nc1wRBsop15oZaI2FqVuSHFsD9ZHeGXcpXKwGeD3on4zv3BRWd6', 'Dok', 'Dokic', '065525404', 'Zeleznicka ulica 69','Ndzamena','Chad', 1, 1, 'ACTIVE', 50, 10, '08:00', '16:00');
 INSERT INTO account_authority (account_id, authority_id) values  (4, 2);
 
-insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
-values ('DOCTOR', 'dok2@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Sima', 'Dokic', '060123456', 'Zeleznicka ulica 69','Ndzamena','Chad', 2, 1, 'ACTIVE', 46, 10);
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok2@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Sima', 'Dokic', '060123456', 'Zeleznicka ulica 69','Ndzamena','Chad', 2, 1, 'ACTIVE', 46, 10, '09:00', '19:00');
 INSERT INTO account_authority (account_id, authority_id) values  (5, 2);
 
 --Nurse
@@ -123,16 +160,16 @@ values ('PATIENT', 'patijent8@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfG
 INSERT INTO account_authority (account_id, authority_id) values  (14, 1);
 
 --doc2
-insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
-values ('DOCTOR', 'dok3@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mika', 'Dokic', '060321456', 'Zeleznicka ulica 49','Ndzamena','Chad', 2, 2, 'ACTIVE', 46, 10);
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok3@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mika', 'Dokic', '060321456', 'Zeleznicka ulica 49','Ndzamena','Chad', 2, 2, 'ACTIVE', 46, 10, '08:00', '16:00');
 INSERT INTO account_authority (account_id, authority_id) values  (15, 2);
 
-insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
-values ('DOCTOR', 'dok4@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mile', 'Dokic', '060123654', 'Zeleznicka ulica 64','Ndzamena','Chad', 3, 3, 'ACTIVE', 46, 10);
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok4@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mile', 'Dokic', '060123654', 'Zeleznicka ulica 64','Ndzamena','Chad', 3, 3, 'ACTIVE', 46, 10, '08:30', '16:30');
 INSERT INTO account_authority (account_id, authority_id) values  (16, 2);
 
-insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes)
-values ('DOCTOR', 'dok5@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 1, 1, 'ACTIVE', 42, 10);
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok5@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 1, 1, 'ACTIVE', 42, 10, '07:00', '15:00');
 INSERT INTO account_authority (account_id, authority_id) values  (17, 2);
 
 
@@ -238,7 +275,9 @@ insert into appointment(price_id, start_date_time, end_date_time, status, ordina
 values(1, '01.25.2020 08:00', '01.25.2020 9:30', 'AWAITING_APPROVAL', '2', 8, 7, 3, 1);
 
 
---
+--AppointmentRequests
+insert into appointment_request(end_date_time, patient_id, start_date_time, type, clinic_id, doctor_id)
+values ('01.25.2020 9:30', 8, '01.25.2020 08:00', 'EXAMINATION', 1, 4);
 
 --Examination Report
 insert into examination_report (comment, time_created, appointment_id, diagnosis_id, doctor_id, medical_record_id)
