@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface RoleService {
 
-    List<Authority> findById(Long id);
+    List<Authority> findById(Long id );
     List<Authority> findByName(String name);
 }
