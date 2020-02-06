@@ -44,13 +44,15 @@ public class ClinicDTO {
         this.longitude = longitude;
     }
 
-    public ClinicDTO(Long id, @NotEmpty(message = "Name empty.") @Size(message = "Max name size  is 40.", max = 40) String name, String description, @NotEmpty(message = "Address is empty.") String address, @NotEmpty(message = "City is empty.") String city, double avg) {
+    public ClinicDTO(Long id, @NotEmpty(message = "Name empty.") @Size(message = "Max name size  is 40.", max = 40) String name, String description, @NotEmpty(message = "Address is empty.") String address, @NotEmpty(message = "City is empty.") String city, double avg, double longitude, double latitue) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.address = address;
         this.city = city;
         this.avg = avg;
+        this.longitude = longitude;
+        this.latitue = latitue;
     }
 
     public Long getId() {
