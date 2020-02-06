@@ -67,6 +67,12 @@ public class Clinic {
 	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<AppointmentRequest> appointmentRequests = new ArrayList<>();
 
+	@Column(nullable = false)
+	private double latitude;
+
+	@Column(nullable = false)
+	private double longitude;
+
 	public Clinic(String name, String description, String address, String city) {
 		this.name = name;
 		this.description = description;
@@ -88,6 +94,22 @@ public class Clinic {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 	public Long getVersion() {

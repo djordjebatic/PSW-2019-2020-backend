@@ -23,7 +23,7 @@ public interface DoctorService {
     Doctor getLoggedInDoctor();
     List<ResultDoctorDTO> filterDoctors(FilterDoctorsDTO dto);
 
-    List<Doctor> findClinicDoctors(Long clinicId);
+    List<NewDoctorDTO> findClinicDoctors(Long clinicId);
 
     PaidTimeOffDoctor requestLeave(Long id, PaidTimeOffDoctorDTO dto);
 
