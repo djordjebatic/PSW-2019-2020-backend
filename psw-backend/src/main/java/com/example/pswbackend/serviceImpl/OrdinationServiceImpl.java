@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Transactional
@@ -61,39 +61,35 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Appointment assignOrdinationForOperation(Long appointmentId, Long ordinationId, Set<Doctor> doctors) {
         Appointment appointment = appointmentService.getAppointment(appointmentId);
         Ordination ordination = ordinationRepository.findOneById(ordinationId);
 
         if (appointment == null || ordination == null || appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.EXAMINATION)) {
-            System.out.println("--1--");
-            return null;
+            throw new NoSuchElementException("Invalid appointment type");
         }
         if (appointment.getStartDateTime().isBefore(LocalDateTime.now())) {
-            System.out.println("--2--");
-            return null;
+            throw new ValidationException("You can only assign ordinations during the appointment");
         }
 
         if (!isOrdinationAvailable(ordination, appointment.getStartDateTime(), appointment.getEndDateTime())) {
-            System.out.println("--3--");
-            return null;
+            throw new ValidationException("Ordination is not available at current timeslot");
         }
 
         //All doctors must be available
         for (Doctor doctor : doctors) {
             if (!isDoctorAvailable(doctor, appointment.getStartDateTime(), appointment.getEndDateTime())) {
-                System.out.println("--4--");
-                return null;
+                throw new ValidationException("You can not assign the ordination because doctor(s) have scheduled appointments in wanted timeslot");
             }
         }
 
         try {
             appointmentService.assignOperationOrdination(appointment, ordination, doctors);
-        } catch (IllegalTransactionStateException e) {
-            e.printStackTrace();
-            return null;
+            return appointment;
+        } catch (Exception e) {
+            throw e;
         }
-        return appointment;
     }
 
     @Override
