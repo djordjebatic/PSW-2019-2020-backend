@@ -1,4 +1,4 @@
-package com.example.pswbackend.ServiceImpl;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.SendFailedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -112,10 +113,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAwaitingAppointments() {
+    public List<Appointment> getAwaitingAppointments(Long clinicId) {
         List<AppointmentStatus> statuses = new ArrayList<>();
         statuses.add(AppointmentStatus.AWAITING_APPROVAL);
-        return appointmentRepository.findByStatusIn(statuses);
+        return appointmentRepository.findByClinicIdAndStatusIn(clinicId, statuses);
     }
 
     @Override
@@ -186,13 +187,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (appointment == null){
             return null;
         }
-
         appointment.setOrdination(ordination);
         appointment.setDoctors(doctors);
         appointment.setStatus(AppointmentStatus.APPROVED);
-        appointmentRepository.save(appointment);
-        sendOperationMail(appointment);
-        return appointment;
+
+        try {
+            appointmentRepository.save(appointment);
+        } catch (Exception e) {
+            throw e;
+        }
+
+        try{
+            sendOperationMail(appointment);
+            return appointment;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
