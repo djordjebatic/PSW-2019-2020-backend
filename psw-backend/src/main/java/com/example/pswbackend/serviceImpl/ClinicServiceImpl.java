@@ -62,7 +62,7 @@ public class ClinicServiceImpl implements ClinicService {
             avg = Double.valueOf(stars)/Double.valueOf(num);
         }
 
-        ClinicDTO dto = new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), avg);
+        ClinicDTO dto = new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), avg, clinic.getLongitude(), clinic.getLatitude());
         dto.setLatitue(clinic.getLatitude());
         dto.setLongitude(clinic.getLongitude());
 
@@ -105,7 +105,7 @@ public class ClinicServiceImpl implements ClinicService {
             }
         }
 
-        Clinic clinic = new Clinic(clinicDTO.getName(), clinicDTO.getDescription(), clinicDTO.getAddress(), clinicDTO.getCity());
+        Clinic clinic = new Clinic(clinicDTO.getName(), clinicDTO.getDescription(), clinicDTO.getAddress(), clinicDTO.getCity(), clinicDTO.getLatitue(), clinicDTO.getLongitude());
 
         return clinicRepository.save(clinic);
     }
