@@ -10,6 +10,8 @@ import com.example.pswbackend.repositories.PrescriptionRepository;
 import com.example.pswbackend.services.ExaminationReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional
 public class ExaminationReportServiceImpl implements ExaminationReportService {
 
     @Autowired
@@ -32,6 +35,7 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
     PrescriptionRepository prescriptionRepository;
 
     @Override
+    @Transactional(readOnly = false)
     public ExaminationReportDTO create(Appointment appointment, Doctor doctor, ExaminationReportDTO examinationReportDTO) {
         Diagnosis diagnosis = diagnosisRepository.findOneById(examinationReportDTO.getDiagnosisId());
         if (diagnosis == null){
@@ -59,6 +63,7 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ExaminationReportDTO edit(long examinationReportId, ExaminationReportDTO examinationReportDTO) {
 
         ExaminationReport examinationReport = examinationReportRepository.findOneById(examinationReportId);
@@ -71,19 +76,7 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
         if (diagnosis == null){
             return null;
         }
-        Set<Prescription> prescriptions = new HashSet<>();
-        for (Long drugId : examinationReportDTO.getDrugIds()) {
-            Drug drug = drugRepository.findOneById(drugId);
-            if (drug == null) {
-                return null;
-            }
-            Prescription prescription = new Prescription(drug, examinationReport, examinationReport.getAppointment().getNurse());
-            prescription.setPrescriptionEnum(PrescriptionEnum.ISSUED);
-            prescriptions.add(prescription);
-            prescriptionRepository.save(prescription);
-        }
 
-        examinationReport.setPrescriptions(prescriptions);
         examinationReport.setDiagnosis(diagnosis);
         examinationReport.setComment(examinationReportDTO.getComment());
         examinationReport.setLastEdited(LocalDateTime.now());
