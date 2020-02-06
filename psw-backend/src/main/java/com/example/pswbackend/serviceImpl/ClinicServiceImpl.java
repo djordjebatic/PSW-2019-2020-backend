@@ -1,4 +1,4 @@
-package com.example.pswbackend.ServiceImpl;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.ClinicAdmin;
@@ -13,7 +13,6 @@ import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.DoctorService;
 import com.example.pswbackend.repositories.DoctorRepository;
-//import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

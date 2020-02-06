@@ -1,4 +1,4 @@
-package com.example.pswbackend.ServiceImpl;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
@@ -204,6 +204,18 @@ public class DoctorServiceImpl implements DoctorService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<Doctor> findByClinicIdAndSpecializationId(Appointment appointment) {
+
+        Clinic clinic = appointment.getClinic();
+        AppointmentType appointmentType = appointment.getPrice().getAppointmentType();
+
+        System.out.println("CLINIC: " + clinic.getId());
+        System.out.println("TYPE: " + appointmentType.getId());
+
+        return doctorRepo.findByClinicIdAndSpecializationId(clinic.getId(), appointmentType.getId());
     }
 
     @Override

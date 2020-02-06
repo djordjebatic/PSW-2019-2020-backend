@@ -20,5 +20,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     @Query(value="SELECT * FROM account a WHERE a.work_time_start <= ?1 AND a.work_time_end > ?2 AND a.clinic_id = ?3", nativeQuery = true)
     List<Doctor> findByWorkTimeStartGreaterThanEqualAndWorkTimeEndLowerThan(LocalTime start, LocalTime end,Long id);
+    List<Doctor> findByClinicIdAndSpecializationId(Long clinicId, Long specializationId);
 
 }

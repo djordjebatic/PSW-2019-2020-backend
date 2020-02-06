@@ -1,10 +1,9 @@
-package com.example.pswbackend.ServiceImpl;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.dto.OrdinationAssignDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
-import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.OrdinationRepository;
@@ -14,6 +13,7 @@ import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.OrdinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.IllegalTransactionStateException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,7 +86,13 @@ public class OrdinationServiceImpl implements OrdinationService {
                 return null;
             }
         }
-        appointmentService.assignOperationOrdination(appointment, ordination, doctors);
+
+        try {
+            appointmentService.assignOperationOrdination(appointment, ordination, doctors);
+        } catch (IllegalTransactionStateException e) {
+            e.printStackTrace();
+            return null;
+        }
         return appointment;
     }
 

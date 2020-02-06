@@ -12,32 +12,36 @@ import com.example.pswbackend.services.AccountService;
 import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PatientServiceImpl implements PatientService {
 
     @Autowired
-    private PatientRepository patientRepository;
+    PatientRepository patientRepository;
 
     @Autowired
     EmailService emailService;
 
     @Autowired
-    private AccountService accountService;
+    AccountService accountService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<RegisterApprovalDTO> findByStatus(Status patientStatus) {
         List<Patient> patients = patientRepository.findByStatus(patientStatus);
-        List<RegisterApprovalDTO> patientsDTO = new ArrayList<RegisterApprovalDTO>();
+        List<RegisterApprovalDTO> patientsDTO = new ArrayList<>();
         for (Patient p : patients){
            patientsDTO.add(convertToDTO(p));
         }
@@ -59,6 +63,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Patient approveRegistration(Long id) {
 
         Patient patient = patientRepository.findById(id).orElseGet(null);
@@ -74,6 +79,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean rejectRegistration(Long id, String message) {
         Patient patient = patientRepository.findById(id).orElseGet(null);
 
@@ -96,6 +102,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Patient registerPatient(PatientDTO patientDTO) {
         UserDetails userDetails = accountService.findByEmail(patientDTO.getEmail());
         if (userDetails != null) {
@@ -131,15 +138,15 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void sendVerificationEmail(Long id) {
-        Patient patient = patientRepository.findById(id).orElseGet(null);
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public boolean sendVerificationEmail(Long id) {
+        Patient patient = patientRepository.findOneById(id);
 
         if (patient == null) {
-            return;
+            return false;
         }
 
         patient.setPatientStatus(Status.AWAITING_VERIFICATON);
-        patientRepository.save(patient);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Registration request has been successful. Please visit this link in order to verify your email address. ");
         stringBuilder.append("http://localhost:3000/verify/");
@@ -148,5 +155,9 @@ public class PatientServiceImpl implements PatientService {
 
         String s = stringBuilder.toString();
         emailService.sendEmail(patient.getUsername(), "Registration Request Response", s);
+
+        patientRepository.save(patient);
+
+        return true;
     }
 }
