@@ -136,8 +136,15 @@ public class DoctorServiceImpl implements DoctorService {
     public List<Doctor> findByClinicId(long id) { return doctorRepo.findByClinicId(id);}
 
     @Override
-    public List<Doctor> findClinicDoctors(Long id) {
-        return doctorRepo.findByClinicId(id);
+    public List<NewDoctorDTO> findClinicDoctors(Long id) {
+
+        List<Doctor> doctors = doctorRepo.findByClinicId(id);
+        List<NewDoctorDTO> dtoDocs = new ArrayList<>();
+        for (Doctor d:doctors) {
+            dtoDocs.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
+        }
+
+        return dtoDocs;
     }
 
     @Override
@@ -287,7 +294,7 @@ public class DoctorServiceImpl implements DoctorService {
             List<LocalDateTime> freeTerms = new ArrayList<>();
             List<String> free = new ArrayList<>();
             List<ResultAvailableDoctorTimeDTO> TIME= new ArrayList<>();
-            if(d.getSpecialization().getId().toString().equals(dto.getType())){
+            if(d.getSpecialization().getName().equals(dto.getType())){
 
                 long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(40)).toMillis() / 1000;
                 long duration2 = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;

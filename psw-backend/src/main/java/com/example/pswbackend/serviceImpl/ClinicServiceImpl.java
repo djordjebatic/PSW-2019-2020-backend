@@ -3,6 +3,7 @@ package com.example.pswbackend.serviceImpl;
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.ClinicAdmin;
 import com.example.pswbackend.dto.*;
+import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.repositories.ClinicAdminRepository;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ClinicDTO;
@@ -61,7 +62,11 @@ public class ClinicServiceImpl implements ClinicService {
             avg = Double.valueOf(stars)/Double.valueOf(num);
         }
 
-        return new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), avg);
+        ClinicDTO dto = new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), avg);
+        dto.setLatitue(clinic.getLatitude());
+        dto.setLongitude(clinic.getLongitude());
+
+        return dto;
     }
 
     @Override
@@ -120,7 +125,7 @@ public class ClinicServiceImpl implements ClinicService {
              outerLoop:
              for(Doctor d : clinicDoctors){
 
-                if(d.getSpecialization().getId().toString().equals(dto.getType())){
+                if(d.getSpecialization().getName().equals(dto.getType())){
 
                     long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
 
@@ -142,12 +147,21 @@ public class ClinicServiceImpl implements ClinicService {
 
         List<ResultClinicDTO> resultList= new ArrayList<>();
         for(Clinic c : clinicList) {
+            String s="";
+            for(AppointmentType at : c.getAppointmentTypes()){
+                if(at.getName().equals(dto.getType())){
+                    s=at.getId().toString();
+                    break;
+                }
+            }
 
-            List<AppointmentPrice> a=appointmentPriceRepository.findByAppointmentTypeId(Long.parseLong(dto.getType()));
-            AppointmentPrice ap=a.get(1);
+            if(s!="") {
+                AppointmentEnum e = AppointmentEnum.EXAMINATION;
+                AppointmentPrice ap = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(Long.parseLong(s), e);
 
-            ResultClinicDTO resultDTO = new ResultClinicDTO(c.getId().toString(), c.getName(), c.getDescription(), c.getAddress(), c.getCity(), Integer.toString(c.getStars()), Integer.toString(c.getNum_votes()), String.valueOf(ap.getPrice()) );
-            resultList.add(resultDTO);
+                ResultClinicDTO resultDTO = new ResultClinicDTO(c.getId().toString(), c.getName(), c.getDescription(), c.getAddress(), c.getCity(), Integer.toString(c.getStars()), Integer.toString(c.getNum_votes()), String.valueOf(ap.getPrice()));
+                resultList.add(resultDTO);
+            }
         }
         return resultList;
     }

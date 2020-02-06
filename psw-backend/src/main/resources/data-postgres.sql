@@ -6,16 +6,16 @@ INSERT INTO authority (name) values ('ROLE_CLINIC_ADMIN');
 INSERT INTO authority (name) values ('ROLE_CC_ADMIN');
 
 --Clinic
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('1300 Kaplara', 'Beograd', 'Ocna bolnica', 'Sveto oko', 4, 9);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Trg slobode', 'Novi Sad', 'Klinicki centar Vojvodine (Novi Sad)', 'Klinicki centar Vojvodine', 5, 10);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Bulevar umetnosti 29', 'Beograd', 'Bolnicki centar', 'Euromedic', 3, 10);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Bulevar oslobodjenja 10', 'Novi Sad', 'Bolnicki centar', 'Consilium', 3, 10);
-insert into clinic (address, city, description, name, stars, num_votes)
-values ('Fruskogorska 16', 'Novi Sad', 'Specijalisticka bolnica opste hirurgije', 'Global care surgery', 5, 10);
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Dobricina 27', 'Beograd', 'Ocna bolnica', 'Sveti vid', 4, 9, '44.819580','20.462440');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Hajduk Veljkova 1', 'Novi Sad', 'Klinicki centar Vojvodine (Novi Sad)', 'Klinicki centar Vojvodine', 5, 10, '45.250330','19.823720');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Cvijiceva 42', 'Beograd', 'Bolnicki centar', 'Euromedic', 3, 10, '44.815670', '20.476900');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Bulevar oslobodjenja 18', 'Novi Sad', 'Klinicki centar', 'Klinika Svjetlost', 3, 10, '45.261030','19.831350');
+insert into clinic (address, city, description, name, stars, num_votes, latitude, longitude)
+values ('Laze Nancica 5', 'Novi Sad', 'Specijalisticka bolnica opste hirurgije', 'Global care surgery', 5, 10,'45.247230','19.823830');
 
 --AppointmentTypes
 insert into appointment_type (name, clinic_id)
@@ -41,6 +41,18 @@ values ('Pedijatrija', 2);
 
 insert into appointment_type (name, clinic_id)
 values ('Dermatologija', 2);
+
+insert into appointment_type (name, clinic_id)
+values ('Dermatologija', 3);
+
+insert into appointment_type (name, clinic_id)
+values ('Opsta praksa', 3);
+
+insert into appointment_type (name, clinic_id)
+values ('Ginekologija', 4);
+
+insert into appointment_type (name, clinic_id)
+values ('Kardiologija', 4);
 
 ---AppointmentPrices
 
@@ -93,6 +105,38 @@ values (8, 'OPERATION', 350);
 
 insert into appointment_price (appointment_type_id, appointment_enum, price)
 values (8, 'EXAMINATION', 15);
+
+---------Trecu kliniku
+
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (9, 'OPERATION', 370);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (9, 'EXAMINATION', 9);
+
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (10, 'OPERATION', 400);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (10, 'EXAMINATION', 20);
+
+----------Cetvrtu kliniku
+
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (11, 'OPERATION', 300);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (11, 'EXAMINATION', 5);
+
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (12, 'OPERATION', 310);
+
+insert into appointment_price (appointment_type_id, appointment_enum, price)
+values (12, 'EXAMINATION', 11);
 
 -----------------------------------USERS----------------------------------------
 
@@ -161,19 +205,52 @@ INSERT INTO account_authority (account_id, authority_id) values  (14, 1);
 
 --doc2
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok3@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mika', 'Dokic', '060321456', 'Zeleznicka ulica 49','Ndzamena','Chad', 2, 2, 'ACTIVE', 46, 10, '08:00', '16:00');
+values ('DOCTOR', 'dok3@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mika', 'Dokic', '060321456', 'Zeleznicka ulica 49','Ndzamena','Chad', 5, 2, 'ACTIVE', 46, 10, '08:00', '16:00');
 INSERT INTO account_authority (account_id, authority_id) values  (15, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok4@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mile', 'Dokic', '060123654', 'Zeleznicka ulica 64','Ndzamena','Chad', 3, 3, 'ACTIVE', 46, 10, '08:30', '16:30');
+values ('DOCTOR', 'dok4@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mile', 'Dokic', '060123654', 'Zeleznicka ulica 64','Ndzamena','Chad', 6, 2, 'ACTIVE', 46, 10, '08:30', '16:30');
 INSERT INTO account_authority (account_id, authority_id) values  (16, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok5@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 1, 1, 'ACTIVE', 42, 10, '07:00', '15:00');
+values ('DOCTOR', 'dok5@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 2, 1, 'ACTIVE', 42, 10, '08:00', '15:00');
 INSERT INTO account_authority (account_id, authority_id) values  (17, 2);
 
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok6@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jova', 'Cvetin', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 7, 2, 'ACTIVE', 42, 10, '08:30', '15:30');
+INSERT INTO account_authority (account_id, authority_id) values  (18, 2);
 
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok7@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 4, 1, 'ACTIVE', 42, 10, '08:00', '15:00');
+INSERT INTO account_authority (account_id, authority_id) values  (19, 2);
 
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok8@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Teodora', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 42, 10, '09:00', '15:00');
+INSERT INTO account_authority (account_id, authority_id) values  (20, 2);
+
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok9@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Milos', 'Oleg', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 42, 10, '09:00', '15:00');
+INSERT INTO account_authority (account_id, authority_id) values  (21, 2);
+
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok10@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Zivojin', 'Misic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 45, 10, '09:30', '16:00');
+INSERT INTO account_authority (account_id, authority_id) values  (22, 2);
+
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok11@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Petar', 'Petrovic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 10, 3, 'ACTIVE', 43, 10, '08:00', '15:00');
+INSERT INTO account_authority (account_id, authority_id) values  (23, 2);
+
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok12@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Jovanovic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 11, 4, 'ACTIVE', 42, 10, '09:00', '15:00');
+INSERT INTO account_authority (account_id, authority_id) values  (24, 2);
+
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok13@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jova', 'Prodanov', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 12, 4, 'ACTIVE', 48, 10, '08:00', '15:00');
+INSERT INTO account_authority (account_id, authority_id) values  (25, 2);
+
+insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
+values ('DOCTOR', 'dok14@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Gligorije', 'Prodanov', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 8, 2, 'ACTIVE', 48, 10, '08:00', '15:00');
+INSERT INTO account_authority (account_id, authority_id) values  (26, 2);
 ------------------------------------------------------------------------------
 
 --Diagnosis
@@ -231,13 +308,21 @@ insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Eggs, gluten', '0', '230', 8, '30');
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Cats', 'AB', '130', 9, '170');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Flowers', 'A', '170', 10, '100');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Oranges', 'B', '190', 11, '90');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'None', 'AB', '180', 12, '70');
+insert into medical_record(allergies, blood_type, height, patient_id, weight)
+values( 'Flower', 'B', '165', 13, '60');
 
 
 --Appointments
 
 --This operation is yet to be approved and it's ordination and doctors to be set
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, '02.23.2020 18:00', '02.23.2020 19:30', 'APPROVED', '3', '9', 6, 1, 1, '10');
+values(2, '02.23.2020 18:00', '02.23.2020 19:30', 'APPROVED', '1', '9', 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
@@ -273,6 +358,22 @@ values(2, '02.24.2020 08:00', '02.24.2020 9:30', 'AWAITING_APPROVAL', 8, 7, 3, 1
 
 insert into appointment(price_id, start_date_time, end_date_time, status, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(1, '02.25.2020 08:00', '02.25.2020 9:30', 'AWAITING_APPROVAL', 8, 7, 3, 1);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '02.24.2020 9:00', '02.24.2020 19:30', 'APPROVED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (8,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '03.22.2020 11:00', '03.22.2020 12:30', 'APPROVED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (9,4);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '04.22.2020 19:00', '04.22.2020 19:30', 'PREDEF_BOOKED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (10,17);
+
+insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(2, '02.06.2020 09:00', '02.06.2020 10:30', 'APPROVED', '3', 8, 6, 1, 1);
+insert into appointed_doctors (appointment_id, doctor_id) values (11,4);
 
 
 --AppointmentRequests
