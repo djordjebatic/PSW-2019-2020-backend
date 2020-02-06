@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.*;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.AccountRepository;
 import com.example.pswbackend.repositories.CCAdminRepository;
+import com.example.pswbackend.repositories.NurseRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,17 @@ public class CustomAccountDetailsService implements UserDetailsService {
 
     protected final Log LOGGER = LogFactory.getLog(getClass());
 
+    @Lazy
     @Autowired
     private AccountRepository accountRepo;
 
+    @Lazy
     @Autowired
     private CCAdminRepository ccAdminRepository;
+
+    @Lazy
+    @Autowired
+    private NurseRepository nurseRepository;
 
     @Lazy
     @Autowired
@@ -85,7 +92,14 @@ public class CustomAccountDetailsService implements UserDetailsService {
         } else if (acc instanceof Doctor){
             ((Doctor) acc).setUserStatus(UserStatus.ACTIVE);
         } else if (acc instanceof Nurse){
-            ((Nurse) acc).setUserStatus(UserStatus.ACTIVE);
+            Nurse nurse = (Nurse) acc;
+            if (nurse.getUserStatus().equals(UserStatus.NEVER_LOGGED_IN)){
+                ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
+            }
+            nurse.setPassword(passwordEncoder.encode(newPassword));
+            nurseRepository.save(nurse);
+            System.out.println(nurse.getPassword() + "====" + newPassword);
+            return;
         }
 
         acc.setPassword(passwordEncoder.encode(newPassword));

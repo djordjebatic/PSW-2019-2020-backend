@@ -113,8 +113,12 @@ public class AuthenticationController {
 
     }
 
-    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    @RequestMapping(value = "/change-password", method = RequestMethod.PUT)
     public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
+
+        if (passwordChanger.newPassword.length() < 5){
+            return new ResponseEntity<>("Password must be have at least 6 characters", HttpStatus.BAD_REQUEST);
+        }
         accountDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 
         Map<String, String> result = new HashMap<>();

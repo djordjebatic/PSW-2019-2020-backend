@@ -67,9 +67,13 @@ public class CCAdminController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        patientService.sendVerificationEmail(id);
+        boolean bool = patientService.sendVerificationEmail(id);
 
-        return new ResponseEntity<>(patient, HttpStatus.OK);
+        if (bool){
+            return new ResponseEntity<>(patient, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @PutMapping(value="/approve-registration-request/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -90,7 +94,7 @@ public class CCAdminController {
         boolean reject = patientService.rejectRegistration(id, message);
 
         if (reject){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
