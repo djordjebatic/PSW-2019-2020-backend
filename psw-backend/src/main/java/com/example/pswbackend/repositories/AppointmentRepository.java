@@ -3,6 +3,7 @@ package com.example.pswbackend.repositories;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Ordination;
+import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
@@ -36,7 +37,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByOrdinationId(Long ordinationId);
     List<Appointment> findByDoctorsIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(Long doctorId, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> statuses);
 
-
+    @Query("SELECT DISTINCT a.patient FROM Appointment a where (a.clinic.id=?1)")
+    List<Patient> findPatientsByClinicId(Long id);
 }
 
 
