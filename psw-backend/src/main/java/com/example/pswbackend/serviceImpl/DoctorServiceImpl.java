@@ -275,7 +275,7 @@ public class DoctorServiceImpl implements DoctorService {
             List<LocalDateTime> freeTerms = new ArrayList<>();
             List<String> free = new ArrayList<>();
             List<ResultAvailableDoctorTimeDTO> TIME= new ArrayList<>();
-            if(d.getSpecialization().getId().toString().equals(dto.getType())){
+            if(d.getSpecialization().getName().equals(dto.getType())){
 
                 long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(40)).toMillis() / 1000;
                 long duration2 = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
