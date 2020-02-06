@@ -140,7 +140,7 @@ public class CCAdminController {
     @GetMapping(value="/get-all-diagnosis")
     @PreAuthorize("hasAnyRole('CC_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
-        return new ResponseEntity<>(diagnosisRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(diagnosisRepository.findAllByOrderByIdAsc(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add-diagnosis")
@@ -192,7 +192,8 @@ public class CCAdminController {
     @GetMapping(value="/get-all-drugs")
     @PreAuthorize("hasAnyRole('CC_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<Drug>> getAllDrugs() {
-        return new ResponseEntity<>(drugRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(drugRepository.findAllByOrderByIdAsc(), HttpStatus.OK);
+
     }
 
     @PostMapping(value = "/add-drug")
