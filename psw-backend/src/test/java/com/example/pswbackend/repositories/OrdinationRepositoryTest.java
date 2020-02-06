@@ -12,9 +12,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * @author Djordje Batic
- */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")

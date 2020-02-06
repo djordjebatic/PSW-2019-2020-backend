@@ -22,9 +22,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-/**
- * @author Djordje Batic
- */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")

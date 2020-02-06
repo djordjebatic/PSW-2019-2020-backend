@@ -22,9 +22,6 @@ import java.util.List;
 import static com.example.pswbackend.constants.AppointmentConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @author Djordje Batic
- */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")

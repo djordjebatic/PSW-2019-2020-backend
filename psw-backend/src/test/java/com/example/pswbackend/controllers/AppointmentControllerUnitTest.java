@@ -67,36 +67,7 @@ public class AppointmentControllerUnitTest {
     }
 
     @Test
-    public void testGetAwaitingAppointments_Success() throws Exception{
-
-        /*Clinic clinic = new Clinic(NEW_CLINIC_NAME, NEW_CLINIC_DESCRIPTION, NEW_CLINIC_ADDRESS, NEW_CLINIC_CITY);
-        clinic.setId(CLINIC_ID);
-
-        LocalDateTime startDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH, START_TIME_HOUR, MIN, SEC);
-        LocalDateTime endDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH, END_TIME_HOUR, MIN, SEC);
-
-        Appointment appointment1 = new Appointment(EXAMINATION, new DateTimeInterval(startDate, endDate),
-                EXAMINATION_STATUS_AWAITING, null, null, DISCOUNT, null, clinic, null);
-        Appointment appointment2 = new Appointment(EXAMINATION, new DateTimeInterval(startDate, endDate),
-                EXAMINATION_STATUS_AWAITING, null, null, DISCOUNT, null, clinic, null);
-
-        List<Appointment> appointmentList = new ArrayList<>();
-        appointmentList.add(appointment1);
-        appointmentList.add(appointment2);
-
-        Mockito.when(appointmentServiceMock
-                .getAwaitingAppointments(eq(KIND_EXAMINATION), any(ClinicAdministrator.class), eq(page))).thenReturn(examinationPagingDTO);
-
-        mockMvc.perform(get(URL_PREFIX + "/get-awaiting-appointments")
-                .header("Authorization", token))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$.examinationList").value(hasSize(LIST_EXAMINATIONS_COUNT)))
-                .andExpect(jsonPath("$.examinationList.[*].status").value(hasItem(EXAMINATION_STATUS_AWAITING.toString())))
-                .andExpect(jsonPath("$.numberOfItems").value(LIST_EXAMINATIONS_COUNT));
-
-        verify(examinationServiceMock, times(1))
-                .getAwaitingExaminations(eq(KIND_EXAMINATION), any(ClinicAdministrator.class), eq(page));*/
+    public void testGetAwaitingAppointments_Success(){
     }
 
     @Test
