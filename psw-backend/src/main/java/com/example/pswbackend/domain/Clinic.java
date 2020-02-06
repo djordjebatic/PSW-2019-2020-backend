@@ -73,7 +73,7 @@ public class Clinic {
 	@Column(nullable = false)
 	private double longitude;
 
-	public Clinic(String name, String description, String address, String city) {
+	public Clinic(String name, String description, String address, String city, double latitude, double longitude) {
 		this.name = name;
 		this.description = description;
 		this.address = address;
@@ -82,6 +82,8 @@ public class Clinic {
 		this.nurses = new HashSet<>();
 		this.ordinations = new HashSet<>();
 		this.clinicAdmins = new HashSet<>();
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public Clinic() {
