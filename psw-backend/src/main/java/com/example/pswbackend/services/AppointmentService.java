@@ -18,7 +18,7 @@ public interface AppointmentService {
     List<AppointmentCalendarDTO> getOrdinationAppointments(Long ordinationId);
     List<Appointment> getCanceledAppointments();
     List<Appointment> getAwaitingApprovalAppointments();
-    List<Appointment> getAwaitingAppointments();
+    List<Appointment> getAwaitingAppointments(Long clinicId);
     List<Appointment> getPredefinedAvailableAppointments();
     List<Appointment> getPredefinedBookedAppointments();
     Appointment getOngoingAppointment(Long patientId, Long doctorId, LocalDateTime startDateTime);
