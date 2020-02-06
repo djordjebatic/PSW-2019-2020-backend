@@ -48,7 +48,7 @@ public class AppointmentRequestController {
     }
 
 
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<Boolean> sendRequest(@RequestBody AppointmentRequestDTO dto) {
 

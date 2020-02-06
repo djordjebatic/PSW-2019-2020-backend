@@ -40,6 +40,23 @@ public class PredefinedAppointmentDTO {
 
     }
 
+    public PredefinedAppointmentDTO(Appointment appointment, Long a){
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Doctor d : appointment.getDoctors()){
+            stringBuilder.append(d.getFirstName() + " " + d.getLastName() + " ");
+        }
+        String doctors = stringBuilder.toString();
+
+        this.id = appointment.getId();
+        this.type = appointment.getPrice().getAppointmentEnum().toString();
+        this.startTime=appointment.getStartDateTime().format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy"));
+        this.endTime=appointment.getEndDateTime().format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy"));
+        this.price=String.valueOf(appointment.getPrice().getPrice());
+        this.doctors = doctors;
+        this.ordination = appointment.getOrdination().getNumber();
+    }
+
     public Long getId() {
         return id;
     }

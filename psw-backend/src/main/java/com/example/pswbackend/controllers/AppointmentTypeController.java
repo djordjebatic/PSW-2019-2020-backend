@@ -39,7 +39,7 @@ public class AppointmentTypeController {
     }
 
     @GetMapping(value="/types/{clinicId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasRole('CLINIC_ADMIN') or hasRole('PATIENT')")
     public ResponseEntity<List<AppointmentTypeDTO>> getAllAppTypesFromClinic(@PathVariable Long clinicId){
 
         List<AppointmentTypeDTO> appTypeAll= appointmentTypeService.findByClinicId(clinicId);

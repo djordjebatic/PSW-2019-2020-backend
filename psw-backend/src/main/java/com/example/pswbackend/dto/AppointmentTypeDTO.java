@@ -11,6 +11,11 @@ public class AppointmentTypeDTO {
         this.id = id;
         this.name = name;
     }
+
+    public AppointmentTypeDTO(String name) {
+        this.name = name;
+    }
+
     public AppointmentTypeDTO() {
 
     }

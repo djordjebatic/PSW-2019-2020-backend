@@ -1,10 +1,7 @@
 package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.dto.AppointmentHistoryDTO;
-import com.example.pswbackend.dto.AvailableAppointmentDTO;
-import com.example.pswbackend.dto.NewAppointmentDTO;
+import com.example.pswbackend.dto.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,6 +42,8 @@ public interface AppointmentService {
     List<Ordination> getAvailableOrdinations(AvailableAppointmentDTO dto);
 
     Appointment createNew(NewAppointmentDTO dto);
-
+    List<PredefinedAppointmentDTO> getFutureCancelAppointments(Long id);
+    List<PredefinedAppointmentDTO> getFutureFixAppointments(Long id);
+    Appointment cancelAppointmentP(Long appointmentId);
 
 }
