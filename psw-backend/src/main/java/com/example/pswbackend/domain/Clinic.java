@@ -67,6 +67,10 @@ public class Clinic {
 	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<AppointmentRequest> appointmentRequests = new ArrayList<>();
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Appointment> appointments = new HashSet<>();
+
 	public Clinic(String name, String description, String address, String city) {
 		this.name = name;
 		this.description = description;
@@ -200,5 +204,13 @@ public class Clinic {
 
 	public void setAppointmentRequests(List<AppointmentRequest> appointmentRequests) {
 		this.appointmentRequests = appointmentRequests;
+	}
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 }
