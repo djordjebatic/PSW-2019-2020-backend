@@ -64,6 +64,10 @@ public class Account implements UserDetails {
     public Account(){
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
