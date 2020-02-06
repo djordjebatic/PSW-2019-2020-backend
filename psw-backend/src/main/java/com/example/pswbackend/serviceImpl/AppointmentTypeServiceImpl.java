@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -111,10 +112,16 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
             return null;
         }
 
-        List<AppointmentTypeDTO> appDTOL = new ArrayList<AppointmentTypeDTO>();
-        for(AppointmentType a :appointmentType){
-            AppointmentTypeDTO appDTO = new AppointmentTypeDTO(a.getId(), a.getName());
-            appDTOL.add(appDTO);
+        List<AppointmentTypeDTO> appDTOL = new ArrayList<>();
+        ArrayList<String> arrayList = new ArrayList<>();
+        for(AppointmentType a :appointmentType) {
+            arrayList.add(a.getName());
+        }
+
+        HashSet<String> hashSet= new HashSet<>(arrayList);
+        for(String s : hashSet){
+           AppointmentTypeDTO appDTO = new AppointmentTypeDTO(s);
+           appDTOL.add(appDTO);
         }
 
         return appDTOL;
