@@ -131,19 +131,19 @@ public class DoctorController {
 
     @GetMapping(value="/clinic-doctors/{clinicId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<Doctor>> getClinicDoctors(@PathVariable Long clinicId) {
+    public ResponseEntity<List<NewDoctorDTO>> getClinicDoctors(@PathVariable Long clinicId) {
 
         ClinicAdmin clinicAdmin = clinicAdminService.getLoggedInClinicAdmin();
         if (!clinicAdmin.getClinic().getId().equals(clinicId)){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        return new ResponseEntity<List<Doctor>>(doctorService.findClinicDoctors(clinicId), HttpStatus.OK);
+        return new ResponseEntity<List<NewDoctorDTO>>(doctorService.findClinicDoctors(clinicId), HttpStatus.OK);
     }
 
     @GetMapping(value="/clinic-doctors", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<Doctor>> getClinicDoctors() {
+    public ResponseEntity<List<NewDoctorDTO>> getClinicDoctors() {
 
         ClinicAdmin clinicAdmin = clinicAdminService.getLoggedInClinicAdmin();
 
@@ -156,7 +156,7 @@ public class DoctorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<List<Doctor>>(doctorService.findClinicDoctors(c.getId()), HttpStatus.OK);
+        return new ResponseEntity<List<NewDoctorDTO>>(doctorService.findClinicDoctors(c.getId()), HttpStatus.OK);
     }
 
     @PostMapping(value = "/doctor/request-leave")

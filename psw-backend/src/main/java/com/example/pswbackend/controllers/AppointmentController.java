@@ -91,7 +91,7 @@ public class AppointmentController {
         }
     }
 
-    @PostMapping(value = "/available-ordinations-by-date")
+    @PostMapping(value = "/available-ordinations-by-date") //zapravo time
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<Ordination>> getAvailableOrdinations(@RequestBody AvailableAppointmentDTO dto) {
         try {

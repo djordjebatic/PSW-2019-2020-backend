@@ -21,7 +21,27 @@ public class ClinicDTO {
 
     private double avg;
 
+    private double latitue;
+    private double longitude;
+
     public ClinicDTO() {
+    }
+
+
+    public double getLatitue() {
+        return latitue;
+    }
+
+    public void setLatitue(double latitue) {
+        this.latitue = latitue;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public ClinicDTO(Long id, @NotEmpty(message = "Name empty.") @Size(message = "Max name size  is 40.", max = 40) String name, String description, @NotEmpty(message = "Address is empty.") String address, @NotEmpty(message = "City is empty.") String city, double avg) {

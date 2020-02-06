@@ -136,8 +136,15 @@ public class DoctorServiceImpl implements DoctorService {
     public List<Doctor> findByClinicId(long id) { return doctorRepo.findByClinicId(id);}
 
     @Override
-    public List<Doctor> findClinicDoctors(Long id) {
-        return doctorRepo.findByClinicId(id);
+    public List<NewDoctorDTO> findClinicDoctors(Long id) {
+
+        List<Doctor> doctors = doctorRepo.findByClinicId(id);
+        List<NewDoctorDTO> dtoDocs = new ArrayList<>();
+        for (Doctor d:doctors) {
+            dtoDocs.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
+        }
+
+        return dtoDocs;
     }
 
     @Override

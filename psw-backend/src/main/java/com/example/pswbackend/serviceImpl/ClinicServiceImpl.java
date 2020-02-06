@@ -63,7 +63,11 @@ public class ClinicServiceImpl implements ClinicService {
             avg = Double.valueOf(stars)/Double.valueOf(num);
         }
 
-        return new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), avg);
+        ClinicDTO dto = new ClinicDTO(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getCity(), avg);
+        dto.setLatitue(clinic.getLatitude());
+        dto.setLongitude(clinic.getLongitude());
+
+        return dto;
     }
 
     @Override
