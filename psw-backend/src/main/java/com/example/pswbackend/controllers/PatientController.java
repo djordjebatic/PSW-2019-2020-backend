@@ -1,9 +1,14 @@
 package com.example.pswbackend.controllers;
 
+import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.Nurse;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.PatientDTO;
 import com.example.pswbackend.enums.Status;
+import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.NurseService;
 import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +28,15 @@ public class PatientController {
 
     @Autowired
     PatientRepository patientRepository;
+
+    @Autowired
+    DoctorService doctorService;
+
+    @Autowired
+    NurseService nurseService;
+
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
     @Autowired
     PatientService patientService;
@@ -54,11 +68,20 @@ public class PatientController {
         return patientRepository.findById(id);
     }
 
-    @GetMapping(value="/patients", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DOCTOR') or hasRole('NURSE')")
-    public List<Patient> getPatients() {
+    @GetMapping(value="/nurse-patients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('NURSE')")
+    public List<Patient> getNursePatients() {
 
-        return patientRepository.findAll();
+        Nurse nurse = nurseService.getLoggedInNurse();
+        return appointmentRepository.findPatientsByClinicId(nurse.getClinic().getId());
+    }
+
+    @GetMapping(value="/doctor-patients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public List<Patient> getDoctorPatients() {
+
+        Doctor doctor = doctorService.getLoggedInDoctor();
+        return appointmentRepository.findPatientsByClinicId(doctor.getClinic().getId());
     }
 
     @PutMapping(value="/patients/{id}", produces=MediaType.APPLICATION_JSON_VALUE)

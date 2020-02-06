@@ -17,4 +17,6 @@ public interface PatientService {
     Patient registerPatient(PatientDTO patientDTO);
 
     boolean sendVerificationEmail(Long id);
+
+    List<Patient> findByClinicId(Long id);
 }

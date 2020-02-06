@@ -24,15 +24,12 @@ public class CustomAccountDetailsService implements UserDetailsService {
 
     protected final Log LOGGER = LogFactory.getLog(getClass());
 
-    @Lazy
     @Autowired
     private AccountRepository accountRepo;
 
-    @Lazy
     @Autowired
     private CCAdminRepository ccAdminRepository;
 
-    @Lazy
     @Autowired
     private NurseRepository nurseRepository;
 
@@ -78,28 +75,13 @@ public class CustomAccountDetailsService implements UserDetailsService {
         }
 
         if (acc instanceof CCAdmin){
-            CCAdmin ccAdmin = (CCAdmin) acc;
-            if (ccAdmin.getUserStatus().equals(UserStatus.NEVER_LOGGED_IN)){
-                ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
-            }
-            ccAdmin.setPassword(passwordEncoder.encode(newPassword));
-            ccAdminRepository.save(ccAdmin);
-            System.out.println(ccAdmin.getPassword() + "====" + newPassword);
-
-            return;
+            ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
         } else if (acc instanceof ClinicAdmin){
             ((ClinicAdmin) acc).setUserStatus(UserStatus.ACTIVE);
         } else if (acc instanceof Doctor){
             ((Doctor) acc).setUserStatus(UserStatus.ACTIVE);
         } else if (acc instanceof Nurse){
-            Nurse nurse = (Nurse) acc;
-            if (nurse.getUserStatus().equals(UserStatus.NEVER_LOGGED_IN)){
-                ((CCAdmin) acc).setUserStatus(UserStatus.ACTIVE);
-            }
-            nurse.setPassword(passwordEncoder.encode(newPassword));
-            nurseRepository.save(nurse);
-            System.out.println(nurse.getPassword() + "====" + newPassword);
-            return;
+            ((Nurse) acc).setUserStatus(UserStatus.ACTIVE);
         }
 
         acc.setPassword(passwordEncoder.encode(newPassword));
