@@ -4,9 +4,6 @@ import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
 import com.example.pswbackend.repositories.OrdinationRepository;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.enums.AppointmentStatus;
-import com.example.pswbackend.repositories.AppointmentPriceRepository;
-import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.*;
 import com.example.pswbackend.dto.AvailableAppointmentDTO;
 import com.example.pswbackend.dto.NewAppointmentDTO;
@@ -17,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -44,12 +40,6 @@ public class AppointmentController {
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<Appointment>> getAwaitingApprovalAppointments(){
         return new ResponseEntity<>(appointmentService.getAwaitingApprovalAppointments(), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/get-all-awaiting-appointments")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<Appointment>> getAwaitingAppointments(){
-        return new ResponseEntity<>(appointmentService.getAwaitingAppointments(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/get-canceled-appointments")
