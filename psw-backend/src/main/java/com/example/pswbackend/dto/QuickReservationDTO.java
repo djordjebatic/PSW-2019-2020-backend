@@ -18,6 +18,16 @@ public class QuickReservationDTO {
     private String type; //  0 = EXAMINATION, 1 = OPERATION
     private int discount;
 
+    public QuickReservationDTO(String clinicAdmin, String doctor, String ordination, String startDateTime, String endDateTime, Long price, String type, int discount) {
+        this.clinicAdmin = clinicAdmin;
+        this.doctor = doctor;
+        this.ordination = ordination;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.price = price;
+        this.type = type;
+        this.discount = discount;
+    }
 
     public String getClinicAdmin() { return clinicAdmin; }
 
