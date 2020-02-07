@@ -9,11 +9,8 @@ import com.example.pswbackend.dto.QuickReservationDTO;
 import java.util.List;
 
 public interface ClinicAdminService {
-    ClinicAdminDTO findByName(String name);
 
     ClinicAdmin register(ClinicAdminDTO clinicAdminDTO);
-
-    List<ClinicAdmin> findAll();
 
     boolean receiveAppointmentRequest(AppointmentDoctorDTO dto);
 
