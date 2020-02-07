@@ -46,12 +46,6 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getAwaitingApprovalAppointments(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/get-all-awaiting-appointments")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<Appointment>> getAwaitingAppointments(){
-        return new ResponseEntity<>(appointmentService.getAwaitingAppointments(), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/get-canceled-appointments")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<Appointment>> getCanceledAppointments(){
