@@ -13,7 +13,6 @@ import javax.persistence.*;
 @DiscriminatorValue(value="CLINIC_ADMIN")
 public class ClinicAdmin extends Account{
     
-    //FetchType must be EAGER because of editing ClinicAdministrator
 	@JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Clinic clinic;
