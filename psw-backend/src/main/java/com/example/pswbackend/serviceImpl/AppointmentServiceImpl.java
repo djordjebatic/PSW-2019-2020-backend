@@ -351,6 +351,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Ordination> getAvailableOrdinations(AvailableAppointmentDTO dto) {
 
+        LocalDateTime start = dto.getStartDateTime();
+        LocalDateTime end = dto.getEndDateTime();
+
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+        statuses.add(AppointmentStatus.APPROVED);
+
         ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
         if (ca == null){
             return null;
@@ -368,7 +375,16 @@ public class AppointmentServiceImpl implements AppointmentService {
             appType = AppointmentEnum.OPERATION;
         }
 
-        return ordinationRepo.findByTypeAndClinicId(appType, c.getId());
+        List<Ordination> ordinations = ordinationRepo.findByTypeAndClinicId(appType, c.getId());
+        List<Ordination> availableOrdinations = new ArrayList<>();
+        for (Ordination o:ordinations) {
+            List<Appointment> ordinationAppointments = appointmentRepository.findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(o.getId(),start,end,statuses);
+            if (ordinationAppointments.size() == 0){
+                availableOrdinations.add(o);
+            }
+        }
+
+        return availableOrdinations;
     }
 
     @Override
