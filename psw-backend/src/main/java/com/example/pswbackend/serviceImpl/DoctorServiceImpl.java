@@ -337,30 +337,87 @@ public class DoctorServiceImpl implements DoctorService {
             List<LocalDateTime> freeTerms = new ArrayList<>();
             List<String> free = new ArrayList<>();
             List<ResultAvailableDoctorTimeDTO> TIME= new ArrayList<>();
-            if(d.getSpecialization().getName().equals(dto.getType())){
+            if(d.getSpecialization().getName().equals(dto.getType())) {
 
                 long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(40)).toMillis() / 1000;
                 long duration2 = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
 
                 LocalDateTime start = dto.getDate().atStartOfDay().plusHours(8);
 
-                for(int i=0; i<16; i++){
-                    LocalDateTime st=start.plusSeconds(i*duration2);
+                if(d.getPaidTimeOffDoctor()!=null) {
+                    if (d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay())
+                            || d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay())) {
 
-                    if(i==0){
-                        st=start.plusSeconds(i*duration);
+                        if (d.getWorkTimeStart().equals(LocalTime.of(8, 0))) {
+                            for (int i = 0; i < 8; i++) {
+                                LocalDateTime st = start.plusSeconds(i * duration2);
+
+                                if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                    if (!doctorList.contains(d)) {
+                                        doctorList.add(d);
+                                    }
+                                    free.add(st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                    freeTerms.add(st);
+
+                                    Long a = Long.parseLong(d.getId() + "" + i);
+                                    ResultAvailableDoctorTimeDTO oneResult = new ResultAvailableDoctorTimeDTO(a, st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                    TIME.add(oneResult);
+                                }
+                            }
+                        }
+                        if (d.getWorkTimeStart().equals(LocalTime.of(14, 0))) {
+                            for (int i = 8; i < 16; i++) {
+                                LocalDateTime st = start.plusSeconds(i * duration2);
+
+                                if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                    if (!doctorList.contains(d)) {
+                                        doctorList.add(d);
+                                    }
+                                    free.add(st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                    freeTerms.add(st);
+
+                                    Long a = Long.parseLong(d.getId() + "" + i);
+                                    ResultAvailableDoctorTimeDTO oneResult = new ResultAvailableDoctorTimeDTO(a, st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                    TIME.add(oneResult);
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    if(d.getWorkTimeStart().equals(LocalTime.of(8,0))) {
+                        for (int i = 0; i < 8; i++) {
+                            LocalDateTime st = start.plusSeconds(i * duration2);
+
+                            if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                if (!doctorList.contains(d)) {
+                                    doctorList.add(d);
+                                }
+                                free.add(st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                freeTerms.add(st);
+
+                                Long a = Long.parseLong(d.getId() + "" + i);
+                                ResultAvailableDoctorTimeDTO oneResult = new ResultAvailableDoctorTimeDTO(a, st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                TIME.add(oneResult);
+                            }
+                        }
                     }
 
-                    if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
-                         if(!doctorList.contains(d)) {
-                            doctorList.add(d);
-                         }
-                         free.add(st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
-                         freeTerms.add(st);
+                    if(d.getWorkTimeStart().equals(LocalTime.of(14,0))) {
+                        for (int i = 8; i < 16; i++) {
+                            LocalDateTime st = start.plusSeconds(i * duration2);
 
-                        Long a=Long.parseLong(d.getId()+""+i);
-                        ResultAvailableDoctorTimeDTO oneResult= new ResultAvailableDoctorTimeDTO(a,st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
-                        TIME.add(oneResult);
+                            if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                if (!doctorList.contains(d)) {
+                                    doctorList.add(d);
+                                }
+                                free.add(st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                freeTerms.add(st);
+
+                                Long a = Long.parseLong(d.getId() + "" + i);
+                                ResultAvailableDoctorTimeDTO oneResult = new ResultAvailableDoctorTimeDTO(a, st.format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+                                TIME.add(oneResult);
+                            }
+                        }
                     }
                 }
             }

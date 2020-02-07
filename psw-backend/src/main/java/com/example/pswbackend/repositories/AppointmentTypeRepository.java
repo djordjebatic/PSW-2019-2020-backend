@@ -17,4 +17,6 @@ public interface AppointmentTypeRepository extends JpaRepository<AppointmentType
     @Query(value="DELETE FROM appointment_type at WHERE at.id = :id", nativeQuery = true)
     Boolean deleteOneById(Long id);
 
+    AppointmentType findByNameAndClinicId(String s, Long id);
+
 }

@@ -4,15 +4,12 @@ import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.ClinicAdmin;
 import com.example.pswbackend.dto.*;
 import com.example.pswbackend.enums.AppointmentEnum;
-import com.example.pswbackend.repositories.ClinicAdminRepository;
+import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ClinicDTO;
-import com.example.pswbackend.repositories.AppointmentPriceRepository;
-import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.DoctorService;
-import com.example.pswbackend.repositories.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +45,9 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Autowired
     AppointmentPriceRepository appointmentPriceRepository;
+
+    @Autowired
+    AppointmentTypeRepository appointmentTypeRepository;
 
     @Override
     public ClinicDTO findById(Long id) {
@@ -127,41 +128,73 @@ public class ClinicServiceImpl implements ClinicService {
 
                 if(d.getSpecialization().getName().equals(dto.getType())){
 
-                    long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
+                    long duration = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(40)).toMillis() / 1000;
+                    long duration2 = Duration.between(dto.getDate().atStartOfDay().plusHours(8), dto.getDate().atStartOfDay().plusHours(8).plusMinutes(45)).toMillis() / 1000;
 
                     LocalDateTime start = dto.getDate().atStartOfDay().plusHours(8);
-                    LocalDateTime end = start.plusSeconds(duration);
-                    LocalDateTime end_search = dto.getDate().atStartOfDay().plusHours(20);
 
-                    for(int i=0; i<16; i++){
-                        LocalDateTime st=start.plusSeconds(i*duration);
+                    if(d.getPaidTimeOffDoctor()!=null) {
 
-                        if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
-                            clinicList.add(clinicRepository.findOneById(d.getClinic().getId()));
-                            break outerLoop;
+                        if ((d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay())
+                                || d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay()))) {
+
+                            if (d.getWorkTimeStart().equals(LocalTime.of(8, 0))) {
+                                for (int i = 0; i < 8; i++) {
+                                    LocalDateTime st = start.plusSeconds(i * duration2);
+
+                                    if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                        clinicList.add(clinicRepository.findOneById(d.getClinic().getId()));
+                                        break outerLoop;
+                                    }
+                                }
+                            }
+                            if (d.getWorkTimeStart().equals(LocalTime.of(14, 0))) {
+                                for (int i = 8; i < 16; i++) {
+                                    LocalDateTime st = start.plusSeconds(i * duration2);
+
+                                    if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                        clinicList.add(clinicRepository.findOneById(d.getClinic().getId()));
+                                        break outerLoop;
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        System.out.println(d.getFirstName());
+                        if (d.getWorkTimeStart().equals(LocalTime.of(8, 0))) {
+                            for (int i = 0; i < 8; i++) {
+                                LocalDateTime st = start.plusSeconds(i * duration2);
+                                if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                    clinicList.add(clinicRepository.findOneById(d.getClinic().getId()));
+                                    break outerLoop;
+                                }
+                            }
+                        }
+                        if (d.getWorkTimeStart().equals(LocalTime.of(14, 0))) {
+                            for (int i = 8; i < 16; i++) {
+                                LocalDateTime st = start.plusSeconds(i * duration2);
+                                if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {
+                                    clinicList.add(clinicRepository.findOneById(d.getClinic().getId()));
+                                    break outerLoop;
+                                }
+                            }
                         }
                     }
                 }
              }
         }
-
         List<ResultClinicDTO> resultList= new ArrayList<>();
         for(Clinic c : clinicList) {
-            String s="";
-            for(AppointmentType at : c.getAppointmentTypes()){
-                if(at.getName().equals(dto.getType())){
-                    s=at.getId().toString();
-                    break;
-                }
-            }
 
-            if(s!="") {
+            AppointmentType a= appointmentTypeRepository.findByNameAndClinicId(dto.getType(),c.getId());
+            System.out.println(a.getId());
+
                 AppointmentEnum e = AppointmentEnum.EXAMINATION;
-                AppointmentPrice ap = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(Long.parseLong(s), e);
+                AppointmentPrice ap = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(a.getId(), e);
 
                 ResultClinicDTO resultDTO = new ResultClinicDTO(c.getId().toString(), c.getName(), c.getDescription(), c.getAddress(), c.getCity(), Integer.toString(c.getStars()), Integer.toString(c.getNum_votes()), String.valueOf(ap.getPrice()));
                 resultList.add(resultDTO);
-            }
+
         }
         return resultList;
     }
