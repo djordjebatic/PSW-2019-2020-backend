@@ -19,13 +19,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.IllegalTransactionStateException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @RestController
@@ -47,8 +50,8 @@ public class OrdinationController {
     @Autowired
     private OrdinationRepository ordinationRepository;
 
-    // everyday at 0:45 am
-    @Scheduled(cron = "0 45 0 * * *")
+    // everyday at midnight
+    @Scheduled(cron = "0 0 0 * * *")
     public void assignOrdinationAutomatically() {
         ordinationService.assignOrdinationAutomatically();
     }
@@ -110,8 +113,6 @@ public class OrdinationController {
         ClinicAdmin clinicAdmin = clinicAdminService.getLoggedInClinicAdmin();
 
         Appointment appointment = appointmentService.getAppointment(assignOperationDTO.getAppointmentId());
-        Ordination ordination = ordinationRepository.findOneById(assignOperationDTO.getOrdinationId());
-
 
         if (!clinicAdmin.getClinic().getId().equals(appointmentService.getAppointment(assignOperationDTO.getAppointmentId()).getClinic().getId())){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -126,25 +127,19 @@ public class OrdinationController {
             doctors.add(doctorService.findById(id));
         }
 
-        if (appointment == null || ordination == null || appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.EXAMINATION)) {
-            return new ResponseEntity<>("Appointment is of type 'Examination'!", HttpStatus.BAD_REQUEST);
+        try {
+            Appointment assignOrdinationForOperation = ordinationService.assignOrdinationForOperation(assignOperationDTO.getAppointmentId(), assignOperationDTO.getOrdinationId(), doctors);
+            return new ResponseEntity<>(assignOrdinationForOperation, HttpStatus.OK);
         }
-        if (appointment.getStartDateTime().isBefore(LocalDateTime.now())) {
-            return new ResponseEntity<>("You can not assign ordination for a past appointment", HttpStatus.BAD_REQUEST);
+        catch (NoSuchElementException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
-
-        /*if (!ordinationService.isOrdinationAvailable(ordination, appointment.getStartDateTime(), appointment.getEndDateTime())) {
-            System.out.println("--3--");
-            return null;
-        }*/
-
-        Appointment assignedAppointment = ordinationService.assignOrdinationForOperation(assignOperationDTO.getAppointmentId(), assignOperationDTO.getOrdinationId(), doctors);
-
-        if (assignedAppointment == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
-
-        return new ResponseEntity<>(assignedAppointment, HttpStatus.OK);
+        catch (IllegalTransactionStateException e){
+            return new ResponseEntity<>("Ordination has already been assigned by someone else while you were sending the request. Please try again.", HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping(value = "/clinic-ordinations/{clinicId}", produces = MediaType.APPLICATION_JSON_VALUE)
