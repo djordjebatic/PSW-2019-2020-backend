@@ -25,4 +25,4 @@ dist: trusty
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
-  app: psw-isa-2020-backend
+  app: psw-isa-tim3
