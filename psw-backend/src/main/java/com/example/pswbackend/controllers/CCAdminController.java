@@ -6,6 +6,7 @@ import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.*;
+import org.hibernate.TransactionException;
 import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -210,7 +211,7 @@ public class CCAdminController {
 
     @PutMapping(value = "/update-drug/{id}")
     @PreAuthorize("hasRole('CC_ADMIN')")
-    public ResponseEntity<Drug> updateDrug(@PathVariable Long id, @RequestBody DrugDTO drugDTO){
+    public ResponseEntity updateDrug(@PathVariable Long id, @RequestBody DrugDTO drugDTO){
 
         Drug drug = drugRepository.findOneById(id);
 
@@ -218,13 +219,16 @@ public class CCAdminController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Boolean success = codebookService.updateDrug(drug, drugDTO);
+        try {
+            Drug updated = codebookService.updateDrug(drug, drugDTO);
 
-        if(success) {
-            return new ResponseEntity<>(drug, HttpStatus.OK);
+            if (updated == null){
+                return new ResponseEntity<>("Something went wrong. Please try again later.", HttpStatus.CONFLICT);
+            }
+            return new ResponseEntity<>(updated, HttpStatus.OK);
         }
-        else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        catch (TransactionException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

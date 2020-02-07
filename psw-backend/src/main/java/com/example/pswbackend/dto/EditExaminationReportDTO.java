@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.Diagnosis;
 import com.example.pswbackend.domain.Drug;
 import com.example.pswbackend.domain.ExaminationReport;
 import com.example.pswbackend.domain.Prescription;
+import com.example.pswbackend.enums.PrescriptionEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,8 @@ public class EditExaminationReportDTO {
     private String comment;
     private Diagnosis diagnosis;
     private List<Drug> drugs;
+    private List<String> drugString;
+
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime timeCreated;
@@ -33,12 +36,20 @@ public class EditExaminationReportDTO {
         this.comment = examinationReport.getComment();
         this.diagnosis = examinationReport.getDiagnosis();
         List<Drug> drugs = new ArrayList<>();
+        List<String> drugString = new ArrayList<>();
         for (Prescription p : examinationReport.getPrescriptions()){
             drugs.add(p.getDrug());
+            if (p.getPrescriptionEnum().toString().equals("AUTHENTICATED")) {
+                drugString.add(p.getDrug().getName() + "(Authenticated by nurse " + p.getNurse().getFirstName() + " " + p.getNurse().getLastName() + ")");
+            }
+            else {
+                drugString.add(p.getDrug().getName() + "(Hasn't been authenticated)");
+            }
         }
         this.timeCreated = examinationReport.getTimeCreated();
         this.lastEdited = examinationReport.getLastEdited();
         this.drugs = drugs;
+        this.drugString = drugString;
     }
 
 
@@ -88,5 +99,13 @@ public class EditExaminationReportDTO {
 
     public void setLastEdited(LocalDateTime lastEdited) {
         this.lastEdited = lastEdited;
+    }
+
+    public List<String> getDrugString() {
+        return drugString;
+    }
+
+    public void setDrugString(List<String> drugString) {
+        this.drugString = drugString;
     }
 }

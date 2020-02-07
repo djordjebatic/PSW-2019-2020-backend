@@ -1,4 +1,4 @@
-package com.example.pswbackend.ServiceImpl;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.Diagnosis;
 import com.example.pswbackend.domain.Drug;
@@ -37,19 +37,16 @@ public class CodebookServiceImpl implements CodebookService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public Boolean updateDrug(Drug drug, DrugDTO drugDTO) {
+    public Drug updateDrug(Drug drug, DrugDTO drugDTO) {
 
-        try{
-            drug.setName(drugDTO.getName());
-            drug.setDescription(drugDTO.getDescription());
-            drug.setIngredient(drugDTO.getIngredient());
-            drugRepository.save(drug);
+        if (drug == null || drugDTO == null){
+            return null;
         }
-        catch(EntityNotFoundException e){
-            return false;
-        }
+        drug.setName(drugDTO.getName());
+        drug.setDescription(drugDTO.getDescription());
+        drug.setIngredient(drugDTO.getIngredient());
 
-        return true;
+        return drugRepository.save(drug);
     }
 
     @Override
