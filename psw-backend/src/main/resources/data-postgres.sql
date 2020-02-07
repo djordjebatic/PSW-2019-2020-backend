@@ -176,7 +176,7 @@ INSERT INTO account_authority (account_id, authority_id) values  (7, 3);
 
 --Patient
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
-values ('PATIENT', 'patijent@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Pata', 'Patic', '065256165', 'Zeleznicka ulica 69','Ndzamena','Chad','901204931212','APPROVED');
+values ('PATIENT', 'mitadima@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Pata', 'Patic', '065256165', 'Zeleznicka ulica 69','Ndzamena','Chad','901204931212','APPROVED');
 INSERT INTO account_authority (account_id, authority_id) values  (8, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
@@ -184,7 +184,7 @@ values ('PATIENT', 'patijent3@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfG
 INSERT INTO account_authority (account_id, authority_id) values  (9, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
-values ('PATIENT', 'patijent4@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Sudan', 'Sudic', '065256065', 'Jevrejska 69','Dzuba','Juzni Sudan','124532636362','AWAITING_APPROVAL');
+values ('PATIENT', 'patijent4@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Sudan', 'Sudic', '065256065', 'Jevrejska 69','Dzuba','Juzni Sudan','124532636362','APPROVED');
 INSERT INTO account_authority (account_id, authority_id) values  (10, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
@@ -311,8 +311,6 @@ values( 'Cats', 'AB', '130', 9, '170');
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Flowers', 'A', '170', 10, '100');
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
-values( 'Oranges', 'B', '190', 11, '90');
-insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'None', 'AB', '180', 12, '70');
 insert into medical_record(allergies, blood_type, height, patient_id, weight)
 values( 'Flower', 'B', '165', 13, '60');
@@ -370,10 +368,6 @@ insert into appointed_doctors (appointment_id, doctor_id) values (9,4);
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, '04.22.2020 19:00', '04.22.2020 19:30', 'PREDEF_BOOKED', '3', 8, 6, 1, 1);
 insert into appointed_doctors (appointment_id, doctor_id) values (10,17);
-
-insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
-values(2, '02.06.2020 09:00', '02.06.2020 10:30', 'APPROVED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (11,4);
 
 
 --AppointmentRequests
