@@ -205,51 +205,51 @@ INSERT INTO account_authority (account_id, authority_id) values  (14, 1);
 
 --doc2
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok3@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mika', 'Dokic', '060321456', 'Zeleznicka ulica 49','Ndzamena','Chad', 5, 2, 'ACTIVE', 46, 10, '08:00', '16:00');
+values ('DOCTOR', 'dok3@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mika', 'Dokic', '060321456', 'Zeleznicka ulica 49','Ndzamena','Chad', 5, 2, 'ACTIVE', 46, 10, '08:00', '14:00');
 INSERT INTO account_authority (account_id, authority_id) values  (15, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok4@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mile', 'Dokic', '060123654', 'Zeleznicka ulica 64','Ndzamena','Chad', 6, 2, 'ACTIVE', 46, 10, '08:30', '16:30');
+values ('DOCTOR', 'dok4@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Mile', 'Dokic', '060123654', 'Zeleznicka ulica 64','Ndzamena','Chad', 6, 2, 'ACTIVE', 46, 10, '08:00', '14:00');
 INSERT INTO account_authority (account_id, authority_id) values  (16, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok5@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 2, 1, 'ACTIVE', 42, 10, '08:00', '15:00');
+values ('DOCTOR', 'dok5@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 2, 1, 'ACTIVE', 42, 10, '08:00', '14:00');
 INSERT INTO account_authority (account_id, authority_id) values  (17, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok6@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jova', 'Cvetin', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 7, 2, 'ACTIVE', 42, 10, '08:30', '15:30');
+values ('DOCTOR', 'dok6@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jova', 'Cvetin', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 7, 2, 'ACTIVE', 42, 10, '08:00', '14:00');
 INSERT INTO account_authority (account_id, authority_id) values  (18, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok7@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 4, 1, 'ACTIVE', 42, 10, '08:00', '15:00');
+values ('DOCTOR', 'dok7@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 4, 1, 'ACTIVE', 42, 10, '14:00', '20:00');
 INSERT INTO account_authority (account_id, authority_id) values  (19, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok8@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Teodora', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 42, 10, '09:00', '15:00');
+values ('DOCTOR', 'dok8@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Teodora', 'Cvijic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 42, 10, '14:00', '20:00');
 INSERT INTO account_authority (account_id, authority_id) values  (20, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok9@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Milos', 'Oleg', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 42, 10, '09:00', '15:00');
+values ('DOCTOR', 'dok9@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Milos', 'Oleg', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 42, 10, '14:00', '20:00');
 INSERT INTO account_authority (account_id, authority_id) values  (21, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok10@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Zivojin', 'Misic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 45, 10, '09:30', '16:00');
+values ('DOCTOR', 'dok10@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Zivojin', 'Misic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 3, 1, 'ACTIVE', 45, 10, '14:00', '20:00');
 INSERT INTO account_authority (account_id, authority_id) values  (22, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok11@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Petar', 'Petrovic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 10, 3, 'ACTIVE', 43, 10, '08:00', '15:00');
+values ('DOCTOR', 'dok11@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Petar', 'Petrovic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 10, 3, 'ACTIVE', 43, 10, '14:00', '20:00');
 INSERT INTO account_authority (account_id, authority_id) values  (23, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok12@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Jovanovic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 11, 4, 'ACTIVE', 42, 10, '09:00', '15:00');
+values ('DOCTOR', 'dok12@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jovan', 'Jovanovic', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 11, 4, 'ACTIVE', 42, 10, '14:00', '20:00');
 INSERT INTO account_authority (account_id, authority_id) values  (24, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok13@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jova', 'Prodanov', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 12, 4, 'ACTIVE', 48, 10, '08:00', '15:00');
+values ('DOCTOR', 'dok13@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Jova', 'Prodanov', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 12, 4, 'ACTIVE', 48, 10, '08:00', '14:00');
 INSERT INTO account_authority (account_id, authority_id) values  (25, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
-values ('DOCTOR', 'dok14@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Gligorije', 'Prodanov', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 8, 2, 'ACTIVE', 48, 10, '08:00', '15:00');
+values ('DOCTOR', 'dok14@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Gligorije', 'Prodanov', '060222654', 'Zeleznicka ulica 65','Ndzamena','Chad', 8, 2, 'ACTIVE', 48, 10, '08:00', '14:00');
 INSERT INTO account_authority (account_id, authority_id) values  (26, 2);
 ------------------------------------------------------------------------------
 
