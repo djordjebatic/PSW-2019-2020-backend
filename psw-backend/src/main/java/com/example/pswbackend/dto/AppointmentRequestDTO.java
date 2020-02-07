@@ -37,6 +37,10 @@ public class AppointmentRequestDTO {
     private Long doctorsId;
     //
 
+
+    public AppointmentRequestDTO() {
+    }
+
     public AppointmentRequestDTO(Long id, String typeEnum, LocalDateTime startDateTime, LocalDateTime endDateTime, String doctorFN, String doctorLN, Long doctorId) {
         this.id = id;
         this.typeEnum = typeEnum;
