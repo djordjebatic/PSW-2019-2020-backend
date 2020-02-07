@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 
 public class AvailableAppointmentDTO {
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDateTime;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDateTime;
     private String appType;
 
