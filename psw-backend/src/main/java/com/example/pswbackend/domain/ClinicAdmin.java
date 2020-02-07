@@ -31,8 +31,6 @@ public class ClinicAdmin extends Account{
 	public ClinicAdmin() {
 	}
 
-
-
 	public Clinic getClinic() {
 		return clinic;
 	}
