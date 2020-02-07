@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -219,6 +220,44 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public List<NewDoctorDTO> getAvailableDoctorsByDateAndTime(DateAndTimeDTO dto) {
+
+        LocalDateTime startDateTime = dto.getStart();
+        LocalDateTime endDateTime = dto.getEnd();
+        LocalDate date = startDateTime.toLocalDate();
+        LocalTime startTime = startDateTime.toLocalTime();
+        LocalTime endTime = endDateTime.toLocalTime();
+
+        List<Doctor> doctors = doctorRepo.findByClinicId(clinicAdminService.getLoggedInClinicAdmin().getClinic().getId()); // doktori te klinike
+        List<PaidTimeOffDoctor> doctorsOnLeave = paidTimeOffDoctorRepository.findByPaidTimeOffStatus(PaidTimeOffStatus.APPROVED); //odobrena odsustva
+        Set<Long> doctorsIds = new HashSet<>();
+
+        for (PaidTimeOffDoctor ptod:doctorsOnLeave) {
+            if(ptod.getStartDateTime().toLocalDate().isBefore(date) && ptod.getEndDateTime().toLocalDate().isAfter(date)){
+                doctorsIds.add(ptod.getDoctor().getId());
+            }
+        }
+
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.APPROVED);
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+
+        List<NewDoctorDTO> availableDoctors = new ArrayList<>();
+        for (Doctor d:doctors) {
+            if (!doctorsIds.contains(d.getId())){  // doktori koji nisu odsutni
+                if(d.getWorkTimeStart().isBefore(startTime) && d.getWorkTimeEnd().isAfter(endTime)){  // i koje rade u to vreme
+                    if (appointmentRepository.findByDoctorsIdAndStatusIn(d.getId(),statuses).size() == 0){  // i koji nemaju zakazan termin u to vreme
+                        availableDoctors.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),
+                                d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
+                    }
+                }
+            }
+        }
+
+        return availableDoctors;
+    }
+
+    @Override
     public Doctor getLoggedInDoctor() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         try {
@@ -264,7 +303,11 @@ public class DoctorServiceImpl implements DoctorService {
         authorities.add(a);
         d.setAuthorities(authorities);
 
+        String message = "Hello " + d.getFirstName() +
+                ",\n\nWelcome to Clinic Center.\n You are added as a new doctor to the clinic '" + c.getName() + "'.\n\nYou can now log in with initial password: 'doktor'.";
+
         //TODO email service => javi doktoru sifru
+        emailService.sendEmail(d.getUsername(), "Welcome doctor!",message);
 
         c.getDoctors().add(d);
         doctorRepo.save(d);

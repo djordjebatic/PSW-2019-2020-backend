@@ -31,4 +31,6 @@ public interface DoctorService {
     Boolean deleteOneById(Long id);
     List<Doctor> findByClinicIdAndSpecializationId(Appointment appointment);
 
+    List<NewDoctorDTO> getAvailableDoctorsByDateAndTime(DateAndTimeDTO dto);
+
 }

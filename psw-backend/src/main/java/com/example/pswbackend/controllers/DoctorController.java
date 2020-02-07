@@ -199,4 +199,17 @@ public class DoctorController {
         return new ResponseEntity<Boolean>(doctorService.deleteOneById(id), HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping(value="/available-doctors-by-date-and-time") //GET, ali nema @ResponseBody
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<NewDoctorDTO>> getAvailableDoctorsByDateAndTime(@RequestBody DateAndTimeDTO dto){
+
+        List<NewDoctorDTO> list = doctorService.getAvailableDoctorsByDateAndTime(dto);
+
+        if (list == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
 }
