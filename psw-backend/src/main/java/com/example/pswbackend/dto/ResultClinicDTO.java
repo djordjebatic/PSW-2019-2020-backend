@@ -2,14 +2,14 @@ package com.example.pswbackend.dto;
 
 public class ResultClinicDTO {
 
-    String id;
-    String name;
-    String description;
-    String address;
-    String city;
-    String stars;
-    String num_votes;
-    String price;
+    private String id;
+    private String name;
+    private String description;
+    private String address;
+    private String city;
+    private String stars;
+    private String num_votes;
+    private String price;
 
     public ResultClinicDTO() {
     }

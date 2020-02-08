@@ -22,4 +22,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     List<Doctor> findByWorkTimeStartGreaterThanEqualAndWorkTimeEndLowerThan(LocalTime start, LocalTime end,Long id);
     List<Doctor> findByClinicIdAndSpecializationId(Long clinicId, Long specializationId);
 
+    Doctor findOneById(Long id);
+
 }

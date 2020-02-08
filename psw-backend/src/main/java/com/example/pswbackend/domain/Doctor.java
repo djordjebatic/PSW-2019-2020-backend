@@ -55,6 +55,10 @@ public class Doctor extends Account {
     @OneToOne(mappedBy = "doctor",cascade = CascadeType.ALL)
     private PaidTimeOffDoctor paidTimeOffDoctor;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<VoteDoctor> voteDoctor = new HashSet<>();
+
 
     public Doctor(){
         this.appointmentRequests = new ArrayList();
