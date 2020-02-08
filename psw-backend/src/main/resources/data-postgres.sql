@@ -176,7 +176,7 @@ INSERT INTO account_authority (account_id, authority_id) values  (7, 3);
 
 --Patient
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
-values ('PATIENT', 'mitadima@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Pata', 'Patic', '065256165', 'Zeleznicka ulica 69','Ndzamena','Chad','901204931212','APPROVED');
+values ('PATIENT', 'patijent@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Pata', 'Patic', '065256165', 'Zeleznicka ulica 69','Ndzamena','Chad','901204931212','APPROVED');
 INSERT INTO account_authority (account_id, authority_id) values  (8, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
