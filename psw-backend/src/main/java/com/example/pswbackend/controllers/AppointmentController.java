@@ -83,6 +83,19 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping(value = "/get-doctor-appointments/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<AppointmentCalendarDTO>> getDoctorAppointmentsCA(@PathVariable Long id) {
+
+        try {
+            return new ResponseEntity<>(appointmentService.getDoctorAppointments(id), HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/get-ordination-appointments/{ordinationId}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<AppointmentCalendarDTO>> getOrdinationAppointments(@PathVariable Long ordinationId) {
