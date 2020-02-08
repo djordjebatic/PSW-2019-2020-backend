@@ -10,6 +10,7 @@ import org.springframework.lang.NonNull;
 
 import com.example.pswbackend.enums.Status;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,6 +32,15 @@ public class Patient extends Account{
 	@JsonIgnore
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<VoteDoctor> voteDoctor = new HashSet<>();
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<VoteClinic> voteClinic = new HashSet<>();
+
 
 	public Patient(){
 	}
