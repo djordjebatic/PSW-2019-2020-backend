@@ -4,9 +4,6 @@ import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
 import com.example.pswbackend.repositories.OrdinationRepository;
 import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.enums.AppointmentStatus;
-import com.example.pswbackend.repositories.AppointmentPriceRepository;
-import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.*;
 import com.example.pswbackend.dto.AvailableAppointmentDTO;
 import com.example.pswbackend.dto.NewAppointmentDTO;
@@ -17,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -39,30 +35,6 @@ public class AppointmentController {
 
     @Autowired
     private OrdinationRepository ordinationRepository;
-
-    @GetMapping(value = "/get-awaiting-approval-appointments")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<Appointment>> getAwaitingApprovalAppointments(){
-        return new ResponseEntity<>(appointmentService.getAwaitingApprovalAppointments(), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/get-canceled-appointments")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<Appointment>> getCanceledAppointments(){
-        return new ResponseEntity<>(appointmentService.getCanceledAppointments(), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/get-predefined-available-appointments")
-    @PreAuthorize("hasRole('CLINIC_ADMIN') or hasRole('PATIENT')")
-    public ResponseEntity<List<Appointment>> getPredefinedAwailableAppointments(){
-        return new ResponseEntity<>(appointmentService.getPredefinedAvailableAppointments(), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/get-predefined-booked-appointments")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<Appointment>> getPredefinedBookedAppointments(){
-        return new ResponseEntity<>(appointmentService.getPredefinedBookedAppointments(), HttpStatus.OK);
-    }
 
     @GetMapping(value = "/get-doctor-appointments")
     @PreAuthorize("hasRole('DOCTOR')")
@@ -164,25 +136,6 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-    @PutMapping("/cancel/{id}")
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<PredefinedAppointmentDTO> cancelAppointments(@PathVariable("id") Long appointmentId){
-        Doctor doctor = doctorService.getLoggedInDoctor();
-        if (doctor == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        Appointment appointment = appointmentService.cancelAppointment(doctor, appointmentId);
-        if (appointment == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        PredefinedAppointmentDTO dto= new PredefinedAppointmentDTO(appointment, Long.parseLong("1"));
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
 
     @GetMapping(value="/history/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PATIENT')")
