@@ -84,6 +84,19 @@ public class Appointment {
 		doctors = new HashSet<Doctor>();
 	}
 
+	public Appointment(Long id, AppointmentPrice price, Ordination ordination, Clinic clinic, Set<Doctor> doctors, AppointmentStatus status, Patient patient, Nurse nurse, LocalDateTime startDateTime, LocalDateTime endDateTime){
+		this.id = id;
+		this.price = price;
+		this.ordination = ordination;
+		this.clinic = clinic;
+		this.doctors = doctors;
+		this.status = status;
+		this.patient = patient;
+		this.nurse = nurse;
+		this.startDateTime = startDateTime;
+		this.endDateTime = endDateTime;
+	}
+
 	public long getId() {
 		return id;
 	}
