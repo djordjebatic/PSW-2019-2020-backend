@@ -5,13 +5,13 @@ import java.util.List;
 
 public class ResultDoctorDTO {
 
-    String id;
-    String firstName;
-    String lastName;
-    String rating;
-    List<LocalDateTime> freeTerms;
-    List<String> free;
-    List<ResultAvailableDoctorTimeDTO> dto;
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String rating;
+    private List<LocalDateTime> freeTerms;
+    private List<String> free;
+    private List<ResultAvailableDoctorTimeDTO> dto;
 
     public ResultDoctorDTO() {
     }

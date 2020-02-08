@@ -19,6 +19,14 @@ public class AppointmentDoctorDTO {
 
     }
 
+    public AppointmentDoctorDTO(long patient, String doctor, String startDateTime, String endDateTime, String type) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.type = type;
+    }
+
     public long getPatient() {
         return patient;
     }
@@ -36,4 +44,24 @@ public class AppointmentDoctorDTO {
     }
 
     public String getDoctor() { return doctor; }
+
+    public void setPatient(long patient) {
+        this.patient = patient;
+    }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public void setStartDateTime(String startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public void setEndDateTime(String endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

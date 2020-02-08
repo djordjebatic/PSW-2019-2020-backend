@@ -61,16 +61,6 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
 
     @Override
-    public ClinicAdminDTO findByName(String name) {
-        ClinicAdminDTO clinicAdminDTO = clinicAdminRepository.findByEmail(name);
-        if (clinicAdminDTO == null) {
-            return null;
-        }
-
-        return new ClinicAdminDTO(clinicAdminDTO.getEmail(), clinicAdminDTO.getFirstName(), clinicAdminDTO.getLastName(), clinicAdminDTO.getPhoneNumber(), clinicAdminDTO.getAddress(), clinicAdminDTO.getCity(), clinicAdminDTO.getCountry(), clinicAdminDTO.getClinicId());
-    }
-
-    @Override
     public ClinicAdmin register(ClinicAdminDTO clinicAdminDTO) {
 
         if (accountRepository.findByEmail(clinicAdminDTO.getEmail()) != null){
@@ -108,20 +98,19 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
     @Override
     public boolean receiveAppointmentRequest(AppointmentDoctorDTO dto) {
 
-        Clinic c = doctorRepository.findById(Long.parseLong(dto.getDoctor())).get().getClinic();
+        if (doctorRepository.findById(Long.parseLong(dto.getDoctor())) == null){
+            return false;
+        }
+
+        Doctor d = doctorRepository.findById(Long.parseLong(dto.getDoctor())).get();
+
+        Clinic c = d.getClinic();
         if (c == null){
             return false;
         }
         appointmentRequestService.saveRequest(dto, c);
 
         return true;
-    }
-
-    //TODO
-    @Override
-    public List<ClinicAdmin> findAll() {
-        return null;
-
     }
 
     @Override

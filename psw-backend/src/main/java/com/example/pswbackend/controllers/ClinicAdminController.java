@@ -24,21 +24,23 @@ public class ClinicAdminController {
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     public ResponseEntity<Appointment> createQuickReservation(@RequestBody QuickReservationDTO dto){
 
+        if (dto == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Appointment appointment = clinicAdminService.createQuickReservation(dto);
 
         if(appointment == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // izmeniti tip statusa
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // izmeniti tip statusa
         }
 
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
 
-    @PutMapping(value="/change-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    /*@PutMapping(value="/change-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Appointment> changePassword(ChangePasswordDTO dto){
 
-        //TODO implement changing password (ClinicAdmin)
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    }*/
 
 }

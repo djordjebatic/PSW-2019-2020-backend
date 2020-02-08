@@ -77,6 +77,10 @@ public class Clinic {
 	@Column
 	private double longitude;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<VoteClinic> voteClinic = new HashSet<>();
+
 	public Clinic(String name, String description, String address, String city) {
 		this.name = name;
 		this.description = description;
