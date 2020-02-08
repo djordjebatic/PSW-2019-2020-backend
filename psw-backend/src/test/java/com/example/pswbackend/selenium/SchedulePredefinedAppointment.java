@@ -10,9 +10,6 @@ import org.springframework.test.annotation.Rollback;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author Djordje Batic
- */
 public class SchedulePredefinedAppointment {
     private WebDriver browser;
 

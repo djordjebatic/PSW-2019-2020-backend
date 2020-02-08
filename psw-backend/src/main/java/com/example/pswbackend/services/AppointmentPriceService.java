@@ -1,6 +1,5 @@
 package com.example.pswbackend.services;
 
-import com.example.pswbackend.domain.AppointmentPrice;
 import com.example.pswbackend.dto.AppointmentPriceDTO;
 import com.example.pswbackend.dto.AppointmentPriceFullDTO;
 

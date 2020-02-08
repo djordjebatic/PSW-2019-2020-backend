@@ -1,6 +1,7 @@
 package com.example.pswbackend.dto;
 
 import com.example.pswbackend.domain.Ordination;
+
 import javax.validation.constraints.NotNull;
 
 public class OrdinationAssignDTO {

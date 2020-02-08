@@ -1,13 +1,7 @@
 package com.example.pswbackend.dto;
 
-import com.example.pswbackend.domain.Clinic;
-import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.enums.AppointmentEnum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.*;
-import com.example.pswbackend.enums.AppointmentEnum;
 
 import java.time.LocalDateTime;
 

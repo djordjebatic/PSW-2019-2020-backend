@@ -3,12 +3,7 @@ package com.example.pswbackend.dto;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 
 public class AppointmentCalendarDTO {

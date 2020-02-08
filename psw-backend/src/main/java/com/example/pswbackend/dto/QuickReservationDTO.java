@@ -1,8 +1,5 @@
 package com.example.pswbackend.dto;
 
-import com.example.pswbackend.domain.ClinicAdmin;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Ordination;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class QuickReservationDTO {

@@ -2,7 +2,6 @@ package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.PrescriptionEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 

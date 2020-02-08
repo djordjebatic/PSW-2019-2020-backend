@@ -1,13 +1,11 @@
 package com.example.pswbackend.dto;
 
 import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 
 public class AppointmentCalendarClinicAdminDTO {
 

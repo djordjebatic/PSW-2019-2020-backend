@@ -2,22 +2,16 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Nurse;
 import com.example.pswbackend.domain.PaidTimeOffNurse;
-import com.example.pswbackend.domain.Prescription;
-import com.example.pswbackend.dto.ExaminationReportDTO;
 import com.example.pswbackend.dto.PaidTimeOffNurseDTO;
 import com.example.pswbackend.dto.PrescriptionDTO;
-import com.example.pswbackend.enums.PaidTimeOffStatus;
-import com.example.pswbackend.repositories.PrescriptionRepository;
 import com.example.pswbackend.services.NurseService;
 import com.example.pswbackend.services.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

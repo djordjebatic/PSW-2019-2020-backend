@@ -1,7 +1,6 @@
 package com.example.pswbackend.domain;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class BusinessReport {

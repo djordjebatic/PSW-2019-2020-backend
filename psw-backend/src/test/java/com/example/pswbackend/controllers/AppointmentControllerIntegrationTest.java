@@ -1,4 +1,5 @@
 package com.example.pswbackend.controllers;
+
 import com.example.pswbackend.domain.AccountTokenState;
 import com.example.pswbackend.security.auth.JwtAuthenticationRequest;
 import com.example.pswbackend.services.AppointmentService;
@@ -15,7 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import javax.annotation.PostConstruct;
+
 import static com.example.pswbackend.constants.AppointmentConstants.*;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;

@@ -1,18 +1,18 @@
 package com.example.pswbackend.serviceImpl;
 
-import com.example.pswbackend.domain.*;
+import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.domain.Authority;
+import com.example.pswbackend.domain.MedicalRecord;
+import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.PatientDTO;
 import com.example.pswbackend.dto.RegisterApprovalDTO;
-import com.example.pswbackend.enums.PatientStatus;
 import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.repositories.AppointmentRepository;
-import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.AccountService;
 import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)

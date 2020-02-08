@@ -1,15 +1,11 @@
 package com.example.pswbackend.domain;
 
-import javax.persistence.*;
-
 import com.example.pswbackend.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.springframework.lang.NonNull;
 
-import com.example.pswbackend.enums.Status;
-
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 

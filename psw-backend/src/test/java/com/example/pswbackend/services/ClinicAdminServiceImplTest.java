@@ -2,8 +2,6 @@ package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.ClinicAdmin;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.repositories.AccountRepository;
@@ -12,15 +10,13 @@ import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)

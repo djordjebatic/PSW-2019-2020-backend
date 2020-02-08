@@ -2,8 +2,6 @@ package com.example.pswbackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Version;
 import java.time.LocalDateTime;
 
 public class NewAppointmentDTO {

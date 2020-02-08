@@ -1,6 +1,5 @@
 package com.example.pswbackend.dto;
 
-import com.example.pswbackend.domain.Drug;
 import com.example.pswbackend.domain.ExaminationReport;
 import com.example.pswbackend.domain.Prescription;
 
