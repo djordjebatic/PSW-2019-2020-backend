@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 @TestPropertySource("classpath:application-test.properties")
 public class ClinicRepositoryTest {
 
-    public static final String CLINIC_NAME = "PoLiKlInIkA PeCkIc";
+    public static final String CLINIC_NAME = "GlObAl CaRe SuRgErY";
 
     @Autowired
     private ClinicRepository clinicRepository;
@@ -32,6 +32,6 @@ public class ClinicRepositoryTest {
     @Test
     public void findAll() {
         List<Clinic> clinics = clinicRepository.findAll();
-        assertEquals(6, clinics.size());
+        assertEquals(5, clinics.size());
     }
 }
