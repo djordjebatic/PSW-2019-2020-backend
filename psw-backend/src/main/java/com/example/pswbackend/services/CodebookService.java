@@ -8,7 +8,7 @@ import com.example.pswbackend.dto.DrugDTO;
 public interface CodebookService {
 
     Drug saveDrug(DrugDTO drugDTO);
-    Boolean updateDrug(Drug drug, DrugDTO drugDTO);
+    Drug updateDrug(Drug drug, DrugDTO drugDTO);
     Boolean deleteDrug(Long id);
 
     Diagnosis saveDiagnosis(DiagnosisDTO diagnosisDTO);

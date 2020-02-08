@@ -71,10 +71,10 @@ public class Clinic {
 	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<>();
   
-	@Column(nullable = false)
+	@Column
 	private double latitude;
 
-	@Column(nullable = false)
+	@Column
 	private double longitude;
 
 	@JsonManagedReference
