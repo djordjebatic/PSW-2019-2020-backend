@@ -42,11 +42,28 @@ public class VoteServiceImpl implements VoteService {
             voteDoctor1.setStars(Long.parseLong(dto.getRating()));
 
             voteDoctorRepository.save(voteDoctor1);
+
+            Doctor d1=doctorRepository.findOneById(Long.parseLong(dto.getForId()));
+            int stars=d1.getStars();
+            int num=d1.getNum_votes();
+            d1.setStars(stars+Integer.valueOf(dto.getRating()));
+            d1.setNum_votes(num+1);
+            doctorRepository.save(d1);
+
             return voteDoctor1;
 
         }else{
+
+            Long lastRate=voteDoctorRepository.findByPatientIdAndDoctorId(Long.parseLong(dto.getPatientId()), Long.parseLong(dto.getForId())).getStars();
+
             voteDoctor.setStars(Long.parseLong(dto.getRating()));
             voteDoctorRepository.save(voteDoctor);
+
+            Doctor d2=doctorRepository.findOneById(Long.parseLong(dto.getForId()));
+            int stars=d2.getStars()-Integer.valueOf(String.valueOf(lastRate));
+            d2.setStars(stars+Integer.valueOf(dto.getRating()));
+            doctorRepository.save(d2);
+
             return voteDoctor;
         }
     }
@@ -67,12 +84,28 @@ public class VoteServiceImpl implements VoteService {
             voteClinic1.setPatient(p);
             voteClinic1.setStars(Long.parseLong(dto.getRating()));
 
+            Clinic c1=clinicRepository.findOneById(Long.parseLong(dto.getForId()));
+            int stars=c1.getStars();
+            int num=c1.getNum_votes();
+            c1.setStars(stars+Integer.valueOf(dto.getRating()));
+            c1.setNum_votes(num+1);
+            clinicRepository.save(c1);
+
             voteClinicRepository.save(voteClinic1);
             return voteClinic1;
 
         }else{
+
+            Long lastRate=voteClinicRepository.findByPatientIdAndClinicId(Long.parseLong(dto.getPatientId()), Long.parseLong(dto.getForId())).getStars();
+
             voteClinic.setStars(Long.parseLong(dto.getRating()));
             voteClinicRepository.save(voteClinic);
+
+            Clinic c2=clinicRepository.findOneById(Long.parseLong(dto.getForId()));
+            int stars=c2.getStars()-Integer.valueOf(String.valueOf(lastRate));
+            c2.setStars(stars+Integer.valueOf(dto.getRating()));
+            clinicRepository.save(c2);
+
             return voteClinic;
         }
     }
