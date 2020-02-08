@@ -8,6 +8,7 @@ import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.dto.OrdinationAssignDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -19,11 +20,11 @@ public interface OrdinationService {
     List<Ordination> findAll();
     Ordination addNew(NewOrdinationDTO dto);
 
-    List<OrdinationAssignDTO> findAllOrdinationsInClinic(Clinic clinic);
     Appointment assignOrdinationForOperation(Long appointmentId, Long ordinationId, Set<Doctor> doctors);
 
     void assignOrdinationAutomatically();
 
     Boolean updateOrdination(Ordination ordination, NewOrdinationDTO dto);
     Boolean deleteOrd(Long id);
+    boolean isOrdinationAvailable(Ordination ordination, LocalDateTime start, LocalDateTime end);
 }
