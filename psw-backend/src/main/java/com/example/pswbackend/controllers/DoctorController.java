@@ -212,4 +212,17 @@ public class DoctorController {
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/doctors-by-specialization/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Doctor>> getDocsBySpecialization(@PathVariable Long id){
+
+        List<Doctor> list = doctorService.getDocsBySpecialization(id);
+
+        if (list == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
 }

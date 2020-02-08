@@ -258,6 +258,22 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public List<Doctor> getDocsBySpecialization(Long id) {
+
+        ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
+        List<Doctor> list = doctorRepo.findByClinicId(ca.getClinic().getId());
+
+        List<Doctor> listToReturn = new ArrayList<>();
+        for (Doctor d:list){
+            if (d.getSpecialization().getId() == id){
+                listToReturn.add(d);
+            }
+        }
+
+        return listToReturn;
+    }
+
+    @Override
     public Doctor getLoggedInDoctor() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         try {
