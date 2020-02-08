@@ -4,6 +4,7 @@ import com.example.pswbackend.domain.Account;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.LoginDTO;
 import com.example.pswbackend.dto.PatientDTO;
+import com.example.pswbackend.repositories.AccountRepository;
 import com.example.pswbackend.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @RequestMapping(method = GET, value = "/account/{accountId}")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -59,6 +63,8 @@ public class AccountController {
         account.setCity(dto.getCity());
         account.setCountry(dto.getCountry());
         //account.setPassword(dto.getPassword());
+
+        accountRepository.save(account);
 
         return account;
     }
