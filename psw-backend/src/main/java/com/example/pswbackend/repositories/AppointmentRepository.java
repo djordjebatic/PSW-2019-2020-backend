@@ -1,16 +1,12 @@
 package com.example.pswbackend.repositories;
 
 import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Ordination;
 import com.example.pswbackend.domain.Patient;
-import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -3,9 +3,7 @@ package com.example.pswbackend.dto;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class PredefinedAppointmentDTO {
 

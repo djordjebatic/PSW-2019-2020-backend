@@ -1,15 +1,7 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.Account;
-import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Patient;
-import com.example.pswbackend.dto.*;
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.AppointmentDoctorDTO;
-import com.example.pswbackend.dto.ChangePasswordDTO;
-import com.example.pswbackend.dto.NewDoctorDTO;
-import com.example.pswbackend.dto.NewOrdinationDTO;
+import com.example.pswbackend.dto.*;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.PaidTimeOffStatus;
 import com.example.pswbackend.repositories.DoctorRepository;
@@ -28,9 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")

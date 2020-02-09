@@ -1,10 +1,7 @@
 package com.example.pswbackend.dto;
 
-import com.example.pswbackend.domain.Doctor;
-
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 public class AssignOperationDTO {
 

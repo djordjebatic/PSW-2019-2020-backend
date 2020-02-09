@@ -4,10 +4,9 @@ import com.example.pswbackend.enums.UserStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value="CLINIC_ADMIN")

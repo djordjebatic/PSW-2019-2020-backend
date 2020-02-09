@@ -1,23 +1,22 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.*;
+import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.dto.AppointmentRequestDTO;
+import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.dto.FilterClinicsDTO;
+import com.example.pswbackend.dto.ResultClinicDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.ClinicRepository;
-import com.example.pswbackend.services.*;
+import com.example.pswbackend.services.AppointmentRequestService;
+import com.example.pswbackend.services.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;

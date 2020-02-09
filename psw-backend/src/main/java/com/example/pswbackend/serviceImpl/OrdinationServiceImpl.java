@@ -1,8 +1,10 @@
 package com.example.pswbackend.serviceImpl;
 
-import com.example.pswbackend.domain.*;
+import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.Ordination;
 import com.example.pswbackend.dto.NewOrdinationDTO;
-import com.example.pswbackend.dto.OrdinationAssignDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
@@ -18,11 +20,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.OptimisticLockException;
 import javax.validation.ValidationException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Transactional

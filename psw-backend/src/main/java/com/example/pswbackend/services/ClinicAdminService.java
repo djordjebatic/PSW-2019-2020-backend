@@ -6,8 +6,6 @@ import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ClinicAdminDTO;
 import com.example.pswbackend.dto.QuickReservationDTO;
 
-import java.util.List;
-
 public interface ClinicAdminService {
 
     ClinicAdmin register(ClinicAdminDTO clinicAdminDTO);

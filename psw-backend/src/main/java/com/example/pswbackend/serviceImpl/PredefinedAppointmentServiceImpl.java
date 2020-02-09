@@ -1,10 +1,11 @@
 package com.example.pswbackend.serviceImpl;
+
 import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.PredefinedAppointmentDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.AppointmentRepository;
+import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.PredefinedAppointmentService;

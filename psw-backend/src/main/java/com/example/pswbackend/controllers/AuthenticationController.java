@@ -1,10 +1,11 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.*;
+import com.example.pswbackend.domain.Account;
+import com.example.pswbackend.domain.AccountRequest;
+import com.example.pswbackend.domain.AccountTokenState;
+import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.PatientDTO;
-import com.example.pswbackend.enums.Status;
 import com.example.pswbackend.exception.ResourceConflictException;
-import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.security.TokenUtils;
 import com.example.pswbackend.security.auth.JwtAuthenticationRequest;
 import com.example.pswbackend.services.AccountService;
@@ -15,22 +16,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 

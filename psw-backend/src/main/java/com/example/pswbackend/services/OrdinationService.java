@@ -1,12 +1,9 @@
 package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.Ordination;
-import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.NewOrdinationDTO;
-import com.example.pswbackend.dto.OrdinationAssignDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -2,24 +2,11 @@ package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
-import com.example.pswbackend.domain.Account;
-import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Patient;
-import com.example.pswbackend.dto.AppointmentDoctorDTO;
-import com.example.pswbackend.repositories.AccountRepository;
-import com.example.pswbackend.repositories.DoctorRepository;
-import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.PaidTimeOffStatus;
 import com.example.pswbackend.enums.PaidTimeOffType;
 import com.example.pswbackend.repositories.*;
-import com.example.pswbackend.services.AppointmentService;
-import com.example.pswbackend.services.ClinicAdminService;
-import com.example.pswbackend.services.ClinicService;
-import com.example.pswbackend.services.DoctorService;
-import com.example.pswbackend.domain.PaidTimeOffDoctor;
-import com.example.pswbackend.services.EmailService;
+import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +19,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service

@@ -3,7 +3,6 @@ package com.example.pswbackend.ServiceImpl;
 import com.example.pswbackend.domain.AppointmentType;
 import com.example.pswbackend.domain.Clinic;
 import com.example.pswbackend.dto.AppointmentTypeDTO;
-import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.repositories.AppointmentTypeRepository;
 import com.example.pswbackend.services.AppointmentTypeService;
 import com.example.pswbackend.services.ClinicService;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

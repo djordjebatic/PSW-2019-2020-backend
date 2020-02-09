@@ -1,7 +1,6 @@
 package com.example.pswbackend.dto;
 
 import com.example.pswbackend.enums.PaidTimeOffType;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 

@@ -2,7 +2,10 @@ package com.example.pswbackend.domain;
 
 import com.example.pswbackend.enums.UserStatus;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
 @DiscriminatorValue(value="CC_ADMIN")
