@@ -18,6 +18,7 @@ public class AppointmentCalendarDTO {
     private Long ordinationId;
     private String nurse;
     private String doctors;
+    private String examinationReportIssued;
 
     public AppointmentCalendarDTO(){
 
@@ -43,6 +44,12 @@ public class AppointmentCalendarDTO {
         this.ordinationId = appointment.getOrdination().getId();
         this.nurse = nurse;
         this.doctors = doctors;
+        if (appointment.getExaminationReport() == null){
+            this.examinationReportIssued = "not issued";
+        }
+        else {
+            this.examinationReportIssued = "issued";
+        }
     }
 
     public Long getId() {
@@ -123,5 +130,13 @@ public class AppointmentCalendarDTO {
 
     public void setOrdinationId(Long ordinationId) {
         this.ordinationId = ordinationId;
+    }
+
+    public String getExaminationReportIssued() {
+        return examinationReportIssued;
+    }
+
+    public void setExaminationReportIssued(String examinationReportIssued) {
+        this.examinationReportIssued = examinationReportIssued;
     }
 }
