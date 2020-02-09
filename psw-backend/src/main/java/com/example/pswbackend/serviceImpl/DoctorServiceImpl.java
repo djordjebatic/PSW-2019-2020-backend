@@ -473,17 +473,6 @@ public class DoctorServiceImpl implements DoctorService {
         return available;
     }
 
-    public List<Doctor> getAvailableDoctors(Appointment appointment){
-        List<Doctor> doctors = doctorRepo.findByClinicId(appointment.getClinic().getId());
-        List<Doctor> availableDoctors = new ArrayList<>();
-        for (Doctor d : doctors){
-            if (isDoctorAvailable(d, appointment.getStartDateTime(), appointment.getEndDateTime())){
-                availableDoctors.add(d);
-            }
-        }
-        return availableDoctors;
-    }
-
     public boolean checkTaken(Appointment appointment, LocalDateTime start, LocalDateTime end){
 
         LocalDateTime appointment_start = appointment.getStartDateTime();

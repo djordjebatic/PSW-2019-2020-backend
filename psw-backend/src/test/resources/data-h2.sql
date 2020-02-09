@@ -322,7 +322,7 @@ values( 'Flower', 'B', '165', 13, '60');
 
 --This operation is yet to be approved and it's ordination and doctors to be set
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(2, PARSEDATETIME('02.23.2020 18:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('02.23.2020 19:30','MM.dd.yyyy HH:mm'), 'APPROVED', '1', '9', 6, 1, 1, '10');
+values(1, PARSEDATETIME('01.23.2020 18:00', 'MM.dd.yyyy HH:mm'), PARSEDATETIME('01.23.2020 19:30', 'MM.dd.yyyy HH:mm'), 'APPROVED', 3, 10, 6, 1, 1, '10');
 insert into appointed_doctors (appointment_id, doctor_id) values (1,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
@@ -334,7 +334,7 @@ values(1, PARSEDATETIME('02.27.2020 10:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('0
 insert into appointed_doctors (appointment_id, doctor_id) values (3,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id, discount)
-values(1, PARSEDATETIME('02.27.2020 15:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('02.27.2020 16:00','MM.dd.yyyy HH:mm'), 'CANCELED', '5', 8, 6, 2, 1, '5');
+values(2, PARSEDATETIME('01.27.2020 15:00', 'MM.dd.yyyy HH:mm'), PARSEDATETIME('01.27.2020 16:00', 'MM.dd.yyyy HH:mm'),'CANCELED', 4, 10, 6, 2, 1, '5');
 insert into appointed_doctors (appointment_id, doctor_id) values (4,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)

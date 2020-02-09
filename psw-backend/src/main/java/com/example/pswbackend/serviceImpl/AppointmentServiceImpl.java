@@ -1,4 +1,4 @@
-package com.example.pswbackend.ServiceImpl;
+package com.example.pswbackend.serviceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
@@ -8,12 +8,14 @@ import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -62,11 +64,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
     @Override
-    public List<Appointment> getAppointments(Long ordinationId) {
-        return appointmentRepository.findByOrdinationIdAndStatusNotOrderByStartDateTime(ordinationId, AppointmentStatus.CANCELED);
-    }
-
-    @Override
     public List<AppointmentCalendarDTO> getDoctorAppointments(Long doctorId) {
 
         List<AppointmentStatus> statuses = new ArrayList<>();
@@ -93,39 +90,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment getAppointment(Long id) {
-        try {
             return appointmentRepository.getByIdAndStatusNot(id, AppointmentStatus.CANCELED);
-        }
-        catch (Exception e){
-            return null;
-        }
-    }
-
-    @Override
-    public List<Appointment> getCanceledAppointments() {
-        return appointmentRepository.findByStatus(AppointmentStatus.CANCELED);
     }
 
     @Override
     public List<Appointment> getAwaitingApprovalAppointments() {
         return appointmentRepository.findByStatus(AppointmentStatus.AWAITING_APPROVAL);
-    }
-
-    @Override
-    public List<Appointment> getAwaitingAppointments() {
-        List<AppointmentStatus> statuses = new ArrayList<>();
-        statuses.add(AppointmentStatus.AWAITING_APPROVAL);
-        return appointmentRepository.findByStatusIn(statuses);
-    }
-
-    @Override
-    public List<Appointment> getPredefinedAvailableAppointments() {
-        return appointmentRepository.findByStatus(AppointmentStatus.PREDEF_AVAILABLE);
-    }
-
-    @Override
-    public List<Appointment> getPredefinedBookedAppointments() {
-        return appointmentRepository.findByStatus(AppointmentStatus.PREDEF_BOOKED);
     }
 
     @Override
@@ -167,24 +137,17 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment assignOrdination(Appointment appointment, Ordination ordination, Nurse nurse) {
-        if (nurse == null){
-            return null;
-        }
-        appointment.setOrdination(ordination);
-        appointment.setNurse(nurse);
-        appointment.setStatus(AppointmentStatus.APPROVED);
-        return appointmentRepository.save(appointment);
-    }
-
-    @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public Appointment assignOperationOrdination(Appointment appointment, Ordination ordination, Set<Doctor> doctors) {
+    public Appointment assignOperationOrdination(Appointment appointment, Ordination ordination, Set<Doctor> doctors) throws PessimisticLockingFailureException {
+
         if (ordination == null) {
-            return null;
+            throw new ValidationException("Ordination value is null");
         }
         if (appointment == null){
-            return null;
+            throw new ValidationException("Appointment value is null");
+        }
+        if (doctors.isEmpty()){
+            throw new ValidationException("You must assign at least one doctor before assigning the ordination");
         }
 
         appointment.setOrdination(ordination);
@@ -193,40 +156,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.save(appointment);
         sendOperationMail(appointment);
         return appointment;
-    }
-
-    @Override
-    public Appointment cancelAppointment(Doctor doctor, Long appointmentId) {
-        Appointment appointment = getAppointment(appointmentId);
-        if (appointment == null){
-            return null;
-        }
-
-        boolean foundDoctor = false;
-        for (Doctor dr : appointment.getDoctors()){
-            if (dr.getId().equals(doctor.getId())){
-                foundDoctor = true;
-                continue;
-            }
-        }
-
-        if(!foundDoctor){
-            return null;
-        }
-
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime canCancel = appointment.getStartDateTime().minusHours(24);
-        if (now.isAfter(canCancel)){
-            return null;
-        }
-
-        appointment.setStatus(AppointmentStatus.CANCELED);
-        appointment.setDoctors(new HashSet<>());
-        Nurse nurse = appointment.getNurse();
-        appointment.setNurse(null);
-
-        sendCancelationMail(appointment, appointment.getPatient(), doctor, nurse);
-        return appointmentRepository.save(appointment);
     }
 
     @Override

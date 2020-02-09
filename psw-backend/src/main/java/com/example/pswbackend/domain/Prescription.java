@@ -14,10 +14,6 @@ public class Prescription {
     private Long id;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Drug drug;
-
-	@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
@@ -25,7 +21,11 @@ public class Prescription {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
 
-    @Column
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Drug drug;
+
+	@Column
 	private PrescriptionEnum prescriptionEnum;
 
     public Prescription(){

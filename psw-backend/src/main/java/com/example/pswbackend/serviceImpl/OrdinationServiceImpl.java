@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.OptimisticLockException;
+import javax.validation.ValidationException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -56,44 +58,41 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     @Override
-    public List<OrdinationAssignDTO> findAllOrdinationsInClinic(Clinic clinic) {
-        return convertToDTO(ordinationRepository.findByClinicId(clinic.getId()));
-    }
-
-    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Appointment assignOrdinationForOperation(Long appointmentId, Long ordinationId, Set<Doctor> doctors) {
         Appointment appointment = appointmentService.getAppointment(appointmentId);
         Ordination ordination = ordinationRepository.findOneById(ordinationId);
 
-        if (appointment == null || ordination == null || appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.EXAMINATION)) {
-            System.out.println("--1--");
-            return null;
+        if (appointment == null) {
+            throw new NoSuchElementException("Appointment with that ID does not exist!");
+        }
+        if (ordination == null) {
+            throw new NoSuchElementException("Ordination with that ID does not exist!");
+        }
+        if (appointment.getPrice().getAppointmentEnum().equals(AppointmentEnum.EXAMINATION)) {
+            throw new ValidationException("Appointment type can not be 'Examination'!");
         }
         if (appointment.getStartDateTime().isBefore(LocalDateTime.now())) {
-            System.out.println("--2--");
-            return null;
+            throw new ValidationException("You can only assign ordinations during the appointment!");
         }
 
         if (!isOrdinationAvailable(ordination, appointment.getStartDateTime(), appointment.getEndDateTime())) {
-            System.out.println("--3--");
-            return null;
+            throw new ValidationException("Ordination is not available at current timeslot!");
         }
 
         //All doctors must be available
         for (Doctor doctor : doctors) {
             if (!isDoctorAvailable(doctor, appointment.getStartDateTime(), appointment.getEndDateTime())) {
-                System.out.println("--4--");
-                return null;
+                throw new ValidationException("You can not assign the ordination because doctor(s) have scheduled appointments in the wanted timeslot");
             }
         }
 
         try {
             appointmentService.assignOperationOrdination(appointment, ordination, doctors);
+            return appointment;
         } catch (IllegalTransactionStateException e) {
-            e.printStackTrace();
-            return null;
+            throw e;
         }
-        return appointment;
     }
 
     @Override
@@ -192,6 +191,7 @@ public class OrdinationServiceImpl implements OrdinationService {
         return availableOrdinations;
     }
 
+    @Override
     public boolean isOrdinationAvailable(Ordination ordination, LocalDateTime start, LocalDateTime end) {
         List<Appointment> appointments = appointmentService.getOrdinationAppointmentsDuringTheDay(ordination.getId(), start);
 
@@ -232,29 +232,16 @@ public class OrdinationServiceImpl implements OrdinationService {
         LocalDateTime appointment_end = appointment.getEndDateTime();
 
         if (appointment_end.isAfter(end)){
-            System.out.println("oved");
             if (appointment_start.isBefore(end)){
                 return true;
             }
         }
         if (appointment_start.isBefore(start)){
-            System.out.println("ipak oved");
             if (appointment_end.isAfter(start)){
                 return true;
             }
         }
         return false;
-    }
-
-    private List<OrdinationAssignDTO> convertToDTO(List<Ordination> ordinations) {
-        if (ordinations == null || ordinations.isEmpty()) {
-            return new ArrayList<>();
-        }
-        List<OrdinationAssignDTO> ordinationAssignDTOS = new ArrayList<>();
-        for (Ordination ordination : ordinations) {
-            ordinationAssignDTOS.add(new OrdinationAssignDTO(ordination));
-        }
-        return ordinationAssignDTOS;
     }
 
     @Override

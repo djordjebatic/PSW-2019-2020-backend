@@ -71,11 +71,15 @@ public class Clinic {
 	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<>();
   
-	@Column(nullable = false)
+	@Column
 	private double latitude;
 
-	@Column(nullable = false)
+	@Column
 	private double longitude;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<VoteClinic> voteClinic = new HashSet<>();
 
 	public Clinic(String name, String description, String address, String city) {
 		this.name = name;
