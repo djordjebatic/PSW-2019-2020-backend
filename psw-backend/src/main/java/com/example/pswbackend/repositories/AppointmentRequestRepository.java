@@ -8,4 +8,6 @@ public interface AppointmentRequestRepository extends JpaRepository<AppointmentR
 
     @Query(value="DELETE FROM appointment_request ar WHERE ar.id = :id", nativeQuery = true)
     Boolean deleteOneById(Long id);
+    AppointmentRequest findOneById(Long id);
 }
+

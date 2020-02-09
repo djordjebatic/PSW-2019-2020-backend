@@ -36,6 +36,10 @@ public class AppointmentRequest {
 
     private long patientId;
 
+    @Version
+    @Column(name = "version_number", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version = 0L;
+
     //endregion
 
     //region Contructors
@@ -109,6 +113,14 @@ public class AppointmentRequest {
 
     public void setPatientId(long patientId) {
         this.patientId = patientId;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     //endregion
