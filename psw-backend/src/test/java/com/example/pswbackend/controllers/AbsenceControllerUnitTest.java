@@ -73,7 +73,7 @@ public class AbsenceControllerUnitTest {
 
     @Test
     public void getDoctorAbsenceRequests() throws Exception{
-        
+
     }
 
     @Test

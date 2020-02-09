@@ -120,7 +120,7 @@ public class DoctorServiceImpl implements DoctorService {
         List<Doctor> doctors = doctorRepo.findByWorkTimeStartGreaterThanEqualAndWorkTimeEndLowerThan(start, end, ca.getClinic().getId());
         List<NewDoctorDTO> dtoDoctors = new ArrayList<>();
         for (Doctor d:doctors) {
-            dtoDoctors.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
+            dtoDoctors.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName(),d.getStars()));
         }
         return dtoDoctors;
     }
@@ -134,7 +134,9 @@ public class DoctorServiceImpl implements DoctorService {
         List<Doctor> doctors = doctorRepo.findByClinicId(id);
         List<NewDoctorDTO> dtoDocs = new ArrayList<>();
         for (Doctor d:doctors) {
-            dtoDocs.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
+            int stars = d.getStars();
+            int num = d.getNum_votes();
+            dtoDocs.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName(), d.getStars()));
         }
 
         return dtoDocs;
@@ -253,7 +255,7 @@ public class DoctorServiceImpl implements DoctorService {
         for (Doctor d:list2) {
             if (doctorRepo.getOverlappingDoctorAppointments(dto.getStart(),dto.getEnd(),d.getId()).size() == 0) {  // i koji nemaju zakazan termin u to vreme
                 availableDoctors.add(new NewDoctorDTO(d.getId(), d.getFirstName(), d.getLastName(), d.getUsername(),
-                        d.getPhoneNumber(), d.getCountry(), d.getCity(), d.getAddress(), d.getClinic().getId(), d.getWorkTimeStart(), d.getWorkTimeEnd(), d.getSpecialization().getName()));
+                        d.getPhoneNumber(), d.getCountry(), d.getCity(), d.getAddress(), d.getClinic().getId(), d.getWorkTimeStart(), d.getWorkTimeEnd(), d.getSpecialization().getName(),d.getStars()));
             }
         }
 

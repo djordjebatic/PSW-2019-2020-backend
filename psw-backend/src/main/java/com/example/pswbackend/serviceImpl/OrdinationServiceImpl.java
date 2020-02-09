@@ -25,7 +25,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class OrdinationServiceImpl implements OrdinationService {
 
