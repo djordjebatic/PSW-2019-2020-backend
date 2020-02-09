@@ -243,14 +243,25 @@ public class DoctorServiceImpl implements DoctorService {
         statuses.add(AppointmentStatus.PREDEF_BOOKED);
 
         List<NewDoctorDTO> availableDoctors = new ArrayList<>();
+        List<Doctor> list1 = new ArrayList<>();
+        List<Doctor> list2 = new ArrayList<>();
+
         for (Doctor d:doctors) {
             if (!doctorsIds.contains(d.getId())){  // doktori koji nisu odsutni
-                if(d.getWorkTimeStart().isBefore(startTime) && d.getWorkTimeEnd().isAfter(endTime)){  // i koje rade u to vreme
-                    if (appointmentRepository.findByDoctorsIdAndStatusIn(d.getId(),statuses).size() == 0){  // i koji nemaju zakazan termin u to vreme
-                        availableDoctors.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),
-                                d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
-                    }
-                }
+                list1.add(d);
+            }
+        }
+
+        for (Doctor d:list1) {
+            if(d.getWorkTimeStart().isBefore(startTime) && d.getWorkTimeEnd().isAfter(endTime)){  // i koje rade u to vreme
+                list2.add(d);
+            }
+        }
+
+        for (Doctor d:list2) {
+            if (doctorRepo.getOverlappingDoctorAppointments(dto.getStart(),dto.getEnd(),d.getId()).size() == 0) {  // i koji nemaju zakazan termin u to vreme
+                availableDoctors.add(new NewDoctorDTO(d.getId(), d.getFirstName(), d.getLastName(), d.getUsername(),
+                        d.getPhoneNumber(), d.getCountry(), d.getCity(), d.getAddress(), d.getClinic().getId(), d.getWorkTimeStart(), d.getWorkTimeEnd(), d.getSpecialization().getName()));
             }
         }
 
@@ -331,7 +342,6 @@ public class DoctorServiceImpl implements DoctorService {
         return d;
 
     }
-
 
     @Override
     public Boolean deleteOneById(Long id) {

@@ -10,6 +10,10 @@ import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.ChangePasswordDTO;
 import com.example.pswbackend.dto.NewDoctorDTO;
 import com.example.pswbackend.dto.NewOrdinationDTO;
+import com.example.pswbackend.enums.AppointmentStatus;
+import com.example.pswbackend.enums.PaidTimeOffStatus;
+import com.example.pswbackend.repositories.DoctorRepository;
+import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.CustomAccountDetailsService;
 import com.example.pswbackend.services.DoctorService;
@@ -40,6 +44,9 @@ public class DoctorController {
 
     @Autowired
     private CustomAccountDetailsService accountDetailsService;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @PostMapping(value="/doctor/schedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
@@ -224,5 +231,6 @@ public class DoctorController {
 
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
+
 
 }
