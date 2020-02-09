@@ -70,6 +70,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public PaidTimeOffNurse requestLeave(Long id, PaidTimeOffNurseDTO paidTimeOffNurseDTO) {
 
         Nurse nurse = nurseRepository.findOneById(id);

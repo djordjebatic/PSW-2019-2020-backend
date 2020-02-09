@@ -390,13 +390,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment cancelAppointmentP(Long appointmentId) {
         Appointment appointment = getAppointment(appointmentId);
         if (appointment == null){
-            return null;
+            throw new ValidationException("Appointments doesn't exist");
         }
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime canCancel = appointment.getStartDateTime().minusHours(24);
         if (now.isAfter(canCancel)){
-            return null;
+            throw new ValidationException("You can only cancel appointments 24h before the start");
         }
 
         List<Doctor> appDoctors = new ArrayList<>();

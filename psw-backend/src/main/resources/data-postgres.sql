@@ -431,12 +431,6 @@ insert into appointed_doctors (appointment_id,doctor_id) values (9,5);*/
 
 --AbsenceRequests
 
-insert into paid_time_off_nurse(commentt, end_date_time, paid_time_off_status,paid_time_off_type, start_date_time,nurse_id)
-values ('Komentar2', '03.08.2020', 'REQUESTED', 'SICK_LEAVE', '03.03.2020','7');
-
-insert into paid_time_off_nurse(commentt, end_date_time, paid_time_off_status,paid_time_off_type, start_date_time,nurse_id)
-values ('Komentar2', '03.20.2020', 'REQUESTED', 'ANNUAL_LEAVE', '03.13.2020','6');
-
 insert into paid_time_off_doctor(commentt, end_date_time, paid_time_off_status,paid_time_off_type, start_date_time,doctor_id)
 values ('Komentar3', '03.11.2020', 'REQUESTED', 'ANNUAL_LEAVE', '03.05.2020','4');
 

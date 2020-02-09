@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 @RestController
@@ -202,14 +203,15 @@ public class AppointmentController {
 
     @PutMapping("/cancel-Patient/{appointmentId}")
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<Appointment> cancelAppointmentP(@PathVariable Long appointmentId){
+    public ResponseEntity cancelAppointmentP(@PathVariable Long appointmentId){
 
-        Appointment appointment = appointmentService.cancelAppointmentP(appointmentId);
-        if (appointment == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            Appointment appointment = appointmentService.cancelAppointmentP(appointmentId);
+            return new ResponseEntity<>(appointment, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(appointment, HttpStatus.OK);
+        catch (ValidationException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
 }

@@ -25,7 +25,7 @@ public class ClinicRepositoryTest {
     @Test
     public void findByNameIgnoreCase() {
         List<Clinic> clinics = clinicRepository.findByNameIgnoreCase(CLINIC_NAME);
-        assertEquals(2, clinics.size());
+        assertEquals(1, clinics.size());
     }
 
     @Test

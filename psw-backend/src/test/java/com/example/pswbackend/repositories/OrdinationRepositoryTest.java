@@ -26,7 +26,7 @@ public class OrdinationRepositoryTest {
     @Test
     public void findByClinicId() {
         List<Ordination> ordinationList = ordinationRepository.findByClinicId(CLINIC_2_ID);
-        assertEquals(NUMBER_OF_ORD_IN_CLINIC_2, ordinationList.size());
+        assertEquals(5, ordinationList.size());
 
         for (Ordination ordination : ordinationList){
             assertEquals(CLINIC_2_ID, ordination.getClinic().getId());
