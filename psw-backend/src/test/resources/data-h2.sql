@@ -184,7 +184,7 @@ values ('PATIENT', 'patijent3@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfG
 INSERT INTO account_authority (account_id, authority_id) values  (9, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
-values ('PATIENT', 'patijent4@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Sudan', 'Sudic', '065256065', 'Jevrejska 69','Dzuba','Juzni Sudan','124532636362','AWAITING_APPROVAL');
+values ('PATIENT', 'patijent4@gmail.com', '$2y$12$cfJ7eUBHua9B4mJhHXAx2eN6j/6sfGduRWRyMQy7E/Gci0xUXt8tK', 'Sudan', 'Sudic', '065256065', 'Jevrejska 69','Dzuba','Juzni Sudan','124532636362','APPROVED');
 INSERT INTO account_authority (account_id, authority_id) values  (10, 1);
 
 insert into account (account_type, email, password, first_name, last_name, phone_number, address, city, country, medical_number, status)
