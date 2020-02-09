@@ -25,8 +25,8 @@ import org.junit.runners.Suite;
         AppointmentControllerIntegrationTest.class,
         OrdinationControllerUnitTest.class,
         PredefinedAppointmentControllerUnitTest.class,
-        //SchedulePredefinedAppointment.class,
-        //ScheduleRegularAppointment.class,
+        SchedulePredefinedAppointment.class,
+        ScheduleRegularAppointment.class
 
 })
 public class ClinicCenterSuite {
