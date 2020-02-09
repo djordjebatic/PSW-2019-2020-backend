@@ -3,12 +3,7 @@ package com.example.pswbackend.dto;
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 
 public class AppointmentCalendarDTO {
@@ -23,6 +18,7 @@ public class AppointmentCalendarDTO {
     private Long ordinationId;
     private String nurse;
     private String doctors;
+    private String examinationReportIssued;
 
     public AppointmentCalendarDTO(){
 
@@ -48,6 +44,12 @@ public class AppointmentCalendarDTO {
         this.ordinationId = appointment.getOrdination().getId();
         this.nurse = nurse;
         this.doctors = doctors;
+        if (appointment.getExaminationReport() == null){
+            this.examinationReportIssued = "not issued";
+        }
+        else {
+            this.examinationReportIssued = "issued";
+        }
     }
 
     public Long getId() {
@@ -128,5 +130,13 @@ public class AppointmentCalendarDTO {
 
     public void setOrdinationId(Long ordinationId) {
         this.ordinationId = ordinationId;
+    }
+
+    public String getExaminationReportIssued() {
+        return examinationReportIssued;
+    }
+
+    public void setExaminationReportIssued(String examinationReportIssued) {
+        this.examinationReportIssued = examinationReportIssued;
     }
 }

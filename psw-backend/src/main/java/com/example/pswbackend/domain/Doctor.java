@@ -3,14 +3,12 @@ package com.example.pswbackend.domain;
 import com.example.pswbackend.enums.UserStatus;
 import com.fasterxml.jackson.annotation.*;
 
-import java.sql.Time;
+import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value="DOCTOR")

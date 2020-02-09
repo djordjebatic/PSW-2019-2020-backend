@@ -1,25 +1,15 @@
 package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.domain.AppointmentRequest;
-import com.example.pswbackend.domain.ClinicAdmin;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Patient;
 import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.AppointmentRequestDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
-import com.example.pswbackend.repositories.AppointmentPriceRepository;
-import com.example.pswbackend.repositories.AppointmentRequestRepository;
-import com.example.pswbackend.repositories.ClinicAdminRepository;
-import com.example.pswbackend.repositories.DoctorRepository;
-import com.example.pswbackend.repositories.PatientRepository;
+import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.AppointmentRequestService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.DoctorService;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

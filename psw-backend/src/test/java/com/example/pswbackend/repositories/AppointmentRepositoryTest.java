@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.pswbackend.constants.AppointmentConstants.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

@@ -1,9 +1,7 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.AppointmentType;
-import com.example.pswbackend.domain.Ordination;
 import com.example.pswbackend.dto.AppointmentTypeDTO;
-import com.example.pswbackend.dto.NewOrdinationDTO;
 import com.example.pswbackend.repositories.AppointmentTypeRepository;
 import com.example.pswbackend.services.AppointmentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;

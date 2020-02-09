@@ -1,10 +1,10 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.*;
+import com.example.pswbackend.domain.ClinicAdmin;
+import com.example.pswbackend.domain.PaidTimeOffDoctor;
+import com.example.pswbackend.domain.PaidTimeOffNurse;
 import com.example.pswbackend.dto.AbsenceDoctorDTO;
 import com.example.pswbackend.dto.AbsenceNurseDTO;
-import com.example.pswbackend.dto.PaidTimeOffDoctorDTO;
-import com.example.pswbackend.dto.PaidTimeOffNurseDTO;
 import com.example.pswbackend.enums.PaidTimeOffStatus;
 import com.example.pswbackend.repositories.PaidTimeOffDoctorRepository;
 import com.example.pswbackend.repositories.PaidTimeOffNurseRepository;

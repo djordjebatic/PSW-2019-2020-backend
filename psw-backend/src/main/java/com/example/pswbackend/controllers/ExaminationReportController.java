@@ -7,7 +7,10 @@ import com.example.pswbackend.dto.ExaminationReportForPatientDTO;
 import com.example.pswbackend.enums.PrescriptionEnum;
 import com.example.pswbackend.repositories.AppointmentRepository;
 import com.example.pswbackend.repositories.PatientRepository;
-import com.example.pswbackend.services.*;
+import com.example.pswbackend.services.AppointmentService;
+import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.ExaminationReportService;
+import com.example.pswbackend.services.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,7 +61,7 @@ public class ExaminationReportController {
 
     @PostMapping(value = "/create/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<ExaminationReportDTO> create(@PathVariable("id") Long appointmendId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
+    public ResponseEntity create(@PathVariable("id") Long appointmendId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
         Doctor doctor = doctorService.getLoggedInDoctor();
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -66,21 +69,23 @@ public class ExaminationReportController {
 
         Appointment appointment = appointmentRepository.findOneById(appointmendId);
 
+        if (appointment.getExaminationReport() != null){
+            return new ResponseEntity<>("Examination report for this appointment has already been crated. Navigate to the medical card page if you want to edit it", HttpStatus.CONFLICT);
+        }
+
         Patient patient = patientRepository.findOneById(appointment.getPatient().getId());
         if (patient == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Patient not found",HttpStatus.NOT_FOUND);
         }
 
         LocalDateTime appointmentStartTime = LocalDateTime.now();
         Appointment ongoingAppointment = appointmentService.getOngoingAppointment(patient.getId(), doctor.getId(), appointmentStartTime);
         if (ongoingAppointment == null) {
-            System.out.println("Ovde greska");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Appointment has not started yet",HttpStatus.NOT_FOUND);
         }
 
         ExaminationReportDTO createdExaminationReportDTO = examinationReportService.create(ongoingAppointment, doctor, examinationReportDTO);
         if (createdExaminationReportDTO == null) {
-            System.out.println("Ipak je ovde greska");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);

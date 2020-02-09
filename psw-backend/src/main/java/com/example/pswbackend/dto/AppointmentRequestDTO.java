@@ -1,13 +1,7 @@
 package com.example.pswbackend.dto;
 
-import com.example.pswbackend.domain.Clinic;
-import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.enums.AppointmentEnum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.*;
-import com.example.pswbackend.enums.AppointmentEnum;
 
 import java.time.LocalDateTime;
 
@@ -16,9 +10,9 @@ public class AppointmentRequestDTO {
     private Long id;
     private String typeEnum;
     private String typeSpec;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDateTime;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDateTime;
     private String doctorFN;
     private String doctorLN;

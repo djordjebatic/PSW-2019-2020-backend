@@ -1,14 +1,10 @@
 package com.example.pswbackend.domain;
 
-import com.example.pswbackend.enums.AppointmentEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class AppointmentType {

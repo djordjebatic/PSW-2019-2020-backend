@@ -2,24 +2,11 @@ package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
-import com.example.pswbackend.domain.Account;
-import com.example.pswbackend.domain.Appointment;
-import com.example.pswbackend.domain.Doctor;
-import com.example.pswbackend.domain.Patient;
-import com.example.pswbackend.dto.AppointmentDoctorDTO;
-import com.example.pswbackend.repositories.AccountRepository;
-import com.example.pswbackend.repositories.DoctorRepository;
-import com.example.pswbackend.repositories.PatientRepository;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.PaidTimeOffStatus;
 import com.example.pswbackend.enums.PaidTimeOffType;
 import com.example.pswbackend.repositories.*;
-import com.example.pswbackend.services.AppointmentService;
-import com.example.pswbackend.services.ClinicAdminService;
-import com.example.pswbackend.services.ClinicService;
-import com.example.pswbackend.services.DoctorService;
-import com.example.pswbackend.domain.PaidTimeOffDoctor;
-import com.example.pswbackend.services.EmailService;
+import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +19,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -243,18 +233,45 @@ public class DoctorServiceImpl implements DoctorService {
         statuses.add(AppointmentStatus.PREDEF_BOOKED);
 
         List<NewDoctorDTO> availableDoctors = new ArrayList<>();
+        List<Doctor> list1 = new ArrayList<>();
+        List<Doctor> list2 = new ArrayList<>();
+
         for (Doctor d:doctors) {
             if (!doctorsIds.contains(d.getId())){  // doktori koji nisu odsutni
-                if(d.getWorkTimeStart().isBefore(startTime) && d.getWorkTimeEnd().isAfter(endTime)){  // i koje rade u to vreme
-                    if (appointmentRepository.findByDoctorsIdAndStatusIn(d.getId(),statuses).size() == 0){  // i koji nemaju zakazan termin u to vreme
-                        availableDoctors.add(new NewDoctorDTO(d.getId(),d.getFirstName(),d.getLastName(),d.getUsername(),
-                                d.getPhoneNumber(),d.getCountry(),d.getCity(),d.getAddress(),d.getClinic().getId(),d.getWorkTimeStart(),d.getWorkTimeEnd(),d.getSpecialization().getName()));
-                    }
-                }
+                list1.add(d);
+            }
+        }
+
+        for (Doctor d:list1) {
+            if(d.getWorkTimeStart().isBefore(startTime) && d.getWorkTimeEnd().isAfter(endTime)){  // i koje rade u to vreme
+                list2.add(d);
+            }
+        }
+
+        for (Doctor d:list2) {
+            if (doctorRepo.getOverlappingDoctorAppointments(dto.getStart(),dto.getEnd(),d.getId()).size() == 0) {  // i koji nemaju zakazan termin u to vreme
+                availableDoctors.add(new NewDoctorDTO(d.getId(), d.getFirstName(), d.getLastName(), d.getUsername(),
+                        d.getPhoneNumber(), d.getCountry(), d.getCity(), d.getAddress(), d.getClinic().getId(), d.getWorkTimeStart(), d.getWorkTimeEnd(), d.getSpecialization().getName()));
             }
         }
 
         return availableDoctors;
+    }
+
+    @Override
+    public List<Doctor> getDocsBySpecialization(Long id) {
+
+        ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
+        List<Doctor> list = doctorRepo.findByClinicId(ca.getClinic().getId());
+
+        List<Doctor> listToReturn = new ArrayList<>();
+        for (Doctor d:list){
+            if (d.getSpecialization().getId() == id){
+                listToReturn.add(d);
+            }
+        }
+
+        return listToReturn;
     }
 
     @Override
@@ -315,7 +332,6 @@ public class DoctorServiceImpl implements DoctorService {
         return d;
 
     }
-
 
     @Override
     public Boolean deleteOneById(Long id) {

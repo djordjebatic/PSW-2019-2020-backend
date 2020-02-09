@@ -1,14 +1,11 @@
 package com.example.pswbackend.services;
 
-import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.NewDoctorDTO;
+import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.PaidTimeOffDoctor;
 import com.example.pswbackend.dto.PaidTimeOffDoctorDTO;
-import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
-import com.example.pswbackend.enums.PaidTimeOffStatus;
-import com.example.pswbackend.enums.PaidTimeOffType;
 import com.example.pswbackend.repositories.AppointmentRepository;
-import com.example.pswbackend.repositories.AppointmentTypeRepository;
 import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.PatientRepository;
 import org.junit.Test;
@@ -18,11 +15,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.BDDMockito.given;
 
 public class DoctorServiceTest {

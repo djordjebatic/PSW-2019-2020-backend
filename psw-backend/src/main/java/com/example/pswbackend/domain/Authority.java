@@ -1,11 +1,9 @@
 package com.example.pswbackend.domain;
 
-import com.example.pswbackend.enums.RoleEnum;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class Authority implements GrantedAuthority {

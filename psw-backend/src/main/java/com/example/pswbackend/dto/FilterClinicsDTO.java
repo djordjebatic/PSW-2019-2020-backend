@@ -1,7 +1,6 @@
 package com.example.pswbackend.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class FilterClinicsDTO {
 

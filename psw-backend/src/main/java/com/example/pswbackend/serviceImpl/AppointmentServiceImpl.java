@@ -9,8 +9,6 @@ import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PessimisticLockingFailureException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +17,8 @@ import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -307,7 +303,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Ordination> ordinations = ordinationRepo.findByTypeAndClinicId(appType, c.getId());
         List<Ordination> availableOrdinations = new ArrayList<>();
         for (Ordination o:ordinations) {
-            List<Appointment> ordinationAppointments = appointmentRepository.findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(o.getId(),start,end,statuses);
+            List<Appointment> ordinationAppointments = appointmentRepository.findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqual(start,end,o.getId());
             if (ordinationAppointments.size() == 0){
                 availableOrdinations.add(o);
             }

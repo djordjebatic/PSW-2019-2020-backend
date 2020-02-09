@@ -8,16 +8,19 @@ import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.enums.UserStatus;
 import com.example.pswbackend.repositories.*;
-import com.example.pswbackend.services.*;
+import com.example.pswbackend.services.AppointmentRequestService;
+import com.example.pswbackend.services.AppointmentService;
+import com.example.pswbackend.services.ClinicAdminService;
+import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service

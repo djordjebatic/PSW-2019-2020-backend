@@ -3,10 +3,10 @@ package com.example.pswbackend.controllers;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
 import com.example.pswbackend.repositories.OrdinationRepository;
-import com.example.pswbackend.dto.AppointmentCalendarDTO;
-import com.example.pswbackend.services.*;
-import com.example.pswbackend.dto.AvailableAppointmentDTO;
-import com.example.pswbackend.dto.NewAppointmentDTO;
+import com.example.pswbackend.services.AppointmentService;
+import com.example.pswbackend.services.ClinicAdminService;
+import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,6 +49,19 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping(value = "/get-doctor-appointments/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<AppointmentCalendarDTO>> getDoctorAppointmentsCA(@PathVariable Long id) {
+
+        try {
+            return new ResponseEntity<>(appointmentService.getDoctorAppointments(id), HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/get-ordination-appointments/{ordinationId}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<AppointmentCalendarDTO>> getOrdinationAppointments(@PathVariable Long ordinationId) {
@@ -63,12 +76,12 @@ public class AppointmentController {
     @PostMapping(value = "/available-ordinations-by-date") //zapravo time
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<Ordination>> getAvailableOrdinations(@RequestBody AvailableAppointmentDTO dto) {
-        try {
+        //try {
             return new ResponseEntity<List<Ordination>>(appointmentService.getAvailableOrdinations(dto), HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        //}
+        //catch (Exception e){
+        //    return new ResponseEntity<>(e, HttpStatus.valueOf(500));
+        //}
     }
 
     @GetMapping(value = "/get-appointment/{id}")

@@ -1,7 +1,6 @@
 package com.example.pswbackend.repositories;
 
 import com.example.pswbackend.domain.ClinicAdmin;
-import com.example.pswbackend.dto.ClinicAdminDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

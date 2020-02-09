@@ -6,11 +6,16 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.test.annotation.Rollback;
 
 import static org.junit.Assert.assertEquals;
 
-public class SchedulePredefinedAppointment {
+/**
+ * @author Djordje Batic
+ */
+public class ScheduleRegularAppointment {
+
     private WebDriver browser;
 
     private LoginPage loginPage;
@@ -47,22 +52,17 @@ public class SchedulePredefinedAppointment {
 
         clinicsPage.ensureVisitButtonIsDisplayed();
         assertEquals("http://localhost:3000/clinics", browser.getCurrentUrl());
-        clinicsPage.getVisitClinic().click();
 
-        clinicSelectedPage.ensurePredefinedtButtonIsDisplayed();
-        //assertEquals("http://localhost:3000/clinic/1", browser.getCurrentUrl());
-        clinicSelectedPage.getPredefinedButton().click();
+        clinicsPage.getSelectOption().selectByIndex(1);
+        clinicsPage.ensureAvailableDoctorsButtonVisible();
+        clinicsPage.getAvailableDoctorsButton().click();
+        clinicsPage.getFilterButton().click();
 
 
-        predefinedSchedulingPage.enshurePredefinedButtonExists();
-        //assertEquals("http://localhost:3000/predefined-examinations/1", browser.getCurrentUrl());
-        predefinedSchedulingPage.getScheduleButton().click();
-
-        // can't assert success message because it wasn't implemented
     }
 
-    @After
+    /*@After
     public void tearDown() {
         browser.close();
-    }
+    }*/
 }

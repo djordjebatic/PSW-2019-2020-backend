@@ -1,7 +1,5 @@
 package com.example.pswbackend.dto;
 
-import javax.persistence.Column;
-
 public class MedicalRecordDTO {
 
     private long patientId;

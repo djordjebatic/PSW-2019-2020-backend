@@ -1,12 +1,11 @@
 package com.example.pswbackend.serviceImpl;
 
-import com.example.pswbackend.domain.Clinic;
-import com.example.pswbackend.domain.ClinicAdmin;
-import com.example.pswbackend.dto.*;
-import com.example.pswbackend.enums.AppointmentEnum;
-import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.ClinicDTO;
+import com.example.pswbackend.dto.FilterClinicsDTO;
+import com.example.pswbackend.dto.ResultClinicDTO;
+import com.example.pswbackend.enums.AppointmentEnum;
+import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicService;
 import com.example.pswbackend.services.DoctorService;
@@ -19,11 +18,8 @@ import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ClinicServiceImpl implements ClinicService {

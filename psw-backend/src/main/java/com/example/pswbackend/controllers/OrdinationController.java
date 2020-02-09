@@ -1,13 +1,12 @@
 package com.example.pswbackend.controllers;
 
-import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.AppointmentDoctorDTO;
+import com.example.pswbackend.domain.Appointment;
+import com.example.pswbackend.domain.ClinicAdmin;
+import com.example.pswbackend.domain.Doctor;
+import com.example.pswbackend.domain.Ordination;
 import com.example.pswbackend.dto.AssignOperationDTO;
-import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.NewOrdinationDTO;
-import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
-import com.example.pswbackend.repositories.DoctorRepository;
 import com.example.pswbackend.repositories.OrdinationRepository;
 import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
@@ -22,10 +21,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.IllegalTransactionStateException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.Doc;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;

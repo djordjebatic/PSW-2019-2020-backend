@@ -1,8 +1,10 @@
 package com.example.pswbackend.services;
+
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Doctor;
 import com.example.pswbackend.domain.PaidTimeOffDoctor;
 import com.example.pswbackend.dto.*;
+
 import java.time.LocalTime;
 import java.util.List;
 
@@ -32,5 +34,7 @@ public interface DoctorService {
     List<Doctor> findByClinicIdAndSpecializationId(Appointment appointment);
 
     List<NewDoctorDTO> getAvailableDoctorsByDateAndTime(DateAndTimeDTO dto);
+
+    List<Doctor> getDocsBySpecialization(Long id);
 
 }

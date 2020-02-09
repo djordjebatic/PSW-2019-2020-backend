@@ -10,18 +10,19 @@ import com.example.pswbackend.enums.PrescriptionEnum;
 import com.example.pswbackend.repositories.*;
 import com.example.pswbackend.services.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class NurseServiceImpl implements NurseService {
 
     @Autowired
@@ -55,6 +56,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public PrescriptionDTO authenticatePrescription(Long nurseId, Long prescriptionId) {
 
         Prescription prescription = prescriptionRepository.findOneById(prescriptionId);
