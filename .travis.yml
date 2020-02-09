@@ -8,21 +8,20 @@ services:
 before_install:
   - chmod +x mvnw
 
-
 addons:
   sonarcloud:
-    organization: "dosticjelena"
+    organization: "djordjebatic"
     token:
       secure: "**************************" # encrypted value of your token
 
 script:
+  - ./mvnw clean install -DskipTests=false -B
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - - ./mvnw clean install -DskipTests=false -B
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=djordjebatic_PSW-2019-2020-backend2
 
 dist: trusty
 
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
-  app: psw-isa-tim3
+  app: PSW-2019-2020-backend
