@@ -25,7 +25,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class OrdinationServiceImpl implements OrdinationService {
 
@@ -58,7 +58,6 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Appointment assignOrdinationForOperation(Long appointmentId, Long ordinationId, Set<Doctor> doctors) {
         Appointment appointment = appointmentService.getAppointment(appointmentId);
         Ordination ordination = ordinationRepository.findOneById(ordinationId);
