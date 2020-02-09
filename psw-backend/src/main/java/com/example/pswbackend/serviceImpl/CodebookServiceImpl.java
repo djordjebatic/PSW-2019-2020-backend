@@ -27,7 +27,7 @@ public class CodebookServiceImpl implements CodebookService {
     DrugRepository drugRepository;
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Drug saveDrug(DrugDTO drugDTO) {
 
         Drug newDrug = new Drug(drugDTO.getName(), drugDTO.getIngredient(), drugDTO.getDescription());
@@ -63,7 +63,7 @@ public class CodebookServiceImpl implements CodebookService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Diagnosis saveDiagnosis(DiagnosisDTO diagnosisDTO) {
 
         Diagnosis newDiagnosis = new Diagnosis(diagnosisDTO.getName(), diagnosisDTO.getDescription());

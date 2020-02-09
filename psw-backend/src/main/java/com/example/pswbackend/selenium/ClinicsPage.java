@@ -1,5 +1,7 @@
 package com.example.pswbackend.selenium;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,6 +31,8 @@ public class ClinicsPage {
     @FindBy(xpath = "//*[@id=\"root\"]/div/div[1]/div[2]/div[2]/div/div[1]/div[3]/div[1]/div/div[5]/div/button")
     private WebElement availableDoctorsButton;
 
+    @FindBy(xpath = "//*[@id=\"root\"]/div/div[1]/div[2]/div/div[2]/div/div[1]/div[3]/div[1]/div/div[5]/div/button[2]")
+    private WebElement preferedTimeButton;
 
     public void ensureVisitButtonIsDisplayed() {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(visitClinic));
@@ -36,6 +40,10 @@ public class ClinicsPage {
 
     public void ensureAvailableDoctorsButtonVisible() {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(availableDoctorsButton));
+    }
+
+    public void ensurePreferedTimeButtonVisible() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(preferedTimeButton));
     }
 
     /*public void ensureOptionIsVisible() {
@@ -55,7 +63,9 @@ public class ClinicsPage {
     }
 
     public Select getSelectOption() {
-        return selectOption;
+
+        Select option = new Select(this.driver.findElement(By.id("type")));
+        return option;
     }
 
     public void setSelectOption(Select selectOption) {
@@ -71,7 +81,9 @@ public class ClinicsPage {
     }
 
     public WebElement getDateOption() {
-        dateOption.sendKeys("10022020");
+        dateOption.sendKeys("1002");
+        dateOption.sendKeys(Keys.TAB);
+        dateOption.sendKeys("2020");
         return dateOption;
     }
 
@@ -93,6 +105,14 @@ public class ClinicsPage {
 
     public void setAvailableDoctorsButton(WebElement availableDoctorsButton) {
         this.availableDoctorsButton = availableDoctorsButton;
+    }
+
+    public WebElement getPreferedTimeButton() {
+        return preferedTimeButton;
+    }
+
+    public void setPreferedTimeButton(WebElement preferedTimeButton) {
+        this.preferedTimeButton = preferedTimeButton;
     }
 
     public ClinicsPage() {

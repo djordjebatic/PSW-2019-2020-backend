@@ -55,7 +55,7 @@ public class DoctorServiceTest {
 
     public static final Long DOCTOR_20_ID = 20L;
 
-    public static final Long DOCTOR_4_ID = 4L;
+    public static final Long DOCTOR_1_ID = 1L;
 
     public static final int DOCTOR_4_APP_APPROVED_OR_PREDEF_BOOKED_COUNT = 5;
 
@@ -158,24 +158,23 @@ public class DoctorServiceTest {
         clinic.setId(1L);
 
         Doctor doctor = new Doctor();
-        doctor.setId(DOCTOR_4_ID);
-
+        doctor.setId(DOCTOR_1_ID);
         doctor.setClinic(clinic);
 
         //returns null
-        given(this.doctorRepository.findById(DOCTOR_4_ID).get()).willReturn(doctor);
+        given(this.doctorRepository.findOneById(DOCTOR_1_ID)).willReturn(doctor);
 
         List<AppointmentStatus> statuses = new ArrayList<>();
         statuses.add(AppointmentStatus.APPROVED);
         statuses.add(AppointmentStatus.PREDEF_BOOKED);
 
-        given(this.appointmentRepository.findByDoctorIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanAndStatusIn(DOCTOR_4_ID, startDateTime, endDateTime, statuses)).willReturn(null);
+        given(this.appointmentRepository.findByDoctorIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanAndStatusIn(DOCTOR_1_ID, startDateTime, endDateTime, statuses)).willReturn(null);
 
         PaidTimeOffDoctorDTO paidTimeOffDoctorDTO = new PaidTimeOffDoctorDTO();
-        PaidTimeOffDoctor returned = doctorService.requestLeave(DOCTOR_4_ID, paidTimeOffDoctorDTO);
+        PaidTimeOffDoctor returned = doctorService.requestLeave(DOCTOR_1_ID, paidTimeOffDoctorDTO);
 
         assertNotNull(returned);
-        assertEquals(DOCTOR_4_ID, returned.getDoctor().getId());
+        assertEquals(DOCTOR_1_ID, returned.getDoctor().getId());
 
     }
 
