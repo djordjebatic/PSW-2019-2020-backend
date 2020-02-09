@@ -307,7 +307,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Ordination> ordinations = ordinationRepo.findByTypeAndClinicId(appType, c.getId());
         List<Ordination> availableOrdinations = new ArrayList<>();
         for (Ordination o:ordinations) {
-            List<Appointment> ordinationAppointments = appointmentRepository.findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(o.getId(),start,end,statuses);
+            List<Appointment> ordinationAppointments = appointmentRepository.findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqual(start,end,o.getId());
             if (ordinationAppointments.size() == 0){
                 availableOrdinations.add(o);
             }

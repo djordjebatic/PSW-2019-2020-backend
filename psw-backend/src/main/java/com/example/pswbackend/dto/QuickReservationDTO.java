@@ -29,6 +29,9 @@ public class QuickReservationDTO {
         this.discount = discount;
     }
 
+    public QuickReservationDTO() {
+    }
+
     public String getClinicAdmin() { return clinicAdmin; }
 
     public String getDoctor() { return doctor; }
