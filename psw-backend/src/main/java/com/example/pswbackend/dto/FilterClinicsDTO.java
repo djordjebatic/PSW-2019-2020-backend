@@ -23,5 +23,11 @@ public class FilterClinicsDTO {
     public FilterClinicsDTO() {
     }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 }

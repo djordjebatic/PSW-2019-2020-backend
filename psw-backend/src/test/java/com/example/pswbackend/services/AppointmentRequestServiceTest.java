@@ -4,9 +4,11 @@ import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentRequestDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.repositories.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -54,6 +56,12 @@ public class AppointmentRequestServiceTest {
     @MockBean
     ClinicAdminService clinicAdminService;
 
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+
     public static final Long APPOINTMENT_REQUEST_1_ID = 1L;
     public static final Long PATIENT_9_ID = 9L;
     public static final Long PATIENT_8_ID = 8L;
@@ -65,7 +73,7 @@ public class AppointmentRequestServiceTest {
     public  static final int YEAR = 2020;
     public static final Month MONTH_DATE = Month.FEBRUARY;
     public static final int DAY_OF_MONTH_START = 27;
-    public static final int DAY_OF_MONTH_END = 25;
+    public static final int DAY_OF_MONTH_END = 27;
     public static final int START_TIME_HOUR = 10;
     public static final int END_TIME_HOUR = 11;
     public static final int MIN = 00;
@@ -81,7 +89,7 @@ public class AppointmentRequestServiceTest {
     public static final int MIN1 = 30;
 
     @Test
-    public void saveRequest(){
+    public void test_saveRequest_success(){
 
         Clinic clinic = new Clinic();
         clinic.setId(CLINIC_1_ID);
@@ -104,7 +112,7 @@ public class AppointmentRequestServiceTest {
     }
 
     @Test
-    public void getById(){
+    public void test_getById_success(){
 
         Clinic clinic = new Clinic();
         clinic.setId(CLINIC_1_ID);
@@ -139,13 +147,11 @@ public class AppointmentRequestServiceTest {
         given(this.patientRepository.findOneById(PATIENT_9_ID)).willReturn(patient);
 
         AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(), appointmentType.getName(), startDateTime, endDateTime, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
-
         assertThat(dto).isNotNull();
     }
 
-
     @Test
-    public void sendRequest() throws Exception{
+    public void test_sendRequest_success() throws Exception{
 
 
         Patient patient=new Patient();
@@ -186,10 +192,20 @@ public class AppointmentRequestServiceTest {
 
         Mockito.doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString());
 
+        AppointmentRequestDTO appointmentRequestDTO= new AppointmentRequestDTO();
+        appointmentRequestDTO.setDoctorsId(DOCTOR_5_ID);
+        appointmentRequestDTO.setStartTimeS("2020-02-27 08:00");
+        appointmentRequestDTO.setClinicId(CLINIC_1_ID);
+        appointmentRequestDTO.setPatientId(PATIENT_9_ID);
+        appointmentRequestDTO.setAppointmentType(AppointmentEnum.EXAMINATION);
+
+        boolean b =appointmentRequestService.sendRequest(appointmentRequestDTO);
+        assertThat(b).isTrue();
+
     }
 
     @Test
-    public void getClinicAppReqCA(){
+    public void test_getClinicAppReqCA_success(){
         List<AppointmentRequestDTO> list = new ArrayList<>();
 
         Patient patient=new Patient();
@@ -210,14 +226,13 @@ public class AppointmentRequestServiceTest {
 
         given(this.clinicAdminService.getLoggedInClinicAdmin()).willReturn(ca);
 
-        List<AppointmentRequestDTO> dtoList = new ArrayList<>();
-
         AppointmentPrice appointmentPrice= new AppointmentPrice();
         appointmentPrice.setId(APPOINTMENT_PRICE_10_ID);
         appointmentPrice.setAppointmentEnum(AppointmentEnum.EXAMINATION);
         AppointmentType appointmentType= new AppointmentType();
         appointmentType.setId(APPOINTMENT_TYPE_1_ID);
         appointmentType.setName("Kardio");
+        d.setSpecialization(appointmentType);
         appointmentPrice.setAppointmentType(appointmentType);
         appointmentPrice.setPrice(3000D);
 
@@ -226,13 +241,10 @@ public class AppointmentRequestServiceTest {
 
         LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE1, DAY_OF_MONTH_START1, START_TIME_HOUR, MIN, SEC);
         LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE1, DAY_OF_MONTH_START1, END_TIME_HOUR, MIN, SEC);
-        LocalDateTime startDateTime1 = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, START_TIME_HOUR, MIN, SEC);
-        LocalDateTime endDateTime1 = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, END_TIME_HOUR, MIN, SEC);
 
         AppointmentRequest appointmentRequest= new AppointmentRequest();
-        AppointmentRequest appointmentRequest1= new AppointmentRequest();
 
-        appointmentRequest.setPatientId(patient.getId());
+        appointmentRequest.setPatientId(PATIENT_9_ID);
         appointmentRequest.setType(AppointmentEnum.EXAMINATION);
         appointmentRequest.setEndDateTime(endDateTime);
         appointmentRequest.setStartDateTime(startDateTime);
@@ -240,27 +252,24 @@ public class AppointmentRequestServiceTest {
         appointmentRequest.setClinic(clinic);
         appointmentRequest.setId(1L);
 
-        appointmentRequest1.setPatientId(patient.getId());
-        appointmentRequest1.setType(AppointmentEnum.EXAMINATION);
-        appointmentRequest1.setEndDateTime(endDateTime1);
-        appointmentRequest1.setStartDateTime(startDateTime1);
-        appointmentRequest1.setDoctor(d);
-        appointmentRequest1.setClinic(clinic);
-        appointmentRequest1.setId(2L);
-
-
         AppointmentRequestDTO dto = new AppointmentRequestDTO(appointmentRequest.getId(), appointmentType.getName(), startDateTime, endDateTime, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
-        AppointmentRequestDTO dto1 = new AppointmentRequestDTO(appointmentRequest1.getId(), appointmentType.getName(), startDateTime1, endDateTime1, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
+        dto.setPatientId(PATIENT_9_ID);
 
         List<AppointmentRequestDTO> listDTO= new ArrayList<>();
         listDTO.add(dto);
-        listDTO.add(dto1);
 
-        assertThat(listDTO).hasSize(2);
+        List<AppointmentRequest> list1 =new ArrayList<>();
+        list1.add(appointmentRequest);
+
+        clinic.setAppointmentRequests(list1);
+
+        List<AppointmentRequestDTO> result = new ArrayList<>();
+        result=appointmentRequestService.getClinicAppReqCA();
+        assertThat(result).hasSize(1);
     }
 
     @Test
-    public void getClinicAppReqDoc(){
+    public void test_getClinicAppReqDoc_success(){
 
         Patient patient=new Patient();
         patient.setId(PATIENT_9_ID);
@@ -276,14 +285,13 @@ public class AppointmentRequestServiceTest {
 
         given(this.doctorService.getLoggedInDoctor()).willReturn(d);
 
-        List<AppointmentRequestDTO> dtoList = new ArrayList<>();
-
         AppointmentPrice appointmentPrice= new AppointmentPrice();
         appointmentPrice.setId(APPOINTMENT_PRICE_10_ID);
         appointmentPrice.setAppointmentEnum(AppointmentEnum.EXAMINATION);
         AppointmentType appointmentType= new AppointmentType();
         appointmentType.setId(APPOINTMENT_TYPE_1_ID);
         appointmentType.setName("Kardio");
+        d.setSpecialization(appointmentType);
         appointmentPrice.setAppointmentType(appointmentType);
         appointmentPrice.setPrice(3000D);
 
@@ -292,11 +300,8 @@ public class AppointmentRequestServiceTest {
 
         LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE1, DAY_OF_MONTH_START1, START_TIME_HOUR, MIN, SEC);
         LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE1, DAY_OF_MONTH_START1, END_TIME_HOUR, MIN, SEC);
-        LocalDateTime startDateTime1 = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, START_TIME_HOUR, MIN, SEC);
-        LocalDateTime endDateTime1 = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, END_TIME_HOUR, MIN, SEC);
 
         AppointmentRequest appointmentRequest= new AppointmentRequest();
-        AppointmentRequest appointmentRequest1= new AppointmentRequest();
 
         appointmentRequest.setPatientId(patient.getId());
         appointmentRequest.setType(AppointmentEnum.EXAMINATION);
@@ -306,32 +311,20 @@ public class AppointmentRequestServiceTest {
         appointmentRequest.setClinic(clinic);
         appointmentRequest.setId(1L);
 
-        appointmentRequest1.setPatientId(patient.getId());
-        appointmentRequest1.setType(AppointmentEnum.EXAMINATION);
-        appointmentRequest1.setEndDateTime(endDateTime1);
-        appointmentRequest1.setStartDateTime(startDateTime1);
-        appointmentRequest1.setDoctor(d);
-        appointmentRequest1.setClinic(clinic);
-        appointmentRequest1.setId(2L);
-
-
         AppointmentRequestDTO dto = new AppointmentRequestDTO(appointmentRequest.getId(), appointmentType.getName(), startDateTime, endDateTime, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
-        AppointmentRequestDTO dto1 = new AppointmentRequestDTO(appointmentRequest1.getId(), appointmentType.getName(), startDateTime1, endDateTime1, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
+        dto.setPatientId(PATIENT_9_ID);
 
         List<AppointmentRequestDTO> listDTO= new ArrayList<>();
         listDTO.add(dto);
-        listDTO.add(dto1);
 
-        assertThat(listDTO).hasSize(2);
+        List<AppointmentRequest> list1 =new ArrayList<>();
+        list1.add(appointmentRequest);
+        clinic.setAppointmentRequests(list1);
+
+        List<AppointmentRequestDTO> result = new ArrayList<>();
+        result=appointmentRequestService.getClinicAppReqDoc();
+        assertThat(result).hasSize(1);
 
     }
-
-
-
-
-
-
-
-
 
 }
