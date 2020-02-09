@@ -113,7 +113,7 @@ public class AppointmentServiceTest {
     }
 
     @Test
-    public void getDoctorAppointments() {
+    public void testGetDoctorAppointments_Success() {
 
         LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, START_TIME_HOUR, MIN, SEC);
         LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, END_TIME_HOUR, MIN, SEC);
@@ -164,7 +164,7 @@ public class AppointmentServiceTest {
     }
 
     @Test
-    public void getNurseAppointments() {
+    public void testGetNurseAppointments_Success() {
 
         LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, START_TIME_HOUR, MIN, SEC);
         LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, END_TIME_HOUR, MIN, SEC);
@@ -272,7 +272,7 @@ public class AppointmentServiceTest {
 
     //fails
     @Test
-    public void testGetDoctorAppointmentsDuringTheDay() {
+    public void testGetDoctorAppointmentsDuringTheDay_Success() {
         LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, START_TIME_HOUR, MIN, SEC);
         LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, END_TIME_HOUR, MIN, SEC);
 
@@ -313,7 +313,6 @@ public class AppointmentServiceTest {
         List<AppointmentStatus> statuses = new ArrayList<>();
         statuses.add(AppointmentStatus.APPROVED);
         statuses.add(AppointmentStatus.PREDEF_BOOKED);
-
         LocalDate date = startDateTime.toLocalDate();
 
         LocalDateTime start = LocalDateTime.of(date, LocalTime.of(0, 0));
