@@ -160,7 +160,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
     }
 
     @Override
-    //@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean sendRequest(AppointmentRequestDTO dto){
 
         if(dto.equals(null)){
