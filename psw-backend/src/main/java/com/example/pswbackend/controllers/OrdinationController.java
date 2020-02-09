@@ -48,7 +48,7 @@ public class OrdinationController {
     private OrdinationRepository ordinationRepository;
 
     // everyday at midnight
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "${appointment.cron}")
     public void assignOrdinationAutomatically() {
         ordinationService.assignOrdinationAutomatically();
     }
