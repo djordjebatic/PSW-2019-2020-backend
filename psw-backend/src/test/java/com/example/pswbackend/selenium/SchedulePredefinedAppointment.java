@@ -50,12 +50,12 @@ public class SchedulePredefinedAppointment {
         clinicsPage.getVisitClinic().click();
 
         clinicSelectedPage.ensurePredefinedtButtonIsDisplayed();
-        //assertEquals("http://localhost:3000/clinic/1", browser.getCurrentUrl());
+        assertEquals("http://localhost:3000/clinic/1", browser.getCurrentUrl());
         clinicSelectedPage.getPredefinedButton().click();
 
 
         predefinedSchedulingPage.enshurePredefinedButtonExists();
-        //assertEquals("http://localhost:3000/predefined-examinations/1", browser.getCurrentUrl());
+        assertEquals("http://localhost:3000/predefined-examinations/1", browser.getCurrentUrl());
         predefinedSchedulingPage.getScheduleButton().click();
 
         // can't assert success message because it wasn't implemented
