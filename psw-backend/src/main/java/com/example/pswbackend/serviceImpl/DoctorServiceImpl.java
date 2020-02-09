@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -290,6 +292,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Doctor addNew(NewDoctorDTO dto) {
 
         Clinic c = clinicService.findClinicById(dto.getClinicId());
@@ -334,9 +337,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    //@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Boolean deleteOneById(Long id) {
         try {
-            doctorRepo.deleteOneById(id);
+            accountRepository.deleteById(id);
             return true;
         } catch (Exception e){
             return true; //exception jer delete ne vraca nista -> PSQLException: No results were returned by the query

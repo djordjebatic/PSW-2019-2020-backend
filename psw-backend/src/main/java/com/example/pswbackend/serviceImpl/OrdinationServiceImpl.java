@@ -269,7 +269,7 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = false)
     public Boolean deleteOrd(Long id){
 
         try {

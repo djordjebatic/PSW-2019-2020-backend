@@ -313,6 +313,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    //@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Appointment createNew(NewAppointmentDTO dto) {
 
         ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();

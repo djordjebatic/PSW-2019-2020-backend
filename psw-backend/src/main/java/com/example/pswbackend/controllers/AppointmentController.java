@@ -166,12 +166,19 @@ public class AppointmentController {
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Appointment> createNew(@RequestBody NewAppointmentDTO dto){
 
-        Appointment a = appointmentService.createNew(dto);
-        if (a == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+
+            Appointment a = appointmentService.createNew(dto);
+            if (a == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+                return new ResponseEntity<>(a, HttpStatus.CREATED);
+
+        } catch (Exception e){
+            System.out.println(e);
         }
 
-        return new ResponseEntity<>(a, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/future-cancel-appointments/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
