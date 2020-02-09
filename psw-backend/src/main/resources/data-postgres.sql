@@ -254,15 +254,15 @@ INSERT INTO account_authority (account_id, authority_id) values  (26, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
 values ('DOCTOR', 'dok15@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Novica', 'Novic', '060224654', 'Zeleznicka ulica 65','Ndzamena','Chad', 1, 1, 'ACTIVE', 48, 10, '07:55', '14:00');
-INSERT INTO account_authority (account_id, authority_id) values  (26, 2);
+INSERT INTO account_authority (account_id, authority_id) values  (27, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
 values ('DOCTOR', 'dok16@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Aleksa', 'Novkovic', '060122654', 'Zeleznicka ulica 65','Ndzamena','Chad', 1, 1, 'ACTIVE', 48, 10, '07:55', '14:00');
-INSERT INTO account_authority (account_id, authority_id) values  (26, 2);
+INSERT INTO account_authority (account_id, authority_id) values  (28, 2);
 
 insert into account(account_type, email, password, first_name, last_name, phone_number, address, city, country, specialization_id, clinic_id, user_status, stars, num_votes, work_time_start, work_time_end)
 values ('DOCTOR', 'dok17@gmail.com', '$2y$12$hjx/YFOIKdJhYhnoabYN5enQVYWQvrOU/h/NyT8jK4/af5LWDoKd2', 'Stevan', 'Jovic', '060722654', 'Zeleznicka ulica 65','Ndzamena','Chad', 4, 1, 'ACTIVE', 48, 10, '07:55', '14:00');
-INSERT INTO account_authority (account_id, authority_id) values  (26, 2);
+INSERT INTO account_authority (account_id, authority_id) values  (29, 2);
 ------------------------------------------------------------------------------
 
 --Diagnosis
