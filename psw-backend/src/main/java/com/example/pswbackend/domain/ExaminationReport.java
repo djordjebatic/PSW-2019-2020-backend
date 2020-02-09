@@ -44,6 +44,10 @@ public class ExaminationReport {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Appointment appointment;
 
+    @Version
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version = 0L;
+
     public ExaminationReport() {
 
     }
@@ -127,5 +131,13 @@ public class ExaminationReport {
 
     public void setLastEdited(LocalDateTime lastEdited) {
         this.lastEdited = lastEdited;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
