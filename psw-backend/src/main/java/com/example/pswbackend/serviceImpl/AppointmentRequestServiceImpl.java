@@ -50,6 +50,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
     PatientRepository patientRepository;
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean saveRequest(AppointmentDoctorDTO dto, Clinic c) {
 
         Doctor doctor = doctorRepository.findOneById(Long.parseLong(dto.getDoctor()));

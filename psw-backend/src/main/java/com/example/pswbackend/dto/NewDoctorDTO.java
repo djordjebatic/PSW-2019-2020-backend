@@ -21,8 +21,9 @@ public class NewDoctorDTO {
     @JsonFormat(pattern="HH:mm")
     private LocalTime workTimeEnd;
     private String specialization;
+    private int stars;
 
-    public NewDoctorDTO(Long id,String firstName, String lastName, String username, String phoneNumber, String country, String city, String address, Long clinicId, LocalTime workTimeStart, LocalTime workTimeEnd, String specialization) {
+    public NewDoctorDTO(Long id,String firstName, String lastName, String username, String phoneNumber, String country, String city, String address, Long clinicId, LocalTime workTimeStart, LocalTime workTimeEnd, String specialization, int stars) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,10 +36,19 @@ public class NewDoctorDTO {
         this.workTimeStart = workTimeStart;
         this.workTimeEnd = workTimeEnd;
         this.specialization = specialization;
+        this.stars = stars;
     }
 
     public NewDoctorDTO(){
 
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
     }
 
     public Long getId() {

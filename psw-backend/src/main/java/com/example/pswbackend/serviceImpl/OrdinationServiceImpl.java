@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.Appointment;
 import com.example.pswbackend.domain.Clinic;
@@ -268,7 +268,7 @@ public class OrdinationServiceImpl implements OrdinationService {
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = false)
     public Boolean deleteOrd(Long id){
 
         try {

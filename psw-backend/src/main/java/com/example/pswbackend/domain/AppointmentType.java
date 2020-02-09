@@ -39,6 +39,7 @@ public class AppointmentType {
 		this.clinic = clinic;
 	}
 
+
 	public Long getId() {
 		return id;
 	}

@@ -1,4 +1,4 @@
-package com.example.pswbackend.serviceImpl;
+package com.example.pswbackend.ServiceImpl;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
@@ -313,6 +313,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    //@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Appointment createNew(NewAppointmentDTO dto) {
 
         ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
