@@ -18,7 +18,6 @@ import javax.validation.ValidationException;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/api/appointment")
 public class AppointmentController {
 

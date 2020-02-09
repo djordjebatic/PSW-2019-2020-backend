@@ -152,7 +152,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setPatientStatus(Status.AWAITING_VERIFICATON);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Registration request has been successful. Please visit this link in order to verify your email address. ");
-        stringBuilder.append("http://localhost:3000/verify/");
+        stringBuilder.append("https://psw-isa-tim3-frontend.herokuapp.com/verify/");
         stringBuilder.append(id);
         stringBuilder.append(".");
 

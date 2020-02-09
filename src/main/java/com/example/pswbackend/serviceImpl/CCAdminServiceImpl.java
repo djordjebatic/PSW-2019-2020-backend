@@ -86,7 +86,7 @@ public class CCAdminServiceImpl implements CCAdminService {
         ccAdmin.setAuthorities(authorities);
 
         String s = "You have been registered as an Clinic Center Admin. You can now log in to the Clinical Centre System. " +
-                "Please visit http://localhost:3000/login to log into your account. " +
+                "Please visit https://psw-isa-tim3-frontend.herokuapp.com/login to log into your account. " +
                 "Your default password is \"admin\" and you will need to change it upon initial log in.";
         emailService.sendEmail(ccAdmin.getUsername(), "Registration Request Response", s);
 
