@@ -158,7 +158,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
         }
 
         Patient patient = patientRepository.findOneById(dto.getPatientId());
-        Doctor doctor = doctorRepository.findById(dto.getDoctorsId()).get();
+        Doctor doctor = doctorRepository.findOneById(dto.getDoctorsId());
         List<ClinicAdmin> clinicAdminList = clinicAdminRepository.findByClinicId(dto.getClinicId());
         ClinicAdmin ca = clinicAdminList.get(0);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

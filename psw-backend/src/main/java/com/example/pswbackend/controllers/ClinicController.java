@@ -1,6 +1,7 @@
 package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.Clinic;
+import com.example.pswbackend.domain.ClinicAdmin;
 import com.example.pswbackend.dto.AppointmentRequestDTO;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.FilterClinicsDTO;
@@ -8,6 +9,7 @@ import com.example.pswbackend.dto.ResultClinicDTO;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.services.AppointmentRequestService;
+import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -4,9 +4,11 @@ import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.AppointmentRequestDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.repositories.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -54,6 +56,12 @@ public class AppointmentRequestServiceTest {
     @MockBean
     ClinicAdminService clinicAdminService;
 
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+
     public static final Long APPOINTMENT_REQUEST_1_ID = 1L;
     public static final Long PATIENT_9_ID = 9L;
     public static final Long PATIENT_8_ID = 8L;
@@ -65,7 +73,7 @@ public class AppointmentRequestServiceTest {
     public  static final int YEAR = 2020;
     public static final Month MONTH_DATE = Month.FEBRUARY;
     public static final int DAY_OF_MONTH_START = 27;
-    public static final int DAY_OF_MONTH_END = 25;
+    public static final int DAY_OF_MONTH_END = 27;
     public static final int START_TIME_HOUR = 10;
     public static final int END_TIME_HOUR = 11;
     public static final int MIN = 00;
@@ -81,7 +89,7 @@ public class AppointmentRequestServiceTest {
     public static final int MIN1 = 30;
 
     @Test
-    public void saveRequest(){
+    public void test_saveRequest_success(){
 
         Clinic clinic = new Clinic();
         clinic.setId(CLINIC_1_ID);
@@ -104,7 +112,7 @@ public class AppointmentRequestServiceTest {
     }
 
     @Test
-    public void getById(){
+    public void test_getById_success(){
 
         Clinic clinic = new Clinic();
         clinic.setId(CLINIC_1_ID);
@@ -139,13 +147,11 @@ public class AppointmentRequestServiceTest {
         given(this.patientRepository.findOneById(PATIENT_9_ID)).willReturn(patient);
 
         AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(), appointmentType.getName(), startDateTime, endDateTime, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
-
         assertThat(dto).isNotNull();
     }
 
-
     @Test
-    public void sendRequest() throws Exception{
+    public void test_sendRequest_success() throws Exception{
 
 
         Patient patient=new Patient();
@@ -186,10 +192,20 @@ public class AppointmentRequestServiceTest {
 
         Mockito.doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString());
 
+        AppointmentRequestDTO appointmentRequestDTO= new AppointmentRequestDTO();
+        appointmentRequestDTO.setDoctorsId(DOCTOR_5_ID);
+        appointmentRequestDTO.setStartTimeS("2020-02-27 08:00");
+        appointmentRequestDTO.setClinicId(CLINIC_1_ID);
+        appointmentRequestDTO.setPatientId(PATIENT_9_ID);
+        appointmentRequestDTO.setAppointmentType(AppointmentEnum.EXAMINATION);
+
+        boolean b =appointmentRequestService.sendRequest(appointmentRequestDTO);
+        assertThat(b).isTrue();
+
     }
 
     @Test
-    public void getClinicAppReqCA(){
+    public void test_getClinicAppReqCA_success(){
         List<AppointmentRequestDTO> list = new ArrayList<>();
 
         Patient patient=new Patient();
@@ -260,7 +276,7 @@ public class AppointmentRequestServiceTest {
     }
 
     @Test
-    public void getClinicAppReqDoc(){
+    public void test_getClinicAppReqDoc_success(){
 
         Patient patient=new Patient();
         patient.setId(PATIENT_9_ID);
