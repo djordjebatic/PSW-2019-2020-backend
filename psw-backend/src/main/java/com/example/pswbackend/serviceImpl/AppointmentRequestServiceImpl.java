@@ -104,7 +104,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
         for (AppointmentRequest ar:appointmentRequests) {
             AppointmentPrice price = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(ar.getDoctor().getSpecialization().getId(), ar.getType());
             AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(),ar.getType().name(),ar.getStartDateTime(),ar.getEndDateTime(),ar.getDoctor().getFirstName(),ar.getDoctor().getLastName(),ar.getDoctor().getId());
-            Patient p = patientRepo.findById(ar.getPatientId());
+            Patient p = patientRepo.findOneById(ar.getPatientId());
             dto.setTypeSpec(price.getAppointmentType().getName());
             dto.setPrice(price.getPrice());
             dto.setPriceId(price.getId());
