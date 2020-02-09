@@ -88,7 +88,7 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
         authorities.add(a);
         clinicAdmin.setAuthorities(authorities);
 
-        String s = "You have been registered as an Admin of %s" + clinicAdmin.getClinic().getName() + " clinic!" +
+        String s = "You have been registered as an Admin of " + clinicAdmin.getClinic().getName() + " clinic!" +
                 " You can now log in to the Clinical Centre System! To log in use the default password: \"admin\". " +
                 "You will have to change this password after your first log in.";
         emailService.sendEmail(clinicAdmin.getUsername(), "Registration Request Response", s);
