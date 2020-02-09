@@ -160,7 +160,6 @@ public class ClinicServiceImpl implements ClinicService {
                             }
                         }
                     }else{
-                        System.out.println(d.getFirstName());
                         if (d.getWorkTimeStart().equals(LocalTime.of(8, 0))) {
                             for (int i = 0; i < 8; i++) {
                                 LocalDateTime st = start.plusSeconds(i * duration2);
@@ -187,7 +186,6 @@ public class ClinicServiceImpl implements ClinicService {
         for(Clinic c : clinicList) {
 
             AppointmentType a= appointmentTypeRepository.findByNameAndClinicId(dto.getType(),c.getId());
-            System.out.println(a.getId());
 
                 AppointmentEnum e = AppointmentEnum.EXAMINATION;
                 AppointmentPrice ap = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(a.getId(), e);
