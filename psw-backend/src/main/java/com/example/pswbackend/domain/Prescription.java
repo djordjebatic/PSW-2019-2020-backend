@@ -27,6 +27,10 @@ public class Prescription {
 	@Column
 	private PrescriptionEnum prescriptionEnum;
 
+	@Version
+	@Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+	private Long version = 0L;
+
     public Prescription(){
 
 	}
@@ -75,5 +79,13 @@ public class Prescription {
 
 	public void setPrescriptionEnum(PrescriptionEnum prescriptionEnum) {
 		this.prescriptionEnum = prescriptionEnum;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 }
