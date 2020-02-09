@@ -140,7 +140,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public PaidTimeOffDoctor requestLeave(Long id, PaidTimeOffDoctorDTO dto) {
-        Doctor doc = doctorRepo.findById(id).get();
+        Doctor doc = doctorRepo.findOneById(id);
 
         List<AppointmentStatus> statuses = new ArrayList<>();
         statuses.add(AppointmentStatus.APPROVED);
