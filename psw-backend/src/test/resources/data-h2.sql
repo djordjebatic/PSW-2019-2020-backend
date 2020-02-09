@@ -361,19 +361,19 @@ values(1, PARSEDATETIME('02.25.2020 08:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('0
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, PARSEDATETIME('02.24.2020 9:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('02.24.2020 19:30','MM.dd.yyyy HH:mm'), 'APPROVED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (8,4);
+insert into appointed_doctors (appointment_id, doctor_id) values (11,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, PARSEDATETIME('03.22.2020 11:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('03.22.2020 12:30','MM.dd.yyyy HH:mm'), 'APPROVED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (9,4);
+insert into appointed_doctors (appointment_id, doctor_id) values (12,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, PARSEDATETIME('04.22.2020 19:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('04.22.2020 19:30','MM.dd.yyyy HH:mm'), 'PREDEF_BOOKED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (10,17);
+insert into appointed_doctors (appointment_id, doctor_id) values (13,17);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, PARSEDATETIME('02.06.2020 09:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('02.06.2020 10:30','MM.dd.yyyy HH:mm'), 'APPROVED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (11,4);
+insert into appointed_doctors (appointment_id, doctor_id) values (14,4);
 
 
 --AppointmentRequests
@@ -393,25 +393,6 @@ values (0, 1, 1, 6);
 
 insert into prescription(prescription_enum, drug_id, examination_report_id, nurse_id)
 values (0, 2, 1, 6);
-
---Appointments
-
-/*insert into appointment(type, start_date_time, end_date_time, price, status, ordination_id, patient_id, nurse_id, medical_record_id, clinic_id, discount)
-values('OPERATION', PARSEDATETIME('12.29.2019 10:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('12.29.2019 12:00','MM.dd.yyyy HH:mm'), '1000', 'PREDEF_AVAILABLE', '1', '5', '1', '1', '1', '10');
-insert into appointed_doctors (appointment_id,doctor_id) values (8,4);
-
-insert into appointment(type, start_date_time, end_date_time, price, status, ordination_id, patient_id, nurse_id, medical_record_id, clinic_id, discount)
-values('OPERATION', PARSEDATETIME('12.28.2019 10:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('12.28.2019 12:00','MM.dd.yyyy HH:mm'), '900', 'AWAITING_APPROVAL', '1', '3', '1', '1', '1', '10');
-insert into appointed_doctors (appointment_id,doctor_id) values (8,4);
-
-insert into appointment(type, start_date_time, end_date_time, price, status, ordination_id, patient_id, nurse_id, medical_record_id, clinic_id, discount)
-values('OPERATION', PARSEDATETIME('12.27.2019 10:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('12.27.2019 12:00','MM.dd.yyyy HH:mm'), '800', 'CANCELED', '1', '2', '1', '1', '1', '10');
-insert into appointed_doctors (appointment_id,doctor_id) values (8,4);
-
-insert into appointment(type, start_date_time, end_date_time, price, status, ordination_id, patient_id, nurse_id, medical_record_id, clinic_id, discount)
-values('OPERATION', PARSEDATETIME('12.29.2019 10:00','MM.dd.yyyy HH:mm'), PARSEDATETIME('12.29.2019 12:00','MM.dd.yyyy HH:mm'), '1000', 'PREDEF_AVAILABLE', '1', '5', '1', '1', '1', '10');
-insert into appointed_doctors (appointment_id,doctor_id) values (9,5);*/
-
 ------------------------------------------------------------------------------
 
 --AbsenceRequests
