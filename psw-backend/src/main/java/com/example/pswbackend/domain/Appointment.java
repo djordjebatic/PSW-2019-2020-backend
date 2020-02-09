@@ -1,5 +1,4 @@
 package com.example.pswbackend.domain;
-
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -64,7 +63,12 @@ public class Appointment {
 
 	@Column
     private Integer discount;
-    
+
+	@Version
+	@Column(name = "version_number", columnDefinition = "integer DEFAULT 0", nullable = false)
+	private Long version = 0L;
+
+
 	public Appointment() {
 		super();
 		doctors = new HashSet<Doctor>();
@@ -181,5 +185,13 @@ public class Appointment {
 
 	public void setPrice(AppointmentPrice price) {
 		this.price = price;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 }

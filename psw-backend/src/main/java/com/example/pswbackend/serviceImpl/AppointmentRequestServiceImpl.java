@@ -11,6 +11,8 @@ import com.example.pswbackend.services.DoctorService;
 import com.example.pswbackend.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +52,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
     @Override
     public boolean saveRequest(AppointmentDoctorDTO dto, Clinic c) {
 
-        Doctor doctor = doctorRepository.findById(Long.parseLong(dto.getDoctor())).get();
+        Doctor doctor = doctorRepository.findOneById(Long.parseLong(dto.getDoctor()));
         AppointmentEnum appType;
         if (Integer.parseInt(dto.getType()) == 0){
             appType = AppointmentEnum.EXAMINATION;
@@ -71,10 +73,11 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
     @Override
     public AppointmentRequestDTO getById(Long id) {
 
-        AppointmentRequest ar = appointmentRequestRepository.findById(id).get();
+
+        AppointmentRequest ar = appointmentRequestRepository.findOneById(id);
         AppointmentPrice price = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(ar.getDoctor().getSpecialization().getId(), ar.getType());
         AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(),ar.getType().name(),ar.getStartDateTime(),ar.getEndDateTime(),ar.getDoctor().getFirstName(),ar.getDoctor().getLastName(),ar.getDoctor().getId());
-        Patient p = patientRepo.findById(ar.getPatientId());
+        Patient p = patientRepo.findOneById(ar.getPatientId());
         dto.setTypeSpec(price.getAppointmentType().getName());
         dto.setPrice(price.getPrice());
         dto.setPriceId(price.getId());
@@ -133,7 +136,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
         for (AppointmentRequest ar : appointmentRequests) {
             AppointmentPrice price = appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(ar.getDoctor().getSpecialization().getId(), ar.getType());
             AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(), ar.getType().name(), ar.getStartDateTime(), ar.getEndDateTime(), ar.getDoctor().getFirstName(), ar.getDoctor().getLastName(), ar.getDoctor().getId());
-            Patient p = patientRepo.findById(ar.getPatientId());
+            Patient p = patientRepo.findOneById(ar.getPatientId());
             dto.setTypeSpec(price.getAppointmentType().getName());
             dto.setPrice(price.getPrice());
             dto.setPriceId(price.getId());
@@ -147,6 +150,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean sendRequest(AppointmentRequestDTO dto){
 
         if(dto.equals(null)){

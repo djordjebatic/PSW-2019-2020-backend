@@ -5,6 +5,7 @@ import com.example.pswbackend.dto.AppointmentRequestDTO;
 import com.example.pswbackend.dto.ClinicDTO;
 import com.example.pswbackend.dto.FilterClinicsDTO;
 import com.example.pswbackend.dto.ResultClinicDTO;
+import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.repositories.ClinicRepository;
 import com.example.pswbackend.services.AppointmentRequestService;
 import com.example.pswbackend.services.ClinicService;
@@ -29,6 +30,9 @@ public class ClinicController {
 
     @Autowired
     ClinicRepository clinicRepository;
+
+    @Autowired
+    ClinicAdminService clinicAdminService;
 
     @Autowired
     AppointmentRequestService appointmentRequestService;
@@ -128,6 +132,29 @@ public class ClinicController {
         }
 
         return new ResponseEntity<>(list, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value="/clinic-income")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Double> getIncome(){
+
+        ClinicAdmin ca = clinicAdminService.getLoggedInClinicAdmin();
+
+        if (ca == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<AppointmentStatus> statuses = new ArrayList<>();
+        statuses.add(AppointmentStatus.PREDEF_BOOKED);
+        statuses.add(AppointmentStatus.APPROVED);
+        Double income = clinicRepository.getIncomeOfTheClinic(ca.getClinic().getId());
+
+        if (income == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Double>(income, HttpStatus.OK);
 
     }
 }

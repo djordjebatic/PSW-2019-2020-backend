@@ -30,6 +30,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     Appointment findByPatientIdAndDoctorsIdAndDoctorsUserStatusAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanAndStatusIn(
             Long patientId, Long doctorsId, UserStatus userStatus, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> appointmentEnums);
 
+    @Query(value = "SELECT * FROM appointment a WHERE (a.start_date_time, a.end_date_time) OVERLAPS (?1,?2) AND a.ordination_id = ?3 AND (a.status = 'APPROVED' or a.status = 'PREDEF_BOOKED')", nativeQuery = true)
+    List<Appointment> findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqual(LocalDateTime start, LocalDateTime end,Long ordinationId);
+
     List<Appointment> findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(Long ordinationId, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> statuses);
     List<Appointment> findByOrdinationId(Long ordinationId);
     List<Appointment> findByDoctorsIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn(Long doctorId, LocalDateTime start, LocalDateTime end, List<AppointmentStatus> statuses);

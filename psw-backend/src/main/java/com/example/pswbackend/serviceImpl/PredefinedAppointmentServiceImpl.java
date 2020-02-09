@@ -11,6 +11,9 @@ import com.example.pswbackend.services.EmailService;
 import com.example.pswbackend.services.PredefinedAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.pswbackend.repositories.DoctorRepository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ public class PredefinedAppointmentServiceImpl implements PredefinedAppointmentSe
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public PredefinedAppointmentDTO schedulePredefinedAppointment(Patient patient, Appointment appointment ){
 
             Set<Appointment> appointments= patient.getAppointments();

@@ -35,4 +35,6 @@ public interface DoctorService {
 
     List<NewDoctorDTO> getAvailableDoctorsByDateAndTime(DateAndTimeDTO dto);
 
+    List<Doctor> getDocsBySpecialization(Long id);
+
 }
