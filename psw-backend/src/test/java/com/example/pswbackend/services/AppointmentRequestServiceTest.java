@@ -22,7 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
+import static org.testng.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -120,6 +120,8 @@ public class AppointmentRequestServiceTest {
         Doctor d = new Doctor();
         d.setId(DOCTOR_5_ID);
         d.setClinic(clinic);
+        d.setLastName("Dokic");
+        d.setFirstName("Dok");
 
         Patient patient=new Patient();
         patient.setId(PATIENT_9_ID);
@@ -140,14 +142,28 @@ public class AppointmentRequestServiceTest {
         AppointmentType appointmentType= new AppointmentType();
         appointmentType.setId(APPOINTMENT_TYPE_1_ID);
         appointmentType.setName("Kardio");
+        d.setSpecialization(appointmentType);
         appointmentPrice.setAppointmentType(appointmentType);
         appointmentPrice.setPrice(3000D);
 
         given(this.appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(appointmentType.getId(), AppointmentEnum.EXAMINATION)).willReturn(appointmentPrice);
         given(this.patientRepository.findOneById(PATIENT_9_ID)).willReturn(patient);
 
-        AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(), appointmentType.getName(), startDateTime, endDateTime, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
-        assertThat(dto).isNotNull();
+       // AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(), appointmentType.getName(), startDateTime, endDateTime, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
+
+        AppointmentRequest appointmentRequest = new AppointmentRequest();
+        appointmentRequest.setId(1);
+        appointmentRequest.setClinic(clinic);
+        appointmentRequest.setDoctor(d);
+        appointmentRequest.setStartDateTime(startDateTime );
+        appointmentRequest.setEndDateTime(endDateTime);
+        appointmentRequest.setType(AppointmentEnum.EXAMINATION);
+        appointmentRequest.setPatientId(PATIENT_9_ID);
+
+        AppointmentRequestDTO result=appointmentRequestService.getById(1L);
+
+        assertThat(result).isNotNull();
+        assertEquals("Dok",result.getDoctorFN());
     }
 
     @Test

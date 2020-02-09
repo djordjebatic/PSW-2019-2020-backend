@@ -160,10 +160,10 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
         Patient patient = patientRepository.findOneById(dto.getPatientId());
         Doctor doctor = doctorRepository.findOneById(dto.getDoctorsId());
         List<ClinicAdmin> clinicAdminList = clinicAdminRepository.findByClinicId(dto.getClinicId());
-        ClinicAdmin ca = clinicAdminList.get(0);
+        //ClinicAdmin ca = clinicAdminList.get(0);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime time =  LocalDateTime.parse(dto.getStartTime(), formatter);
-        AppointmentRequest appR= new AppointmentRequest(time, time.plusMinutes(40), doctor, ca.getClinic() ,dto.getAppointmentType(), dto.getPatientId());
+        AppointmentRequest appR= new AppointmentRequest(time, time.plusMinutes(40), doctor, doctor.getClinic() ,dto.getAppointmentType(), dto.getPatientId());
 
         appointmentRequestRepository.save(appR);
 
@@ -181,8 +181,11 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
         stringBuilder.append(time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
 
         String message = stringBuilder.toString();
-
-        emailService.sendEmail(ca.getUsername(), subject, message);
+        if(!clinicAdminList.isEmpty()){
+            for(ClinicAdmin c : clinicAdminList){
+            emailService.sendEmail(c.getUsername(), subject, message);
+            }
+        }
 
         return true;
     }
