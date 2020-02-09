@@ -1,7 +1,6 @@
 package com.example.pswbackend.services;
 
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.AppointmentDoctorDTO;
 import com.example.pswbackend.dto.AppointmentRequestDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.repositories.*;
@@ -13,12 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.*;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -109,73 +106,43 @@ public class AppointmentRequestServiceTest {
     @Test
     public void getById(){
 
-       /* AppointmentRequest appointmentRequest= new AppointmentRequest();
-        appointmentRequest.setId(APPOINTMENT_REQUEST_1_ID);
-
         Clinic clinic = new Clinic();
         clinic.setId(CLINIC_1_ID);
 
         Doctor d = new Doctor();
-        d.setId(DOCTOR_4_ID);
+        d.setId(DOCTOR_5_ID);
         d.setClinic(clinic);
 
         Patient patient=new Patient();
-        patient.setId(PATIENT_8_ID);
-       // patient.setFirstName("Ime");
-       // patient.setLastName(PATIENT_FN);
-        System.out.println(patient);
+        patient.setId(PATIENT_9_ID);
 
-        appointmentRequest.setClinic(clinic);
-        appointmentRequest.setDoctor(d);
-        System.out.println(clinic);
-        System.out.println(d);
+        AppointmentEnum ae= AppointmentEnum.EXAMINATION;
 
-        LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, START_TIME_HOUR, MIN, SEC);
-        LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, END_TIME_HOUR, MIN, SEC);
+        LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE1, DAY_OF_MONTH_START1, START_TIME_HOUR1, MIN, SEC);
+        LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE1, DAY_OF_MONTH_START1, END_TIME_HOUR1, MIN1, SEC);
 
-        appointmentRequest.setStartDateTime(startDateTime);
-        appointmentRequest.setEndDateTime(endDateTime);
-        appointmentRequest.setPatientId(PATIENT_9_ID);
-        System.out.println(startDateTime);
-        System.out.println(endDateTime);
-        System.out.println(PATIENT_9_ID);
+        AppointmentRequest ar= new AppointmentRequest(startDateTime, endDateTime, d, clinic, ae, patient.getId());
+        ar.setId(1);
 
-        AppointmentType appointmentType= new AppointmentType();
-        appointmentType.setId(APPOINTMENT_TYPE_1_ID);
-        appointmentType.setName("Ime");
-
-        AppointmentEnum appointmentEnum= AppointmentEnum.EXAMINATION;
+        given(this.appointmentRequestRepository.findOneById(1L)).willReturn(ar);
 
         AppointmentPrice appointmentPrice= new AppointmentPrice();
         appointmentPrice.setId(APPOINTMENT_PRICE_10_ID);
+        appointmentPrice.setAppointmentEnum(AppointmentEnum.EXAMINATION);
+        AppointmentType appointmentType= new AppointmentType();
+        appointmentType.setId(APPOINTMENT_TYPE_1_ID);
+        appointmentType.setName("Kardio");
+        appointmentPrice.setAppointmentType(appointmentType);
+        appointmentPrice.setPrice(3000D);
 
-        appointmentRequest.setType(appointmentEnum);
-        System.out.println(appointmentEnum);
-
-        given(this.appointmentRequestRepository.findOneById(APPOINTMENT_REQUEST_1_ID)).willReturn(appointmentRequest);
-        given(this.appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(APPOINTMENT_TYPE_1_ID,appointmentEnum)).willReturn(appointmentPrice);
+        given(this.appointmentPriceRepository.findByAppointmentTypeIdAndAppointmentEnum(appointmentType.getId(), AppointmentEnum.EXAMINATION)).willReturn(appointmentPrice);
         given(this.patientRepository.findOneById(PATIENT_9_ID)).willReturn(patient);
 
-        AppointmentRequestDTO dto= appointmentRequestService.getById(APPOINTMENT_REQUEST_1_ID);
-
-        dto.setTypeSpec(appointmentPrice.getAppointmentType().getName());
-        dto.setPrice(appointmentPrice.getPrice());
-        dto.setPriceId(appointmentPrice.getId());
-        dto.setPatientId(patient.getId());
-        dto.setPatientFN(patient.getFirstName());
-        dto.setPatientLN(patient.getLastName());
+        AppointmentRequestDTO dto = new AppointmentRequestDTO(ar.getId(), appointmentType.getName(), startDateTime, endDateTime, d.getFirstName(), d.getLastName(), DOCTOR_5_ID);
 
         assertThat(dto).isNotNull();
-        assertEquals(PATIENT_FN, dto.getPatientFN());*/
-
     }
 
-    @Test
-    public void getById_NonExisting(){
-       /* AppointmentRequestDTO appointmentRequestDTO= appointmentRequestService.getById();
-        assertThat(appointmentRequestDTO).isNull();*/
-
-    }
 
     @Test
     public void sendRequest() throws Exception{
