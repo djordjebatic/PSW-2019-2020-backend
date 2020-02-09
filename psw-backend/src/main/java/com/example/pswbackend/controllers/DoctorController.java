@@ -2,6 +2,10 @@ package com.example.pswbackend.controllers;
 
 import com.example.pswbackend.domain.*;
 import com.example.pswbackend.dto.*;
+import com.example.pswbackend.enums.AppointmentStatus;
+import com.example.pswbackend.enums.PaidTimeOffStatus;
+import com.example.pswbackend.repositories.DoctorRepository;
+import com.example.pswbackend.services.AppointmentService;
 import com.example.pswbackend.services.ClinicAdminService;
 import com.example.pswbackend.services.CustomAccountDetailsService;
 import com.example.pswbackend.services.DoctorService;
@@ -30,6 +34,9 @@ public class DoctorController {
 
     @Autowired
     private CustomAccountDetailsService accountDetailsService;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @PostMapping(value="/doctor/schedule-appointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
@@ -201,5 +208,19 @@ public class DoctorController {
 
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
+
+    @GetMapping(value = "/doctors-by-specialization/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Doctor>> getDocsBySpecialization(@PathVariable Long id){
+
+        List<Doctor> list = doctorService.getDocsBySpecialization(id);
+
+        if (list == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
 
 }
