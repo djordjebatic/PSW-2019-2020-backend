@@ -40,7 +40,7 @@ public class AppointmentRepositoryTest {
 
     public static final Long ORDINATION_2_ID = 2L;
 
-    public static final Long CLINIC_2_ID = 2L;
+    public static final Long CLINIC_1_ID = 1L;
 
     public static final Long DOCTOR_4_ID = 4L;
 
@@ -55,8 +55,8 @@ public class AppointmentRepositoryTest {
     @Test
     public void testFindByClinicId() {
 
-        List<Appointment> appointments = appointmentRepository.findByClinicId(CLINIC_2_ID);
-        assertEquals(1, appointments.size());
+        List<Appointment> appointments = appointmentRepository.findByClinicId(CLINIC_1_ID);
+        assertEquals(14, appointments.size());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class AppointmentRepositoryTest {
         statuses.add(APPOINTMENT_STATUS_APPROVED);
         statuses.add(APPOINTMENT_STATUS_CANCELED);
         List<Appointment> appointments = appointmentRepository.findByDoctorsIdAndStatusIn(DOCTOR_4_ID, statuses);
-        assertEquals(5, appointments.size());
+        assertEquals(7, appointments.size());
     }
 
     @Test
@@ -83,12 +83,7 @@ public class AppointmentRepositoryTest {
         statuses.add(APPOINTMENT_STATUS_CANCELED);
         List<Appointment> appointments = appointmentRepository.findByNurseIdAndStatusIn
                 (NURSE_6_ID, statuses);
-        assertEquals(2, appointments.size());
-    }
-
-    @Test
-    public void testFindByNurseIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanAndStatusIn() {
-
+        assertEquals(3, appointments.size());
     }
 
     @Test
@@ -106,7 +101,7 @@ public class AppointmentRepositoryTest {
         List<Appointment> appointmentList = appointmentRepository.findByOrdinationIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn
                 (ORDINATION_3_ID, startDateTime, endDateTime, statuses);
 
-        assertEquals(2, appointmentList.size());
+        assertEquals(1, appointmentList.size());
 
         for (Appointment appointment : appointmentList) {
             assertEquals(ORDINATION_3_ID, appointment.getOrdination().getId());
@@ -121,7 +116,7 @@ public class AppointmentRepositoryTest {
         statuses.add(APPOINTMENT_STATUS_APPROVED);
         List<Appointment> appointments1 = appointmentRepository.findByDoctorsIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn
                 (DOCTOR_4_ID, startDateTime, endDateTime, statuses);
-        assertEquals(3, appointments1.size());
+        assertEquals(1, appointments1.size());
 
         for (Appointment appointment : appointments1) {
             assertEquals(APPOINTMENT_STATUS_APPROVED, appointment.getStatus());
@@ -133,7 +128,7 @@ public class AppointmentRepositoryTest {
         statuses.add(APPOINTMENT_STATUS_PREDEF_BOOKED);
         List<Appointment> appointments2 = appointmentRepository.findByDoctorsIdAndStartDateTimeGreaterThanEqualAndEndDateTimeLessThanEqualAndStatusIn
                 (DOCTOR_4_ID, startDateTime, endDateTime, statuses);
-        assertEquals(4, appointments2.size());
+        assertEquals(1, appointments2.size());
 
         for (Appointment appointment : appointments2) {
             assertTrue(endDateTime.isAfter(appointment.getEndDateTime()));
