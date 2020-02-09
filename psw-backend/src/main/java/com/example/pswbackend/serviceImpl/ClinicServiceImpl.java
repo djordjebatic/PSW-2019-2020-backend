@@ -134,7 +134,7 @@ public class ClinicServiceImpl implements ClinicService {
                         if ((d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay())
                                 || d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay()))) {
 
-                            if (d.getWorkTimeStart().equals(LocalTime.of(8, 0))) {
+                            if (d.getWorkTimeStart().equals(LocalTime.of(7, 55))) {
                                 for (int i = 0; i < 8; i++) {
                                     LocalDateTime st = start.plusSeconds(i * duration2);
 
@@ -156,7 +156,7 @@ public class ClinicServiceImpl implements ClinicService {
                             }
                         }
                     }else{
-                        if (d.getWorkTimeStart().equals(LocalTime.of(8, 0))) {
+                        if (d.getWorkTimeStart().equals(LocalTime.of(7, 55))) {
                             for (int i = 0; i < 8; i++) {
                                 LocalDateTime st = start.plusSeconds(i * duration2);
                                 if (isDoctorAvailable(d, st, st.plusSeconds(duration))) {

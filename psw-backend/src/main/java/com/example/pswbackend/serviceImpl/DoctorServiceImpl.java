@@ -364,7 +364,7 @@ public class DoctorServiceImpl implements DoctorService {
                     if (d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay())
                             || d.getPaidTimeOffDoctor().getStartDateTime().isAfter(dto.getDate().atStartOfDay())) {
 
-                        if (d.getWorkTimeStart().equals(LocalTime.of(8, 0))) {
+                        if (d.getWorkTimeStart().equals(LocalTime.of(7, 55))) {
                             for (int i = 0; i < 8; i++) {
                                 LocalDateTime st = start.plusSeconds(i * duration2);
 
@@ -400,7 +400,7 @@ public class DoctorServiceImpl implements DoctorService {
                         }
                     }
                 }else{
-                    if(d.getWorkTimeStart().equals(LocalTime.of(8,0))) {
+                    if(d.getWorkTimeStart().equals(LocalTime.of(7,55))) {
                         for (int i = 0; i < 8; i++) {
                             LocalDateTime st = start.plusSeconds(i * duration2);
 
