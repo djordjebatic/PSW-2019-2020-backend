@@ -110,12 +110,12 @@ public class AppointmentController {
     @PostMapping(value = "/available-ordinations-by-date") //zapravo time
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<Ordination>> getAvailableOrdinations(@RequestBody AvailableAppointmentDTO dto) {
-        try {
+        //try {
             return new ResponseEntity<List<Ordination>>(appointmentService.getAvailableOrdinations(dto), HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        //}
+        //catch (Exception e){
+        //    return new ResponseEntity<>(e, HttpStatus.valueOf(500));
+        //}
     }
 
     @GetMapping(value = "/get-appointment/{id}")
