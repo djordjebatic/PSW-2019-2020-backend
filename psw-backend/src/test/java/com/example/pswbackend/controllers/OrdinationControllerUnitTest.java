@@ -1,15 +1,18 @@
 package com.example.pswbackend.controllers;
 
+import com.example.pswbackend.constants.TestUtil;
 import com.example.pswbackend.domain.*;
-import com.example.pswbackend.dto.AppointmentCalendarDTO;
+import com.example.pswbackend.dto.AssignOperationDTO;
 import com.example.pswbackend.enums.AppointmentEnum;
 import com.example.pswbackend.enums.AppointmentStatus;
 import com.example.pswbackend.security.auth.JwtAuthenticationRequest;
 import com.example.pswbackend.services.AppointmentService;
+import com.example.pswbackend.services.ClinicAdminService;
+import com.example.pswbackend.services.DoctorService;
+import com.example.pswbackend.services.OrdinationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,6 +24,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.IllegalTransactionStateException;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
@@ -28,30 +32,30 @@ import javax.validation.ValidationException;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import static com.example.pswbackend.constants.AppointmentConstants.ADMIN_PASSWORD;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+/**
+ * @author Djordje Batic
+ */
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class AppointmentControllerUnitTest {
+public class OrdinationControllerUnitTest {
 
-    public static final String URL_PREFIX = "/api/appointment";
+    public static final String URL_PREFIX = "/api/ordination";
 
     public static final int YEAR = 2020;
 
@@ -89,7 +93,16 @@ public class AppointmentControllerUnitTest {
     private WebApplicationContext webApplicationContext;
 
     @MockBean
-    AppointmentService appointmentServiceMock;
+    AppointmentService appointmentService;
+
+    @MockBean
+    ClinicAdminService clinicAdminService;
+
+    @MockBean
+    DoctorService doctorService;
+
+    @MockBean
+    OrdinationService ordinationService;
 
     @PostConstruct
     public void setup() {
@@ -100,66 +113,15 @@ public class AppointmentControllerUnitTest {
     }
 
     @Before
-    public void login(){
+    public void login() {
         ResponseEntity<AccountTokenState> responseEntity = testRestTemplate.postForEntity("/auth/login",
-                new JwtAuthenticationRequest("cadmin1@gmail.com", ADMIN_PASSWORD), AccountTokenState.class);
+                new JwtAuthenticationRequest("cadmin1@gmail.com", "admin"), AccountTokenState.class);
         token = "Bearer " + responseEntity.getBody().getAccessToken();
         body = responseEntity.getBody();
     }
 
     @Test
-    public void testGetDoctorAppointments_Success() throws Exception {
-
-        LocalDateTime startDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, START_TIME_HOUR, MIN, SEC);
-        LocalDateTime endDateTime = LocalDateTime.of(YEAR, MONTH_DATE, DAY_OF_MONTH_START, END_TIME_HOUR, MIN, SEC);
-
-        Patient patient = new Patient();
-        patient.setId(5L);
-        Nurse nurse = new Nurse();
-        nurse.setId(6L);
-
-        AppointmentPrice appointmentPrice = new AppointmentPrice();
-        appointmentPrice.setId(1L);
-        appointmentPrice.setAppointmentEnum(AppointmentEnum.OPERATION);
-
-        AppointmentType appointmentType = new AppointmentType();
-        appointmentType.setId(1L);
-
-        appointmentPrice.setAppointmentType(appointmentType);
-
-        Clinic clinic = new Clinic();
-        clinic.setId(1L);
-
-        Ordination ord = new Ordination();
-        ord.setId(ORDINATION_4_ID);
-        ord.setClinic(clinic);
-
-        Doctor doctor = new Doctor();
-        doctor.setId(DOCTOR_4_ID);
-        doctor.setClinic(clinic);
-        Set<Doctor> doctors = new HashSet<>();
-        doctors.add(doctor);
-
-        Appointment appointment1 = new Appointment(1L, appointmentPrice, ord, clinic, doctors, AppointmentStatus.APPROVED, patient, nurse, startDateTime, endDateTime);
-
-        List<AppointmentCalendarDTO> appointmentCalendarDTOList = new ArrayList<>();
-        appointmentCalendarDTOList.add(new AppointmentCalendarDTO(appointment1));
-
-        given(this.appointmentServiceMock.getDoctorAppointments(DOCTOR_4_ID)).willReturn(appointmentCalendarDTOList);
-
-        mockMvc.perform(get(URL_PREFIX + "/get-doctor-appointments/" + DOCTOR_4_ID)
-                .header("Authorization", token))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(1)))
-        ;
-        verify(appointmentServiceMock, times(1)).getDoctorAppointments(DOCTOR_4_ID);
-
-    }
-
-    @Test
-    public void testGetOrdinationAppointments() throws Exception {
+    public void testAssignOrdinationForOperation_Pass() throws Exception {
 
         ResponseEntity<AccountTokenState> responseEntity = testRestTemplate.postForEntity("/auth/login",
                 new JwtAuthenticationRequest("cadmin1@gmail.com", "admin"), AccountTokenState.class);
@@ -196,22 +158,34 @@ public class AppointmentControllerUnitTest {
         Set<Doctor> doctors = new HashSet<>();
         doctors.add(doctor);
 
-        Appointment appointment1 = new Appointment(1L, appointmentPrice, ord, clinic, doctors, AppointmentStatus.APPROVED, patient, nurse, startDateTime, endDateTime);
+        Appointment appointment1 = new Appointment(1L, appointmentPrice, ord, clinic, doctors, AppointmentStatus.AWAITING_APPROVAL, patient, nurse, startDateTime, endDateTime);
 
-        List<AppointmentCalendarDTO> appointmentCalendarDTOList = new ArrayList<>();
-        appointmentCalendarDTOList.add(new AppointmentCalendarDTO(appointment1));
+        ClinicAdmin clinicAdmin = new ClinicAdmin();
+        clinicAdmin.setId(17L);
+        clinicAdmin.setClinic(clinic);
 
-        given(this.appointmentServiceMock.getOrdinationAppointments(ORDINATION_4_ID)).willReturn(appointmentCalendarDTOList);
+        given(this.clinicAdminService.getLoggedInClinicAdmin()).willReturn(clinicAdmin);
+        given(this.appointmentService.getAppointment(1L)).willReturn(appointment1);
+        given(this.doctorService.findById(4l)).willReturn(doctor);
 
+        AssignOperationDTO assignOperationDTO = new AssignOperationDTO();
+        assignOperationDTO.setId(1L);
+        assignOperationDTO.setAppointmentId(1L);
+        assignOperationDTO.setOrdinationId(ORDINATION_4_ID);
+        List<Long>doctorIds = new ArrayList<>();
+        doctorIds.add(DOCTOR_4_ID);
+        assignOperationDTO.setDoctorIds(doctorIds);
 
-        mockMvc.perform(get(URL_PREFIX + "/get-ordination-appointments/" + 2)
+        given(this.ordinationService.assignOrdinationForOperation(1L, ORDINATION_4_ID, doctors)).willReturn(appointment1);
+
+        String jsonString = TestUtil.json(assignOperationDTO);
+
+        mockMvc.perform(post(URL_PREFIX + "/assign-operation-ordination")
+                .contentType(MediaType.APPLICATION_JSON).content(jsonString)
                 .header("Authorization", token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(1)))
+                .andExpect(jsonPath("$.id").value(1L))
         ;
-        verify(appointmentServiceMock, times(1)).getOrdinationAppointments(ORDINATION_4_ID);
-
     }
 }

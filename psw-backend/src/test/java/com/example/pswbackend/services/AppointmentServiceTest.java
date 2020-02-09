@@ -44,7 +44,6 @@ public class AppointmentServiceTest {
 
     public static final int DAY_OF_MONTH_START = 27;
 
-    public static final int DAY_OF_MONTH_END = 29;
 
     public static final int START_TIME_HOUR = 10;
 
@@ -54,35 +53,9 @@ public class AppointmentServiceTest {
 
     public static final int SEC = 00;
 
-    public static final String NEW_CLINIC_NAME = "Clinic";
-
-    public static final String NEW_CLINIC_DESCRIPTION = "Best Clinic Ever";
-
-    public static final String NEW_CLINIC_ADDRESS = "Balzakova 111";
-
-    public static final String NEW_CLINIC_CITY = "Novi Sad";
-
-    public static final Long CLINIC_20_ID = 20L;
-
-    public static final Long ORDINATION_20_ID = 20L;
-
-    public static final Long APPOINTMENT_20_ID = 20L;
-
-    public static final Long DOCTOR_20_ID = 20L;
-
     public static final Long DOCTOR_4_ID = 4L;
 
-    public static final int DOCTOR_4_APP_APPROVED_OR_PREDEF_BOOKED_COUNT = 5;
-
-    public static final Long NURSE_6_ID = 6L;
-
-    public static final int NURSE_6_APP_APPROVED_OR_PREDEF_BOOKED_COUNT = 4;
-
     public static final long ORDINATION_4_ID = 4L;
-
-    public static final int NO_APP_ORDINATION_4 = 1;
-
-    public static final int NO_APP_DOCTOR_4 = 2;
 
     @MockBean
     private ClinicRepository clinicRepository;
@@ -405,19 +378,6 @@ public class AppointmentServiceTest {
         Throwable exception = assertThrows(ValidationException.class, () -> appointmentService.assignOperationOrdination(appointment1, ord, doctors));
         assertEquals("You must assign at least one doctor before assigning the ordination", exception.getMessage());
     }
-
-    @Test
-    public void createNew() {
-    }
-
-    @Test
-    public void getFutureCancelAppointments() {
-    }
-
-    @Test
-    public void getFutureFixAppointments() {
-    }
-
 
     @Test
     public void testCancelAppointmentP_Success() {
