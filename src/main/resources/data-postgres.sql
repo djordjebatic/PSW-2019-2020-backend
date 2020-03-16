@@ -369,17 +369,20 @@ values(2, '02.24.2020 08:00', '02.24.2020 9:30', 'AWAITING_APPROVAL', 8, 7, 3, 1
 insert into appointment(price_id, start_date_time, end_date_time, status, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(1, '02.25.2020 08:00', '02.25.2020 9:30', 'AWAITING_APPROVAL', 8, 7, 3, 1);
 
+insert into appointment(price_id, start_date_time, end_date_time, status, patient_id, nurse_id, clinic_admin_id, clinic_id)
+values(1, '04.25.2020 08:00', '04.25.2020 9:30', 'AWAITING_APPROVAL', 8, 7, 3, 1);
+
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, '02.24.2020 9:00', '02.24.2020 11:30', 'APPROVED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (11,4);
+insert into appointed_doctors (appointment_id, doctor_id) values (12,4);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, '03.22.2020 11:00', '03.22.2020 12:30', 'APPROVED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (12,16);
+insert into appointed_doctors (appointment_id, doctor_id) values (13,16);
 
 insert into appointment(price_id, start_date_time, end_date_time, status, ordination_id, patient_id, nurse_id, clinic_admin_id, clinic_id)
 values(2, '04.22.2020 1:00', '04.22.2020 12:30', 'PREDEF_BOOKED', '3', 8, 6, 1, 1);
-insert into appointed_doctors (appointment_id, doctor_id) values (13,17);
+insert into appointed_doctors (appointment_id, doctor_id) values (14,17);
 
 
 --AppointmentRequests
